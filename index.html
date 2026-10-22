@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oscuro — open firmware for the M-Vave SMK-37 Elite</title>
+<meta name="description" content="A family of focused instruments for the SMK-37 Elite: one gesture language, one colour language, every claim labelled by how well it is proven.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2308080a%27/%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%275%27 fill=%27%23ff6a1f%27/%3E%3Ccircle cx=%2721%27 cy=%2711%27 r=%275%27 fill=%27%232fd0d8%27/%3E%3Ccircle cx=%2711%27 cy=%2722%27 r=%275%27 fill=%27%23a58bff%27/%3E%3Ccircle cx=%2721%27 cy=%2722%27 r=%275%27 fill=%27%235be37d%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Oscuro — open firmware for the M-Vave SMK-37 Elite">
+<meta property="og:description" content="A family of focused instruments for the SMK-37 Elite: one gesture language, one colour language, every claim labelled by how well it is proven.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/">
+<link rel="preload" href="static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="static/fonts.css">
+<link rel="stylesheet" href="static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="./">Oscuro</a>
+  <nav class="desk" aria-label="Main">
+    <details class="dd"><summary>Features</summary>
+      <div class="dd-list"><a href="features/viroid/">Viroid</a><a href="features/synths/">Other synths</a><a href="features/daw/">DAW</a><a href="features/arpeggiator/">Arpeggiator</a><a href="features/sequencer/">Sequencer</a><a href="features/customize/">Make it yours</a><a href="features/also/">Also</a></div>
+    </details>
+    <a href="install/">Install</a>
+    <a href="changelog/">Changelog</a>
+  </nav>
+  <div class="lang" aria-label="Language"><a href="./" hreflang="en" aria-current="true">EN</a></div>
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><a href="./">Home</a><a href="features/viroid/">Viroid</a><a href="features/synths/">Other synths</a><a href="features/daw/">DAW</a><a href="features/arpeggiator/">Arpeggiator</a><a href="features/sequencer/">Sequencer</a><a href="features/customize/">Make it yours</a><a href="features/also/">Also</a><a href="install/">Install</a><a href="changelog/">Changelog</a></div>
+  </details>
+</div></header>
+<main id="main">
+<section class="hero" id="hero"><div class="wrap">
+  <p class="kicker">Open firmware · M-Vave SMK-37 Elite</p>
+  <h1>Every cycle spent on what you play.</h1>
+  <p class="sub">Oscuro is open firmware that squeezes an entry-level keyboard until it plays like more. No fixed workflow, no rails, nothing playing itself: choose the build and the settings that fit how you play.</p>
+  <div class="cta">
+    <a class="btn primary" href="#flavours">Choose your flavour</a>
+    <a class="btn ghost" href="#viroid">Install</a>
+  </div>
+  <div class="stage"><svg class="faceplate" viewBox="0 0 1240 640" role="img" aria-label="M-Vave SMK-37 Elite faceplate" xmlns="http://www.w3.org/2000/svg"><rect class="fp-body" x="0" y="0" width="1240" height="640" rx="28"/><rect id="wheel-0" class="fp-wheel" x="34.0" y="40.0" width="40.0" height="190.0" rx="10"><title>Pitch</title></rect><rect id="wheel-1" class="fp-wheel" x="88.0" y="40.0" width="40.0" height="190.0" rx="10"><title>Mod</title></rect><rect class="fp-lcd-bezel" x="146" y="30" width="248" height="248" rx="8"/><image id="lcd" class="fp-lcd" href="static/screens/synth_edit_viroid@2x.png" x="150" y="34" width="240" height="240" preserveAspectRatio="none"/><g id="enc-0" class="fp-knob"><circle cx="470" cy="72" r="28"/><line x1="470" y1="72" x2="470" y2="52"/><title>K1</title></g><g id="enc-1" class="fp-knob"><circle cx="548" cy="72" r="28"/><line x1="548" y1="72" x2="548" y2="52"/><title>K2</title></g><g id="enc-2" class="fp-knob"><circle cx="626" cy="72" r="28"/><line x1="626" y1="72" x2="626" y2="52"/><title>K3</title></g><g id="enc-3" class="fp-knob"><circle cx="704" cy="72" r="28"/><line x1="704" y1="72" x2="704" y2="52"/><title>K4</title></g><g id="enc-4" class="fp-knob"><circle cx="782" cy="72" r="28"/><line x1="782" y1="72" x2="782" y2="52"/><title>K5</title></g><g id="enc-5" class="fp-knob"><circle cx="860" cy="72" r="28"/><line x1="860" y1="72" x2="860" y2="52"/><title>K6</title></g><g id="enc-6" class="fp-knob"><circle cx="938" cy="72" r="28"/><line x1="938" y1="72" x2="938" y2="52"/><title>K7</title></g><g id="enc-7" class="fp-knob"><circle cx="1016" cy="72" r="28"/><line x1="1016" y1="72" x2="1016" y2="52"/><title>K8</title></g><rect id="pad-0" class="fp-pad lit lit-retrowave" x="424.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 1</title></rect><rect id="pad-1" class="fp-pad lit lit-viroid" x="502.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 2</title></rect><rect id="pad-2" class="fp-pad lit lit-daw" x="580.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 3</title></rect><rect id="pad-3" class="fp-pad lit lit-live" x="658.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 4</title></rect><rect id="pad-4" class="fp-pad lit lit-tympanika" x="736.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 5</title></rect><rect id="pad-5" class="fp-pad lit lit-phantasm" x="814.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 6</title></rect><rect id="pad-6" class="fp-pad lit lit-retrowave" x="892.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 7</title></rect><rect id="pad-7" class="fp-pad lit lit-viroid" x="970.0" y="134.0" width="66.0" height="66.0" rx="9"><title>Pad 8</title></rect><rect id="pad-8" class="fp-pad lit lit-daw" x="424.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 9</title></rect><rect id="pad-9" class="fp-pad lit lit-live" x="502.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 10</title></rect><rect id="pad-10" class="fp-pad lit lit-tympanika" x="580.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 11</title></rect><rect id="pad-11" class="fp-pad lit lit-phantasm" x="658.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 12</title></rect><rect id="pad-12" class="fp-pad lit lit-retrowave" x="736.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 13</title></rect><rect id="pad-13" class="fp-pad lit lit-viroid" x="814.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 14</title></rect><rect id="pad-14" class="fp-pad lit lit-daw" x="892.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 15</title></rect><rect id="pad-15" class="fp-pad lit lit-live" x="970.0" y="212.0" width="66.0" height="66.0" rx="9"><title>Pad 16</title></rect><rect class="fp-slot" x="1080" y="40" width="8" height="226" rx="4"/><rect id="fader-0" class="fp-fader" x="1066.0" y="100.0" width="36.0" height="30.0" rx="6"><title>Fader 1</title></rect><rect class="fp-slot" x="1120" y="40" width="8" height="226" rx="4"/><rect id="fader-1" class="fp-fader" x="1106.0" y="140.0" width="36.0" height="30.0" rx="6"><title>Fader 2</title></rect><rect class="fp-slot" x="1160" y="40" width="8" height="226" rx="4"/><rect id="fader-2" class="fp-fader" x="1146.0" y="100.0" width="36.0" height="30.0" rx="6"><title>Fader 3</title></rect><rect class="fp-slot" x="1200" y="40" width="8" height="226" rx="4"/><rect id="fader-3" class="fp-fader" x="1186.0" y="140.0" width="36.0" height="30.0" rx="6"><title>Fader 4</title></rect><rect id="btn-0" class="fp-btn" x="37.0" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 1</title></rect><rect id="btn-1" class="fp-btn" x="102.1" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 2</title></rect><rect id="btn-2" class="fp-btn" x="167.2" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 3</title></rect><rect id="btn-3" class="fp-btn" x="232.3" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 4</title></rect><rect id="btn-4" class="fp-btn" x="297.4" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 5</title></rect><rect id="btn-5" class="fp-btn" x="362.6" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 6</title></rect><rect id="btn-6" class="fp-btn" x="427.7" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 7</title></rect><rect id="btn-7" class="fp-btn" x="492.8" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 8</title></rect><rect id="btn-8" class="fp-btn" x="557.9" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 9</title></rect><rect id="btn-9" class="fp-btn" x="623.0" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 10</title></rect><rect id="btn-10" class="fp-btn" x="688.1" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 11</title></rect><rect id="btn-11" class="fp-btn" x="753.2" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 12</title></rect><rect id="btn-12" class="fp-btn" x="818.3" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 13</title></rect><rect id="btn-13" class="fp-btn" x="883.4" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 14</title></rect><rect id="btn-14" class="fp-btn" x="948.6" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 15</title></rect><rect id="btn-15" class="fp-btn" x="1013.7" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 16</title></rect><rect id="btn-16" class="fp-btn" x="1078.8" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 17</title></rect><rect id="btn-17" class="fp-btn" x="1143.9" y="306.0" width="59.1" height="28.0" rx="5"><title>Button 18</title></rect><rect id="key-0" class="fp-key" x="35.0" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-2" class="fp-key" x="88.3" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-4" class="fp-key" x="141.5" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-5" class="fp-key" x="194.8" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-7" class="fp-key" x="248.1" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-9" class="fp-key" x="301.4" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-11" class="fp-key" x="354.6" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-12" class="fp-key" x="407.9" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-14" class="fp-key" x="461.2" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-16" class="fp-key" x="514.5" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-17" class="fp-key" x="567.7" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-19" class="fp-key" x="621.0" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-21" class="fp-key" x="674.3" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-23" class="fp-key" x="727.5" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-24" class="fp-key" x="780.8" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-26" class="fp-key" x="834.1" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-28" class="fp-key" x="887.4" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-29" class="fp-key" x="940.6" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-31" class="fp-key" x="993.9" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-33" class="fp-key" x="1047.2" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-35" class="fp-key" x="1100.5" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-36" class="fp-key" x="1153.7" y="358.0" width="51.3" height="248.0" rx="4"></rect><rect id="key-1" class="fp-key fp-black" x="71.3" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-3" class="fp-key fp-black" x="124.6" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-6" class="fp-key fp-black" x="231.1" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-8" class="fp-key fp-black" x="284.4" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-10" class="fp-key fp-black" x="337.7" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-13" class="fp-key fp-black" x="444.2" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-15" class="fp-key fp-black" x="497.5" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-18" class="fp-key fp-black" x="604.0" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-20" class="fp-key fp-black" x="657.3" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-22" class="fp-key fp-black" x="710.6" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-25" class="fp-key fp-black" x="817.1" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-27" class="fp-key fp-black" x="870.4" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-30" class="fp-key fp-black" x="976.9" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-32" class="fp-key fp-black" x="1030.2" y="358.0" width="32.0" height="153.8" rx="3"></rect><rect id="key-34" class="fp-key fp-black" x="1083.5" y="358.0" width="32.0" height="153.8" rx="3"></rect></svg></div>
+  <div class="numbers">
+    <div class="num"><strong>382<small>MHz</small></strong><span>clock speed, measured on the unit</span></div>
+    <div class="num"><strong>2<small>cores</small></strong><span>share the voices between them</span></div>
+    <div class="num"><strong>16<small>RGB pads</small></strong><span>that light up with what you play</span></div>
+  </div>
+</div></section>
+
+<section id="intents"><div class="wrap">
+  <div class="chapter reveal"><span class="n">01 · Start here</span><span class="rule"></span></div>
+  <h2 class="reveal">What do you want from it?</h2>
+  <p class="lead reveal">Oscuro is not one size fits all. Pick the priority, then the build and settings that serve it. Nothing forces a workflow on you, and nothing plays itself.</p>
+  <div class="intents">
+    <a class="intent f-daw reveal" href="features/customize/">
+      <span class="swatch" aria-hidden="true"></span>
+      <h3>Reflexes</h3>
+      <p>Fast, responsive keys and pads for rapid playing and finger drumming.</p>
+      <dl><div><dt>Build</dt><dd>DAW build</dd></div><div><dt>Tune</dt><dd>Pad response, scan speed, velocity curves.</dd></div></dl>
+    </a>
+    <a class="intent f-viroid reveal" href="features/viroid/">
+      <span class="swatch" aria-hidden="true"></span>
+      <h3>Soundscapes</h3>
+      <p>Big layered pads and deep synthesis, with as many voices as you ask for.</p>
+      <dl><div><dt>Build</dt><dd>Viroid build</dd></div><div><dt>Tune</dt><dd>Voice limit, HyperSaw cap, scan speed.</dd></div></dl>
+    </a>
+    <a class="intent f-retrowave reveal" href="features/synths/">
+      <span class="swatch" aria-hidden="true"></span>
+      <h3>Classics</h3>
+      <p>The old legends in balance: DX7, CZ, Juno and Moog, with drums and effects.</p>
+      <dl><div><dt>Build</dt><dd>Retrowave build</dd></div><div><dt>Tune</dt><dd>Patch pads, FX rack, engine switching.</dd></div></dl>
+    </a>
+    <a class="intent f-daw reveal" href="features/daw/">
+      <span class="swatch" aria-hidden="true"></span>
+      <h3>Studio</h3>
+      <p>Creative tools for dedicated DAW work, and clock and audio for other gear.</p>
+      <dl><div><dt>Build</dt><dd>DAW build</dd></div><div><dt>Tune</dt><dd>Harmony Helper, MIDI clock, USB audio, capture.</dd></div></dl>
+    </a>
+  </div>
+</div></section>
+
+<section id="flavours"><div class="wrap">
+  <div class="chapter reveal"><span class="n">02 · Flavours</span><span class="rule"></span></div>
+  <h2 class="reveal">Choose what to play.</h2>
+  <p class="lead reveal">Every flavour is a complete firmware, tuned until it fits the hardware. Picking one means picking what it gives up, so each row says so.</p>
+  <div class="chips" data-flavour-filter hidden>
+    <button class="chip" type="button" data-tag="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-tag="synth" aria-pressed="false">Synth</button>
+    <button class="chip" type="button" data-tag="drums" aria-pressed="false">Drums</button>
+    <button class="chip" type="button" data-tag="daw" aria-pressed="false">DAW assist</button>
+    <button class="chip" type="button" data-tag="sequencer" aria-pressed="false">Deep sequencer</button>
+  </div>
+  <table class="flav" data-flavour-table style="margin-top:40px">
+    <thead><tr><th>Flavour</th><th>Sound</th><th>Drums</th><th>DAW assist</th><th>What it gives up</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr class="f-retrowave" data-flavour="retrowave" data-tags="synth drums" data-pads="8,9,10,11,12,13,14,15" data-knobs="0,1,2,3,4,5,6,7" data-faders="">
+      <td data-label="Flavour"><div class="name"><i></i>Retrowave</div><p class="tag">Four classic engines in one build: DX7 FM, Casio CZ, Juno and Moog. Switch engine from the keys.</p></td>
+      <td data-label="Sound" class="eng">DX7 FM, Casio CZ, Juno, Moog</td>
+      <td data-label="Drums"><span class="yes">Yes</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">Assignable bank-B knobs and faders; Viroid has its own build.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-viroid" data-flavour="viroid" data-tags="synth" data-pads="" data-knobs="0,1,2,3,4,5,6,7" data-faders="0,1,2,3">
+      <td data-label="Flavour"><div class="name"><i></i>Viroid</div><p class="tag">A Virus-inspired synthesizer that plays original Virus patches.</p></td>
+      <td data-label="Sound" class="eng">Viroid virtual analog</td>
+      <td data-label="Drums"><span class="no">–</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">Everything that is not synthesis.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-daw" data-flavour="daw" data-tags="daw" data-pads="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15" data-knobs="" data-faders="0,1,2,3">
+      <td data-label="Flavour"><div class="name"><i></i>DAW</div><p class="tag">A controller first, with chord, melody and harmony assist.</p></td>
+      <td data-label="Sound" class="eng">Your DAW&#x27;s instruments</td>
+      <td data-label="Drums"><span class="no">–</span></td>
+      <td data-label="DAW assist"><span class="yes">Yes</span></td>
+      <td data-label="What it gives up">A smaller capture buffer, because your host records.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-live" data-flavour="live" data-tags="sequencer" data-pads="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15" data-knobs="" data-faders="">
+      <td data-label="Flavour"><div class="name"><i></i>Live</div><p class="tag">Stand-alone performance: 16 patterns per track and 2048 captured notes.</p></td>
+      <td data-label="Sound" class="eng">–</td>
+      <td data-label="Drums"><span class="no">–</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">Memory goes to patterns and capture history.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-tympanika" data-flavour="tympanika" data-tags="drums" data-pads="0,1,2,3,4,5,6,7" data-knobs="0,1,2,3,4,5,6,7" data-faders="">
+      <td data-label="Flavour"><div class="name"><i></i>Tympanika</div><p class="tag">A drum-only groovebox: eight Microtonic-style channels with left/right morph.</p></td>
+      <td data-label="Sound" class="eng">Microtonic-style drums</td>
+      <td data-label="Drums"><span class="yes">Yes</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">No melodic engine.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-phantasm" data-flavour="phantasm" data-tags="drums synth" data-pads="0,1,2,3,4,5,6,7" data-knobs="0,1,2,3,4,5,6,7" data-faders="">
+      <td data-label="Flavour"><div class="name"><i></i>Phantasm</div><p class="tag">Jungle, drum &amp; bass and psytrance: drums plus tone lanes.</p></td>
+      <td data-label="Sound" class="eng">Microtonic-style drums, tone lanes</td>
+      <td data-label="Drums"><span class="yes">Yes</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">The tone lanes are still being added; today it links the drum engine.</td>
+      <td data-label="Status"><span class="badge" data-status="test">Test build</span></td>
+    </tr>
+    <tr class="f-mutable planned" data-flavour="mutable" data-tags="synth" data-pads="" data-knobs="" data-faders="">
+      <td data-label="Flavour"><div class="name"><i></i>Mutable-inspired</div><p class="tag">A Plaits-inspired macro oscillator.</p></td>
+      <td data-label="Sound" class="eng">Plaits-inspired macro oscillator</td>
+      <td data-label="Drums"><span class="no">–</span></td>
+      <td data-label="DAW assist"><span class="no">–</span></td>
+      <td data-label="What it gives up">Not available yet.</td>
+      <td data-label="Status"><span class="badge" data-status="planned">Planned</span></td>
+    </tr>
+    </tbody>
+  </table>
+  <ul class="pick">
+    <li><b>Sounds from the unit itself:</b> Retrowave for the classics, Viroid for one deep synthesizer.</li><li><b>Your DAW in charge:</b> the DAW build, with Harmony Helper.</li><li><b>Beats:</b> Tympanika for pure drums, Phantasm for fast genres.</li>
+  </ul>
+  <div class="legend">
+    <span><span class="badge" data-status="verified">Verified on unit</span> Measured on the unit</span>
+    <span><span class="badge" data-status="test">Test build</span> In a test build you can flash; still being proven on the unit</span>
+    <span><span class="badge" data-status="planned">Planned</span> Designed, not available yet</span>
+  </div>
+</div></section>
+
+<section id="one-instrument"><div class="wrap">
+  <div class="chapter reveal"><span class="n">03 · One language</span><span class="rule"></span></div>
+  <h2 class="reveal">Tailored. Never fragmented.</h2>
+  <p class="lead reveal">Each build is tuned for a different priority, and all of them speak the same language. What you learn on one carries to the next.</p>
+  <div class="pillars">
+    <div class="pillar reveal"><h3>One grammar</h3><p>Oct- is the shift key. Left and Right go in and out. Dots show where you are in a carousel. Learn it once and it works on every screen of every build.</p></div>
+    <div class="pillar reveal"><div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>One colour language</h3><p>A flavour has one colour. You see it on the pads, on the screen header and on its row on this page.</p></div>
+    <div class="pillar reveal"><h3>One standard of proof</h3><p>Every claim carries a badge: measured on the unit, in a test build, or planned. Nothing is presented as finished before it sounds.</p></div>
+  </div>
+  <p class="kicker" style="margin-top:56px">The same four gestures, on four different screens</p>
+  <div class="grammar">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/hint_oct.webp" width="240" height="240" alt="" loading="lazy"></div><figcaption><b>Hold Oct-</b>The screen lists every shortcut that the next press will trigger.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/menu.webp" width="240" height="240" alt="" loading="lazy"></div><figcaption><b>Settings are lists</b>The arrows show what opens; Left and Right go in and out.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/seq_home_expanded.webp" width="240" height="240" alt="" loading="lazy"></div><figcaption><b>Perform first</b>Sequencer home: pads mute lanes, white keys pick patterns, the footer shows the tempo.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/harmony_main.webp" width="240" height="240" alt="" loading="lazy"></div><figcaption><b>Dots mark the page</b>Harmony pages in a carousel; the dots show where you are.</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="viroid" class="teaser f-viroid"><div class="wrap">
+
+  <div class="chapter reveal"><span class="n">04 · Viroid</span><span class="rule"></span></div>
+  <h2 class="reveal">One thing, done properly: synthesis.</h2>
+  <p class="lead reveal">Viroid turns your SMK-37 into a true instrument. Virus-inspired oscillators, filters and modulation, heavily optimised for this hardware, loading original Virus patches. It does not try to be a groovebox, a sampler and a looper too.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>A Virus-inspired voice</b><span class="badge" data-status="test">Test build</span><span>Two oscillators with sync and FM, a sub oscillator, noise, a ring modulator, two filters in the Virus&#x27;s four routings, saturation, two envelopes and three LFOs.</span></li>
+    <li class="reveal"><b>HyperSaw</b><span class="badge" data-status="test">Test build</span><span>Either oscillator can become a stack of up to nine detuned saws, with density and spread on two knobs. A setting caps the total so you decide how much of the CPU it may take.</span></li>
+    <li class="reveal"><b>Original Virus patches</b><span class="badge" data-status="test">Test build</span><span>Send Access Virus A, B, C and TI patches from your computer and they play, including the delay and reverb stored in them and the TI&#x27;s LFO shapes.</span></li>
+    <li class="reveal"><b>Measured, not guessed</b><span class="badge" data-status="test">Test build</span><span>Filter, envelope and LFO curves follow measurements of a Virus TI, so a patch behaves the way its maker intended.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/synth_edit_viroid.webp" width="240" height="240" alt="Filter page: every knob shows its value." loading="lazy"></div><figcaption>Filter page: every knob shows its value.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/synth_home_viroid.webp" width="240" height="240" alt="Home with the macro knobs." loading="lazy"></div><figcaption>Home with the macro knobs.</figcaption></figure>
+  </div>
+</div>
+<p class="statement reveal">Synthesis is all it does.<span> It does that on every cycle the hardware has.</span></p>
+<p class="more"><a class="btn ghost" href="features/viroid/">Full details →</a></p>
+
+
+</div></section>
+<section id="synths" class="teaser f-retrowave"><div class="wrap">
+<details class="fold" open><summary>
+  <span class="chapter"><span class="n">05 · Other synths</span><span class="rule"></span></span>
+  <h2>The legends in one build, and drums on their own.</h2></summary>
+  <p class="lead reveal">Retrowave puts the classic engines side by side and lets you switch between them from the keys. Tympanika and Phantasm are for drum-first music.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>Five engines, one build</b><span class="badge" data-status="test">Test build</span><span>CZ-1, DX7 FM, Juno-60, Moog and MT drums. Hold Oct- and press PATCH to switch; each engine keeps its own patches and banks.</span></li>
+    <li class="reveal"><b>DX7 FM</b><span class="badge" data-status="test">Test build</span><span>The DX7 core of Dexed, 12 notes at once. Load DX7 cartridges and single voices from the installer page.</span></li>
+    <li class="reveal"><b>Casio CZ</b><span class="badge" data-status="test">Test build</span><span>Phase-distortion voices with eight waveforms, and 8, 6 or 4 notes depending on the mode.</span></li>
+    <li class="reveal"><b>Juno-60 and Moog</b><span class="badge" data-status="test">Test build</span><span>Six Juno voices and four Moog voices, each with its own filter knobs, chorus and patches.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/mt_home.webp" width="240" height="240" alt="MT drums: eight channels with morph." loading="lazy"></div><figcaption>MT drums: eight channels with morph.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/synth_fx_layer.webp" width="240" height="240" alt="FX rack page." loading="lazy"></div><figcaption>FX rack page.</figcaption></figure>
+  </div>
+</div>
+
+<p class="more"><a class="btn ghost" href="features/synths/">Full details →</a></p>
+
+</details>
+</div></section>
+<section id="daw" class="teaser f-daw"><div class="wrap">
+<details class="fold" open><summary>
+  <span class="chapter"><span class="n">06 · DAW</span><span class="rule"></span></span>
+  <h2>A controller with ideas.</h2></summary>
+  <p class="lead reveal">The DAW build puts the pads, keys and knobs at the service of your session: it suggests chords, names what you play, shares tempo and scale with your DAW and sends clock to other gear.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>Harmony Helper</b><span class="badge" data-status="test">Test build</span><span>The pads show the seven best chords to play next, coloured by how well they fit, with the chords of your scale underneath.</span></li>
+    <li class="reveal"><b>39 genres, your mood</b><span class="badge" data-status="test">Test build</span><span>Pick a genre and a mood and choose how bold the suggestions get: Safe, Tonal or Bold.</span></li>
+    <li class="reveal"><b>It names what you play</b><span class="badge" data-status="test">Test build</span><span>Chords played on the keys are named, even odd ones like 7#9, 6/9 or slash chords, and it can notice when you move to another scale.</span></li>
+    <li class="reveal"><b>Scale and Chord</b><span class="badge" data-status="test">Test build</span><span>Lock the keys to a scale and play full chords from single keys; a DAW can set the scale too.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/harmony_main.webp" width="240" height="240" alt="Next chords on the pads, coloured by fit." loading="lazy"></div><figcaption>Next chords on the pads, coloured by fit.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/harmony_genre.webp" width="240" height="240" alt="Genre card with its typical moves." loading="lazy"></div><figcaption>Genre card with its typical moves.</figcaption></figure>
+  </div>
+</div>
+
+<p class="more"><a class="btn ghost" href="features/daw/">Full details →</a></p>
+
+</details>
+</div></section>
+<section id="arpeggiator" class="teaser"><div class="wrap">
+
+  <div class="chapter reveal"><span class="n">07 · Arpeggiator</span><span class="rule"></span></div>
+  <h2 class="reveal">From simple up-and-down to patterns that evolve.</h2>
+  <p class="lead reveal">Five sections, all optional. With them off, the arp plays exactly as a classic arp does; switch them on one at a time and it starts to breathe.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>Twenty directions</b><span class="badge" data-status="test">Test build</span><span>Up, Down, Inclusive and Exclusive, starting upward or downward, Thumb and Pinky, Converge, Diverge, Chord, Order, User and three kinds of random.</span></li>
+    <li class="reveal"><b>Rates, gate and swing</b><span class="badge" data-status="test">Test build</span><span>Thirteen rates from half notes to triplet thirty-seconds, one to four octaves, tempo from 30 to 300 BPM, gate and swing, and Latch.</span></li>
+    <li class="reveal"><b>Rhythm</b><span class="badge" data-status="test">Test build</span><span>Euclidean patterns: choose hits, length and rotation, add a chance for each hit and an accent on the first.</span></li>
+    <li class="reveal"><b>Evolve</b><span class="badge" data-status="test">Test build</span><span>The phrase drifts and comes back. Set how often it changes, how much, and how far it reaches; freeze it, thaw it or reseed it with one key.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/page_arp.webp" width="240" height="240" alt="The ARP page." loading="lazy"></div><figcaption>The ARP page.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/arp_rhythm.webp" width="240" height="240" alt="Rhythm: hits, length, rotation, chance, accent." loading="lazy"></div><figcaption>Rhythm: hits, length, rotation, chance, accent.</figcaption></figure>
+  </div>
+</div>
+
+<p class="more"><a class="btn ghost" href="features/arpeggiator/">Full details →</a></p>
+
+
+</div></section>
+<section id="sequencer" class="teaser"><div class="wrap">
+
+  <div class="chapter reveal"><span class="n">08 · Sequencer</span><span class="rule"></span></div>
+  <h2 class="reveal">Built to perform with.</h2>
+  <p class="lead reveal">Two melodic parts and a drum part, each with eight patterns. Three screens, and the one you perform on keeps your hands on the pads.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>Three parts</b><span class="badge" data-status="test">Test build</span><span>Seq1 and Seq2 for melody, and a drum part with 14 lanes. Each part has 8 patterns of up to 64 steps.</span></li>
+    <li class="reveal"><b>HOME: perform</b><span class="badge" data-status="test">Test build</span><span>Pads mute and unmute lanes and parts, white keys pick patterns, and changes can wait for the bar or the end of the pattern.</span></li>
+    <li class="reveal"><b>EDIT: steps</b><span class="badge" data-status="test">Test build</span><span>Pads are steps. Hold one and the knobs edit that step: velocity, gate, probability, ratchet, micro-timing, condition and a filter lock.</span></li>
+    <li class="reveal"><b>Record how you like</b><span class="badge" data-status="test">Test build</span><span>Live or step by step, overdub or overwrite, quantise on or off, with a one or two bar count-in.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/seq_home_expanded.webp" width="240" height="240" alt="HOME: the parts and their patterns." loading="lazy"></div><figcaption>HOME: the parts and their patterns.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/seq_edit_drum.webp" width="240" height="240" alt="EDIT on drums: 14 lanes by 16 steps." loading="lazy"></div><figcaption>EDIT on drums: 14 lanes by 16 steps.</figcaption></figure>
+  </div>
+</div>
+
+<p class="more"><a class="btn ghost" href="features/sequencer/">Full details →</a></p>
+
+
+</div></section>
+<section id="customize" class="teaser"><div class="wrap">
+
+  <div class="chapter reveal"><span class="n">09 · Make it yours</span><span class="rule"></span></div>
+  <h2 class="reveal">Everyone plays differently.</h2>
+  <p class="lead reveal">So the feel is a setting, not a decision made for you. Sensitivity, scan speed, curves, which knob does what, even the colours are yours to set.</p>
+<div class="split">
+  <ul class="spec">
+    <li class="reveal"><b>Pad response</b><span class="badge" data-status="test">Test build</span><span>Threshold, sensitivity and wait time, then a velocity curve: from light touch to hard hits.</span></li>
+    <li class="reveal"><b>Scan speed</b><span class="badge" data-status="test">Test build</span><span>Choose how often the controls are read, from 8 to 24 kHz in half-kilohertz steps, or leave it on Auto. A lower setting asks the processor to read the controls less often.</span></li>
+    <li class="reveal"><b>Voice limit</b><span class="badge" data-status="test">Test build</span><span>Set the most notes that may sound at once to match what your patches need.</span></li>
+    <li class="reveal"><b>Knob and velocity curves</b><span class="badge" data-status="test">Test build</span><span>Shape how knobs respond and how key and pad velocity map to loudness.</span></li>
+  </ul>
+  <div class="shots">
+    <figure class="reveal"><div class="bezel"><img src="static/screens/settings_list.webp" width="240" height="240" alt="Settings are lists." loading="lazy"></div><figcaption>Settings are lists.</figcaption></figure>
+    <figure class="reveal"><div class="bezel"><img src="static/screens/assign_knobs.webp" width="240" height="240" alt="Assign bank B knobs." loading="lazy"></div><figcaption>Assign bank B knobs.</figcaption></figure>
+  </div>
+</div>
+
+<p class="more"><a class="btn ghost" href="features/customize/">Full details →</a></p>
+
+
+</div></section>
+<section id="also" class="teaser"><div class="wrap">
+
+  <div class="chapter reveal"><span class="n">10 · Also</span><span class="rule"></span></div>
+  <h2 class="reveal">And the rest of the toolbox.</h2>
+  <p class="lead reveal">Smaller things that make the keyboard easier to live with.</p>
+<ul class="chips-list reveal"><li><span class="badge" data-status="test">Test build</span> Preset editor in the browser</li><li><span class="badge" data-status="test">Test build</span> DX7 SysEx import</li><li><span class="badge" data-status="test">Test build</span> Virus patch library</li><li><span class="badge" data-status="test">Test build</span> Bluetooth MIDI</li><li><span class="badge" data-status="test">Test build</span> USB audio out</li><li><span class="badge" data-status="test">Test build</span> Mixer</li><li><span class="badge" data-status="test">Test build</span> Capture</li><li><span class="badge" data-status="test">Test build</span> Patch pads</li><li><span class="badge" data-status="verified">Verified on unit</span> Two cores, 382 MHz</li><li><span class="badge" data-status="test">Test build</span> Latin and Cyrillic text</li><li><span class="badge" data-status="test">Test build</span> Battery and power</li></ul>
+
+
+<p class="more"><a class="btn ghost" href="features/also/">Full details →</a></p>
+
+
+</div></section>
+
+<section id="safe"><div class="wrap">
+  <div class="chapter reveal"><span class="n">11 · Safe by design</span><span class="rule"></span></div>
+  <h2 class="reveal">Easy to try. Easy to undo.</h2>
+  <p class="lead reveal">Putting Oscuro on your keyboard changes one area of its memory, and every step can be reversed.</p>
+  <div class="pillars four">
+    <div class="pillar reveal"><h3>Only the app is written</h3><p>The keyboard&#x27;s boot code, your settings and its calibration stay exactly as they are.</p></div>
+    <div class="pillar reveal"><h3>Back to M-Vave in minutes</h3><p>The installer puts M-Vave&#x27;s own firmware back at any time, from Oscuro or from any M-Vave version.</p></div>
+    <div class="pillar reveal"><h3>Your data is not touched</h3><p>Oscuro never erases M-Vave&#x27;s user data by itself. Save a backup of the patch memory first and restore it later.</p></div>
+    <div class="pillar reveal"><h3>A safe start</h3><p>Hold Globe while switching on to skip Bluetooth, the faster clock and other optional extras.</p></div>
+  </div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <div class="chapter reveal"><span class="n">12 · Install</span><span class="rule"></span></div>
+  <h2 class="reveal">A few minutes in a browser.</h2>
+  <p class="lead reveal">Three steps, nothing to install, and every update can be undone.</p>
+  <ol class="steps">
+    <li class="reveal"><span class="num-badge">1</span>Close your DAW, connect the keyboard and open the installer page.</li>
+    <li class="reveal"><span class="num-badge">2</span>Choose the Oscuro file for the build you want. For a first install also choose M-Vave&#x27;s own firmware file.</li>
+    <li class="reveal"><span class="num-badge">3</span>Press Install and keep the cable connected until it says Finished.</li>
+  </ol>
+  <p class="more"><a class="btn primary" href="install/">How to install</a></p>
+</div></section>
+
+
+</main>
+<footer><div class="wrap">
+  <span>Oscuro 0.80.16</span>
+  <span><a href="install/">Install</a> · <a href="changelog/">Changelog</a></span>
+  <span>If Oscuro is useful to you, donations are welcome: <a href="https://paypal.me/kartun83">paypal.me/kartun83</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent open firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="static/site.js" defer></script>
+</body>
+</html>

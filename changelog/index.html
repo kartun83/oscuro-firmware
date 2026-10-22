@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog · Oscuro</title>
+<meta name="description" content="Written for players. Every version adds a line for what you can notice on the keyboard.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2308080a%27/%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%275%27 fill=%27%23ff6a1f%27/%3E%3Ccircle cx=%2721%27 cy=%2711%27 r=%275%27 fill=%27%232fd0d8%27/%3E%3Ccircle cx=%2711%27 cy=%2722%27 r=%275%27 fill=%27%23a58bff%27/%3E%3Ccircle cx=%2721%27 cy=%2722%27 r=%275%27 fill=%27%235be37d%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Changelog · Oscuro">
+<meta property="og:description" content="Written for players. Every version adds a line for what you can notice on the keyboard.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/changelog/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/changelog/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/changelog/">
+<link rel="preload" href="../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../static/fonts.css">
+<link rel="stylesheet" href="../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../">Oscuro</a>
+  <nav class="desk" aria-label="Main">
+    <details class="dd"><summary>Features</summary>
+      <div class="dd-list"><a href="../features/viroid/">Viroid</a><a href="../features/synths/">Other synths</a><a href="../features/daw/">DAW</a><a href="../features/arpeggiator/">Arpeggiator</a><a href="../features/sequencer/">Sequencer</a><a href="../features/customize/">Make it yours</a><a href="../features/also/">Also</a></div>
+    </details>
+    <a href="../install/">Install</a>
+    <a href="./" aria-current="page">Changelog</a>
+  </nav>
+  <div class="lang" aria-label="Language"><a href="./" hreflang="en" aria-current="true">EN</a></div>
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><a href="../">Home</a><a href="../features/viroid/">Viroid</a><a href="../features/synths/">Other synths</a><a href="../features/daw/">DAW</a><a href="../features/arpeggiator/">Arpeggiator</a><a href="../features/sequencer/">Sequencer</a><a href="../features/customize/">Make it yours</a><a href="../features/also/">Also</a><a href="../install/">Install</a><a href="./">Changelog</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page">
+<header class="page-head"><div class="wrap">
+  <p class="crumbs"><a href="../">Back to the overview</a></p>
+  <p class="kicker">Changelog</p>
+  <h1>What changed, newest first.</h1>
+  <p class="lead">Written for players. Every version adds a line for what you can notice on the keyboard.</p>
+  <p class="note">The changelog is the project&#x27;s own record and is kept in English.</p>
+</div></header>
+<section><div class="wrap">
+  <details class="series" open><summary><h2>0.80</h2> <span>17 releases</span></summary>
+    <div class="rel"><h3>0.80.16 <span>2026-10-21</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> reject weak pad noise that changed pages, stop voice-cap collapse under fixed FX load, and clarify physical scan controls.</li><li><span class="kind k-changed">Changed</span> brighter dim page pads and more distinct neighboring FX colors.</li></ul></div>
+    <div class="rel"><h3>0.80.15 <span>2026-10-20</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> distinguish effect page colors and PARA/FX lights; add a native FX bypass shortcut and pad-navigation diagnostics.</li><li><span class="kind k-added">Added</span> choose a scan ceiling in 500-line/s steps, with Auto preserving the existing response.</li></ul></div>
+    <div class="rel"><h3>0.80.14 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-added">Added</span> semantic page-pad colors and full-rack page navigation; bounded filter/LFO control math and a separate 128-frame rack experiment.</li><li><span class="kind k-fixed">Fixed</span> rapid FX rack page changes preserve type defaults and subsequent knob edits.</li></ul></div>
+    <div class="rel"><h3>0.80.13 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> restored the live bottom bar, simplified PARA pages and lit page-selection pads; steadier button-bank refresh.</li><li><span class="kind k-added">Added</span> separate private Viroid full FX rack test build with topology controls.</li></ul></div>
+    <div class="rel"><h3>0.80.12 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid Delay/Reverb pages, carousel indicators and pad shortcuts for parameter and effects pages.</li><li><span class="kind k-fixed">Fixed</span> preserve queued parameter edits when changing pages.</li></ul></div>
+    <div class="rel"><h3>0.80.11 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> service audio during screen pixel and font work and avoid unnecessary processing of exact silence.</li></ul></div>
+    <div class="rel"><h3>0.80.10 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> speed up screen transfers while preserving audio and control servicing.</li></ul></div>
+    <div class="rel"><h3>0.80.9 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> let pad inputs settle before sampling to prevent a hard press triggering another pad.</li></ul></div>
+    <div class="rel"><h3>0.80.8 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> overlap key and encoder decoding with analog conversion to reduce control scanning waits.</li></ul></div>
+    <div class="rel"><h3>0.80.7 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> test reports separate analog acquisition and scan processing costs to guide further responsiveness improvements.</li></ul></div>
+    <div class="rel"><h3>0.80.6 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> removed an artificial diagnostic wait that could interrupt audio and controls while reading test reports.</li></ul></div>
+    <div class="rel"><h3>0.80.5 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> avoid unused analog conversions while preserving control sampling.</li></ul></div>
+    <div class="rel"><h3>0.80.4 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> keep audio and controls serviced while reading diagnostic stack usage.</li></ul></div>
+    <div class="rel"><h3>0.80.3 <span>2026-10-19</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> keep audio and controls serviced between screen layout objects.</li></ul></div>
+    <div class="rel"><h3>0.80.2 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> overlap matrix transfer with analog sampling to reduce control scanning waits.</li><li><span class="kind k-changed">Changed</span> test reports separate recent display stalls from startup timing.</li></ul></div>
+    <div class="rel"><h3>0.80.1 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> pending audio takes priority at screen service points instead of waiting for the scan timer or an input scan.</li><li><span class="kind k-fixed">Fixed</span> diagnostic CPU reports separate poll work from service yields and explain that independent peaks cannot be added.</li></ul></div>
+    <div class="rel"><h3>0.80.0 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid TI identifies itself on the splash screen, in the installer and in diagnostic reports.</li><li><span class="kind k-fixed">Fixed</span> adaptive Viroid polyphony leaves time for controls and screen updates instead of budgeting audio alone.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.79</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.79.1 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid no longer cuts voices for screen or USB delays; patch transfers and screen updates service audio more often.</li></ul></div>
+    <div class="rel"><h3>0.79.0 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Viroid adapts its voice ceiling to audio headroom and avoids idle voice work; controls give audio more frequent service.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.78</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.78.0 <span>2026-10-18</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Harmony Helper carousel, anchor/PIN/DEL/STORE pads, progression memory, velocity choice, Oct- scale shift, bass assist</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.77</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.77.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Harmony Helper (DAW build): next-chord pads with genre and mood, chord and scale detection</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.76</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.76.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the Viroid-TI test image keeps 4 sequencer patterns per track and a 256-note capture history to make room for delay and reverb at full size.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.75</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.75.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid plays the delay and reverb stored in Virus patches (send, time, feedback, color, decay, damping, pre-delay); the Viroid-TI test image keeps 2 sequencer patterns per track to make room.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.74</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.74.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid-TI plays the Virus TI&#x27;s LFO waves 6-67 (pick them as the LFO shape); the TI wave bank is stored smaller.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.73</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.73.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Viroid&#x27;s Max Voices setting now limits the polyphony (it did nothing before); test builds run up to 32 voices so the unit&#x27;s ceiling can be measured.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.72</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.72.0 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the Analog 1-4 pole filters now follow the Virus TI&#x27;s Analog filter (level, resonance, drive), so resonant patches sound different.</li><li><span class="kind k-changed">Changed</span> oscillator volume, noise level and Saturation curves 1-6 follow the Virus TI; mid-range oscillator volumes are quieter and the noise no longer follows the oscillator volume.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.71</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.71.1 <span>2026-10-17</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid&#x27;s filter was far too dark and too gentle: the cutoff now follows the Virus (open filters really open), resonance has the Virus peak and level, and filter 1 key follow is signed (64 = off).</li><li><span class="kind k-changed">Changed</span> Viroid envelopes and LFOs follow the Virus: attacks are linear ramps, decays and releases run several times longer in the middle of the range, amplitude sustain is convex, and LFO rates are slower from the middle up.</li><li><span class="kind k-fixed">Fixed</span> the sub oscillator level now follows the Virus (a triangle sub was far too quiet, a square too loud)</li><li><span class="kind k-fixed">Fixed</span> oscillator 2 FM amount now sweeps as widely as the Virus (the top of the range was far too mild)</li><li><span class="kind k-changed">Changed</span> oscillator 2 fine detune follows the Virus (in tune near the middle, flat below it, narrower on high notes), so detune 0 is now slightly flat and imported patches line up</li></ul></div>
+    <div class="rel"><h3>0.71.0 <span>2026-10-16</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Tympanika and Phantasm About screens (Drift)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.70</h2> <span>9 releases</span></summary>
+    <div class="rel"><h3>0.70.8 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the merged Retrowave build and the Bluetooth builds keep 512 captured events instead of 1024 to stay inside the unit&#x27;s RAM; assignable bank B controls are not in the Retrowave build (every other build has them). Fixed: every build failed to link because the stats header&#x27;s free-RAM readout had no limit symbol in the flash layout</li></ul></div>
+    <div class="rel"><h3>0.70.7 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the settings lists name the list you came from in the middle of the top bar (for example Physical Controls above Keys, Pads and Knobs)</li></ul></div>
+    <div class="rel"><h3>0.70.6 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-added">Added</span> assignable controls: Settings &gt; Physical Controls &gt; Bank B Knobs / Bank B Faders assign K1-K8 and F1-F4 on bank B to a Synth, FX rack or Mixer parameter; faders pick up and the fader popup marks the value they must reach; assignments are saved and follow a flash project (DX7 build)</li></ul></div>
+    <div class="rel"><h3>0.70.5 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Settings &gt; Display &gt; Hints (On by default): hold Oct- (on the synth home, with a fader, or in the sequencer) or SEQ (in the sequencer) for a quarter of a second and a card shows what the next key does; it never blocks the combination</li></ul></div>
+    <div class="rel"><h3>0.70.4 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-added">Added</span> live recording options in SEQ MORE &gt; Record: Overdub or Overwrite (erases the lane you record on for one pass), Quantize On/Off (Off keeps the exact timing) and a 1 or 2 bar Count-in. Quantize is On by default, so hits now sit on their step; turn it Off for the previous behaviour</li></ul></div>
+    <div class="rel"><h3>0.70.3 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> settings regrouped: Physical Controls is now a list (Keys, Pads, Knobs, Wheels, Faders); Calibration became Wheels and Fader Setup became Faders, both moved under it; Synthesizer holds Max Voices. No setting was removed</li></ul></div>
+    <div class="rel"><h3>0.70.2 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> settings pages are now lists: K1 moves the highlighted row, K2 changes it, K3 steps to the next or previous settings page (the dots at the bottom show where you are). Hold + knob quick edits are unchanged</li></ul></div>
+    <div class="rel"><h3>0.70.1 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> internal clean-up of Left/Right page navigation (no change in behaviour)</li></ul></div>
+    <div class="rel"><h3>0.70.0 <span>2026-10-15</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Settings &gt; Display &gt; Stats shows CPU load, free RAM and sounding voices in the header (off by default)</li><li><span class="kind k-fixed">Fixed</span> resting pitch and mod wheels no longer spam values after use (continuous centre dead zone, no flip at the end snap points)</li><li><span class="kind k-fixed">Fixed</span> faders no longer pop up their panel from electrical noise while untouched</li><li><span class="kind k-fixed">Fixed</span> a single pad touch no longer plays a second ghost note (rebound after a hard hit is ignored)</li><li><span class="kind k-fixed">Fixed</span> a Globe tap goes straight to Settings without flashing Play Setup first</li><li><span class="kind k-fixed">Fixed</span> Juno init patch was silent while a key was held (filter envelope polarity) and Cutoff above about 120 killed the voice</li><li><span class="kind k-fixed">Fixed</span> sequencer step rows repaint alone when only the playhead moves, so the screen keeps up while playing</li><li><span class="kind k-fixed">Fixed</span> the Bluetooth test note could stay stuck on and be resent when a packet was refused</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.69</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.69.0 <span>2026-10-14</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Retrowave pads 9-16 recall patches, separately for each engine and remembered over power-off: tap to load, hold an empty pad to store the current patch, hold and turn K1 to replace, hold and press Left to clear</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.68</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.68.0 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> a package now holds Retrowave, Viroid, Viroid TI and DAW builds, plus Bluetooth variants of Viroid and DAW; DX7, Juno, Moog and Mutable builds only on request</li><li><span class="kind k-added">Added</span> Bluetooth variants (_bt) of the Viroid and DAW builds (Retrowave and Viroid TI have no room for the radio); the DAW build is now a flash app like the others</li><li><span class="kind k-removed">Removed</span> the USB mouse mode and its Settings row are off in every build (the code stays in the source)</li><li><span class="kind k-changed">Changed</span> the user guide covers the Retrowave engines, the new sequencer screens, Bluetooth and the current Settings and limits, the tester guide lists what to try, and CHANGELOG.html lists the changes by topic</li><li><span class="kind k-changed">Changed</span> more non-audio code is compiled for size in the TI and Bluetooth builds, about 9 KB freed, sound unchanged</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.67</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.67.0 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Install-tab option &quot;Don&#x27;t check the keyboard&#x27;s model&quot; (off by default) for boards under other names; fixed the installer&#x27;s final check on a Starrykey 37 Play with the 015 file</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.66</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.66.0 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the installer accepts M-Vave&#x27;s MKE-P37 and Starrykey 37 Play keyboards and their firmware files (same board as the SMK-37 Pro; not yet tried on a unit)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.65</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.65.1 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the retrowave build with the mt drum engine now fits in memory; patch categories (strips, K3 filter) exist only in the Viroid build, and the UI, patch and sequencer-editor code compile for size there</li></ul></div>
+    <div class="rel"><h3>0.65.0 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-added">Added</span> mt drum engine (Microtonic-style, 8 channels with L/R morph) selectable in the retrowave build, with the Microtonic jungle kit import in the installer; test build only</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.64</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.64.0 <span>2026-10-11</span></h3>
+      <ul><li><span class="kind k-added">Added</span> patches can be filtered by category on K3 in the Viroid patch list, with up to two category strips beside each patch and the category in the header</li><li><span class="kind k-added">Added</span> save a patch with Oct- + Right (Oct- alone steps the octave on release, as in the other views)</li><li><span class="kind k-fixed">Fixed</span> Virus patches now show the unsaved star when a macro is edited, and long patch names no longer hide it</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.63</h2> <span>4 releases</span></summary>
+    <div class="rel"><h3>0.63.3 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid wavetable playback starts on the next phase sample, matching the TI oscillator.</li><li><span class="kind k-changed">Changed</span> The private TI wavetable test build keeps the faster reader and uses 44 KiB table caches to fit the latest sequencer.</li></ul></div>
+    <div class="rel"><h3>0.63.2 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the CZ-1 synth in the retrowave build releases notes, plays the right pitch and octave, and follows the Casio waveform, envelope and SysEx tone rules</li></ul></div>
+    <div class="rel"><h3>0.63.1 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the Bluetooth test build links again (FM lookup tables read from flash in that build only)</li></ul></div>
+    <div class="rel"><h3>0.63.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Sequencer beat lines (follow the time signature; MORE: Beat lines, Time sig)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.62</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.62.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Sequencer MORE screen (part settings, tools, project) and a SEQ-button cycle HOME - EDIT - MORE; Left/Right choose the part</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.61</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.61.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Sequencer EDIT screen: lane matrix or piano roll, knob strip that switches between lane and held-step parameters, Oct pages through 64 steps</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.60</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.60.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Sequencer HOME screen: lane and part mutes on the pads (change at the next pass), patterns on the white keys, compact or expanded drum view</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.59</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.59.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: live strum for chords played with the arp off (Strum section, Live strum and Window)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.58</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.58.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: Evolve (Mutate, Every, Bars, Gravity, Reach) - the pattern drifts and returns</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.57</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.57.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Perform layer: hold Oct - and tap pads to toggle arp features (Settings, Keys &amp; Pads, Perform layer)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.56</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.56.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: Evolve section with Phrase and Seed; Freeze, Thaw and Reseed (ARP + A# / A)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.55</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.55.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: Rhythm section (Euclid hits, length, rotate, chance, accent)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.54</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.54.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: Strum and Human sections (swipe Right on the ARP page), switch per section</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.53</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.53.0 <span>2026-10-10</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Arp: 10 new directions (Thumb, Pinky, Dn Incl/Excl, Con+Div, Rand No Dup/Drift/Once) and rates 1/2, 1/2T, dotted 1/4, 1/8, 1/16</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.52</h2> <span>5 releases</span></summary>
+    <div class="rel"><h3>0.52.4 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> DX7 banks with out-of-range values (such as the factory ROM banks) upload instead of failing; the values are clamped</li></ul></div>
+    <div class="rel"><h3>0.52.3 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the installer says why a patch could not be stored (memory full, patch memory not ready, or a value out of range)</li></ul></div>
+    <div class="rel"><h3>0.52.2 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Arc knob style shows a long two-word value on two lines instead of cutting it off</li></ul></div>
+    <div class="rel"><h3>0.52.1 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Reverb has early reflections and a denser, wider onset</li></ul></div>
+    <div class="rel"><h3>0.52.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> FX rack Reverb (room, hall, plate); the rack&#x27;s pool is 12 KB so the retrowave build keeps about 5 KB of SRAM spare, and DX7/Viroid/Mutable/Bluetooth builds leave the rack out</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.51</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.51.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> FX rack effects Tremolo/Auto-pan (tempo sync), Distortion (soft, hard, fold, tube), Bit-crush and Compressor</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.50</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.50.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> FX rack topologies: up to six effect slots wired as 2 Sends, Serial 2/3/6, 3 + 3, 2 + 2 + 2, Fan 3, Split-Merge and three Insert layouts (pick on the FX ROUTE page); an Off slot is a bypass</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.49</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.49.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> FX rack effects Phaser, Wah (auto/manual/LFO), Notch/Filter (notch, bell, LP, HP, BP with sweep) and 3-band EQ</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.48</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.48.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> FX rack (hold FX, press Right): two effect slots on the mixer&#x27;s send buses with Route Send/Insert, Return and per-strip sends; first effects Delay (tempo sync, ping-pong), Chorus, Flanger</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.47</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.47.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Knob Speed (Settings → Physical Controls): knobs on level-type parameters (synth, mixer, gate) move 2x per click by default, or 1x/4x/8x; lists and numbers like MIDI Program keep one step per click</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.46</h2> <span>3 releases</span></summary>
+    <div class="rel"><h3>0.46.1 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Viroid wavetable playback reads its tables up to 2.4 times faster, leaving more CPU headroom; the sound is bit-for-bit unchanged.</li></ul></div>
+    <div class="rel"><h3>0.46.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Viroid wavetable playback preserves TI interpolation and morph rounding in local table builds.</li></ul></div>
+    <div class="rel"><h3>0.46.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> cz-1, a Casio CZ phase-distortion synth (eight bent waveforms, per-line eight-step envelopes, ring and noise modulation) — it boots in the merged build, now called Retrowave, and FM, Juno and Moog still switch at runtime; a Mode knob picks CZ-only, Retrowave or Full; load and save real Casio CZ voice dumps</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.45</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.45.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Viroid wavetable oscillators now build their waves and pick their band-limit level with the exact method recovered from the Virus TI, so wavetable patches should sound closer to the original at high and low notes.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.44</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.44.0 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Settings &gt; Display &gt; Low Battery (Off, Warn, Protect): on battery, a warning near the empty level and, with Protect, the pad LEDs dim and then go dark so a nearly empty cell is not loaded into a reset.</li><li><span class="kind k-changed">Changed</span> the output mixer and metronome click skip work they do not need, and unchanged pad lights are not resent every frame; the sound is bit for bit the same.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.43</h2> <span>3 releases</span></summary>
+    <div class="rel"><h3>0.43.2 <span>2026-10-09</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> USB Audio In keeps its clock correction when the unit&#x27;s sample rate is a thousand ppm off the computer&#x27;s.</li></ul></div>
+    <div class="rel"><h3>0.43.1 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> USB Audio In starved the ring (heavy distortion); the unit now also checks the OUT endpoint between frame interrupts and reports how many packets each path found.</li></ul></div>
+    <div class="rel"><h3>0.43.0 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-added">Added</span> USB Audio In (Settings &gt; DAW &amp; USB, next start): the computer&#x27;s stereo 48 kHz sound plays through the unit&#x27;s mixer (USB-in strip); not in Bluetooth builds. Test builds can start the audio link late (--pop-late) to trace the power-on pop.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.42</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.42.0 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-added">Added</span> fader bank 1 (F1-F4) is the mixer (master volume, balance, FX returns; Synth or USB-in strip on request) with pickup, Oct- held + a fader reaches the other bank, and a Mixer page in Settings. Bank 1 no longer sends CCs unless Mixer &gt; Send CC is on.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.41</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.41.0 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-added">Added</span> a mixer behind the output (master volume and balance are stored for the faders to come); the metronome click is now a sound of its own, so it plays even with the synth off and never goes to USB audio</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.40</h2> <span>3 releases</span></summary>
+    <div class="rel"><h3>0.40.2 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> a sequencer warning (such as &quot;Outside pattern length&quot;) no longer switches the metronome setting</li><li><span class="kind k-changed">Changed</span> DX7 build, sequencer Projects page: saving and loading run outside the sequencer&#x27;s timing and show the result; loading is refused while the sequencer plays. Projects do not fit the flash reserved for them yet, so for now it answers &quot;Project not saved/loaded&quot;</li></ul></div>
+    <div class="rel"><h3>0.40.1 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> in the sequencer, Right after Sequence Tools goes back to the lanes instead of wandering into Fader Setup and Split Zones; lane names fit their pads; the STEPS hint fits the screen</li></ul></div>
+    <div class="rel"><h3>0.40.0 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the all-in-one build now holds DX7 FM, Juno-60 and Moog; Viroid is its own build again (Oct- + PATCH cycles DX7 FM → Juno-60 → Moog)</li><li><span class="kind k-fixed">Fixed</span> moving a fader shows the fader screen again, and a fader set up in Globe → Synthesizer → Fader Setup moves its synth parameter across the parameter&#x27;s whole range</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.39</h2> <span>3 releases</span></summary>
+    <div class="rel"><h3>0.39.2 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> updating from 0.30 or older keeps your Globe settings (active preset, scales, clock source, screen colour, synth on/off) instead of resetting them</li></ul></div>
+    <div class="rel"><h3>0.39.1 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Scale Fix, Chord Voicing, Key Off, the metronome volume and fader assignments are remembered after power-off again (they were never saved since 0.31)</li></ul></div>
+    <div class="rel"><h3>0.39.0 <span>2026-10-08</span></h3>
+      <ul><li><span class="kind k-added">Added</span> USB audio. Turn on Globe → DAW &amp; USB → USB Audio and restart: the keyboard also shows up as a sound card, and the computer can record the synth (stereo, 48 kHz) over the USB cable. USB Gain sets the recording level (−12, −6, 0 or +6 dB; 0 dB is what the headphone jack gets). Off by default</li><li><span class="kind k-changed">Changed</span> the keyboard now shows up as &quot;SMK-37 Oscuro USB&quot; over USB and &quot;SMK-37 Oscuro BLE&quot; over Bluetooth (on a Mac, remove the old device in Audio MIDI Setup once to see the new name)</li><li><span class="kind k-fixed">Fixed</span> Bluetooth MIDI in the DX7 Bluetooth test build connects and plays: the start no longer hangs or freezes the screen, Bluetooth off disconnects the computer, and Bluetooth starts by itself at power-on when it was left on (hold Globe at power-on to skip it). Switching it on later fades the sound out for the radio&#x27;s ~0.7 s set-up instead of freezing mid-note</li><li><span class="kind k-changed">Changed</span> test builds send their Bluetooth log live over USB (tools/ks_log.py); the Bluetooth lab diagnostics of 0.29.1-0.29.23 (start-up journal, hang reports, watchdog) are folded into this release</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.38</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.38.0 <span>2026-10-07</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the Mutable synth&#x27;s Low/Mid/Hi TM modes now play a morphing wavetable engine (Plaits WavetableEngine, bit-exact)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.37</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.37.0 <span>2026-10-07</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the Mutable synth&#x27;s Bass mode is now a real virtual-analog engine (Plaits VirtualAnalogEngine, bit-exact)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.36</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.36.0 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> EDIT page sections now wrap as a carousel - &#x27;&gt;&#x27; on the last section returns to the first, &#x27;&lt;&#x27; on the first goes to the last</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.35</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.35.0 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-added">Added</span> on the merged build Oct- + PARA starts a new patch of the running engine, and switching synths now names the new one (DX7 FM, VIROID VA, JUNO-60, MOOG)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.34</h2> <span>4 releases</span></summary>
+    <div class="rel"><h3>0.34.3 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> a DX7 32-voice bank can be sent to the merged build again (it was refused as &#x27;out of range&#x27;)</li></ul></div>
+    <div class="rel"><h3>0.34.2 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the installer switches engines for every file, not only the first - dropping a Moog bank after a Juno one was refused as if the keyboard were single-engine</li></ul></div>
+    <div class="rel"><h3>0.34.1 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the engine switch chord is Oct- as shift then PATCH (no spurious octave or light); Added: the installer switches engines so the aio build takes any patch file; the AIO accent is retrowave violet</li></ul></div>
+    <div class="rel"><h3>0.34.0 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-added">Added</span> one firmware, all four synths - the aio build switches engines live with the PATCH + Oct- chord or from the web installer</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.33</h2> <span>12 releases</span></summary>
+    <div class="rel"><h3>0.33.11 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> loading a patch bank no longer mutes or stutters the audio, and imported Juno-106 voices play again</li></ul></div>
+    <div class="rel"><h3>0.33.10 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> fewer audio dropouts while the screen draws or settings tick over</li></ul></div>
+    <div class="rel"><h3>0.33.9 <span>2026-10-06</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Moog voices with the filter ringing in self-oscillation now actually start ringing on a fresh note</li></ul></div>
+    <div class="rel"><h3>0.33.8 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno and Moog run steadier in busy passages: notes retrigger without popping and audio drops out less at full chord</li></ul></div>
+    <div class="rel"><h3>0.33.7 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno engine runs cheaper: steadier audio, smoother chorus</li></ul></div>
+    <div class="rel"><h3>0.33.6 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Moog engine no longer pops on retriggered notes or clicks from aftertouch jumps, and runs its filter cheaper for steadier audio</li></ul></div>
+    <div class="rel"><h3>0.33.5 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno patches now play sound from the unit: bank patches no longer load silent, envelopes respond at their real times, and Volume in a saved patch takes effect</li></ul></div>
+    <div class="rel"><h3>0.33.4 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno DCO RNG and PW initialization</li></ul></div>
+    <div class="rel"><h3>0.33.3 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno engine voice initialization and DCO state</li></ul></div>
+    <div class="rel"><h3>0.33.2 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno engine initialization and voice allocation</li></ul></div>
+    <div class="rel"><h3>0.33.1 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Juno engine initialization and oscillator output</li></ul></div>
+    <div class="rel"><h3>0.33.0 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Patch banks for Juno-60/106 and Moog, Juno-106 SysEx import, bank format spec and LLM prompt, test bank generator</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.32</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.32.0 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Juno-60/106 and Moog synth engines</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.31</h2> <span>15 releases</span></summary>
+    <div class="rel"><h3>0.31.14 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> restored Synthesizer submenu</li></ul></div>
+    <div class="rel"><h3>0.31.13 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> metronome uses clock tick, reorganized menu structure</li></ul></div>
+    <div class="rel"><h3>0.31.12 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Synthesizer submenu with Fader Setup and Max Voices, improved metronome volume scaling</li></ul></div>
+    <div class="rel"><h3>0.31.11 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-added">Added</span> metronome volume to Play Setup, Fader Setup to Globe menu</li></ul></div>
+    <div class="rel"><h3>0.31.10 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> metronome tick calculation and clock state check</li></ul></div>
+    <div class="rel"><h3>0.31.9 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> OCT_DOWN as shift modifier in sequencer context</li></ul></div>
+    <div class="rel"><h3>0.31.8 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> metronome combo button event handling</li></ul></div>
+    <div class="rel"><h3>0.31.7 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Physical Controls page title, added Knob Curve setting to slot 5</li></ul></div>
+    <div class="rel"><h3>0.31.6 <span>2026-10-05</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> metronome toggle consumes button events, added knob response curve setting</li></ul></div>
+    <div class="rel"><h3>0.31.5 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> metronome toggle to OCT_DOWN+SEQ, SEQ blink rate; Renamed: Keys &amp; Pads to Physical Controls</li></ul></div>
+    <div class="rel"><h3>0.31.4 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> metronome LED feedback and knob momentum</li></ul></div>
+    <div class="rel"><h3>0.31.3 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> XIP build for project storage</li></ul></div>
+    <div class="rel"><h3>0.31.2 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> metronome with PARA+FX toggle and beat-synced clicks</li></ul></div>
+    <div class="rel"><h3>0.31.1 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> split zone configuration UI and storage</li></ul></div>
+    <div class="rel"><h3>0.31.0 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> configurable fader assignments, fader config UI, installer project upload/download</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.30</h2> <span>16 releases</span></summary>
+    <div class="rel"><h3>0.30.15 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> project storage flash port wiring (VM region)</li></ul></div>
+    <div class="rel"><h3>0.30.14 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> fader assignment framework (Volume/Pan/Cutoff/Resonance)</li></ul></div>
+    <div class="rel"><h3>0.30.13 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> PROJECT page UI framework with save/load/delete</li></ul></div>
+    <div class="rel"><h3>0.30.12 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> flash-based project storage (KS_PROJECT_STORAGE flag)</li></ul></div>
+    <div class="rel"><h3>0.30.11 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> C2 randomize/mutate backend with deterministic seed</li></ul></div>
+    <div class="rel"><h3>0.30.10 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> patch browser overlay trigger</li></ul></div>
+    <div class="rel"><h3>0.30.9 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> TOOLS page with double-tap confirmation</li></ul></div>
+    <div class="rel"><h3>0.30.8 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> TRACK page with track-level settings</li></ul></div>
+    <div class="rel"><h3>0.30.7 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> PATTERN page with pattern recall and copy</li></ul></div>
+    <div class="rel"><h3>0.30.6 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> encoder controls on LANES page</li></ul></div>
+    <div class="rel"><h3>0.30.5 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> graphical 4x4 step grid for STEPS page</li></ul></div>
+    <div class="rel"><h3>0.30.4 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> lane selection on LANES page</li></ul></div>
+    <div class="rel"><h3>0.30.3 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> graphical 4x4 lane grid for LANES page</li></ul></div>
+    <div class="rel"><h3>0.30.2 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> renamed sequencer pages (LANES, STEPS, PATTERN) for clarity</li></ul></div>
+    <div class="rel"><h3>0.30.1 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> SEQ PLAY and SEQ REC button LEDs now reflect transport state</li></ul></div>
+    <div class="rel"><h3>0.30.0 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> graphical sequencer UI</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.29</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.29.0 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-performance">Performance</span> optimized FM and Viroid audio engines — replaced int64 multiply with int32 in FM sin interpolation, hoisted per-block invariants in VA engine, replaced exp2f/tanf with lookup tables, and substituted sinf with Taylor polynomial in saturate curve. All changes are sound-exact or produce sub-audible differences.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.28</h2> <span>6 releases</span></summary>
+    <div class="rel"><h3>0.28.5 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> hat choke groups 1–8 stop other grouped lanes and their remaining ratchets; choose Choke in Kit / Sound.</li></ul></div>
+    <div class="rel"><h3>0.28.4 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> undo the last pattern clear, copy or Euclidean fill from Sequence Tools; clear tone locks and see locked steps.</li></ul></div>
+    <div class="rel"><h3>0.28.3 <span>2026-10-04</span></h3>
+      <ul><li><span class="kind k-added">Added</span> assign independent DX7 sounds to drum lanes, audition them in Kit and name lanes in the Sound inspector.</li><li><span class="kind k-changed">Changed</span> service keys and audio between bounded patch-memory read slices; browsing-click device retest pending.</li></ul></div>
+    <div class="rel"><h3>0.28.2 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-added">Added</span> independent DX7 sound ownership sharing twelve voices; kit assignment follows in a later test build.</li></ul></div>
+    <div class="rel"><h3>0.28.1 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> battery percentage shows plain numbers without leading symbols.</li></ul></div>
+    <div class="rel"><h3>0.28.0 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-added">Added</span> always-visible estimated battery percentage, selectable bars in Display settings, and a larger heavier OSCURO splash.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.27</h2> <span>3 releases</span></summary>
+    <div class="rel"><h3>0.27.2 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> larger battery indicator shares the USB badge area and redraws cleanly when connecting power.</li></ul></div>
+    <div class="rel"><h3>0.27.1 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> battery indicator now detects unplugging USB using the correct external-power input.</li></ul></div>
+    <div class="rel"><h3>0.27.0 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-added">Added</span> battery bars and a shared external-power indicator, with battery readings every 15 seconds.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.26</h2> <span>6 releases</span></summary>
+    <div class="rel"><h3>0.26.5 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-added">Added</span> visible Sequence overview, named settings and held-pad step inspector with truthful drum controls.</li></ul></div>
+    <div class="rel"><h3>0.26.4 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-added">Added</span> choose Classic or Arc knobs in Settings &gt; Display, with values centred in the arc.</li><li><span class="kind k-fixed">Fixed</span> Accent and List Wrap are remembered after power-off.</li><li><span class="kind k-changed">Changed</span> multilingual display fonts use less storage with identical lettering.</li></ul></div>
+    <div class="rel"><h3>0.26.3 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Globe + SEQ REC reports its destination, stays in Sequence and preserves patterns when capture cannot be saved.</li></ul></div>
+    <div class="rel"><h3>0.26.2 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> ARP tap opens settings, unused 600 ms hold toggles even with Latch; printed ARP and Globe shortcuts consume their key releases safely.</li></ul></div>
+    <div class="rel"><h3>0.26.1 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> changing synth patches stops the old sound cleanly and keeps incoming program changes and notes in order.</li></ul></div>
+    <div class="rel"><h3>0.26.0 <span>2026-10-03</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> Keysmith is now Oscuro, with the new name on the keyboard, editor, installer and downloads.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.25</h2> <span>10 releases</span></summary>
+    <div class="rel"><h3>0.25.9 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds&#x27; core-1 hang watcher read a stale Bluetooth state; Bluetooth start-up is calibrated again</li></ul></div>
+    <div class="rel"><h3>0.25.8 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds start the Bluetooth stack with its interrupts off (experiment)</li></ul></div>
+    <div class="rel"><h3>0.25.7 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds start the Bluetooth radio without its RF calibration (experiment)</li></ul></div>
+    <div class="rel"><h3>0.25.6 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds also enable the radio&#x27;s 0.6 V supply before the Bluetooth start</li></ul></div>
+    <div class="rel"><h3>0.25.5 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds show Bluetooth start-up progress on the LCD</li></ul></div>
+    <div class="rel"><h3>0.25.4 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds draw where core 0 is stuck when the Bluetooth start hangs</li></ul></div>
+    <div class="rel"><h3>0.25.3 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds hand a Bluetooth start-up fault to the ROM handler (reset) after recording it</li></ul></div>
+    <div class="rel"><h3>0.25.2 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds let the watchdog reset a stuck Bluetooth start</li></ul></div>
+    <div class="rel"><h3>0.25.1 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> test builds record where a Bluetooth start-up fault happened and report it after the reset</li></ul></div>
+    <div class="rel"><h3>0.25.0 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Bluetooth LE stack in the DX7 test build (BT button starts it; BLE-MIDI advertising and connect, experimental)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.24</h2> <span>4 releases</span></summary>
+    <div class="rel"><h3>0.24.3 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the 384 MHz CPU setting raises the core rails first, then applies in a flash boot (hold Globe at power-on to skip). Test builds report the rails.</li></ul></div>
+    <div class="rel"><h3>0.24.2 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the 384 MHz CPU setting now takes effect in a flash boot (applied ~2 s after power-on; hold Globe at power-on to skip). Test builds report the measured clock.</li></ul></div>
+    <div class="rel"><h3>0.24.1 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> messages on the screen wrap to two lines instead of being cut off at 24 characters</li></ul></div>
+    <div class="rel"><h3>0.24.0 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Bluetooth on/off on the BT button, stored across restarts and off on a fresh unit (the radio itself is not built in yet; with Settings -&gt; Mouse On the BT button stays the mouse switch). Clock, Start/Stop and Song Position from a computer over USB now drive the arp and sequencer when Clock is USB or Auto</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.23</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.23.1 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the screen yields to the audio far more often (LVGL strips are 8 lines instead of 20, style updates and every screen refresh step hand time back), so drawing the screen no longer makes dense Viroid patches overrun (test build; not yet verified on the unit)</li></ul></div>
+    <div class="rel"><h3>0.23.0 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid plays the Virus TI wavetable oscillators (all 99 tables, Shape = table position) in builds that carry the TI wave tables; other builds play wavetable patches as Classic</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.22</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.22.0 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid&#x27;s HyperSaw cost cap now defaults to 88 saws (measured safe limit; Settings -&gt; System -&gt; HS Saws, Off or up to 128), so dense stacks thin out instead of breaking up</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.21</h2> <span>5 releases</span></summary>
+    <div class="rel"><h3>0.21.4 <span>2026-10-02</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid&#x27;s pulse wave no longer carries a DC offset (narrow pulses were too loud, Pulse Width at maximum now gives silence like the Virus) and its oscillators alias less (4-point PolyBLEP)</li></ul></div>
+    <div class="rel"><h3>0.21.3 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> units with a flash chip keysmith has not seen before can now update, save settings and keep patches when the chip passes keysmith&#x27;s write test (one scratch sector, checked at start-up); a chip that fails it is still refused</li><li><span class="kind k-added">Added</span> a chip keysmith has not seen is named on the screen at start-up with the test result, and the installer can send a keysmith that cannot write its chip back to M-Vave&#x27;s own updater (&quot;Use M-Vave&#x27;s updater&quot;; needs a keyboard that has run an M-Vave update before)</li></ul></div>
+    <div class="rel"><h3>0.21.2 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid&#x27;s Classic oscillator now matches the Virus: the sine is louder (+3.5 dB), the pulse quieter (-2.5 dB), the shape knob blends sine, saw and pulse in phase, and Pulse Width runs from a square wave down to nothing</li></ul></div>
+    <div class="rel"><h3>0.21.1 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> SMK-37 Pro boards (a different flash chip, ID EB6014) can update keysmith, save settings and keep patches; other unknown chips are still refused</li></ul></div>
+    <div class="rel"><h3>0.21.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Viroid HyperSaw oscillators (Osc1 Md / Osc2 Md in OSC MOD: up to nine detuned saws, density = Shape, spread = PW, laws measured on a Virus TI), with a cost cap in Settings → System (HS Saws, HS Cuts; off by default)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.20</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.20.1 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> a keyboard whose flash chip keysmith does not know (for example an SMK-37 Pro flashed with Elite firmware) no longer starts an update it cannot write: the keyboard says &quot;Unknown flash chip&quot; and keeps playing, and the installer shows the chip&#x27;s ID instead of &quot;needs keysmith 0.8&quot;</li></ul></div>
+    <div class="rel"><h3>0.20.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Boot Patch (Settings → System): the synth builds start on the patch and bank you last played, or on the first patch (the choice writes to flash after each patch change; First writes nothing). Fixed: Viroid has all 4 banks (512 slots) again; 0.19.0 offered only 2.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.19</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.19.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> patch banks on the synth builds. K2 on the PATCH page picks the bank (DX7: 16 banks of 32 voices, Viroid: 2 banks of 128 patches); the patch list, Left/Right and saving stay inside the bank, and MIDI bank select (CC0) with Program Change picks patches.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.18</h2> <span>5 releases</span></summary>
+    <div class="rel"><h3>0.18.4 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the update screen&#x27;s number is one (pixel) font from the first write, no antialiased 0% before it</li></ul></div>
+    <div class="rel"><h3>0.18.3 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the update screen&#x27;s percentage no longer falls back to 0% while the bar fills</li></ul></div>
+    <div class="rel"><h3>0.18.2 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the update screen&#x27;s percentage follows the bar again (it stayed at 0%); a star after the patch position marks unsaved edits on the PARA, FX and EDIT pages, where you edit</li></ul></div>
+    <div class="rel"><h3>0.18.1 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Oct −/+ and Knob/Fader Bank buttons now light when the screen shows an octave shift or bank B; the home screen outside the synth uses the same knob layout (empty where nothing is assigned); moving a fader shows all four faders with names; the footer names the chord you hold (the velocity bar is gone)</li></ul></div>
+    <div class="rel"><h3>0.18.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the preset editor saves a whole bank as one .syx (Read all slots, Send all), shows raw bytes and a pause button in the MIDI monitor (also on the editor page), numbers bank B controls on from bank A, and names the sequencer buttons Seq play and Seq rec</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.17</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.17.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> a preset editor for your computer (keysmith-editor.html in the download, runs in Chrome or Edge): open your MIDI Suite exports or keysmith presets, change what every pad, knob, fader, wheel and button sends, and send the preset to the keyboard or save it as a file</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.16</h2> <span>4 releases</span></summary>
+    <div class="rel"><h3>0.16.3 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> while an update is writing, the progress bar stays in the update screen&#x27;s own bar, in the keyboard&#x27;s accent colour, instead of a green line at the bottom of the screen (test build; not yet verified on the unit)</li></ul></div>
+    <div class="rel"><h3>0.16.2 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> redrawing the whole screen (patch change, page change) no longer interrupts the sound; the display now hands time back to the keys and audio every fraction of a millisecond (test build; not yet verified on the unit)</li></ul></div>
+    <div class="rel"><h3>0.16.1 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the new run-from-flash build gave the flash controller away at start-up, leaving a black screen (test build; not yet verified on the unit)</li></ul></div>
+    <div class="rel"><h3>0.16.0 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the keyboard&#x27;s menus, fonts and graphics now run straight from flash, freeing about 180 KB of memory for new sounds (test build; not yet verified on the unit)</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.15</h2> <span>8 releases</span></summary>
+    <div class="rel"><h3>0.15.7 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> the second processor core gets a larger stack (the DX7 build came within 200 bytes of overflowing it).</li></ul></div>
+    <div class="rel"><h3>0.15.6 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> synth voices render on both processor cores, so heavy patches have about twice the headroom and the keys stay responsive while they play (test build; not yet verified on the unit).</li></ul></div>
+    <div class="rel"><h3>0.15.5 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> test-build reports measure key latency from when the key&#x27;s row was last read (not from the start of a slow key press), and split the synth time into per-voice setup and sound generation (Viroid and DX7)</li></ul></div>
+    <div class="rel"><h3>0.15.4 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> Viroid uses less CPU per voice (fewer clicks and dropouts on busy patches), and skips the sub oscillator, noise and filter 2 when they are silent</li><li><span class="kind k-changed">Changed</span> the installer clears the test report readings and note after saving, so the next report starts clean</li><li><span class="kind k-changed">Changed</span> test-build reports show how many voices were sounding</li></ul></div>
+    <div class="rel"><h3>0.15.3 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the screen redraws at most 25 times a second (was 30), and Viroid no longer recomputes its envelopes, glide and LFO rates on every knob turn and note, leaving more time for sound</li><li><span class="kind k-changed">Changed</span> test-build reports split the audio time into events, synthesis and output, and show the screen&#x27;s own time apart from the work it pauses for</li></ul></div>
+    <div class="rel"><h3>0.15.2 <span>2026-10-01</span></h3>
+      <ul><li><span class="kind k-added">Added</span> save the patch you edited. Hold PATCH and press Right to save (overwrite or copy, or a new patch_NN), PATCH + PARA starts a new patch from the init sound, and unsaved edits (shown by a  after the name) ask before they are dropped.</li></ul></div>
+    <div class="rel"><h3>0.15.1 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-fixed">Fixed</span> holding PARA or FX (and the EDIT page) no longer draws the note and velocity row over the second row of knobs.</li></ul></div>
+    <div class="rel"><h3>0.15.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> EDIT page: every parameter of the DX7 voice (145, with all six operators) and of the Viroid voice (about 100) on K1-K8. Hold PARA and press Right; Left / Right step through the sections (OP1 EG, FILTER 1 …); PARA leaves it.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.14</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.14.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the synth screen shows ARP, RPT, SCL and CHD lamps next to PARA / FX, lit while each is on.</li><li><span class="kind k-changed">Changed</span> ARP and Note Repeat settings show as a list, like Scale and Chord; settings lists show Back and ON / OFF underneath, and long values (scale names) fit.</li><li><span class="kind k-fixed">Fixed</span> the knob pointer is a straight bar at every angle, with a gap between the arc and the knob.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.13</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.13.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> tap Chord or Scale to open its settings as a list that stays open, like Globe; hold it to switch Chord or Scale on or off. The button blinks while its list is open.</li><li><span class="kind k-added">Added</span> lists go round: turning past the last item returns to the first, and back. System › List Wrap turns it off.</li><li><span class="kind k-changed">Changed</span> the synth&#x27;s controls are knobs: value above the name, a mark at 12 o&#x27;clock for controls that go both ways, and a line under each knob you turn. The patch name moves to the top line, the PARA | FX tabs to the bottom edge, and the controls have full names (Cutoff, Release…).</li><li><span class="kind k-added">Added</span> System › Accent picks the screen colour (the build&#x27;s own, orange, amber, pink, cyan, violet, lime or blue). The top line and the active tab use a darker shade of it.</li><li><span class="kind k-fixed">Fixed</span> a knob&#x27;s highlight no longer stays on when you turn another knob right after it.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.12</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.12.1 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the installer page has a Test report tab: read a test build&#x27;s diagnostics and save the report without installing anything.</li></ul></div>
+    <div class="rel"><h3>0.12.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> test builds (marked TEST on the About screen) can send a diagnostics report: latency, audio dropouts, processor load and errors, read with a small script over USB.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.11</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.11.2 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> the keyboard starts as a plain controller. Hold PATCH to turn the synth on or off; the keyboard remembers it, and PATCH is lit while the synth plays.</li><li><span class="kind k-added">Added</span> tap PATCH for the patch list: turn K1 and each patch plays at once. The status bar shows the patch&#x27;s place, e.g. 12/40.</li><li><span class="kind k-added">Added</span> tap PARA or FX to choose which controls K1–K8 change; tabs at the bottom of the screen show which one.</li><li><span class="kind k-changed">Changed</span> tap Globe to open the settings as a list. Globe is lit while they are open. Settings pages are lists that name the knob for each row; Play Setup holds the old Globe values.</li><li><span class="kind k-added">Added</span> the buttons light up: Globe, PATCH, PARA/FX, and ARP, Note Repeat, Scale and Chord while they are on.</li></ul></div>
+    <div class="rel"><h3>0.11.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the Viroid build plays Access Virus patches with its own virtual-analog voice: two oscillators with sync and FM, sub oscillator, noise, two filters in the Virus&#x27;s four routings, saturation, envelopes, three LFOs, unison, 8 notes at once.</li><li><span class="kind k-added">Added</span> Viroid controls on the home screen and the PARA and FX pages: cutoff, resonance, filter envelope, amp envelope, oscillator shape, oscillator 2 pitch and detune, FM, sub, noise, LFO speed, portamento and volume.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.10</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.10.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the DX7 build plays DX7 patches with the synth engine of Dexed, 12 notes at once, with sustain, mod wheel, pitch bend, mono/legato and portamento.</li><li><span class="kind k-added">Added</span> DX7 controls on the home screen and the PARA and FX pages: algorithm, feedback, brightness, level, attack, decay, release, LFO, vibrato, transpose, bend range, portamento, tune and volume.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.9</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.9.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> a new graphical screen: the home screen shows your patch and eight cells laid out like the knobs, pages and the settings menu are lists and cards, messages pop up at the bottom, and updates show their progress.</li><li><span class="kind k-added">Added</span> two builds, DX7 and Viroid, each with its own synth pages: K1–K8 on the home screen change the synth&#x27;s main controls, PARA and FX show all of them, Left/Right and Program Change pick a stored patch.</li><li><span class="kind k-added">Added</span> with a DAW script connected, the screen shows the selected track (mute, solo, armed), play/record and the tempo.</li><li><span class="kind k-changed">Changed</span> the Viroid build&#x27;s colour is orange.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.8</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.8.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> back up the keyboard&#x27;s patch memory (where M-Vave keeps its own data) to a file from the installer page, erase it for synth patches, and restore it; keysmith never erases that data on its own.</li><li><span class="kind k-changed">Changed</span> the installer page has tabs (Install, Synth patches, Patch memory), shows which keysmith build and version the keyboard runs, and checks each file as soon as you pick or drop it.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.7</h2> <span>2 releases</span></summary>
+    <div class="rel"><h3>0.7.1 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-changed">Changed</span> one install now has both the saved settings and knob fix (0.6.0) and the synth patch upload (0.7.0).</li></ul></div>
+    <div class="rel"><h3>0.7.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> the installer page sends Access Virus patch files (.syx, .mid) to a keysmith build with a synth that plays them, and refuses patches for a different synth before sending</li><li><span class="kind k-added">Added</span> links to M-Vave&#x27;s download page on the installer page and in the guide</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.6</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.6.0 <span>2026-09-30</span></h3>
+      <ul><li><span class="kind k-added">Added</span> your settings, the wheel calibration and uploaded presets are now saved and come back after the keyboard is switched off; a factory reset keeps the wheel calibration.</li><li><span class="kind k-added">Added</span> the About screen shows which keysmith build is installed, with its own animation (a synthwave sunset for the FM synth build, a voxel supersaw for the Viroid VA build).</li><li><span class="kind k-added">Added</span> Split USB ports and the USB mouse can now be switched on from the Settings, since those settings are kept.</li><li><span class="kind k-fixed">Fixed</span> the knobs turned values the wrong way (left went up, right went down).</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.5</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.5.0 <span>2026-09-29</span></h3>
+      <ul><li><span class="kind k-added">Added</span> pad response settings (threshold, sensitivity, wait) in Keys &amp; Pads, so the pads suit how you play.</li><li><span class="kind k-added">Added</span> wheel calibration (Settings → Calibration → Wheels), plus pitch centre and wheel end zones.</li><li><span class="kind k-fixed">Fixed</span> pads always played at velocity 1.</li><li><span class="kind k-fixed">Fixed</span> the mod wheel and pitch wheel sent messages while resting; the pitch wheel wandered at full bend.</li><li><span class="kind k-fixed">Fixed</span> touching a pad also lit its neighbour, flickering.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.4</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.4.0 <span>2026-09-29</span></h3>
+      <ul><li><span class="kind k-added">Added</span> keysmith DAW scripts now work over USB: pads show the DAW&#x27;s colours, the screen shows the selected track and messages from the DAW.</li><li><span class="kind k-added">Added</span> USB ports can be split into Keys, Pads and DAW ports, and the keyboard can act as a USB mouse (both can be tried in test runs; the settings are not saved yet).</li><li><span class="kind k-added">Added</span> a user guide comes with each release.</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.3</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.3.0 <span>2026-09-29</span></h3>
+      <ul><li><span class="kind k-added">Added</span> pads (velocity and pressure), faders and both wheels play on the keyboard; pads light up while held.</li><li><span class="kind k-added">Added</span> in step edit the pads show the steps and a running playhead; the PATTERNS page shows playing and selected patterns.</li><li><span class="kind k-added">Added</span> the LCD shows the open page, the value you turn and the Settings menu.</li><li><span class="kind k-changed">Changed</span> the Shift pad sends CC 119 when no keysmith DAW script is connected (CC 102 is fader 1).</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.2</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.2.0 <span>2026-09-29</span></h3>
+      <ul><li><span class="kind k-added">Added</span> Settings tree behind Globe → Right (System, Keys &amp; Pads, MIDI, DAW &amp; USB, About), navigated with K1, Right and Left.</li><li><span class="kind k-added">Added</span> CPU clock choice (120–384 MHz, applies at the next start) and pad LED brightness in Settings → System.</li><li><span class="kind k-added">Added</span> Shift pad — pick any pad as Shift in Settings → Keys &amp; Pads; it works in both pad banks and DAW scripts receive Shift + control.</li><li><span class="kind k-added">Added</span> USB Ports = Split shows the keys and the pads (with the drum track) as two separate MIDI ports in your DAW.</li><li><span class="kind k-added">Added</span> USB mouse mode (Settings → DAW &amp; USB → Mouse, then the BT button): K1/K2 move, K3 scrolls, pads 1–3 click.</li><li><span class="kind k-added">Added</span> About screen with an animated vector scene and the firmware version.</li><li><span class="kind k-added">Added</span> DX7 single voices and 32-voice banks are recognised over SysEx (for the FM engine).</li><li><span class="kind k-changed">Changed</span> the GLOBE 2 page is gone; Key Off, Clock and Factory reset are in the Settings tree.</li><li><span class="kind k-added">Added</span> updating keysmith from the installer page needs only app.bin once keysmith runs (the M-Vave file is only for the first install).</li></ul></div>
+  </details>
+  <details class="series"><summary><h2>0.1</h2> <span>1 releases</span></summary>
+    <div class="rel"><h3>0.1.0 <span>2026-09-29</span></h3>
+      <ul><li><span class="kind k-added">Added</span> keysmith boots from flash and plays as a class-compliant USB-MIDI keyboard; install and revert through the dongle or the web installer.</li><li><span class="kind k-added">Added</span> built-in polyphonic synth on the audio out.</li><li><span class="kind k-added">Added</span> stock-style pages: arpeggiator, note repeat, scale, chord, Globe; 2 banks for knobs, faders and pads.</li><li><span class="kind k-added">Added</span> scales: Filter mode, 4 user scales, degree shift; tap tempo, Song Position, clock source per port.</li><li><span class="kind k-added">Added</span> step sequencer: 2 melodic tracks + 1 drum track, 8 patterns of 64 steps, probability, conditions, ratchets, micro-timing, chords, per-step CC locks, live and step recording.</li><li><span class="kind k-added">Added</span> arp modes Converge, Diverge and User (pattern entered on the pads); arp output can be recorded.</li><li><span class="kind k-added">Added</span> retrospective capture: Globe + SEQ REC turns the last phrase you played into a pattern.</li><li><span class="kind k-added">Added</span> drum lanes with their own channel, mute, solo, rotation and swing; global swing; chain repeats; transpose groups; pattern Program Change.</li><li><span class="kind k-added">Added</span> performance: roller (hold NOTE REPEAT + mod wheel), timeline loop (hold SEQ + mod wheel), reverse (SEQ + pitch wheel down); PATTERNS and LANE pages.</li><li><span class="kind k-added">Added</span> keysmith DAW protocol: DAW scripts get knob/fader/pad/button events, set RGB pad colours, button lights, colour-tagged screen cells, transport state, notifications and the scale.</li></ul></div>
+  </details>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap">
+  <span>Oscuro 0.80.16</span>
+  <span><a href="../install/">Install</a> · <a href="./">Changelog</a></span>
+  <span>If Oscuro is useful to you, donations are welcome: <a href="https://paypal.me/kartun83">paypal.me/kartun83</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent open firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../static/site.js" defer></script>
+</body>
+</html>
