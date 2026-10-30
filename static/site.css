@@ -261,3 +261,4 @@ footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 40px 0 56
 .lang a { color: var(--muted); text-decoration: none; padding: 6px 7px; border-radius: 6px; }
 .lang a:hover, .lang a[aria-current] { color: var(--fg); }
 .lang a[aria-current] { background: rgba(255, 255, 255, .08); }
+.ack { list-style: none; padding: 0; display: grid; gap: 8px; max-width: 70ch; }
