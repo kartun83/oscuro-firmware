@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Specs · Oscuro Viroid</title>
+<meta name="description" content="What Oscuro Viroid does and where its limits are, in one place.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Specs · Oscuro Viroid">
+<meta property="og:description" content="What Oscuro Viroid does and where its limits are, in one place.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/specs/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/specs/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/specs/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/specs/">
+<link rel="preload" href="../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../static/fonts.css">
+<link rel="stylesheet" href="../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Main">
+    <a href="../sound/">Sound</a>
+    <a href="../rack/">Rack</a>
+    <a href="../play/">Play</a>
+    <a href="./">Specs</a>
+    <a href="../changelog/">Changelog</a>
+  </nav>
+  <a class="btn primary install" href="../install/">Install</a>
+  <span class="lang"><a href="./" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../es/specs/" hreflang="es" lang="es" title="Español">ES</a></span>
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><a href="../">Overview</a><a href="../sound/">Sound</a><a href="../rack/">Rack</a><a href="../play/">Play</a><a href="./">Specs</a><a href="../changelog/">Changelog</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page deep">
+<header class="page-head"><div class="wrap">
+  <p class="kicker">Specs</p>
+  <h1>The details.</h1>
+  <p class="lead">What Oscuro Viroid does and where its limits are, in one place.</p>
+</div></header>
+<section><div class="wrap">
+  <h2 class="h-sm spec-h">Engine</h2>
+  <dl class="spec"><div><dt>Oscillators</dt><dd>Three, with sub, noise and ring modulator; sync and FM</dd></div><div><dt>Oscillator modes</dt><dd>Classic waves, Wavetable, Wave PWM, Grain, Formant</dd></div><div><dt>Filters</dt><dd>Two, in four routings, with saturation</dd></div><div><dt>Modulators</dt><dd>Four envelopes, three LFOs with tempo sync</dd></div><div><dt>Unison and HyperSaw</dt><dd>Up to six unison voices; up to nine saws per oscillator</dd></div><div><dt>Polyphony</dt><dd>Governed: depends on the patch, effects, modulation and clock speed</dd></div><div><dt>Modulation matrix</dt><dd>Six slots, forty sources, three destinations per slot, routes that modulate routes</dd></div></dl>
+  <h2 class="h-sm spec-h">Effects</h2>
+  <dl class="spec"><div><dt>Types</dt><dd>Twenty: twelve classics and eight new</dd></div><div><dt>Rack</dt><dd>Up to six slots, as sends or inserts, in a choice of layouts</dd></div><div><dt>Audio block</dt><dd>64 samples by default, 128 for more headroom</dd></div></dl>
+  <h2 class="h-sm spec-h">Patches</h2>
+  <dl class="spec"><div><dt>Formats</dt><dd>Access Virus A, B, C and TI patches, with arpeggiator settings</dd></div><div><dt>Memory</dt><dd>Four banks of 128, stored compactly</dd></div><div><dt>Recall</dt><dd>From the keyboard, or Bank Select and Program Change over USB MIDI</dd></div><div><dt>Export</dt><dd>Any bank, saved to a file</dd></div></dl>
+  <h2 class="h-sm spec-h">Connections</h2>
+  <dl class="spec"><div><dt>USB MIDI</dt><dd>Notes, controllers and pressure in and out; DAW protocol on its own port if you split ports</dd></div><div><dt>USB audio</dt><dd>Stereo 48 kHz sound card: record the synth, or play your computer&#x27;s audio through the headphones; gain from -12 to +6 dB</dd></div><div><dt>MIDI clock</dt><dd>Sends clock, start, stop and continue; following an incoming clock is in testing</dd></div><div><dt>Name on your computer</dt><dd>SMK-37 Oscuro USB, with its own USB identity</dd></div></dl>
+  <h2 class="h-sm spec-h">Performance</h2>
+  <dl class="spec"><div><dt>Processor</dt><dd>360 MHz stock; 384 to 420 MHz as an option</dd></div><div><dt>Scan speed</dt><dd>Auto, or 8 to 24 kHz in half-kilohertz steps</dd></div><div><dt>Voice limits</dt><dd>Max Voices, HyperSaw cap and cut order, Audio Block</dd></div></dl>
+  <h2 class="h-sm spec-h">Fits</h2>
+  <dl class="spec"><div><dt>Keyboards</dt><dd>M-Vave SMK-37 Elite; tested on the SMK-37 Pro, Donner Starrykey-37PLAY and EROK MKE-P37</dd></div><div><dt>Display</dt><dd>The keyboard&#x27;s own 240 by 240 pixel screen</dd></div></dl>
+  <h2 class="h-sm spec-h">Leaves out</h2>
+  <dl class="spec"><div><dt>Bluetooth</dt><dd>Not in this build</dd></div><div><dt>Step sequencer</dt><dd>Not in this build; its memory goes to the synth and the effects</dd></div></dl>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../install/">Install</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.84.38</span>
+  <span class="foot-links"><a href="../install/">Install</a><a href="./">Specs</a><a href="../changelog/">Changelog</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="https://ko-fi.com/kartun83">Support on Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../static/site.js" defer></script>
+</body>
+</html>

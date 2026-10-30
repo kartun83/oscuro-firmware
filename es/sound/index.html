@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonido · Oscuro Viroid</title>
+<meta name="description" content="Un motor analógico virtual propio, hecho para tocar parches de Virus y para retocarlos mucho más allá.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Sonido · Oscuro Viroid">
+<meta property="og:description" content="Un motor analógico virtual propio, hecho para tocar parches de Virus y para retocarlos mucho más allá.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/sound/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/sound/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/sound/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/sound/">
+<link rel="preload" href="../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../static/fonts.css">
+<link rel="stylesheet" href="../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="./">Sonido</a>
+    <a href="../rack/">Rack</a>
+    <a href="../play/">Tocar</a>
+    <a href="../specs/">Ficha técnica</a>
+    <a href="../changelog/">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../install/">Instalar</a>
+  <span class="lang"><a href="../../sound/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../">Resumen</a><a href="./">Sonido</a><a href="../rack/">Rack</a><a href="../play/">Tocar</a><a href="../specs/">Ficha técnica</a><a href="../changelog/">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page deep">
+<header class="page-head"><div class="wrap">
+  <p class="kicker">Sonido</p>
+  <h1>Dentro de la voz.</h1>
+  <p class="lead">Un motor analógico virtual propio, hecho para tocar parches de Virus y para retocarlos mucho más allá.</p>
+</div></header>
+<section class="dd"><div class="wrap dd-grid">
+  <div class="dd-copy reveal"><p class="kicker">Osciladores</p><h2>Tres osciladores, y las ondas a juego.</h2><p>Cada oscilador tiene sync y FM, y el mezclador añade un sub oscilador, ruido y un modulador en anillo. Además de las ondas clásicas hay modos Wavetable, Wave PWM, Grain y Formant, con 99 tablas para recorrer.</p>
+  </div>
+  <div class="dd-shots reveal" aria-hidden="true"><img src="../../static/screens/bars_osc1_wave.webp" alt="" width="960" height="960" loading="lazy"><img src="../../static/screens/bars_mix.webp" alt="" width="960" height="960" loading="lazy"></div>
+</div></section>
+<section class="dd flip"><div class="wrap dd-grid">
+  <div class="dd-copy reveal"><p class="kicker">Unísono</p><h2>Apílalos, con medida.</h2><p>El unísono llega a seis voces, y HyperSaw apila hasta nueve sierras desafinadas en un oscilador. Una pila grande cuesta tiempo real de proceso, así que el control es tuyo.</p>
+    <ul class="plain"><li>Una pila completa es cara: nueve sierras en dos osciladores con cuatro voces de unísono son 72 sierras por nota.</li><li>HS Saws limita las sierras que suenan a la vez, de 8 a 128 o desactivado. El valor por defecto es 88.</li><li>HS Cuts elige qué cede primero: sierras, voces de unísono o las notas más antiguas.</li></ul>
+  </div>
+  <div class="dd-shots reveal" aria-hidden="true"><img src="../../static/screens/bars_uni_four.webp" alt="" width="960" height="960" loading="lazy"></div>
+</div></section>
+<section class="dd"><div class="wrap dd-grid">
+  <div class="dd-copy reveal"><p class="kicker">Filtros</p><h2>Dos filtros, cuatro rutas, saturación.</h2><p>Paso bajo, paso alto y el resto, con frecuencia de corte, resonancia, cantidad de envolvente y seguimiento de tecla en cada uno. Conéctalos en serie o en paralelo, o reparte los osciladores entre ellos, y empuja la señal con saturación.</p>
+  </div>
+  <div class="dd-shots reveal" aria-hidden="true"><img src="../../static/screens/bars_filter1.webp" alt="" width="960" height="960" loading="lazy"><img src="../../static/screens/bars_route_ser4.webp" alt="" width="960" height="960" loading="lazy"></div>
+</div></section>
+<section class="dd flip"><div class="wrap dd-grid">
+  <div class="dd-copy reveal"><p class="kicker">Envolventes y LFO</p><h2>Cuatro envolventes. Tres LFO.</h2><p>Dos envolventes dan forma al filtro y al amplificador, y otras dos quedan libres para dirigirlas a cualquier punto de la matriz. Los LFO ofrecen formas triangular, cuadrada, diente de sierra con inclinación, muestreo y retención y escalonadas, y pueden sincronizarse con el tempo.</p>
+  </div>
+  <div class="dd-shots reveal" aria-hidden="true"><img src="../../static/screens/bars_filt_env.webp" alt="" width="960" height="960" loading="lazy"><img src="../../static/screens/bars_amp_env.webp" alt="" width="960" height="960" loading="lazy"><img src="../../static/screens/bars_lfo1.webp" alt="" width="960" height="960" loading="lazy"></div>
+</div></section>
+<section class="dd"><div class="wrap dd-grid">
+  <div class="dd-copy reveal"><p class="kicker">Parches</p><h2>Tu biblioteca de Virus, dentro del teclado.</h2><p>Carga bancos completos de parches Access Virus A, B, C y TI, con los ajustes del arpegiador incluidos. La memoria de parches se guarda de forma compacta, así que caben cientos, en cuatro bancos de 128.</p>
+    <ul class="plain"><li>Recupéralos desde el teclado, o con Bank Select y Program Change por USB MIDI.</li><li>Guarda cualquier banco en un archivo para compartirlo o conservarlo.</li><li>Mantén Globe pulsado al encender para omitir extras opcionales, como el reloj más rápido.</li></ul>
+  </div>
+  <div class="dd-shots reveal" aria-hidden="true"><img src="../../static/screens/synth_home_viroid.webp" alt="" width="960" height="960" loading="lazy"></div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../install/">Instalar</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.84.38</span>
+  <span class="foot-links"><a href="../install/">Instalar</a><a href="../specs/">Ficha técnica</a><a href="../changelog/">Cambios</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Instalar firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../static/site.js" defer></script>
+</body>
+</html>

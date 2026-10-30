@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cambios · Oscuro Viroid</title>
+<meta name="description" content="Todo lo que un músico puede notar, desde la primera versión pública.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Cambios · Oscuro Viroid">
+<meta property="og:description" content="Todo lo que un músico puede notar, desde la primera versión pública.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/changelog/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/changelog/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/changelog/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/changelog/">
+<link rel="preload" href="../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../static/fonts.css">
+<link rel="stylesheet" href="../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="../sound/">Sonido</a>
+    <a href="../rack/">Rack</a>
+    <a href="../play/">Tocar</a>
+    <a href="../specs/">Ficha técnica</a>
+    <a href="./" aria-current="page">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../install/">Instalar</a>
+  <span class="lang"><a href="../../changelog/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../">Resumen</a><a href="../sound/">Sonido</a><a href="../rack/">Rack</a><a href="../play/">Tocar</a><a href="../specs/">Ficha técnica</a><a href="./">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page">
+<header class="page-head"><div class="wrap">
+  <p class="kicker">Cambios</p>
+  <h1>Qué cambió, versión a versión.</h1>
+  <p class="lead">Todo lo que un músico puede notar, desde la primera versión pública.</p>
+  <p class="note">No es el historial completo del proyecto. Empieza en la 0.84, la primera versión pública, y recoge solo productos publicados: por ahora Oscuro Viroid, y otros más adelante. El registro de cambios es el historial del propio proyecto y se mantiene en inglés.</p>
+</div></header>
+<section><div class="wrap">
+
+  <article class="release">
+    <header><h2>0.84</h2><p class="tag">Primera versión pública</p><p class="meta">2026-10-30 · abarca 0.84.0 a 0.84.38 · 39 actualizaciones</p></header>
+    
+    <details class="rel-block" open><summary><h3>Novedades <span>30</span></h3></summary><ul><li>Viroid (TI build): Classic waves 2-63 play the TI&#x27;s wave bank (1x, not yet anti-aliased)</li><li>arpeggiator STEPS windows show a picture (a column per step with its level, a gate bar under it, ties, the playhead); the separate GATE windows are gone</li><li>arpeggiator steps have one gate per step in percent (Auto, 1-199); GATE windows edit it, and holding a step pad while turning a knob sets the window&#x27;s gates; tapping a step pad toggles the step on release</li><li>four rack effects, Sinew (slew limiter), PowerSag (level-driven sag shaper), Fract Res (fold into a tuned resonating comb) and Morph (vowel formant filter)</li><li>the Dimension rack effect (Size, Tone, Mix): four short taps of the mono sum spread over left and right for a wide, mono-safe doubling</li><li>the Hyper effect page draws its voices: one trace each around the Delay centre, with the Rate, Unison, Detune, Spread, Depth and LFO shape (sine or triangle) you set</li><li>Hyper, Chorus and Flanger have an LFO page: Sine, Triangle and Smooth random; Viroid-TI builds with the rack also get S&amp;H and the TI&#x27;s Wave 3 to 64, slew limited so edges glide instead of click.</li><li>Hyper effect for the FX rack, a unison chorus with 1-7 voices, detune, spread, delay, depth, tone and mix; chorus and flanger use less CPU</li><li>the Viroid patch memory holds about 1.8x more Virus TI patches (a range-coded storage form, about 91 bytes a patch instead of 166 on the Orange Sky bank); stored patches keep loading</li><li>a Viroid patch now brings its arpeggiator on load: Mode (Off, Up, Down, Up&amp;Down, As Played, Random, Chord), Octave Range and Hold; Off switches the arp off. Clock, Swing, Note Length and Pattern are not imported yet</li><li>Boot Guard (test builds, Settings &gt; Display, off by default): arms the watchdog, counts starts that never ran healthy for 20 s, and after two watchdog resets or six unconfirmed starts boots safely without the CPU clock raise and the radio auto-start; Globe held at power-on also skips it</li><li>Moog, Juno, Plaits, Tympanika, VS and ESQ editors use the Bars layout with group tabs; Moog and VS filter envelopes are drawn</li><li>DX7 and Wavepad editors use the Bars layout with envelope pictures (DX7 EG rates and levels; Wavepad filter and position envelopes) and group tabs, like Viroid</li><li>Arp step windows: the top pad row switches steps on and off (or cycles Gate, Short, Full and Tie in the LENGTH windows), a minimap with the window frame and playhead in the title row</li><li>Arp Steps layer: a level per step (0 = rest) over any arp mode, in two windows of eight on the ARP page</li><li>Fold and OTT show a picture on the FX rack page (Fold&#x27;s transfer curve, OTT&#x27;s three bands); OTT has a second page, Bands, with threshold, ratio, attack, release, upward threshold and amount per band (the defaults sound as before). Older saved racks load unchanged.</li><li>two Rack effects, Fold (a multi-stage wavefolder with Triangle or Smooth folds, Bias and Tone) and OTT (a three-band compressor that lifts quiet detail and pulls loud peaks down, with Depth, Time, band gains and two crossovers); available in the flavours that have the Rack, not in Viroid TI</li><li>Audio Block (Settings &gt; DAW &amp; USB, Viroid TI with the FX rack, next start): render in 64-sample blocks (default) or 128, which pays the per-block work half as often and lets a heavy patch keep more voices, at 1.3 ms more delay</li><li>Bender Scale (Linear / Scaled) on a new PLAY 2 page in Viroid; Scaled is the Virus&#x27;s finer-near-centre wheel curve</li><li>Viroid edit knobs for Interp, Formant, Internal Detune, Spread and FM Mode that show only for the oscillator modes that use them; FM and PM into Osc 2 in the Viroid-TI Wave PWM, Grain and Formant modes (0.84.4)</li><li>Viroid Wave PWM, Grain Complex and Formant Complex oscillator modes play like the Virus TI (Viroid-TI build with the local tables)</li><li>Viroid Grain Simple and Formant Simple oscillator modes play like the Virus TI (Viroid-TI build with the local tables)</li><li>Viroid oscillator mode knobs reach the wavetable family (modes 3 to 7 play as the plain wavetable for now) and Wave goes up to 99</li><li>Viroid-TI saturation Low Pass, Low+Follow, High Pass and High+Follow now filter like the Virus TI (needs the local TI tables)</li><li>Viroid key mode Hold keeps a released chord sounding until the next chord, and LFO 3 gets a Sync Phase destination</li><li>Viroid unison now allows five and six voices, and the voice spread follows the TI layout</li><li>Viroid envelopes 3 and 4 as matrix sources, and the LFO 1 and 2 user destinations</li><li>Viroid LFO clock sync to the transport tempo and the LFO 1 and 2 contour destinations</li><li>Viroid oscillator 3 (saw, pulse, sine, triangle, classic waves, slave) from the patch bytes</li><li>Viroid edit pages for oscillator 3, envelopes 3 and 4 and the LFO 1 and 2 user destinations</li></ul></details>
+    <details class="rel-block"><summary><h3>Mejorado <span>5</span></h3></summary><ul><li>the arp&#x27;s STEPS windows are a picture page like the rack pages: level columns with gate bars, a playhead triangle, a 32-step minimap and the eight steps as cells; hold a step pad and the cells become the gates</li><li>the rack gives each effect one pad and a repeat press steps through its pages (Hyper, Chorus, Flanger, OTT); Audio Block moved from DAW &amp; USB to the Synthesizer settings</li><li>Viroid TI builds run Envelope 3 and 4 on the Virus TI&#x27;s own attack, sustain and sustain-time laws (sustain time now falls or rises like the original)</li><li>Viroid modulation matrix routes aimed at another route&#x27;s amount now chain (a route modulating an amount that is itself modulated), as the Virus does</li><li>the FX rack&#x27;s EQ is now the Virus&#x27;s own three-band EQ in the Viroid TI build (different frequency ranges and gain scale from the old EQ)</li></ul></details>
+    <details class="rel-block fixes"><summary><h3>Corregido <span>10</span></h3></summary><ul><li>rack effects do less work per sample (denormal clean-up removed, the CPU handles them at full speed)</li><li>the Viroid-TI rack EQ no longer runs its filters over zero padding (wrong gains), Delay and Flanger feedback tails end in silence, PowerSag no longer sleeps with a stale sag, Morph at Rate 0 is static, Reverb and Bit-crush do less work per sample</li><li>Morph&#x27;s Morph knob works at the default Depth, Fract Res tails end in silence and no longer build up DC; the shared FX helpers are merged</li><li>Viroid patches with a user arpeggiator pattern bring it in (up to 32 steps, step gate widths, ties and velocities); the arp Steps layer grows from 16 to 32 steps</li><li>Viroid reverb Time and Damping follow the Virus TI tail lengths, and the reverb needs 6 KB of RAM instead of 8 (the FX rack pool is 2 KB smaller)</li><li>the Viroid-TI rack image builds again (the Hyper LFO page broke the device build in 0.84.24 to 0.84.26)</li><li>Viroid portamento follows the TI coefficient table with its start bias and finite arrival, and PanoramaVelocity 127 reaches full scale</li><li>Tympanika and Phantasm show their own name and accent on the splash; every synth engine now has pad page navigation with lit pads and a page pager in the editor; the Rack reverb tail decays to silence instead of leaving a steady hiss at long decay</li><li>the Viroid TI voice pan uses the Virus&#x27;s own clipped linear law (centre -1 dB, no hard-pan boost) with PanoramaVelocity from the patch; portamento time follows the measured Virus coefficients (slower at the long end)</li><li>Mono 3/4 are the legato key modes and Mono 1/2 retrigger on an overlapping key; Mono 2/4 start at the target pitch after a gap, Mono 1/3 glide; wavetable Shape and Width use the Virus scale; the LFO 3 fade restarts on every note; matrix destinations Interpolation, Wavetable Index, F-Shift and F-Spread now work</li></ul></details>
+  </article>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.84.38</span>
+  <span class="foot-links"><a href="../install/">Instalar</a><a href="../specs/">Ficha técnica</a><a href="./">Cambios</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Instalar firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../static/site.js" defer></script>
+</body>
+</html>
