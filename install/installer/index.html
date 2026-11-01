@@ -788,21 +788,13 @@ async function writeStage({ connect, sleep }, link, pkg, say) {
   await link.send(TRIGGER);
   const span = Math.max(1, pkg.dataLen);
   let sent = 0;                                        // app-only asks for its first sector last
-  const trace = [];                                    // the loader's requests, newest last: a stall shows where it stopped
-  const hex = (r) => "0x" + r.addr.toString(16) + "+" + r.len;
-  const t0 = Date.now();
-  let passes = 1, asked = 0, low = Infinity, prev = -1;  // a jump up is a new pass over the file
   const s2 = await serve(link, pkg.logical, 180000, (r) => {
-    trace.push(r);
-    if (trace.length > 8) trace.shift();
-    if (prev >= 0 && r.addr > prev + 0x8000) { passes++; low = Infinity; }
-    prev = r.addr; asked += r.len; low = Math.min(low, r.addr);
     if (r.addr < pkg.dataStart) return;
     sent += r.len;
-    say("write", `Writing. Do not switch the keyboard off or unplug it. ${Math.round((Date.now() - t0) / 1000)} s, pass ${passes}, asked ${Math.round(asked / 1024)} KiB of ${Math.round(span / 1024)}, lowest this pass ${low.toString(16)}, last ${hex(r)}.`, Math.min(1, sent / span));
+    say("write", "Writing. Do not switch the keyboard off or unplug it.", Math.min(1, sent / span));
   });
   await link.close();
-  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again. After " + Math.round((Date.now() - t0) / 1000) + " s and " + passes + " pass(es). Last requests: " + (trace.map(hex).join(", ") || "none") + ".");
+  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again.");
 
   say("verify", "Restarting and checking", 1);
   await sleep(2000);
