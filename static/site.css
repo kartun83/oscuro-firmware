@@ -262,3 +262,15 @@ footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 40px 0 56
 .lang a:hover, .lang a[aria-current] { color: var(--fg); }
 .lang a[aria-current] { background: rgba(255, 255, 255, .08); }
 .ack { list-style: none; padding: 0; display: grid; gap: 8px; max-width: 70ch; }
+
+/* install: showcase banks */
+.banks .lead { margin-top: 14px; max-width: 62ch; }
+.banks .trio { margin-top: 28px; }
+.banklist { display: grid; margin-top: 12px; border-top: 1px solid var(--line); }
+.banklist li { display: grid; grid-template-columns: 1fr auto auto auto; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.banklist .bn { font-weight: 600; }
+.banklist .chip { font: 600 12px var(--mono); color: var(--accent); border: 1px solid rgba(255, 106, 31, .4); border-radius: 99px; padding: 2px 10px; }
+.banklist .sz { color: var(--faint); font-size: .9rem; }
+.banklist .btn { padding: 8px 18px; font-size: .9rem; }
+.banks .more { margin: 28px 0 22px; display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 560px) { .banklist li { grid-template-columns: 1fr auto; } .banklist .chip, .banklist .sz { display: none; } }

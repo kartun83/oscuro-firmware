@@ -1,0 +1,75 @@
+{
+ "releases": [
+  {
+   "version": "0.84",
+   "build": "0.84.64",
+   "show_build": false,
+   "variant": "viroid-ti-rack",
+   "label": "Viroid TI Rack",
+   "app": {
+    "file": "releases/0.84/viroid-ti-rack/oscuro-0.84.64-test-viroid_ti-blk192-scanasync-app.bin",
+    "size": 639884,
+    "sha256": "97732e5990a10193f45b860967d52001fa2cdcaba535672774bafa8a2cc14059"
+   },
+   "fwsc": {
+    "file": "releases/0.84/viroid-ti-rack/oscuro-0.84.64-test-viroid_ti-blk192-scanasync.fwsc",
+    "size": 721620,
+    "sha256": "e5fa13fd2b9f44f9485166fd8a7e5fef53ccc279311250d86ca3ea28c55ae4f0"
+   },
+   "bundle": {
+    "file": "oscuro-0.84-viroid-ti-rack.zip",
+    "size": 1219883,
+    "sha256": "599496df310393190c139832997e7266ea582b4819ea05c6018cd9c79a41cbba"
+   }
+  }
+ ],
+ "banks": [
+  {
+   "title": "Showcase 1",
+   "kind": "syx",
+   "file": "banks/ti_showcase_1.syx",
+   "size": 16768,
+   "sha256": "de181c17dd74ed3eb4f031380b7ac4005fe9a1be825d4a42f069558e85a5a96b"
+  },
+  {
+   "title": "Showcase 2, wavetables",
+   "kind": "syx",
+   "file": "banks/ti_showcase_2.syx",
+   "size": 16768,
+   "sha256": "04cbb8d754be0ed8f8658574f58a7badd7e515086f86e9e0444605396962a8c3"
+  },
+  {
+   "title": "Showcase bass",
+   "kind": "syx",
+   "file": "banks/ti_showcase_bass.syx",
+   "size": 16768,
+   "sha256": "5ff05cbf88c3475d829cce1e0ba15902f4cbd3d24e21faa7222aaaa19a1242b1"
+  },
+  {
+   "title": "Showcase 1 with racks",
+   "kind": "oscbank",
+   "file": "banks/oscuro_showcase_1.oscbank",
+   "size": 22063,
+   "sha256": "924f9e4841cadc8b47504d267231126ed88ae8bbf160a41d4cff37850d836275"
+  },
+  {
+   "title": "Showcase 2 with racks",
+   "kind": "oscbank",
+   "file": "banks/oscuro_showcase_2.oscbank",
+   "size": 22063,
+   "sha256": "782c2fa6a822a445a2f0c319fb11bd7ba5f2f1c36b023eafd8b65feb14bbaeff"
+  },
+  {
+   "title": "Showcase bass with racks",
+   "kind": "oscbank",
+   "file": "banks/oscuro_showcase_bass.oscbank",
+   "size": 22063,
+   "sha256": "edccfab793b331bcda145d422e1001f5a93aad3dce1a6cf0e574d348fe3465ac"
+  }
+ ],
+ "banks_zip": {
+  "file": "oscuro-showcase-banks.zip",
+  "size": 14293,
+  "sha256": "ded4ecab7747d97290a4482edc7af0577e6a7faad30dd86d8aa891d4a3e35a3e"
+ }
+}

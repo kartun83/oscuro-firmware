@@ -44,13 +44,14 @@
   <p class="kicker">Instalar</p>
   <h1>Descubre el lado oscuro de tu SMK-37.</h1>
   <p class="lead">Nuestro propio instalador, en línea o en tu ordenador. El firmware original de M-Vave puede volver cuando quieras. Flashear siempre conlleva algo de riesgo.</p>
-  <p class="more"><span class="btn primary big disabled" aria-disabled="true">Descargar Oscuro Viroid</span></p><p class="note">La descarga se activará con la primera versión pública. Esta página ya está lista.</p>
+  <p class="more"><a class="btn primary big" href="../../install/installer/">Abrir el instalador</a> <a class="btn ghost big" href="../../downloads/oscuro-0.84-viroid-ti-rack.zip" download>Descargar el kit del instalador</a></p>
+  <p class="note">Viroid TI Rack 0.84 · Instalador, firmware y bancos de muestra en un solo zip · 1.2 MB</p>
 </div></header>
 <section><div class="wrap">
   <h2 class="h-sm">Dos formas de instalar</h2>
   <div class="trio two ways">
-    <div class="tile"><p class="kicker">En línea</p><h3>Instala desde el navegador</h3><p>Abre el instalador en Chrome o Edge, conecta el teclado y sigue las indicaciones. No hay que descargar nada antes.</p><p class="warn">Depende de tu conexión. El firmware se descarga mientras se escribe, así que una conexión que se corta o va lenta, un ordenador que se suspende o un cable desenchufado pueden interrumpir la escritura, y una escritura interrumpida puede dejar el teclado sin poder arrancar. Usa una conexión por cable y mantén el teclado conectado hasta que se reinicie.</p><p class="more"><span class="btn ghost disabled" aria-disabled="true">Abrir el instalador</span></p><p class="note">Disponible con la primera versión pública.</p></div>
-    <div class="tile"><p class="kicker">Desde un archivo</p><h3>Instala desde tu ordenador</h3><p>Descarga el instalador y el firmware una vez y ejecuta el instalador desde tu ordenador. No se descarga nada mientras escribe.</p><p class="good">La opción más estable. Todo está en tu ordenador antes de escribir nada, así que la conexión puede ir y venir sin que la escritura se entere.</p><p class="more"><span class="btn ghost disabled" aria-disabled="true">Descargar el instalador local</span></p><p class="note">Disponible con la primera versión pública.</p></div>
+    <div class="tile"><p class="kicker">En línea</p><h3>Instala desde el navegador</h3><p>Abre el instalador en Chrome o Edge, elige una versión de la lista y conecta el teclado. La página descarga el archivo, lo comprueba y solo entonces escribe.</p><p class="warn">No se escribe nada hasta que el archivo ha llegado completo y ha pasado su suma de comprobación. Mantén el teclado conectado y el ordenador despierto hasta que se reinicie.</p><p class="more"><a class="btn primary" href="../../install/installer/">Abrir el instalador</a></p></div>
+    <div class="tile"><p class="kicker">Desde un archivo</p><h3>Instala desde tu ordenador</h3><p>Descarga el kit una vez: la página del instalador, el firmware y los bancos de muestra. Abre el instalador desde tu ordenador y elige los archivos de la misma carpeta.</p><p class="good">La opción más estable. Todo está en tu ordenador antes de escribir nada, así que la conexión puede ir y venir sin que la escritura se entere.</p><p class="more"><a class="btn primary" href="../../downloads/oscuro-0.84-viroid-ti-rack.zip" download>Descargar el kit</a></p></div>
   </div>
   <p class="plain-p">El teclado se reinicia en Oscuro y arranca en la pantalla del sintetizador.</p>
 </div></section>
@@ -62,6 +63,23 @@
   <h2 class="h-sm">Qué se deja fuera</h2>
   <p class="plain-p">Oscuro Viroid no tiene Bluetooth ni secuenciador de pasos. Esa memoria se dedica al sintetizador y a los efectos. Oscuro DAW, en desarrollo, es la versión para eso.</p>
   <p class="plain-p">En tu ordenador el teclado aparece como «SMK-37 Oscuro USB». Un DAW o un script que recuerde el nombre de dispositivo de M-Vave puede necesitar que vuelvas a seleccionar el teclado.</p>
+</div></section>
+<section id="banks" class="banks"><div class="wrap">
+  <p class="kicker">Bancos de muestra</p>
+  <h2 class="h-sm">Únete al lado oscuro. Tenemos galletas.</h2>
+  <p class="lead">Un bote de sonidos para empezar: 192 parches en seis bancos, escritos para el motor Viroid y listos para enviar al teclado desde el instalador. Pads que respiran, bajos que gruñen, leads que cortan y alguno que simplemente se porta mal.</p>
+  <p class="note">Algunos nombres del bote: Slow Tide, Glass Bell, Hyper Beam, Rise Up, Stone Sub, Marimba, Deep Hum, Brass Hit, OTT Sub, Sag Fall, Fold Lead, Morph Rise, 808 Boom, Reese Dark, Dub Wub, Hoover.</p>
+  <div class="trio">
+    <div class="tile"><h3>Ocho familias, cuatro de cada una</h3><p>Los bancos 1 a 4 reúnen pads, campanas y teclas, leads, barridos y FX, bajos, punteos, texturas y drones, y capas. Los dos bancos de bajos se dividen en Sub y 808, Reese, Neuro, Wobble, Psy y techno, Jungle y DnB, Acid, house y funk, Grit y trap.</p></div>
+    <div class="tile"><h3>.syx: parches Virus</h3><p>Archivos de parche individual del Virus TI, 32 por banco, en el formato que usa un Virus. Los ajustes de efectos del Virus de cada parche configuran el rack de FX al cargarlo.</p></div>
+    <div class="tile"><h3>.oscbank: bancos Oscuro</h3><p>El formato de banco propio de Oscuro. Cada parche trae un rack de FX completo, cada byte de cada efecto, una matriz de modulación más amplia, y algunos llevan un patrón de arpegiador. Necesitan el rack de FX de Oscuro.</p></div>
+  </div>
+  <h3 class="spec-h">Los bancos</h3>
+  <ul class="banklist"><li><span class="bn">Showcase 1</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../../downloads/banks/ti_showcase_1.syx" download>Descargar</a></li><li><span class="bn">Showcase 2, wavetables</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../../downloads/banks/ti_showcase_2.syx" download>Descargar</a></li><li><span class="bn">Showcase bass</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../../downloads/banks/ti_showcase_bass.syx" download>Descargar</a></li><li><span class="bn">Showcase 1 with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../../downloads/banks/oscuro_showcase_1.oscbank" download>Descargar</a></li><li><span class="bn">Showcase 2 with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../../downloads/banks/oscuro_showcase_2.oscbank" download>Descargar</a></li><li><span class="bn">Showcase bass with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../../downloads/banks/oscuro_showcase_bass.oscbank" download>Descargar</a></li></ul>
+  <p class="more"><a class="btn primary" href="../../install/installer/#patches">Abrir los bancos en el instalador</a> <a class="btn ghost" href="../../downloads/oscuro-showcase-banks.zip" download>Descargar los seis · 14 KB</a> <a class="btn ghost" href="https://ko-fi.com/kartun83">Alimenta el bote</a></p>
+  
+  <p class="plain-p">Abre la pestaña Synth patches del instalador, elige un banco y envíalo. La primera vez, el instalador te pide copiar y vaciar la memoria de parches del teclado (pestaña Patch memory), porque los parches se guardan donde M-Vave guarda sus propios datos.</p>
+  <p class="note">Escritos para el motor Viroid de Oscuro; ninguno está copiado de un conjunto comercial o de fábrica. Libres para usar y compartir con Oscuro.</p>
 </div></section>
 <section><div class="wrap">
   <h2 class="h-sm">Fácil de probar. Fácil de deshacer.</h2>
@@ -81,7 +99,7 @@
 
 </main>
 <footer><div class="wrap foot">
-  <span class="foot-brand">Oscuro 0.84.39</span>
+  <span class="foot-brand">Oscuro 0.84</span>
   <span class="foot-links"><a href="./">Instalar</a><a href="../specs/">Ficha técnica</a><a href="../changelog/">Cambios</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
 </div>
 <div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Flashear firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>

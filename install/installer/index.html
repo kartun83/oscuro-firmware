@@ -1,0 +1,2373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Oscuro installer</title>
+<style>
+  /* Page: cool grey paper, ink actions. The only colour is the keyboard's own
+   * screen (the LCD strip), in the connected build's accent. No web fonts: the
+   * page is often opened from disk, offline. */
+  :root {
+    --paper: #edeff3; --surface: #ffffff; --ink: #161a22; --ink2: #545d6e; --line: #d3d8e1;
+    --ok: #0b7a4f; --bad: #c42b2b; --warn: #8a5a00; --focus: #2a62d8;
+    --lcd-bezel: #1b1f28; --lcd-bg: #0b0d12; --lcd-sep: #232936; --lcd-text: #e8ecf4; --lcd-dim: #8a93a6;
+    --accent: #4a5160;
+    --r: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0e1016; --surface: #151922; --ink: #e8ecf4; --ink2: #8a93a6; --line: #262c39;
+      --ok: #3ddc97; --bad: #ff6b6b; --warn: #ffc233; --focus: #7aa2ff; --lcd-bezel: #232936;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 40px 16px 72px; }
+  a { color: inherit; text-underline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  header h1 { font-size: 30px; line-height: 1.15; margin: 0; letter-spacing: -0.02em; font-weight: 750; }
+  header p { margin: 6px 0 24px; color: var(--ink2); max-width: 60ch; }
+
+  /* ---- the keyboard's screen ---- */
+  .lcd { background: var(--lcd-bezel); border-radius: 16px; padding: 8px; margin: 0 0 28px; }
+  .screen { position: relative; background: var(--lcd-bg); border-radius: 9px; padding: 18px 20px 16px; color: var(--lcd-text);
+            display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: center; overflow: hidden; }
+  .screen::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); transition: background .4s; }
+  .lcd-title { font-size: 26px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .lcd-build { grid-column: 1; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); transition: color .4s; min-height: 1.4em; }
+  .lcd-lines { grid-column: 1 / -1; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid var(--lcd-sep); display: grid; gap: 2px; font-size: 14px; color: var(--lcd-dim); }
+  .lcd-lines b { color: var(--lcd-text); font-weight: 600; }
+  .screen.idle .lcd-title { color: var(--lcd-dim); }
+  .screen button { grid-column: 2; grid-row: 1 / span 2; background: transparent; color: var(--lcd-text); border: 1px solid var(--lcd-sep); }
+  .screen button:hover:not(:disabled) { border-color: var(--lcd-dim); }
+
+  /* ---- tabs ---- */
+  [role=tablist] { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 0 0 24px; overflow-x: auto; scrollbar-width: none; }
+  [role=tab] { font: inherit; font-weight: 600; font-size: 15px; background: none; border: 0; border-radius: 0; color: var(--ink2);
+               padding: 10px 14px 12px; margin-bottom: -1px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+  [role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
+  [role=tab]:hover { color: var(--ink); }
+  [role=tabpanel] > section + section { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+  h2 { font-size: 19px; line-height: 1.3; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; margin: 0 0 4px; }
+  section > p, .lead { margin: 0 0 16px; color: var(--ink2); max-width: 62ch; }
+  .hint { margin: -4px 0 16px; font-size: 14px; color: var(--ink2); }
+  .hint:empty { display: none; }
+  .hint.warn { color: var(--warn); } .hint.bad { color: var(--bad); } .hint.ok { color: var(--ok); }
+
+  /* ---- file drop zones ---- */
+  .drop { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; margin: 0 0 10px;
+          background: var(--surface); border: 1.5px dashed var(--line); border-radius: var(--r); padding: 14px 16px; cursor: pointer; transition: border-color .15s, background .15s; }
+  .drop:hover, .drop.over { border-color: var(--ink2); }
+  .drop:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .drop .what { font-weight: 600; font-size: 15px; }
+  .drop .what small { font-weight: 400; color: var(--ink2); }
+  .drop .file { grid-column: 1; font-size: 14px; color: var(--ink2); overflow-wrap: anywhere; }
+  .drop .pick { grid-column: 2; grid-row: 1 / span 2; font-size: 14px; font-weight: 600; color: var(--ink2); }
+  .drop.good { border-style: solid; border-color: var(--ok); }
+  .drop.good .file { color: var(--ok); }
+  .drop.wrong { border-style: solid; border-color: var(--bad); }
+  .drop.wrong .file { color: var(--bad); }
+
+  /* ---- controls ---- */
+  button { font: inherit; font-weight: 650; font-size: 15px; border-radius: 8px; padding: 10px 18px; cursor: pointer;
+           background: var(--ink); color: var(--paper); border: 1px solid var(--ink); }
+  button:disabled { opacity: .35; cursor: default; }
+  button.quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+  button.quiet:hover:not(:disabled) { border-color: var(--ink2); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px; }
+  .choice { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 4px 0 6px; font-size: 15px; }
+  .choice label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+  input[type=number] { font: inherit; width: 5.5em; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); }
+  input[type=radio] { accent-color: var(--ink); margin: 0; }
+  textarea { font: inherit; font-size: 15px; width: 100%; box-sizing: border-box; min-height: 5.5em; padding: 8px 10px; resize: vertical;
+             border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+  .field { display: block; margin: 16px 0 0; font-weight: 600; font-size: 15px; }
+  .field textarea { margin-top: 6px; font-weight: 400; }
+
+  /* ---- test report ---- */
+  .report { margin: 16px 0 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface);
+            font-size: 14px; font-variant-numeric: tabular-nums; display: grid; gap: 3px; }
+  .report:empty { display: none; }
+  .report .warn { color: var(--warn); font-weight: 600; }
+  .report .ok { color: var(--ok); }
+
+  /* ---- the backup-then-erase sequence ---- */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 22px 44px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%;
+                          border: 1.5px solid var(--ink); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  ol.steps > li.done::before { content: "✓"; background: var(--ink); color: var(--paper); }
+  ol.steps > li:not(:last-child)::after { content: ""; position: absolute; left: 14px; top: 34px; bottom: 6px; width: 1.5px; background: var(--line); }
+  ol.steps p { margin: 0 0 10px; color: var(--ink2); font-size: 15px; }
+
+  /* ---- progress and result ---- */
+  /* Stays in view at the bottom of the window, wherever the button that started it is. */
+  #status { position: sticky; bottom: 16px; z-index: 1; margin: 28px 0 0; padding: 16px 18px; border-radius: var(--r);
+            background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 28px rgba(10, 14, 22, .14); }
+  #status[hidden] { display: none; }
+  #status .top { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; margin: 0 0 10px; }
+  #status .pct { font-variant-numeric: tabular-nums; color: var(--ink2); font-weight: 500; }
+  .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .bar div { height: 100%; width: 0; background: var(--ink); transition: width .2s; }
+  #status.idle .bar, #status.idle .top { display: none; }
+  #msg { margin: 12px 0 0; font-size: 15px; }
+  #status.idle #msg { margin: 0; }
+  #msg:empty { display: none; }
+  #msg.ok { color: var(--ok); } #msg.bad { color: var(--bad); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink2); }
+  footer p { margin: 0 0 8px; max-width: 70ch; }
+  code { font-size: .92em; }
+  @media (max-width: 520px) {
+    main { padding-top: 28px; }
+    .lcd-title { font-size: 21px; }
+    .screen { grid-template-columns: 1fr; }
+    .screen button { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<meta name="oscuro-downloads" content="../../downloads/">
+<style>
+/* Site theme over the installer's own styles: the same near-black, warm light and orange as the website. */
+:root {
+  color-scheme: dark;
+  --paper: #060607; --surface: #111114; --ink: #f4f2ee; --ink2: #a3a19b; --line: rgba(255, 255, 255, .12);
+  --ok: #5be37d; --bad: #ff6b6b; --warn: #ffb347; --focus: #ff6a1f;
+  --lcd-bezel: #1a1a1f; --lcd-bg: #0a0a0c; --lcd-sep: #25252b; --lcd-text: #f4f2ee; --lcd-dim: #8f8d87;
+  --accent: #ff6a1f; --r: 16px;
+}
+body { font-family: "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased;
+  background: radial-gradient(900px 420px at 50% -80px, rgba(255, 106, 31, .16), transparent 70%), #060607; background-repeat: no-repeat; }
+main { max-width: 760px; }
+header h1 { font-weight: 700; letter-spacing: -.03em; font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.05;
+  background: linear-gradient(180deg, #fff 30%, #9c9a94); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h2 { letter-spacing: -.02em; }
+button { border-radius: 999px; background: #ff6a1f; color: #160800; border-color: #ff6a1f; padding: 11px 22px; }
+button:hover:not(:disabled) { box-shadow: 0 10px 34px -10px rgba(255, 106, 31, .7); }
+button.quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+button.quiet:hover:not(:disabled) { border-color: rgba(255, 255, 255, .35); box-shadow: none; }
+.screen button { border-radius: 999px; background: transparent; }
+[role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
+.drop { border-radius: 18px; }
+.drop:hover, .drop.over { border-color: var(--accent); }
+select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); max-width: 100%; }
+#status { box-shadow: 0 12px 40px rgba(0, 0, 0, .6); border-radius: 18px; }
+.bar div, .bar > div { background: var(--accent); }
+.sitebar { display: flex; align-items: center; gap: 18px; max-width: 760px; margin: 0 auto; padding: 18px 16px 0; font-size: 13px; }
+.sitebar a { text-decoration: none; color: var(--ink2); }
+.sitebar a:hover { color: var(--ink); }
+.sitebar .brand { font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: var(--ink); }
+.sitebar .brand i { font-style: normal; font-weight: 500; letter-spacing: .04em; text-transform: none; color: var(--ink2); margin-left: 10px; }
+.sitebar .back { margin-left: auto; }
+.rel { margin: 0 0 22px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.rel h3 { margin: 0 0 10px; font-size: 16px; }
+.rel .row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.rel label { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink2); }
+.rel .hint { margin: 10px 0 0; }
+.rel .full { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.rel .full p { margin: 0 0 10px; font-size: 14px; color: var(--ink2); }
+@media (max-width: 520px) { .sitebar .brand i { display: none; } }
+</style>
+</head>
+<body>
+<nav class="sitebar" aria-label="Oscuro Viroid"><a class="brand" href="../../">Oscuro<i>Viroid</i></a><a class="back" href="../">Back to the install page</a></nav>
+<main>
+  <header>
+    <h1>Oscuro installer</h1>
+    <p>For the M-Vave SMK-37 Elite and SMK-37 Pro (also sold as the MKE-P37 and the Starrykey 37 Play), over the USB cable. Use Chrome or Edge on a computer, and close DAWs and other MIDI apps first.</p>
+  </header>
+
+  <div class="lcd" aria-live="polite">
+    <div class="screen idle" id="k-screen">
+      <div class="lcd-title" id="k-title">No keyboard checked</div>
+      <div class="lcd-build" id="k-build"></div>
+      <button id="b-find">Check keyboard</button>
+      <div class="lcd-lines" id="k-lines"><span>Connect the keyboard, then check it to see what it runs.</span></div>
+    </div>
+  </div>
+
+  <div role="tablist" aria-label="Tasks">
+    <button role="tab" id="t-install" aria-controls="p-install" aria-selected="true">Install</button>
+    <button role="tab" id="t-patches" aria-controls="p-patches" aria-selected="false" tabindex="-1">Synth patches</button>
+    <button role="tab" id="t-memory" aria-controls="p-memory" aria-selected="false" tabindex="-1">Patch memory</button>
+    <button role="tab" id="t-report" aria-controls="p-report" aria-selected="false" tabindex="-1">Test report</button>
+  </div>
+
+  <!-- ================= Install ================= -->
+  <div role="tabpanel" id="p-install" aria-labelledby="t-install">
+    <section>
+      <h2>Install or update Oscuro</h2>
+      <p>The first install, from M-Vave's firmware, also needs M-Vave's firmware file; the page combines the two on this computer.
+        When the keyboard already runs Oscuro, <code>app.bin</code> alone is enough.</p>
+      <p class="hint" id="i-hint"></p>
+      <div class="choice"><label><input type="checkbox" id="x-model"> Don't check the keyboard's model
+        <span class="hint">(for a board with another name; the keyboard still checks the file itself before anything is written, and this applies to the buttons below as well)</span></label></div>
+      <div class="rel" id="rel" hidden>
+        <h3>Choose a release</h3>
+        <div class="row">
+          <label>Build <select id="rel-variant" aria-label="Build"></select></label>
+          <label>Version <select id="rel-version" aria-label="Version"></select></label>
+        </div>
+        <p class="hint" id="rel-note"></p>
+        <div class="full" id="rel-full" hidden>
+          <p>Or install the complete image: it needs no M-Vave file, and the keyboard can be running M-Vave's firmware or any Oscuro build.</p>
+          <button id="rel-install" class="quiet" disabled>Install the complete image</button>
+        </div>
+      </div>
+      <label class="drop" data-check="app">
+        <input type="file" id="i-app" accept=".bin">
+        <span class="what">Oscuro <code>app.bin</code></span>
+        <span class="file">No file chosen</span>
+        <span class="pick">Choose or drop</span>
+      </label>
+      <label class="drop" data-check="stock">
+        <input type="file" id="i-stock" accept=".fwsc">
+        <span class="what">M-Vave firmware <small>first install only</small></span>
+        <span class="file"><code>SMK-37 Elite_016.fwsc</code> (or your keyboard's own: <code>SMK-37 Pro_0xx</code>, <code>MKE-P37_0xx</code>, <code>STARRYKEY-37_PLAY_0xx</code>) from <a href="https://www.m-vave.com/download" target="_blank" rel="noopener">M-Vave's download page</a></span>
+        <span class="pick">Choose or drop</span>
+      </label>
+      <div class="actions"><button id="b-install" disabled>Install Oscuro</button></div>
+    </section>
+
+    <section>
+      <h2>Go back to M-Vave's firmware</h2>
+      <p>Works from Oscuro and from any M-Vave version. If you erased the patch memory for Oscuro's synth,
+        <a href="#memory">restore your backup</a> first: M-Vave's firmware doesn't bring it back.</p>
+      <label class="drop" data-check="stock">
+        <input type="file" id="r-stock" accept=".fwsc">
+        <span class="what">M-Vave firmware</span>
+        <span class="file">No file chosen</span>
+        <span class="pick">Choose or drop</span>
+      </label>
+      <div class="actions"><button id="b-revert" class="quiet" disabled>Install M-Vave firmware</button>
+        <button id="b-handoff" class="quiet" disabled>Use M-Vave's updater</button></div>
+      <p class="hint">If Oscuro refuses to update this keyboard (its flash chip failed Oscuro's write test), "Use M-Vave's updater"
+        restarts the keyboard into M-Vave's own updater and installs the file with that. Oscuro writes nothing to the flash for this.
+        It needs Oscuro 0.21.3 or later, and a keyboard that has run an M-Vave update before.</p>
+    </section>
+  </div>
+
+  <!-- ================= Synth patches ================= -->
+  <div role="tabpanel" id="p-patches" aria-labelledby="t-patches" hidden>
+    <section>
+      <h2>Send synth patches</h2>
+      <p>Sends <code>.syx</code>, <code>.mid</code>, or <code>.oscbank</code> patch files to the keyboard's synth. The keyboard only takes patches its synth
+        can play: Access Virus patches need the Viroid build, DX7 patches the DX7 build. Anything else is refused before it is sent.</p>
+      <p class="hint" id="p-hint"></p>
+      <div class="rel" id="bank-rel" hidden>
+        <h3>Showcase banks</h3>
+        <div class="row"><label>Bank <select id="bank-pick" aria-label="Showcase bank"></select></label></div>
+        <p class="hint" id="bank-note"></p>
+      </div>
+      <label class="drop" data-check="patches">
+        <input type="file" id="p-files" accept=".syx,.mid,.midi,.oscbank" multiple>
+        <span class="what">Patch files</span>
+        <span class="file">No files chosen</span>
+        <span class="pick">Choose or drop</span>
+      </label>
+      <div class="choice" role="radiogroup" aria-label="Where the patches go">
+        <label><input type="radio" name="p-dest" value="slot" checked> Store in bank
+          <select id="p-bank" aria-label="Bank"><option value="0">Bank 1</option></select>
+          from its first slot</label>
+        <label><input type="radio" name="p-dest" value="edit"> Play now, don't store</label>
+      </div>
+      <div class="choice" role="group" aria-label="Tidy up before sending">
+        <label><input type="checkbox" id="p-dup"> Skip duplicate sounds
+          <span class="hint">(same sound under another name or category; the first copy stays)</span></label>
+        <label><input type="checkbox" id="p-ph"> Skip placeholder patches
+          <span class="hint">(Virus patches named <code>-----</code>, <code>_____</code> or <code>INIT</code>: separators and credits in sound packs)</span></label>
+      </div>
+      <p class="hint" id="p-tidy"></p>
+      <div class="actions"><button id="b-patches" disabled>Send patches</button></div>
+    </section>
+  </div>
+
+  <!-- ================= Patch memory ================= -->
+  <div role="tabpanel" id="p-memory" aria-labelledby="t-memory" hidden>
+    <section>
+      <h2>Make room for patches</h2>
+      <p>The synth builds keep patches in the keyboard's user memory, where M-Vave's firmware keeps its own data.
+        Oscuro never erases that data on its own, so patches are refused until you do these two steps once.</p>
+      <p class="hint" id="m-hint"></p>
+      <ol class="steps">
+        <li id="s-backup">
+          <h3>Save a backup</h3>
+          <p>Reads the whole memory into a <code>.ksua</code> file, in 10 to 30 seconds. Keep the file somewhere safe: it is the only copy.</p>
+          <button id="b-backup">Save a backup</button>
+        </li>
+        <li id="s-erase">
+          <h3>Erase for patches</h3>
+          <p>Clears the memory so the synth can store patches there. Every patch stored on the keyboard is deleted too.</p>
+          <button id="b-erase" class="quiet">Erase for patches</button>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Restore a backup</h2>
+      <p>Writes a <code>.ksua</code> file back and checks it. Do this before going back to M-Vave's firmware, or whenever you want
+        its data back. It replaces everything in the memory, Oscuro's patches included.</p>
+      <label class="drop" data-check="backup">
+        <input type="file" id="a-file" accept=".ksua">
+        <span class="what">Backup file</span>
+        <span class="file">No file chosen</span>
+        <span class="pick">Choose or drop</span>
+      </label>
+      <div class="actions"><button id="b-restore" class="quiet" disabled>Restore backup</button></div>
+    </section>
+  </div>
+
+  <!-- ================= Test report ================= -->
+  <div role="tabpanel" id="p-report" aria-labelledby="t-report" hidden>
+    <section>
+      <h2>Send a test report</h2>
+      <p>For testers of a <b>test build</b> (<code>_test</code> in the file names, TEST on the About screen). The keyboard counts how fast
+        keys become MIDI, how busy it is, audio dropouts and failed saves. This reads those counts and saves them as one file to send back.
+        It only reads: nothing on the keyboard changes. The counts start again at zero when the keyboard is switched on, so read them
+        before unplugging it.</p>
+      <div class="actions">
+        <button id="b-diag">Read now</button>
+        <button id="b-watch" class="quiet">Watch while I play</button>
+        <button id="b-flash" class="quiet">Check the flash chip</button>
+      </div>
+      <p class="hint" id="d-hint">Watch reads every 5 seconds until you stop it: it records the busiest moments and notices restarts.
+        Other MIDI apps can stay open on macOS; on Windows, close them first.</p>
+      <div class="report" id="d-summary" aria-live="polite"></div>
+      <label class="field">What were you doing, and did anything feel wrong?
+        <textarea id="d-notes" placeholder="e.g. DX7 build with sustain for 20 minutes, one click when I held 10 notes"></textarea></label>
+      <div class="actions"><button id="b-save" disabled>Save report</button></div>
+    </section>
+  </div>
+
+  <div id="status" class="idle" hidden aria-live="polite">
+    <div class="top"><span id="step"></span><span class="pct" id="pct"></span></div>
+    <div class="bar"><div id="fill"></div></div>
+    <p id="msg"></p>
+  </div>
+
+  <footer>
+    <p>Installing writes only the keyboard's app area; its boot code, settings and calibration are left alone, and a file for another
+      keyboard is refused before anything is written. If the keyboard loses power while writing, run the same step again. If it no longer
+      starts, it needs the recovery dongle.</p>
+    <p>Oscuro is free. Donations are welcome: <a href="https://paypal.me/kartun83" target="_blank" rel="noopener">paypal.me/kartun83</a>.</p>
+  </footer>
+</main>
+
+<script type="module">
+const U = (() => {
+// installer/update.mjs — the keysmith installer's logic, shared by the page
+// (index.html, Web MIDI) and the host tests (tests/, Node).
+//
+// One protocol for both directions: M-Vave's own USB-MIDI update protocol
+// (research/OTA_BAUDGIRL_FM1.md), which stock speaks and keysmith speaks too
+// (firmware/board/smk37/smk37_ota.h). The device asks for bytes of the package's
+// logical image (the .fwsc without its 20 marker bytes); this side answers.
+//
+//   revert:  the M-Vave .fwsc as downloaded from M-Vave
+//   install: a keysmith .fwsc built here, in memory, from that same M-Vave file
+//            and keysmith's app.bin (buildKeysmith): M-Vave's boot code and
+//            settings never leave the user's machine in a file we publish.
+//   update:  keysmith to another keysmith build, app.bin only (appUpdate): a
+//            small header + app.bin that only keysmith's updater takes.
+//
+// Written for this project from the format notes in research/ and
+// dongle/host/appimage.py; no code from other installers.
+
+// ---- JieLi primitives ------------------------------------------------------------
+function crc16(data, crc = 0) {                 // poly 0x1021, init 0, not reflected
+  for (const b of data) {
+    crc ^= b << 8;
+    for (let k = 0; k < 8; k++) crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+  }
+  return crc;
+}
+
+function cipher(buf, off, len, key) {           // JieLi's CRC-keyed XOR stream
+  for (let i = 0; i < len; i++) {
+    buf[off + i] ^= key & 0xff;
+    key = ((key << 1) ^ (key & 0x8000 ? 0x1021 : 0)) & 0xffff;
+  }
+}
+
+const CHIP_KEY = 0x980f;                               // isd_config.ini of the SMK-37 Elite
+const APP_BASE = 0x4000;                               // app area in flash
+const APP_END = 0x9d000;                               // end of the stock package's flash.bin (the stock VM start)
+const VM_START_MAX = 0xb8000;                   // a grown image keeps VM 32 KiB and stock's loader copy (0xb9000) clear
+function sfcCipher(buf, from, to) {                    // symmetric: enciphers and deciphers
+  for (let o = from; o < to; o += 32) cipher(buf, o, Math.min(32, to - o), CHIP_KEY ^ (((o - APP_BASE) >>> 2) & 0xffff));
+}
+
+const le = (b, o, n) => { let v = 0; for (let i = n - 1; i >= 0; i--) v = v * 256 + b[o + i]; return v; };
+const put = (b, o, v, n) => { for (let i = 0; i < n; i++) b[o + i] = Math.floor(v / 2 ** (8 * i)) & 0xff; };
+const cstr = (b) => { let s = ""; for (const c of b) { if (!c) break; s += String.fromCharCode(c); } return s; };
+
+// ---- the .fwsc package ------------------------------------------------------------
+const BLOCKS = 20, BLOCK = 0x30;
+
+function logical(raw, blocks = BLOCKS) {         // drop the marker byte of each of the first `blocks` blocks
+  const out = new Uint8Array(raw.length - blocks);
+  for (let i = 0; i < blocks; i++) out.set(raw.subarray(i * BLOCK, i * BLOCK + 0x2f), i * 0x2f);
+  out.set(raw.subarray(blocks * BLOCK), blocks * 0x2f);
+  return out;
+}
+
+// How many blocks carry a marker: the name's letters, then 0x7d filler up to the first data block. Almost always 20;
+// M-Vave's Pro 016 file has 36 (16 more filler markers), which shifted every byte after block 20.
+function markerBlocks(raw) {
+  let i = 0;
+  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] !== 0x7d) i++;
+  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] === 0x7d) i++;
+  return i;
+}
+
+function unlogical(lg, markers) {
+  const raw = new Uint8Array(lg.length + BLOCKS);
+  for (let i = 0; i < BLOCKS; i++) {
+    raw.set(lg.subarray(i * 0x2f, (i + 1) * 0x2f), i * BLOCK);
+    raw[i * BLOCK + 0x2f] = markers[i];
+  }
+  raw.set(lg.subarray(BLOCKS * 0x2f), BLOCKS * BLOCK);
+  return raw;
+}
+
+function nameOf(raw, blocks = BLOCKS) {                // product name in the marker bytes
+  let s = "";
+  for (let i = 0; i < blocks; i++) { const m = raw[i * BLOCK + 0x2f]; if (m === 0x7d) break; s += String.fromCharCode((m - i - 1) & 0xff); }
+  return s;
+}
+const markersFor = (name) => Array.from({ length: BLOCKS }, (_, i) => (i < name.length ? (name.charCodeAt(i) + i + 1) & 0xff : 0x7d));
+
+class PackageError extends Error {}
+const need = (ok, msg) => { if (!ok) throw new PackageError(msg); };
+
+// Everything the installer checks before sending a byte. Throws PackageError.
+function parsePackage(raw) {
+  need(raw.length > 0x1000, "This file is too small to be firmware.");
+  const tries = [BLOCKS];
+  const mb = markerBlocks(raw);
+  if (mb > BLOCKS && mb < 64) tries.push(mb);          // the layout the file itself shows, if it is not the usual one
+  let err;
+  for (const blocks of tries) {
+    try { return parseWith(raw, blocks); } catch (e) { if (!(e instanceof PackageError)) throw e; err ??= e; }
+  }
+  throw err;
+}
+
+function parseWith(raw, blocks) {
+  const lg = logical(raw, blocks);
+  const h = lg.slice(0, 0x40);
+  cipher(h, 0, 0x40, 0xffff);
+  need(crc16(h.subarray(2, 0x40)) === le(h, 0, 2), "This is not an M-Vave firmware file (.fwsc).");
+  const count = le(h, 8, 2);
+  need(count > 0 && count <= 16, "This is not an M-Vave firmware file (.fwsc).");
+  need(crc16(lg.subarray(0x40, 0x40 + count * 0x50)) === le(h, 2, 2), "The file's header is damaged.");
+  const entries = [];
+  for (let i = 0; i < count; i++) {
+    const e = lg.slice(0x40 + i * 0x50, 0x40 + (i + 1) * 0x50);
+    cipher(e, 0, 0x50, 0xffff);
+    entries.push({ index: i, type: le(e, 0, 2), crc: le(e, 4, 2), offset: le(e, 8, 4), size: le(e, 12, 4) });
+  }
+  const fl = entries.filter((e) => e.type === 0);
+  need(fl.length === 1, "The file has no flash image.");
+  const f = fl[0];
+  need(f.offset + f.size <= lg.length && f.size > 0x5000 && f.size <= VM_START_MAX, "The file's flash image is out of range.");
+  need(crc16(lg.subarray(f.offset, f.offset + f.size)) === f.crc, "The file is damaged (flash image checksum).");
+  const chip = cstr(h.subarray(16, 64));
+  return { name: nameOf(raw, blocks), chip, flashOffset: f.offset, flashSize: f.size, flashEntry: f.index, logical: lg,
+    appOnly: false, dataStart: f.offset + APP_BASE, dataLen: f.size - APP_BASE };
+}
+
+// app area (deciphered): app_area_head at 0x4000, 32-byte entries (CRC16 of the
+// entry at +0, data CRC at +2, offset +4, size +8, index +14, name +16).
+function appArea(flash) {
+  const a = flash.slice();
+  sfcCipher(a, APP_BASE, a.length);
+  const ent = (o) => ({ o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), off: le(a, o + 4, 4), size: le(a, o + 8, 4),
+    index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) });
+  const head = ent(APP_BASE);
+  need(head.hok && head.name === "app_area_head", "The file is not for this keyboard (no app area).");
+  let app = null;
+  for (let o = APP_BASE + 32; o < APP_BASE + 0x400; o += 32) {
+    const e = ent(o);
+    need(e.hok, "The file's app area is damaged.");
+    if (e.name === "app.bin") app = e;
+    if (e.index !== 0) break;
+  }
+  need(app, "The file has no app.bin.");
+  need(crc16(a.subarray(APP_BASE + app.off, APP_BASE + app.off + app.size)) === le(a, app.o + 2, 2), "The file's app.bin is damaged.");
+  return { a, head, app };
+}
+
+// A 015 Starrykey package has room for 20 name characters, one short: the keyboard's full name starts with the file's.
+
+// All entries of the app area's directory (deciphered area `a`): offset +4, size +8, index +14, name +16.
+function dirEntries(a) {
+  const out = [];
+  for (let o = APP_BASE; o + 32 <= APP_BASE + 0x400; o += 32) {
+    const e = { o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), dcrc: le(a, o + 2, 2), off: le(a, o + 4, 4),
+      size: le(a, o + 8, 4), index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) };
+    out.push(e);
+    if (o > APP_BASE && e.index !== 0) break;
+  }
+  return out;
+}
+
+// The largest app.bin growApp accepts for an image whose cfg_tool.bin (383 bytes) follows it.
+const MAX_APP = VM_START_MAX - APP_BASE - 0x120 - 383;
+
+// An app.bin longer than the stock slot: the same edit as dongle/host/appimage.py grow_app (and what M-VAVE's open
+// packer, smk37_open sdk/Package.cs, lays out). cfg_tool.bin moves up behind the new app.bin, the VM record moves up to
+// the next 4 KiB (its end stays) and PRCT, [0, VM start), grows with it. Returns the new flash.bin: [0, VM start).
+// `flash` is the package's flash.bin (the stock layout). The old VM sectors below the new start hold app bytes.
+function growApp(flash, appBin) {
+  const { a: area, head, app } = appArea(flash);
+  const ents = dirEntries(area);
+  const one = (name) => { const f = ents.filter((e) => e.name === name); need(f.length === 1 && f[0].hok, "The file's app area has no usable " + name + " record."); return f[0]; };
+  const vm = one("VM"), prct = one("PRCT");
+  need(vm.off === flash.length && prct.off === 0 && prct.size === flash.length, "The file's VM/PRCT records are not the stock layout.");
+  const vmEnd = vm.off + vm.size, vmMin = le(area, vm.o + 28, 4);
+  const oldEnd = app.off + app.size;
+  const tail = ents.filter((e) => e.o !== app.o && e.o !== APP_BASE && e !== vm && e !== prct && e.off >= oldEnd && e.off + e.size <= head.size)
+    .sort((x, y) => x.off - y.off);
+  let at = oldEnd;
+  for (const e of tail) { need(e.off === at, "The file's app area is not the stock layout."); at += e.size; }
+  need(at === head.size, "The file's app area is not the stock layout.");
+  const newEnd = app.off + appBin.length + tail.reduce((n, e) => n + e.size, 0);
+  const vmStart = Math.max(vm.off, Math.ceil((APP_BASE + newEnd) / 0x1000) * 0x1000);
+  need(vmStart <= VM_START_MAX && vmEnd - vmStart >= Math.min(vmMin, vmEnd - VM_START_MAX),
+    `This Oscuro file is too big: at most ${MAX_APP} bytes fit in front of the settings area.`);
+  const out = new Uint8Array(vmStart).fill(0xff);
+  out.set(area.subarray(0, APP_BASE + app.off));
+  const data = tail.map((e) => area.slice(APP_BASE + e.off, APP_BASE + e.off + e.size));
+  out.set(appBin, APP_BASE + app.off);
+  let pos = app.off + appBin.length;
+  tail.forEach((e, i) => {
+    out.set(data[i], APP_BASE + pos);
+    put(out, e.o + 4, pos, 4); put(out, e.o + 8, e.size, 4);
+    put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
+    pos += e.size;
+  });
+  // directory records that did not move are copied as they were (everything below app.bin, then the records after the data)
+  for (const e of ents) if (e.o !== app.o && !tail.includes(e) && e !== vm && e !== prct) out.set(area.subarray(e.o, e.o + 32), e.o);
+  put(out, app.o + 2, crc16(out.subarray(APP_BASE + app.off, APP_BASE + app.off + appBin.length)), 2);
+  put(out, app.o + 8, appBin.length, 4);
+  put(out, app.o, crc16(out.subarray(app.o + 2, app.o + 32)), 2);
+  if (vmStart !== vm.off) {
+    for (const [e, off, size] of [[vm, vmStart, vmEnd - vmStart], [prct, 0, vmStart]]) {
+      out.set(area.subarray(e.o, e.o + 32), e.o);
+      put(out, e.o + 4, off, 4); put(out, e.o + 8, size, 4);
+      put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
+    }
+  } else for (const e of [vm, prct]) out.set(area.subarray(e.o, e.o + 32), e.o);
+  put(out, APP_BASE + 8, newEnd, 4);
+  put(out, APP_BASE + 2, crc16(out.subarray(APP_BASE + 32, APP_BASE + newEnd)), 2);
+  put(out, APP_BASE, crc16(out.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
+  sfcCipher(out, APP_BASE, out.length);
+  return out;
+}
+
+const sameName = (reported, fileName) => reported === fileName || (fileName.length === 20 && reported.startsWith(fileName));
+const KEYSMITH_NAME = "SMK-37 Elite_900";       // = SMK37_OTA_MODEL
+
+// M-Vave's boards that share keysmith's flash layout (same boot region, same app area); the Pro's flash chip differs.
+// The MKE-P37 and the Starrykey 37 Play are the same keyboard sold under other names: their stock files differ from the
+// Pro's in the app code and the model name, and the boot region and the app area layout are identical.
+const STOCK_MODELS = ["SMK-37 Elite", "SMK-37 Pro", "MKE-P37", "STARRYKEY-37 PLAY"];
+// "SMK-37 Pro_015" -> {model: "SMK-37 Pro", version: "015"}, or null for a file that is not one of those boards'. A
+// 015 Starrykey file has no room for its last name character, so its version reads "01".
+function stockFile(name) {
+  const m = /^(.+)_([0-9]+)$/.exec(name);
+  return m && STOCK_MODELS.includes(m[1]) ? { model: m[1], version: m[2] } : null;
+}
+
+// Why `pkg` must not go onto the keyboard that answered (id = parseIdentity), or "". keysmith's own package is named
+// for the Elite by design and goes onto either stock board; a keysmith unit takes either board's stock file back.
+function modelProblem(id, pkg) {
+  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
+  if (!target) return "The file's name is not a firmware name such as SMK-37 Elite_016.";
+  if (id.model === target[1]) return "";
+  if ((pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id.model)) || (id.text === KEYSMITH_NAME && STOCK_MODELS.includes(target[1]))) return "";
+  return `The keyboard is a ${id.model}; this file is for the ${target[1]}.`;
+}
+
+// The updater the keyboard restarted into reports the board's own model.
+const updaterModelOk = (id1, id0, pkg, anyModel = false) => !!id1 && id1.updater && (anyModel || id1.model === id0.model ||
+  id1.model === /^(.+)_[0-9]+$/.exec(pkg.name)?.[1] || (pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id1.model)));
+
+// A keysmith package: the M-Vave file with app.bin replaced (padded with 0xFF to
+// the stock slot, so nothing else moves; as dongle/host/appimage.py), its CRCs,
+// the flash image CRC in the UFW header, and the name.
+function buildKeysmith(stockRaw, appBin, { anyModel = false } = {}) {
+  const p = parsePackage(stockRaw);
+  need(anyModel || stockFile(p.name), `That file is for the ${p.name || "unknown device"}; this needs M-Vave's file for the SMK-37 Elite, SMK-37 Pro, MKE-P37 or Starrykey 37 Play.`);
+  need(appBin.length > 0x100 && appBin.length <= MAX_APP, "That Oscuro file does not look like an Oscuro app.bin.");
+  const flash = p.logical.slice(p.flashOffset, p.flashOffset + p.flashSize);
+  const { a, head, app } = appArea(flash);
+  let a2;                                              // the new flash.bin, enciphered
+  if (appBin.length > app.size) {
+    need(p.flashSize === APP_END, "Oscuro's app.bin does not fit.");
+    a2 = growApp(flash, appBin);                       // past the stock slot: the directory moves too
+  } else {
+    const at = APP_BASE + app.off;
+    a.fill(0xff, at, at + app.size);
+    a.set(appBin, at);
+    put(a, app.o + 2, crc16(a.subarray(at, at + app.size)), 2);
+    put(a, app.o, crc16(a.subarray(app.o + 2, app.o + 32)), 2);
+    put(a, APP_BASE + 2, crc16(a.subarray(APP_BASE + 32, APP_BASE + head.size)), 2);
+    put(a, APP_BASE, crc16(a.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
+    sfcCipher(a, APP_BASE, a.length);
+    a2 = a;
+  }
+  // the logical image again: header, flash.bin (any size), the entries behind it moved by the size difference
+  const delta = a2.length - p.flashSize;
+  const old = p.logical;
+  const lg = new Uint8Array(old.length + delta);
+  lg.set(old.subarray(0, p.flashOffset));
+  lg.set(a2, p.flashOffset);
+  lg.set(old.subarray(p.flashOffset + p.flashSize), p.flashOffset + a2.length);
+  const h = lg.subarray(0, 0x40);
+  cipher(h, 0, 0x40, 0xffff);
+  const count = le(h, 8, 2);
+  if (delta) put(h, 4, le(h, 4, 4) + delta, 4);
+  for (let i = 0; i < count; i++) {                    // entries: flash.bin's data CRC and size, the others' offsets
+    const eo = 0x40 + i * 0x50;
+    cipher(lg, eo, 0x50, 0xffff);
+    if (i === p.flashEntry) { put(lg, eo + 4, crc16(a2), 2); put(lg, eo + 12, a2.length, 4); put(lg, eo + 16, a2.length, 4); }
+    else if (le(lg, eo + 8, 4) >= p.flashOffset + p.flashSize) put(lg, eo + 8, le(lg, eo + 8, 4) + delta, 4);
+    cipher(lg, eo, 0x50, 0xffff);
+  }
+  put(h, 2, crc16(lg.subarray(0x40, 0x40 + count * 0x50)), 2);
+  put(h, 0, crc16(h.subarray(2, 0x40)), 2);
+  cipher(h, 0, 0x40, 0xffff);
+  const out = unlogical(lg, markersFor(KEYSMITH_NAME));
+  parsePackage(out);                                   // must pass its own checks
+  return out;
+}
+
+// An app-only update for keysmith's own updater (smk37_ota.h): header
+// "KSAPP1", app length +8, app CRC16 +12, model +16, CRC16 of [0, 0x3E) at +0x3E,
+// then app.bin. Only offered when keysmith answers the identity query; the
+// header is also made to fail stock's UFW header check (+0x3C is free for that).
+const APP_MODEL = "SMK-37 Elite";
+// The stock app slot (0x97b08 bytes). The TI wavetable bank pushed a viroid app.bin past 512 KiB.
+const APP_SLOT = 0x97b08;
+// Longer than the slot, up to MAX_APP, only a unit whose Oscuro is 0.83.2 or newer takes it (it grows the slot; an older
+// one refuses at the first step with nothing changed).
+function appUpdate(appBin) {
+  need(appBin.length > 0x100 && appBin.length <= MAX_APP, "That Oscuro file does not look like an Oscuro app.bin.");
+  const lg = new Uint8Array(0x40 + appBin.length);
+  lg.set(new TextEncoder().encode("KSAPP1"), 0);
+  put(lg, 8, appBin.length, 4);
+  put(lg, 12, crc16(appBin), 2);
+  lg.set(new TextEncoder().encode(APP_MODEL), 16);
+  lg.set(appBin, 0x40);
+  for (let t = 0; ; t++) {
+    put(lg, 0x3c, t, 2);
+    put(lg, 0x3e, crc16(lg.subarray(0, 0x3e)), 2);
+    const h = lg.slice(0, 0x40);
+    cipher(h, 0, 0x40, 0xffff);
+    if (crc16(h.subarray(2, 0x40)) !== le(h, 0, 2)) break;   // stock would refuse it as damaged
+  }
+  return { name: KEYSMITH_NAME, logical: lg, appOnly: true, dataStart: 0x40, dataLen: appBin.length };
+}
+
+// ---- wire format --------------------------------------------------------------------
+function pack7(bytes) {
+  const out = []; let acc = 0, nb = 0;
+  for (const b of bytes) { acc |= b << nb; nb += 8; while (nb >= 7) { out.push(acc & 0x7f); acc >>>= 7; nb -= 7; } }
+  if (nb) out.push(acc & 0x7f);
+  return out;
+}
+function unpack7(s) {
+  const out = []; let acc = 0, nb = 0;
+  for (const b of s) { acc |= (b & 0x7f) << nb; nb += 7; while (nb >= 8) { out.push(acc & 0xff); acc >>>= 8; nb -= 8; } }
+  return Uint8Array.from(out);
+}
+function frame(body) {
+  let sum = 0; for (let i = 6; i < body.length; i++) sum += body[i];
+  return Uint8Array.from([0xf0, ...pack7([...body, ~sum & 0xff]), 0xf7]);
+}
+
+const IDENTITY_QUERY = Uint8Array.of(0xf0, 0x00, 0x32, 0x45, 0x00, 0x00, 0x00, 0x40, 0x7f, 0xf7);
+const TRIGGER = Uint8Array.of(0xf0, 0x22, 0x24, 0x35, 0x7f, 0xf7);
+const DONE_VERIFY = 0xe0000000, DONE_UPGRADE = 0xf0000000;
+
+// {model: "SMK-37 Elite", version: 16, updater: false} or null
+function parseIdentity(msg) {
+  if (!msg || msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
+  const d = unpack7(msg.subarray(1, -1));
+  if (d.length !== 34 || d[0] !== 0x00 || d[1] !== 0x59 || d[2] !== 0x11 || le(d, 3, 3) !== 27) return null;
+  const s = cstr(d.subarray(6, 33));
+  const m = /^(ota-)?(.+)_([0-9]+)$/.exec(s);
+  return m ? { model: m[2], version: parseInt(m[3], 10), updater: !!m[1], text: s } : null;
+}
+
+function parseRequest(msg) {
+  if (msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
+  const u = unpack7(msg.subarray(1, -1));
+  if (u.length !== 15 || u[0] !== 0x00 || u[1] !== 0x59 || u[2] !== 0x30 || le(u, 3, 3) !== 8) return null;
+  let sum = 0; for (let i = 6; i < 14; i++) sum += u[i];
+  if (u[14] !== (~sum & 0xff) && u[14] !== (-sum & 0xff)) return null;
+  return { type: u[6], addr: le(u, 7, 4), len: le(u, 11, 3) };
+}
+
+function answer(req, lg) {
+  const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
+  const data = done ? [...new TextEncoder().encode("success"), 0] : lg.subarray(req.addr, req.addr + req.len);
+  const body = [0x00, 0x59, 0x30, 0, 0, 0, req.type, 0, 0, 0, 0, 0, 0, 0, ...data];
+  put(body, 3, data.length + 8, 3);
+  put(body, 7, req.addr, 4);
+  put(body, 11, data.length, 3);
+  return frame(body);
+}
+
+// ---- the session ----------------------------------------------------------------------
+// link: { send(Uint8Array), receive(timeoutMs) -> Promise<Uint8Array|null>, close() }
+// connect(): Promise<link|null> — the keyboard's MIDI port, whichever firmware runs
+// (the page asks every port with IDENTITY_QUERY). sleep(ms).
+class UpdateError extends Error {}
+
+async function identify(link, tries = 3) {
+  for (let k = 0; k < tries; k++) {
+    await link.send(IDENTITY_QUERY);
+    const end = Date.now() + 1000;
+    while (Date.now() < end) {
+      const id = parseIdentity(await link.receive(end - Date.now()));
+      if (id) return id;
+    }
+  }
+  return null;
+}
+
+async function serve(link, lg, idleMs, onRequest) {
+  let last = Date.now();
+  for (;;) {
+    const msg = await link.receive(500);
+    if (!msg) { if (Date.now() - last > idleMs) return null; continue; }
+    const req = parseRequest(msg);
+    if (!req) continue;
+    last = Date.now();
+    const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
+    if (!done && (req.len > 512 || req.addr + req.len > lg.length))
+      throw new UpdateError("The keyboard asked for data outside the file; stopped.");
+    await link.send(answer(req, lg));
+    if (done) return req.addr;
+    onRequest?.(req);
+  }
+}
+
+// Step 2 on a link to the updater (stock's loader or keysmith's own): write, then wait for the unit to come back as `pkg`.
+async function writeStage({ connect, sleep }, link, pkg, say) {
+  say("write", "Writing. Do not switch the keyboard off or unplug it.", 0);
+  await link.send(TRIGGER);
+  const span = Math.max(1, pkg.dataLen);
+  let sent = 0;                                        // app-only asks for its first sector last
+  const s2 = await serve(link, pkg.logical, 180000, (r) => {
+    if (r.addr < pkg.dataStart) return;
+    sent += r.len;
+    say("write", "Writing. Do not switch the keyboard off or unplug it.", Math.min(1, sent / span));
+  });
+  await link.close();
+  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again.");
+
+  say("verify", "Restarting and checking", 1);
+  await sleep(2000);
+  let id2 = null;
+  for (let t = 0; t < 30 && !id2; t++) {
+    link = await connect();
+    if (link) { id2 = await identify(link); await link.close(); }
+    if (!id2) await sleep(1000);
+  }
+  if (!id2) throw new UpdateError("The keyboard did not come back after the update. Switch it off and on.");
+  if (!sameName(id2.text, pkg.name)) throw new UpdateError(`The keyboard now reports ${id2.text}, not ${pkg.name}.`);
+  say("done", `Done: the keyboard runs ${pkg.name === KEYSMITH_NAME ? "Oscuro" : pkg.name}.`, 1);
+  return id2;
+}
+
+// Install `raw` (.fwsc bytes, or a package from appUpdate). say(step, text, fraction) reports progress.
+// opts.anyModel: skip the model check (the keyboard's updater still checks the file's flash image before anything is written).
+async function install({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
+  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
+  if (!target) throw new UpdateError("The file's name is not a firmware name such as SMK-37 Elite_016.");
+  let link = await connect();
+  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
+  const id0 = await identify(link);
+  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
+  const wrong = anyModel ? "" : modelProblem(id0, pkg);
+  if (wrong) { await link.close(); throw new UpdateError(wrong); }
+  const keysmith = id0.text === KEYSMITH_NAME;
+  if (keysmith && isOversize(pkg)) { await link.close(); return recover({ connect, sleep }, pkg, say, { anyModel }); }
+  if (pkg.appOnly && !keysmith) {
+    await link.close();
+    throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro. The first install needs M-Vave's firmware file too.`);
+  }
+  // stock refuses its own version; keysmith takes any build (unchanged sectors are skipped)
+  if (!keysmith && id0.version === parseInt(target[2], 10)) { await link.close(); throw new UpdateError(`The keyboard already runs ${pkg.name}.`); }
+
+  say("check", keysmith ? "Oscuro is checking the file" : "The keyboard is checking the file", 0);
+  await link.send(TRIGGER);
+  const s1 = await serve(link, pkg.logical, 10000, null);
+  if (s1 !== DONE_VERIFY) {
+    await link.close();
+    const big = pkg.appOnly && pkg.dataLen > APP_SLOT ? " This app is bigger than the stock slot: it needs Oscuro 0.83.2 or newer on the keyboard (or use the whole-package install with M-Vave's file)." : "";
+    throw new UpdateError("The keyboard refused the file or stopped answering. Nothing was changed; switch it off and on, and try again. If its screen said the flash chip is unknown, Oscuro cannot write to this unit." + big);
+  }
+
+  // stock restarts into its updater (a new USB device); keysmith stays connected
+  await sleep(keysmith ? 300 : 3000);
+  if (!keysmith) {
+    await link.close();
+    say("restart", "The keyboard is restarting into its updater (the screen may go dark)", 0);
+    link = null;
+    for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
+    if (!link) throw new UpdateError("The keyboard did not come back after restarting into its updater.");
+  }
+  const id1 = await identify(link);
+  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer."); }
+
+  return writeStage({ connect, sleep }, link, pkg, say);
+}
+
+// ---- back to M-Vave's updater without keysmith's own (F2) -----------------------------------
+// keysmith hands the unit to the stock loader (no flash written), then this page runs stock's step 2 with the
+// M-Vave file. For a unit whose chip keysmith's updater refuses. Firmware side: smk37_handoff.h.
+const HANDOFF_REQUEST = Uint8Array.of(0xf0, 0x7d, 0x4b, 0x53, 0x7f, 0x03, 0xf7);
+function parseHandoffReply(m) {
+  const ok = m && m.length === 8 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x7f && m[5] === 0x04 && m[7] === 0xf7;
+  return ok ? m[6] : null;
+}
+const HANDOFF_PROBLEMS = {
+  1: "This keyboard never ran M-Vave's own update, so it has no copy of M-Vave's updater to go back to. Nothing was changed.",
+  2: "The copy of M-Vave's updater in this keyboard is damaged. Nothing was changed.",
+  3: "Oscuro is running from RAM (a test run), not from flash. Nothing was changed.",
+  4: "Oscuro could not read the flash. Nothing was changed.",
+};
+
+// A package whose flash.bin passes the stock APP region (buildKeysmith with a longer app.bin). Oscuro's own updater cannot
+// take it; M-Vave's updater can, started by Oscuro's handoff (recover) or by stock itself.
+const isOversize = (pkg) => !pkg.appOnly && pkg.flashSize > APP_END;
+
+async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
+  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  // M-Vave's own file, or an Oscuro package that outgrew the stock layout (oversize: Oscuro's own updater stops at 0x9d000)
+  if (pkg.appOnly || (pkg.name === KEYSMITH_NAME && !isOversize(pkg))) throw new UpdateError("This needs M-Vave's own firmware file (such as SMK-37 Elite_016.fwsc).");
+  let link = await connect();
+  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
+  const id0 = await identify(link);
+  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
+  if (id0.text !== KEYSMITH_NAME) { await link.close(); throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro: use Install M-Vave firmware instead.`); }
+  const wrong = anyModel ? "" : modelProblem(id0, pkg);
+  if (wrong) { await link.close(); throw new UpdateError(wrong); }
+
+  say("handoff", "Oscuro is starting M-Vave's updater (the screen may go dark)", 0);
+  let code = null;
+  for (let t = 0; t < 2 && code === null; t++) {
+    await link.send(HANDOFF_REQUEST);
+    for (let m; code === null && (m = await link.receive(3000));) code = parseHandoffReply(m);
+  }
+  await link.close();
+  if (code === null) throw new UpdateError("This Oscuro does not know the command (it is older than 0.21.3). Nothing was changed.");
+  if (code !== 0) throw new UpdateError(HANDOFF_PROBLEMS[code] || `Oscuro refused (code ${code}). Nothing was changed.`);
+
+  await sleep(3000);
+  link = null;
+  for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
+  if (!link) throw new UpdateError("The keyboard did not come back in M-Vave's updater. Switch it off and on: it should start Oscuro again.");
+  const id1 = await identify(link);
+  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer. Switch it off and on: it should start Oscuro again."); }
+  return writeStage({ connect, sleep }, link, pkg, say);
+}
+
+return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, recover };
+})();
+
+const P = (() => {
+// installer/patches.mjs — synth patches for the page (index.html, Web MIDI) and
+// the host tests (tests/test_patches.mjs, Node).
+//
+// A patch file (.syx, or a Standard MIDI File .mid) holds vendor SysEx dumps.
+// This side finds them and names them; the keyboard converts them (roadmap
+// §12.5, firmware/core/engine/ks_patch.c) after two gates:
+//   1. here: CAPS says which engine the running build has and which formats it
+//      takes; a file whose patches are for another engine is refused before
+//      anything is sent (a DX7 bank never reaches the Viroid build). The
+//      merged aio build instead answers ENGINES and switches with ENGINE_SET,
+//      so every format can be uploaded to every build (roadmap 16.13);
+//   2. on the device: PATCH_COMMIT checks the format again and answers
+//      E_ENGINE for anything else.
+// Transport: keysmith's config SysEx (docs/KEYSMITH_SYSEX.md), every message
+// acknowledged.
+
+// ---- finding SysEx in a file ------------------------------------------------------
+function vlq(d, i) {
+  let v = 0;
+  for (let k = 0; k < 4 && i < d.length; k++) {
+    const b = d[i++];
+    v = v * 128 + (b & 0x7f);
+    if (!(b & 0x80)) return [v, i];
+  }
+  throw new PatchError("This MIDI file is damaged (bad length).");
+}
+
+// Every complete SysEx message (F0 … F7) in a .syx or a Standard MIDI File.
+function extractSysex(d) {
+  const out = [];
+  if (d.length >= 14 && String.fromCharCode(...d.subarray(0, 4)) === "MThd") {
+    let i = 8 + ((d[4] << 24) | (d[5] << 16) | (d[6] << 8) | d[7]);
+    while (i + 8 <= d.length) {
+      const len = ((d[i + 4] << 24) | (d[i + 5] << 16) | (d[i + 6] << 8) | d[i + 7]) >>> 0;
+      const end = Math.min(d.length, i + 8 + len);
+      if (String.fromCharCode(...d.subarray(i, i + 4)) === "MTrk") {
+        let p = i + 8, status = 0, pending = null;
+        while (p < end) {
+          [, p] = vlq(d, p);                              // delta time
+          let s = d[p];
+          if (s & 0x80) p++; else s = status;             // running status
+          if (s === 0xff) { const t = d[p++]; let n; [n, p] = vlq(d, p); p += n; if (t === 0x2f) break; continue; }
+          if (s === 0xf0 || s === 0xf7) {
+            let n; [n, p] = vlq(d, p);
+            const body = d.subarray(p, p + n); p += n;
+            // F0 starts a message; F7 continues one (or is an escape, ignored)
+            if (s === 0xf0) pending = [0xf0, ...body];
+            else if (pending) pending.push(...body);
+            if (pending && pending[pending.length - 1] === 0xf7) { out.push(Uint8Array.from(pending)); pending = null; }
+            continue;
+          }
+          if (s < 0x80) throw new PatchError("This MIDI file is damaged (no status byte).");
+          status = s;
+          p += (s & 0xf0) === 0xc0 || (s & 0xf0) === 0xd0 ? 1 : 2;
+        }
+      }
+      i = end;
+    }
+    return out;
+  }
+  for (let i = 0; i < d.length; i++) {
+    if (d[i] !== 0xf0) continue;
+    const j = d.indexOf(0xf7, i + 1);
+    if (j < 0) break;
+    out.push(d.slice(i, j + 1));
+    i = j;
+  }
+  return out;
+}
+
+// ---- recognising patches (the same rules as ks_patch.c) -----------------------------
+const sum7 = (d, a, b) => { let s = 0; for (let i = a; i < b; i++) s += d[i]; return s & 0x7f; };
+const dx7cs = (d, a, n) => (128 - sum7(d, a, a + n)) & 0x7f;
+const text = (d, a) => String.fromCharCode(...Array.from(d.subarray(a, a + 10), (c) => (c >= 0x20 && c < 0x7f ? c : 0x20))).trimEnd();
+const seven = (d) => d.subarray(1, -1).every((b) => b < 0x80);
+
+function readOscBank(bytes) {
+  if (bytes.length < 43 || bytes[0] !== 0x4F || bytes[1] !== 0x53 || bytes[2] !== 0x42 || bytes[3] !== 0x4B)
+    return null;
+  const version = bytes[4];
+  if (version !== 1 && version !== 2) throw new PatchError("This .oscbank file uses an unsupported version.");
+  const engine = String.fromCharCode(bytes[5], bytes[6]);
+  if (engine !== "jn" && engine !== "mg" && engine !== "mt" && engine !== "wp" && engine !== "vs" && engine !== "es" && engine !== "va")
+    throw new PatchError(`This .oscbank file is for an unknown engine (${engine}).`);
+  const name = String.fromCharCode(...bytes.subarray(7, 39)).replace(/\0+$/, "").trim();
+  const count = bytes[39] | (bytes[40] << 8);
+  const blobLen = bytes[41] | (bytes[42] << 8);
+  const expectedLen = { jn: 48, mg: 64, mt: 416, wp: 50, vs: 74, es: 143, va: 512 }[engine];
+  if (blobLen !== expectedLen)
+    throw new PatchError(`This .oscbank file has the wrong blob size for ${engine}.`);
+  if (bytes.length < 43 + count * blobLen)
+    throw new PatchError("This .oscbank file is truncated.");
+  // Version 2 may end with "FXR1" and, per patch, [present][175 rack bytes]: the patch's own FX rack (va only).
+  const racks = new Array(count).fill(null);
+  let at = 43 + count * blobLen;
+  if (version === 2 && engine === "va" && bytes.length >= at + 4 && String.fromCharCode(...bytes.subarray(at, at + 4)) === "FXR1") {
+    at += 4;
+    for (let i = 0; i < count; i++) {
+      if (at >= bytes.length) throw new PatchError("This .oscbank file is truncated.");
+      const flag = bytes[at++];
+      if (flag === 1) {
+        if (at + 175 > bytes.length) throw new PatchError("This .oscbank file is truncated.");
+        racks[i] = bytes.subarray(at, at + 175);
+        at += 175;
+      } else if (flag !== 0) throw new PatchError("This .oscbank file has a damaged rack section.");
+    }
+  }
+  const patches = [];
+  for (let i = 0; i < count; i++) {
+    const blobStart = 43 + i * blobLen;
+    const blob = bytes.subarray(blobStart, blobStart + blobLen);
+    const nameOffset = { jn: 31, mg: 47, mt: 401, wp: 40, vs: 64, es: 133, va: 240 }[engine];
+    const patchName = text(blob, nameOffset);
+    if (engine === "va" && (blob.some((b) => b > 0x7f) || (racks[i] && racks[i].some((b) => b > 0x7f))))
+      throw new PatchError("This .oscbank file has a Viroid patch with a value above 127.");
+    const msgBytes = [0xf0, 0x7d, 0x4b, 0x53, 0x02, engine.charCodeAt(0), engine.charCodeAt(1), ...blob, ...(racks[i] || [])];
+    let cs = 0;
+    for (let j = 4; j < msgBytes.length; j++) cs += msgBytes[j];
+    msgBytes.push(cs & 0x7f, 0xf7);
+    const msg = Uint8Array.from(msgBytes);
+    const format = `${engine}-blob`;
+    patches.push({ msg, format, engine, names: [patchName] });
+  }
+  return { patches, skipped: 0, engines: new Set([engine]) };
+}
+
+// Each: [format id, engine id, test(msg) → names[] or null]. The engine ids are
+// the firmware's; ENGINE_NAMES is what a player reads.
+const FORMATS = [
+  ["dx7-vced", "fm", (m) => m.length === 163 && m[0] === 0xf0 && m[1] === 0x43 && (m[2] & 0xf0) === 0 && m[3] === 0 &&
+    m[4] === 1 && m[5] === 0x1b && m[162] === 0xf7 && dx7cs(m, 6, 155) === m[161] && seven(m) ? [text(m, 6 + 145)] : null],
+  ["dx7-vmem", "fm", (m) => m.length === 4104 && m[0] === 0xf0 && m[1] === 0x43 && (m[2] & 0xf0) === 0 && m[3] === 9 &&
+    m[4] === 0x20 && m[5] === 0 && m[4103] === 0xf7 && dx7cs(m, 6, 4096) === m[4102]
+    ? Array.from({ length: 32 }, (_, i) => text(m.map((b) => b & 0x7f), 6 + i * 128 + 118)) : null],
+  ["virus-single", "va", (m) => (m.length === 267 || m.length === 524) && m[0] === 0xf0 && m[1] === 0 && m[2] === 0x20 &&
+    m[3] === 0x33 && m[4] === 1 && m[6] === 0x10 && m.at(-1) === 0xf7 && seven(m) ? [text(m, 9 + 240)] : null],
+  ["juno106-sysex", "jn", (m) => {
+    if (m.length !== 26 || m[0] !== 0xf0 || m[1] !== 0x41 || m[2] !== 0x36 || m[3] !== 0x02 || m[25] !== 0xf7) return null;
+    for (let i = 4; i < 24; i++) if (m[i] > 0x7f) return null;
+    if (dx7cs(m, 3, 21) !== m[24]) return null;
+    return [`J106 P${String(m[5]).padStart(2, "0")}`];
+  }],
+  ["jn-blob", "jn", (m) => m.length === 57 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x6a && m[6] === 0x6e && m[56] === 0xf7 ? [text(m, 7 + 31)] : null],
+  ["mg-blob", "mg", (m) => m.length === 73 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x6d && m[6] === 0x67 && m[72] === 0xf7 ? [text(m, 7 + 47)] : null],
+  ["wp-blob", "wp", (m) => m.length === 59 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x77 && m[6] === 0x70 && m[58] === 0xf7 ? [text(m, 7 + 40)] : null],
+  ["vs-blob", "vs", (m) => m.length === 83 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x76 && m[6] === 0x73 && m[82] === 0xf7 ? [text(m, 7 + 64)] : null],
+  ["es-blob", "es", (m) => m.length === 152 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x65 && m[6] === 0x73 && m[151] === 0xf7 ? [text(m, 7 + 133)] : null],
+  ["mt-blob", "mt", (m) => m.length === 425 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x02 && m[5] === 0x6d && m[6] === 0x74 && m[424] === 0xf7 ? [text(m, 7 + 401)] : null],
+];
+const ENGINE_NAMES = { va: "Viroid (Access Virus patches)", fm: "FM (Yamaha DX7 patches)", jn: "Juno-60/106", mg: "Moog", mt: "Microtonic-style drums", wp: "WT PPG (wavetable)", vs: "VEC-1 (vector synthesis)", es: "DWO-1 (digital waves)" };
+const FORMAT_NAMES = { "dx7-vced": "DX7 voice", "dx7-vmem": "DX7 32-voice bank", "virus-single": "Access Virus single",
+  "juno106-sysex": "Juno-60/106 SysEx", "jn-blob": "Juno-60/106 bank", "mg-blob": "Moog bank", "mt-blob": "mt drum kit bank", "wp-blob": "WT PPG bank", "vs-blob": "VEC-1 bank", "es-blob": "DWO-1 bank" };
+
+// → { format, engine, names } or null.
+function identifyPatch(m) {
+  for (const [format, engine, test] of FORMATS) {
+    const names = test(m);
+    if (names) return { format, engine, names };
+  }
+  return null;
+}
+
+// A file → { patches: [{ msg, format, engine, names }], skipped, engines: Set }.
+function readPatchFile(bytes) {
+  if (bytes.length >= 43 && bytes[0] === 0x4F && bytes[1] === 0x53 && bytes[2] === 0x42 && bytes[3] === 0x4B) {
+    return readOscBank(bytes);
+  }
+  const patches = [];
+  let skipped = 0;
+  for (const msg of extractSysex(bytes)) {
+    const p = identifyPatch(msg);
+    if (p) patches.push({ msg, ...p }); else skipped++;
+  }
+  return { patches, skipped, engines: new Set(patches.map((p) => p.engine)) };
+}
+
+// Optional tidy-up before sending (never on by default). A Virus single is compared by its sound: the
+// name (page B 112-121) and the two categories (123-124) are left out, so a renamed or re-tagged copy
+// counts as the same patch. Other messages are compared as they are. The first copy stays.
+// A placeholder is a patch named only with punctuation (`----------`, `__________`, `= = =`) or like an
+// init patch (`INIT`, `-INIT-`, `Init Patch`, `Blank`): sound-pack authors use them as separators and
+// credits. → { patches, engines, skipped, removed: { duplicates, placeholders } }.
+const PLACEHOLDER = /^(?:[\s\-_=.*~#+|\/\\]*|[\s\-_=*]*(?:init(?:ial)?(?:\s+patch)?|blank|empty|none)\s*\d*[\s\-_=*]*)$/i;
+const isPlaceholder = (name) => PLACEHOLDER.test(name || "");
+
+function soundKey(p) {
+  const m = p.msg;
+  if (p.format !== "virus-single") return m.join(",");
+  const d = m.slice(9);                                  // A+B pages, then (TI) 6E/6F after cs1
+  const b = new Uint8Array(512);
+  b.set(d.subarray(0, 256));
+  if (m.length === 524) b.set(d.subarray(257, 513), 256);
+  b.fill(0, 240, 250);                                   // name
+  b.fill(0, 251, 253);                                   // categories
+  return b.join(",");
+}
+
+function tidy(file, { duplicates = false, placeholders = false } = {}) {
+  const removed = { duplicates: 0, placeholders: 0 };
+  const seen = new Set();
+  const patches = [];
+  for (const p of file.patches) {
+    if (placeholders && p.format === "virus-single" && isPlaceholder(p.names[0])) { removed.placeholders++; continue; }
+    if (duplicates) {
+      const k = soundKey(p);
+      if (seen.has(k)) { removed.duplicates++; continue; }
+      seen.add(k);
+    }
+    patches.push(p);
+  }
+  return { ...file, patches, engines: new Set(patches.map((p) => p.engine)), removed };
+}
+
+class PatchError extends Error {}
+
+// ---- keysmith config SysEx ------------------------------------------------------------
+const CMD = { CAPS_REQ: 0x03, CAPS: 0x04, BEGIN: 0x20, DATA: 0x21, COMMIT: 0x22, ENGINES_REQ: 0x50, ENGINES: 0x51, ENGINE_SET: 0x52, ACK: 0x7e };
+const EDIT_SLOT = 0x3fff;
+const CHUNK = 64;
+const STATUS = ["ok", "malformed", "out of order", "out of range", "damaged in transfer", "could not be stored",
+  "not a patch for this build's engine",
+  "the patch memory still holds M-Vave's data. Back it up and erase it under “Patch memory” first",
+  "nothing is stored in that slot", "the patch memory is full",
+  "the patch memory is not ready for this engine (busy, not set up, or it holds foreign data)",
+  "this engine cannot take the patch (a value is out of range)"];
+
+const frame = (cmd, seq, payload = []) => Uint8Array.from([0xf0, 0x7d, 0x4b, 0x53, 0x00, cmd, seq & 0x7f, ...payload, 0xf7]);
+const is = (m, cmd) => m && m.length >= 8 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[5] === cmd;
+const u14 = (v) => [v & 0x7f, (v >> 7) & 0x7f];
+
+// keysmith's 8→7 packing (a top-bits byte before each group of up to 7)
+function kspack(b) {
+  const out = [];
+  for (let i = 0; i < b.length; i += 7) {
+    const g = b.subarray(i, i + 7);
+    let top = 0;
+    g.forEach((x, k) => { if (x & 0x80) top |= 1 << k; });
+    out.push(top, ...Array.from(g, (x) => x & 0x7f));
+  }
+  return out;
+}
+
+function ksunpack(p) {
+  const out = [];
+  for (let i = 0; i < p.length; i += 8) {
+    const top = p[i];
+    for (let k = 0; k < 7 && i + 1 + k < p.length; k++) out.push(p[i + 1 + k] | ((top >> k) & 1) << 7);
+  }
+  return Uint8Array.from(out);
+}
+
+const le32 = (v) => Uint8Array.of(v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, v >>> 24);
+
+function crc32(b) {
+  let c = ~0;
+  for (const x of b) { c ^= x; for (let k = 0; k < 8; k++) c = c & 1 ? (c >>> 1) ^ 0xedb88320 : c >>> 1; }
+  return ~c >>> 0;
+}
+
+// The one flash chip keysmith writes (firmware/ram-lvgl/sflash.h SFLASH_ID). CAPS "flash=" (0.20.1+) reports the unit's.
+const KNOWN_FLASH = "856014";
+const WRITABLE_FLASH = [KNOWN_FLASH, "eb6014"];     // sflash.h sflash_id_ok: Elite unit, SMK-37 Pro board
+
+// → "" when the flash is fine or not reported, else why keysmith can't write on this keyboard.
+// 0.21.3+ reports "flashw": a chip outside the two known ones is written when it passed keysmith's write test at boot.
+function flashProblem(caps) {
+  if (!caps || !caps.flashId) return "";
+  if (caps.flashWritable === true) return "";
+  if (caps.flashWritable === false)
+    return `This keyboard's flash chip (ID ${caps.flashId}) failed Oscuro's write test, so Oscuro refuses to write to it: no updates, saved settings or patch memory. Send this ID to the Oscuro author.`;
+  if (WRITABLE_FLASH.includes(caps.flashId)) return "";
+  return `This keyboard's flash chip (ID ${caps.flashId}) is not one Oscuro has been tested with (${WRITABLE_FLASH.join(", ")}), so Oscuro refuses to write to it: no updates, saved settings or patch memory. Update Oscuro (0.21.3 and later test unknown chips) or send this ID to the Oscuro author.`;
+}
+
+// CAPS → { flavour, engine, slots, blobLen, formats, bankSize, banks, flashId, flashWritable } or null (no answer: not keysmith,
+// or a keysmith older than this command: 0.6 and before).
+function parseCaps(m) {
+  if (!is(m, CMD.CAPS)) return null;
+  const strs = [];
+  let s = "";
+  for (let i = 11; i < m.length - 1; i++) {
+    if (m[i] === 0) { strs.push(s); s = ""; } else s += String.fromCharCode(m[i]);
+  }
+  const [flavour = "", engine = "", ...rest] = strs;
+  const slots = m[7] | (m[8] << 7);
+  let bankSize = slots, banks = 1;                 // older Oscuro: one flat bank
+  let flashId = null;                              // 0.20.1+: the flash chip's JEDEC id, 6 hex digits
+  let flashWritable = null;                        // 0.21.3+: the driver writes it (known part, or passed the write test)
+  const formats = [];
+  for (const f of rest) {
+    const b = /^bank=(\d+)x(\d+)$/.exec(f), fl = /^flash=([0-9a-f]{6})$/.exec(f), fw = /^flashw=([01])$/.exec(f);
+    if (b) { bankSize = +b[1]; banks = +b[2]; } else if (fl) flashId = fl[1]; else if (fw) flashWritable = fw[1] === "1"; else formats.push(f);
+  }
+  return { slots, blobLen: m[9] | (m[10] << 7), flavour, engine, formats, bankSize, banks, flashId, flashWritable };
+}
+
+// First slot of bank `bank` (0-based).
+function bankStart(dev, bank) {
+  if (!Number.isInteger(bank) || bank < 0 || bank >= dev.banks)
+    throw new PatchError(`This keyboard has ${dev.banks} bank${dev.banks === 1 ? "" : "s"}.`);
+  return bank * dev.bankSize;
+}
+
+// IDENT → { version: "0.8.0", schema, presets }, or null (not keysmith).
+async function ident(link) {
+  await link.send(frame(0x01, 0x11));
+  for (let m; (m = await link.receive(500));) {
+    if (!is(m, 0x02)) continue;
+    const d = ksunpack(m.subarray(7, -1));
+    return { version: `${d[0]}.${d[1]}.${d[2]}`, schema: d[3], presets: d[4] };
+  }
+  return null;
+}
+
+async function caps(link, tries = 2) {
+  for (let t = 0; t < tries; t++) {
+    await link.send(frame(CMD.CAPS_REQ, t));
+    for (let m; (m = await link.receive(500));) {
+      const c = parseCaps(m);
+      if (c) return c;
+      if (is(m, CMD.ACK) && m[7] === CMD.CAPS_REQ) return null; // Oscuro, but no CAPS
+    }
+  }
+  return null;
+}
+
+// ENGINES (0x50/0x51, the merged aio build, roadmap 16.13): the engine ids the
+// running firmware can take, and the live switch. A single-engine or older
+// build answers nothing usable: engines() is null there.
+function parseEngines(m)
+{
+    if (!is(m, CMD.ENGINES)) return null;
+    const out = [];
+    let s = "";
+    for (let i = 7; i < m.length - 1; i++) { if (m[i] === 0) { out.push(s); s = ""; } else s += String.fromCharCode(m[i]); }
+    if (s) out.push(s);
+    return out.filter((x) => x.length);
+}
+
+async function engines(link)
+{
+    await link.send(frame(CMD.ENGINES_REQ, 0));
+    for (let m; (m = await link.receive(500));) {
+        const e = parseEngines(m);
+        if (e) return e;
+        if (is(m, CMD.ACK) && m[7] === CMD.ENGINES_REQ) return null;   // single-engine or old: E_ENGINE/E_PROTO
+    }
+    return null;
+}
+
+// Switch the running engine (the keyboard answers once the audio path has
+// applied it). Returns the new CAPS; throws if the keyboard refuses.
+async function setEngine(link, id)
+{
+    const st = await ask(link, CMD.ENGINE_SET, 0, [...Array.from(id, (c) => c.charCodeAt(0)), 0]);
+    if (st) throw new PatchError(`The keyboard will not play ${ENGINE_NAMES[id] || id}${st === 6 ? " (this build has no engine switch, or a patch transaction is open)" : ""}.`);
+    const dev = await caps(link);
+    if (!dev || dev.engine !== id) throw new PatchError(`The keyboard did not switch to ${ENGINE_NAMES[id] || id}.`);
+    return dev;
+}
+
+// Send a checked file to the keyboard (the page's Send patches button; it
+// lives here so the tests drive the same code). The merged aio build carries
+// every synth: the ENGINES list is read whether or not a patch engine is
+// already running (0.34.1 refused a second file once the first had switched
+// the keyboard, because the list was only read at boot), the file is grouped
+// by engine, the keyboard is switched per group and CAPS re-read for the new
+// bank layout; engines this build cannot play are left out. A single-engine
+// or old build keeps the one-gate behaviour: anything else throws with a
+// player-facing name. progress(done, total, name); note(engineId) marks a
+// switch. → { sent, left, where: [slot descriptions] }
+const nameCount = (list) => list.reduce((n, p) => n + p.names.length, 0);
+const slotNote = (dev, start) => `bank ${Math.floor(start / dev.bankSize) + 1}, slot ${start % dev.bankSize + 1}`;
+
+async function sendPatches(link, file, dest, bank, progress = () => {}, note = () => {})
+{
+  const list = await engines(link);                     // null: no switch; ["x"]: single engine; >1: merged build
+  const merged = !!(list && list.length > 1);
+  const dev0 = await caps(link);
+  if (!merged)
+  {
+    const start = dest === "edit" ? EDIT_SLOT : bankStart(dev0, bank);
+    const ok = checkFit(file, dev0, start);
+    const sent = await upload(link, ok, start, progress);
+    return { sent, left: nameCount(file.patches) - nameCount(ok), where: start === EDIT_SLOT ? [] : [slotNote(dev0, start)] };
+  }
+  let dev = dev0, sent = 0, left = 0;
+  const where = [];
+  for (const eng of [...new Set(file.patches.map((p) => p.engine))]) {
+    const sub = file.patches.filter((p) => p.engine === eng);
+    const count = nameCount(sub);
+    if (!dev || dev.engine !== eng) {
+      if (!list.includes(eng)) { left += count; continue; }   // this keyboard plays no such engine
+      note(eng);
+      dev = await setEngine(link, eng);
+    }
+    const start = dest === "edit" ? EDIT_SLOT : bankStart(dev, Math.min(bank, dev.banks - 1));
+    const ok = checkFit({ patches: sub, engines: new Set([eng]) }, dev, start);
+    sent += await upload(link, ok, start, progress);
+    left += count - nameCount(ok);
+    if (start !== EDIT_SLOT) where.push(slotNote(dev, start));
+  }
+  return { sent, left, where };
+}
+
+// Gate 1: which patches this keyboard can take. Throws PatchError with a
+// player-facing reason, else returns the patches in file order.
+function checkFit(file, dev, startSlot) {
+  if (!file.patches.length) throw new PatchError("No synth patches in this file.");
+  if (!dev) throw new PatchError("No keyboard running a current Oscuro answered. Check the cable, close other MIDI apps, and update Oscuro if it is older.");
+  const want = [...file.engines].map((e) => ENGINE_NAMES[e] || e).join(", ");
+  if (!dev.engine)
+    throw new PatchError(`This Oscuro build (${dev.flavour || "?"}) has no synth that takes patches. These are for ${want}; install that build.`);
+  const ok = file.patches.filter((p) => p.engine === dev.engine && dev.formats.includes(p.format));
+  if (!ok.length)
+    throw new PatchError(`These patches are for ${want}; this keyboard runs ${ENGINE_NAMES[dev.engine] || dev.engine}. Install the matching Oscuro build.`);
+  const count = ok.reduce((n, p) => n + p.names.length, 0);
+  if (startSlot !== EDIT_SLOT && startSlot + count > dev.slots)
+    throw new PatchError(`${count} patches from bank ${Math.floor(startSlot / dev.bankSize) + 1}, slot ${startSlot % dev.bankSize + 1} don't fit: the keyboard has ${dev.banks} bank${dev.banks === 1 ? "" : "s"} of ${dev.bankSize}.`);
+  return ok;
+}
+
+async function ask(link, cmd, seq, payload) {
+  for (let t = 0; t < 3; t++) {
+    await link.send(frame(cmd, seq, payload));
+    for (let m; (m = await link.receive(cmd === CMD.COMMIT || cmd === CMD.ENGINE_SET ? 3000 : 1000));) {
+      if (is(m, CMD.ACK) && m[6] === (seq & 0x7f) && m[7] === cmd) return m[8];
+    }
+  }
+  throw new PatchError("The keyboard stopped answering.");
+}
+
+// Upload the checked patches to consecutive slots (or the edit buffer).
+// progress(done, total, name).
+async function upload(link, patches, startSlot, progress = () => {}) {
+  const total = patches.reduce((n, p) => n + p.names.length, 0);
+  let slot = startSlot, done = 0, seq = 0;
+  for (const p of patches) {
+    progress(done, total, p.names[0]);
+    const m = p.msg;
+    let st = await ask(link, CMD.BEGIN, seq++, [...u14(slot), ...u14(m.length)]);
+    for (let off = 0; !st && off < m.length; off += CHUNK)
+      st = await ask(link, CMD.DATA, seq++, [...u14(off), ...kspack(m.subarray(off, off + CHUNK))]);
+    if (!st) st = await ask(link, CMD.COMMIT, seq++, kspack(le32(crc32(m))));
+    if (st) throw new PatchError(`“${p.names[0]}”: ${STATUS[st] || `error ${st}`}.`);
+    done += p.names.length;
+    if (slot !== EDIT_SLOT) slot += p.names.length;
+  }
+  progress(done, total, "");
+  return done;
+}
+
+return { extractSysex, ENGINE_NAMES, FORMAT_NAMES, identifyPatch, readPatchFile, isPlaceholder, tidy, PatchError, EDIT_SLOT, frame, is, kspack, ksunpack, le32, crc32, KNOWN_FLASH, WRITABLE_FLASH, flashProblem, parseCaps, bankStart, ident, caps, parseEngines, engines, setEngine, sendPatches, checkFit, upload };
+})();
+
+const A = (() => {
+// installer/userarea.mjs — the keyboard's patch memory ("user area", USRFLASH)
+// for the page (index.html) and the host tests (tests/test_userarea.mjs).
+//
+// keysmith's synth builds keep patches in the flash region where M-Vave's
+// firmware keeps its own user data. keysmith never erases data it didn't write
+// (firmware/core/sys/ks_userarea.h), so a player first backs the region up
+// here, then erases it for patches; the backup goes back before returning to
+// M-Vave's firmware, or any time later. Transport: keysmith's config SysEx
+// (docs/KEYSMITH_SYSEX.md, AREA_* commands, roadmap §15).
+//
+// Backup file (.ksua), little-endian:
+//   0  "KSUA"   4  version 1   5  area 0   6  0 0
+//   8  flash address   12  length   16  CRC-32 of the data   20  created (Unix s)
+//   24 8 zero bytes    32  the region's bytes as stored (raw flash)
+const { frame, is, kspack, ksunpack, le32, crc32 } = P;
+
+class AreaError extends Error {}
+
+const CMD = { INFO_REQ: 0x30, INFO: 0x31, READ: 0x32, DATA: 0x33, BEGIN: 0x34, WDATA: 0x35, END: 0x36, ACK: 0x7e };
+const AREA = 0;
+const CHUNK = 64;
+const HDR = 32;
+const STATE = { BANK: 0, BLANK: 1, FOREIGN: 2, WRITING: 3 };
+const STATE_NAMES = ["Oscuro's patch memory", "empty", "other data (M-Vave's user data)", "being written"];
+const STATUS = ["ok", "malformed", "out of order", "not this keyboard's memory layout", "damaged in transfer",
+  "a flash error", "", "", ""];
+
+const u21 = (v) => [v & 0x7f, (v >> 7) & 0x7f, (v >> 14) & 0x7f];
+const g21 = (m, i) => m[i] | (m[i + 1] << 7) | (m[i + 2] << 14);
+const rd32 = (b, i) => (b[i] | (b[i + 1] << 8) | (b[i + 2] << 16) | (b[i + 3] << 24)) >>> 0;
+
+// Send and wait for the reply (want) or an ACK for cmd. → the message.
+async function request(link, cmd, seq, payload, want, ms = 1000) {
+  for (let t = 0; t < 3; t++) {
+    await link.send(frame(cmd, seq, payload));
+    for (let m; (m = await link.receive(ms));) {
+      if (m[6] !== (seq & 0x7f)) continue;
+      if (want && is(m, want)) return m;
+      if (is(m, CMD.ACK) && m[7] === cmd) {
+        // a resent chunk the keyboard already wrote (its ACK was lost)
+        if (t > 0 && cmd === CMD.WDATA && m[8] === 2) return Uint8Array.of(0xf0, 0x7d, 0x4b, 0x53, 0, CMD.ACK, seq, cmd, 0, 0xf7);
+        return m;
+      }
+    }
+  }
+  throw new AreaError("The keyboard stopped answering.");
+}
+
+const status = (m) => (is(m, CMD.ACK) ? m[8] : 0);
+function check(m, what) {
+  const st = status(m);
+  if (st) throw new AreaError(`${what}: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// → { base, size, sector, state, crc }, or null: a keysmith older than 0.8, or
+// one started without its flash (a dongle RAM run).
+async function areaInfo(link) {
+  const m = await request(link, CMD.INFO_REQ, 0, [AREA], CMD.INFO, 5000);
+  if (is(m, CMD.ACK)) {
+    if (m[8] === 1) return null;
+    check(m, "Reading the patch memory");
+  }
+  // F0 7D 4B 53 00 31 seq | area base(3) size(3) sector(2) state crc… F7
+  return { base: g21(m, 8), size: g21(m, 11), sector: m[14] | (m[15] << 7), state: m[16], crc: rd32(ksunpack(m.subarray(17, -1)), 0) };
+}
+
+function makeBackup(info, data, created = Math.floor(Date.now() / 1000)) {
+  const f = new Uint8Array(HDR + data.length);
+  f.set([0x4b, 0x53, 0x55, 0x41, 1, AREA]);
+  f.set(le32(info.base), 8);
+  f.set(le32(data.length), 12);
+  f.set(le32(crc32(data)), 16);
+  f.set(le32(created), 20);
+  f.set(data, HDR);
+  return f;
+}
+
+// → { base, size, crc, created, data }; throws AreaError for anything else.
+function parseBackup(f) {
+  if (f.length < HDR || String.fromCharCode(...f.subarray(0, 4)) !== "KSUA")
+    throw new AreaError("This is not an Oscuro patch-memory backup (.ksua).");
+  if (f[4] !== 1 || f[5] !== AREA) throw new AreaError("This backup is from a newer Oscuro. Update the page.");
+  const b = { base: rd32(f, 8), size: rd32(f, 12), crc: rd32(f, 16), created: rd32(f, 20), data: f.subarray(HDR) };
+  if (b.data.length !== b.size || crc32(b.data) !== b.crc) throw new AreaError("This backup file is damaged.");
+  return b;
+}
+
+// Read the whole region → a .ksua file. The keyboard's own CRC checks it.
+async function backup(link, progress = () => {}) {
+  const info = await areaInfo(link);
+  if (!info) throw new AreaError("This keyboard can't make a backup: its patch memory is not available. Update Oscuro if it is older than 0.8, start it normally (not from the dongle), and note that an unsupported flash chip is refused.");
+  const data = new Uint8Array(info.size);
+  let seq = 1;
+  for (let off = 0; off < info.size; off += CHUNK) {
+    const n = Math.min(CHUNK, info.size - off);
+    const m = await request(link, CMD.READ, seq++, [AREA, ...u21(off), n], CMD.DATA);
+    check(m, "Reading the patch memory");
+    const got = ksunpack(m.subarray(11, -1));   // … seq | area offset(3) data… F7
+    if (g21(m, 8) !== off || got.length !== n) throw new AreaError("Reading the patch memory: the reply didn't match.");
+    data.set(got, off);
+    progress(off + n, info.size);
+  }
+  if (crc32(data) !== info.crc) throw new AreaError("The backup doesn't match the keyboard's own checksum. Try again.");
+  return { info, file: makeBackup(info, data) };
+}
+
+// Write a whole image: BEGIN states address, length and CRC; erased chunks
+// are skipped; END erases the rest and reads everything back on the keyboard.
+async function writeImage(link, info, data, progress) {
+  let seq = 1;
+  check(await request(link, CMD.BEGIN, seq++, [AREA, ...u21(info.base), ...u21(data.length), ...kspack(le32(crc32(data)))]),
+    "Starting the write");
+  for (let off = 0; off < data.length; off += CHUNK) {
+    const c = data.subarray(off, off + CHUNK);
+    if (c.some((x) => x !== 0xff)) check(await request(link, CMD.WDATA, seq++, [AREA, ...u21(off), ...kspack(c)]), "Writing");
+    progress(off + c.length, data.length);
+  }
+  const end = await request(link, CMD.END, seq++, [AREA], 0, 60000);
+  if (status(end) === 4) throw new AreaError("The keyboard read back something other than what was sent. Run it again; the file is unchanged.");
+  check(end, "Finishing the write");
+  progress(1, 1);
+  // END already compared the whole area on the keyboard. An erased one is then
+  // formatted for patches at once, so only a non-empty image is compared again.
+  const after = await areaInfo(link);
+  const empty = data.every((x) => x === 0xff);
+  if (!after || (empty ? after.state > STATE.BLANK : after.crc !== crc32(data))) throw new AreaError("The check after writing failed. Run it again; the file is unchanged.");
+  return after;
+}
+
+function sameLayout(info, base, size) {
+  if (!info) throw new AreaError("This keyboard can't restore: its patch memory is not available. Update Oscuro if it is older than 0.8, start it normally (not from the dongle), and note that an unsupported flash chip is refused.");
+  if (info.base !== base || info.size !== size)
+    throw new AreaError("This backup doesn't fit this keyboard's memory layout; nothing was written.");
+}
+
+async function restore(link, file, progress = () => {}) {
+  const b = parseBackup(file);
+  const info = await areaInfo(link);
+  sameLayout(info, b.base, b.size);
+  return writeImage(link, info, b.data, progress);
+}
+
+// Erase for keysmith's patches (an all-0xFF image).
+async function erase(link, progress = () => {}) {
+  const info = await areaInfo(link);
+  sameLayout(info, info?.base, info?.size);
+  return writeImage(link, info, new Uint8Array(info.size).fill(0xff), progress);
+}
+
+return { AreaError, STATE, STATE_NAMES, areaInfo, makeBackup, parseBackup, backup, restore, erase };
+})();
+
+const D = (() => {
+// installer/diag.mjs — a test build's diagnostics for the page (index.html) and
+// the host tests (tests/test_diag.mjs): the same read and the same report file
+// as tools/ks_report.py, over Web MIDI instead of Python (docs/TEST_BUILDS.md).
+//
+// Read-only: the only request here is DIAG_READ (config SysEx 0x40). Release
+// builds answer it with ACK status 1, and readDiag() then returns null.
+const { frame, is, ksunpack } = P;
+
+class DiagError extends Error {}
+
+const DIAG_READ = 0x40, DIAG_DATA = 0x41, ACK = 0x7e, CHUNK = 64;
+const WATCH_MS = 5000;          // < 11.9 s: the cycle counters wrap at 2^32 cycles (360 MHz)
+const DIAG_MAGIC = 0x4744534b, DIAG_LAYOUT = 10, HEADER = 64;
+// live.c 'result', in order (the same list as tools/ks_report.py; tools/test_ks_report.py checks it).
+const RESULT_KEYS = ["magic", "stage", "error", "exit_reason", "elapsed_us", "lines", "passes", "events",
+  "key_events", "enc_events", "btn_events", "ui_actions", "log_count", "log_dropped",
+  "routed", "unrouted", "halves", "overruns", "render_cycles_max", "render_cycles_sum",
+  "half_presses", "second_without_first", "enc_invalid", "engine_msgs", "pass_us_max",
+  "cyc_scan", "cyc_input", "cyc_poll", "cpu_mhz", "lcd_ok", "flash_boot",
+  "clk_con0", "clk_con2", "sys_div", "pll_con0", "pll2_con0", "clk_119a4",
+  "analog_events", "pad_downs", "adc_samples", "adc_timeouts",
+  "led_frames", "led_skipped", "about_frames", "seq_overflows",
+  "usb_cables", "hid_reports", "daw_rx", "daw_tx", "wheel_cals",
+  "store_state", "save_errors",
+  "ui_calls", "ui_strips", "ui_yields", "ui_max_us", "lv_heap_peak",
+  "synth_bank", "patch_loads", "patch_errors",
+  "btn_led_on",
+  "audio_event_cycles_max", "audio_synth_cycles_max", "audio_pack_cycles_max",
+  "audio_service_gap_cycles_max", "audio_msgs_max", "scan_line_gap_us_max", "ui_work_us_max", "ui_no_yield_us_max",
+  "audio_voices_max", "audio_voices_at_synth_max",
+  "audio_ctl_cycles_at_max", "audio_dsp_cycles_at_max",
+  "audio_core1", "audio_wait_cycles_at_max", "stack0_free", "stack1_free",
+  "ph_max_cycles_pass", "ph_max_cycles_drain", "ph_max_cycles_ui_model", "ph_max_cycles_lvgl",
+  "ph_max_cycles_usb", "ph_max_cycles_app", "ph_max_cycles_flash", "ph_max_cycles_patch",
+  "ph_over_pass", "ph_over_drain", "ph_over_ui_model", "ph_over_lvgl",
+  "ph_over_usb", "ph_over_app", "ph_over_flash", "ph_over_patch",
+  "overrun_by_pass", "overrun_by_drain", "overrun_by_ui_model", "overrun_by_lvgl",
+  "overrun_by_usb", "overrun_by_app", "overrun_by_flash", "overrun_by_patch", "overrun_by_none",
+  "audio_synth_voiced_cycles_max", "audio_voiced_count",
+  "audio_prof_osc_flash", "audio_prof_osc_sram", "audio_prof_filter", "audio_prof_passes",
+  "gov_parts", "gov_cross", "gov_self", "gov_shed", "gov_floor_grants", "gov_limit_min", "gov_voices_max",
+  "gov_cost_us_max", "gov_cpv16_0", "gov_cpv16_1", "gov_cpv16_2",
+  "app_step_max_harmony_tick", "app_step_max_quiet", "app_step_max_prepare", "app_step_max_switch", "app_step_max_globals", "app_step_max_system", "app_step_max_synth", "app_step_max_usb", "app_step_max_power", "app_step_max_mix", "app_step_max_fx", "app_step_max_assign", "app_step_max_padpatch", "app_step_max_harmony", "app_step_max_calib", "app_step_max_save"];
+const PHASES = ["pass", "drain", "ui_model", "lvgl", "usb", "app", "flash", "patch"];   // live.c PH_*
+const PHASE_WHAT = { pass: "the key-scan pass body", drain: "handling UI/key events", ui_model: "building screen contents",
+  lvgl: "drawing the screen", usb: "USB/updater service", app: "settings/app tick", flash: "flash read/write",
+  patch: "patch bank/load/save" };
+const CORE1 = { 0: "off", 1: "renders half the voices", 2: "stopped answering, reset", 3: "not started" };
+const LAT = ["count", "min", "max", "mean", "p50", "p90", "p99", "p999"];
+const AUDIO_HALF_US = 64 * 1e6 / 48000;   // one audio half: 64 frames at 48 kHz
+const ERRORS = { 2: "bad config", 3: "clock raise refused", 4: "key scan timeout", 5: "synth engine init failed",
+  7: "audio never started", 8: "pad/fader ADC timeout (pads and faders turned off)" };
+
+const rd32 = (b, i) => (b[i] | (b[i + 1] << 8) | (b[i + 2] << 16) | (b[i + 3] << 24)) >>> 0;
+const hex = (b) => Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+const round1 = (x) => Math.round(x * 10) / 10;
+
+// One snapshot's bytes, or null (not a test build). Throws DiagError when the keyboard stops answering.
+async function readDiag(link, seq = 0x21) {
+  const blob = [];
+  let total = null;
+  while (total === null || blob.length < total) {
+    const off = blob.length;
+    const m = await request(link, seq, [off & 0x7f, off >> 7, CHUNK]);
+    if (!m) return null;
+    if (((m[7] | (m[8] << 7)) !== off)) throw new DiagError("The diagnostics arrived out of order.");
+    total = m[9] | (m[10] << 7);
+    const chunk = ksunpack(m.subarray(11, -1));
+    if (!chunk.length) throw new DiagError("The keyboard sent an empty diagnostics block.");
+    blob.push(...chunk);
+  }
+  return Uint8Array.from(blob.slice(0, total));
+}
+
+async function request(link, seq, payload) {
+  for (let t = 0; t < 3; t++) {
+    await link.send(frame(DIAG_READ, seq, payload));
+    for (let m; (m = await link.receive(1000));) {
+      if (m[6] !== (seq & 0x7f)) continue;
+      if (is(m, DIAG_DATA)) return m;
+      if (is(m, ACK) && m[7] === DIAG_READ) {
+        if (m[8] === 1) return null;
+        throw new DiagError(`The keyboard refused the diagnostics read (status ${m[8]}).`);
+      }
+    }
+  }
+  throw new DiagError("The keyboard stopped answering.");
+}
+
+// The flash self-test (live.c flash_selftest, F0 7D 4B 53 7F 01 F7) on keysmith 0.20.0 and later: reads the flash ID first and
+// stops there when it is not 856014 or eb6014 (nothing is written). Otherwise it erases, programs and erases the unused scratch sector
+// 0xF3000. → { step, id: "856014", sr1, sr2 } or null (no answer).
+async function flashCheck(link) {
+  for (let t = 0; t < 2; t++) {
+    await link.send(Uint8Array.of(0xf0, 0x7d, 0x4b, 0x53, 0x7f, 0x01, 0xf7));
+    for (let m; (m = await link.receive(3000));) {
+      if (m.length !== 18 || m[4] !== 0x7f || m[5] !== 2) continue;
+      const hex = (a, b) => Array.from(m.subarray(a, b), (n) => (n & 15).toString(16)).join("");
+      const st = parseInt(hex(13, 17), 16);
+      return { step: m[6], id: hex(7, 13), sr1: st & 0xff, sr2: st >> 8 };
+    }
+  }
+  return null;
+}
+
+// Bytes → { device, result } (the same fields as ks_report.py).
+function decode(b) {
+  if (b.length < HEADER + 4 * RESULT_KEYS.length) throw new DiagError(`The diagnostics block is too short (${b.length} bytes).`);
+  if (rd32(b, 0) !== DIAG_MAGIC || rd32(b, 4) !== DIAG_LAYOUT)
+    throw new DiagError(`Unknown diagnostics layout ${rd32(b, 4)}: use the installer from the same package as the firmware.`);
+  const flav = b.subarray(20, 32);
+  const device = {
+    layout: rd32(b, 4), uptime_ms: rd32(b, 8), flags: rd32(b, 12),
+    flavour: String.fromCharCode(...flav.subarray(0, flav.indexOf(0) < 0 ? 12 : flav.indexOf(0))),
+    version: `${b[16]}.${b[17]}.${b[18]}`,
+  };
+  LAT.forEach((k, i) => { device[k === "count" ? "lat_count" : `lat_${k}_us`] = rd32(b, 32 + 4 * i); });
+  const result = {};
+  RESULT_KEYS.forEach((k, i) => { result[k] = rd32(b, HEADER + 4 * i); });
+  const out = { device, result }, a = b.length - 56;
+  if (a >= HEADER + 4 * RESULT_KEYS.length && rd32(b, a) === 0x5750534b && rd32(b, a + 4) === 56) {
+    const p = Array.from({length: 14}, (_, i) => rd32(b, a + i * 4));
+    const nullable = v => v === 0xffffffff || v === 65535 ? null : v;
+    out.power = {raw: nullable(p[2]), filtered: nullable(p[3]),
+      level: (p[5] & 1) && p[4] <= 3 ? p[4] : null,
+      external: p[5] & 2 ? !!(p[5] & 4) : null, power_pin_raw: nullable(p[6]),
+      samples: p[7], timeouts: p[8], sample_us_max: p[9], age_ms: nullable(p[10]),
+      last_battery_raw: nullable(p[11]), last_external_raw: nullable(p[12]), power_changes: p[13]};
+    const corrected = b[16] > 0 || b[17] > 27 || (b[17] === 27 && b[18] >= 1);
+    out.power.power_pin = corrected ? "PB1" : "PB2";
+    out.power.external_active_low = corrected;
+    out.power.estimated_percent = out.power.filtered !== null && (p[5] & 1) ? Math.max(0, Math.min(100, Math.floor(((p[3] - 516) * 100 + 63) / 126))) : null;
+    out.power.percent_method = "linear raw-voltage estimate; 516 empty, 642 full; capacity uncalibrated";
+  }
+  for (let o = HEADER + 4 * RESULT_KEYS.length; o + 80 <= b.length; o += 4) {
+    if (rd32(b, o) !== 0x5749534b || rd32(b, o + 4) !== 80 || rd32(b, o + 8) !== 1) continue;
+    const text = off => new TextDecoder().decode(b.subarray(off, off + 24)).split("\0")[0];
+    out.ui_interval = {start_ms: rd32(b, o + 12), end_ms: rd32(b, o + 16),
+      segment_max_us: rd32(b, o + 20), over_1ms: rd32(b, o + 24), point_max_us: rd32(b, o + 28),
+      from: text(o + 32), to: text(o + 56)};
+    break;
+  }
+  return out;
+}
+
+// Numbers a person can read. prev: the snapshot before (for the CPU shares).
+function derive(snap, prev = null) {
+  const { device: d, result: r } = snap;
+  const mhz = r.cpu_mhz || 360;
+  const out = {
+    uptime_s: round1(d.uptime_ms / 1000),
+    latency_us: Object.fromEntries(["min", "mean", "p50", "p90", "p99", "p999", "max"].map((k) => [k, d[`lat_${k}_us`]])),
+    latency_events: d.lat_count,
+    audio_render_max_us: round1(r.render_cycles_max / mhz),
+    audio_render_max_pct: round1(100 * r.render_cycles_max / mhz / AUDIO_HALF_US),
+    audio_overruns: r.overruns,
+    scan_pass_max_us: r.pass_us_max,
+    ui_frame_max_us: r.ui_max_us,
+    lvgl_heap_peak: r.lv_heap_peak,
+    audio_parts_max_us: { events: round1(r.audio_event_cycles_max / mhz), synth: round1(r.audio_synth_cycles_max / mhz), pack: round1(r.audio_pack_cycles_max / mhz) },
+    audio_service_gap_max_us: round1(r.audio_service_gap_cycles_max / mhz),
+    audio_msgs_max: r.audio_msgs_max,
+    audio_voices_max: r.audio_voices_max,
+    audio_voices_at_synth_max: r.audio_voices_at_synth_max,
+    audio_profile: r.audio_prof_passes ? { passes: r.audio_prof_passes,
+      osc_flash_cycles_per_sample: round1(r.audio_prof_osc_flash / r.audio_prof_passes / 64),
+      osc_sram_cycles_per_sample: round1(r.audio_prof_osc_sram / r.audio_prof_passes / 64),
+      filter_cycles_per_sample: round1(r.audio_prof_filter / r.audio_prof_passes / 64) } : null,
+    layers: r.gov_parts ? { parts: r.gov_parts, voices_max: r.gov_voices_max, limit_min: r.gov_limit_min, cross: r.gov_cross,
+      self: r.gov_self, shed: r.gov_shed, floor_grants: r.gov_floor_grants, cost_max_us: round1(r.gov_cost_us_max),
+      cost_per_voice_us: [r.gov_cpv16_0, r.gov_cpv16_1, r.gov_cpv16_2].map((c) => round1(c / 16)) } : null,
+    audio_split_at_max_us: { control: round1(r.audio_ctl_cycles_at_max / mhz), samples: round1(r.audio_dsp_cycles_at_max / mhz) },
+    audio_core1: CORE1[r.audio_core1] ?? r.audio_core1,
+    audio_wait_at_max_us: round1(r.audio_wait_cycles_at_max / mhz),
+    stack_free: { core0: r.stack0_free, core1: r.stack1_free },
+    scan_line_gap_max_us: r.scan_line_gap_us_max,
+    ui_work_max_us: r.ui_work_us_max,
+    ui_no_yield_max_us: r.ui_no_yield_us_max,
+    stalls: Object.fromEntries(PHASES.map((p) => [p, { max_us: round1(r[`ph_max_cycles_${p}`] / mhz), over_0_8ms: r[`ph_over_${p}`], overruns: r[`overrun_by_${p}`] }])),
+    overruns_unattributed: r.overrun_by_none,
+    cpu_poll_excludes_yields: Boolean(d.flags & 4),
+  };
+  if (prev) {
+    const dt = (d.uptime_ms - prev.device.uptime_ms) * 1000;
+    if (dt > 0 && dt < 2 ** 32 / mhz) {
+      const share = (...keys) => round1(100 * keys.reduce((s, k) => s + ((r[k] - prev.result[k] + 2 ** 32) % 2 ** 32), 0) / (mhz * dt));
+      out.cpu_pct = { scan: share("cyc_scan"), input: share("cyc_input"), poll: share("cyc_poll"), audio: share("render_cycles_sum") };
+    }
+  }
+  if (snap.ui_interval) out.ui_interval = snap.ui_interval;
+  return out;
+}
+
+function importHeld(snap) {
+  const v = snap.device.version.split(".").map(Number);
+  return snap.result.overrun_by_patch > 0 && (v[0] > 0 || v[1] > 82 || (v[1] === 82 && v[2] >= 13));
+}
+
+function warnings(snap) {
+  const r = snap.result, d = derive(snap), w = [];
+  if (r.error) w.push(`error ${r.error}: ${ERRORS[r.error] || "unknown"}`);
+  // 0.82.13: a patch import holds the engine silent and every flash erase blocks the audio refill, so overruns while the 'patch'
+  // section runs are expected, not dropouts (same rule as tools/ks_report.py).
+  const held = importHeld(snap);
+  const shown = r.overruns - (held ? r.overrun_by_patch : 0);
+  if (shown > 0) w.push(`${shown} audio overruns (clicks/dropouts)`);
+  for (const p of PHASES)
+    if (r[`overrun_by_${p}`] && !(held && p === "patch"))
+      w.push(`${r[`overrun_by_${p}`]} audio overruns while ${p} (${PHASE_WHAT[p]}; peak work ${d.stalls[p].max_us} us excluding service yields)`);
+  if (r.overrun_by_none) w.push(`${r.overrun_by_none} audio overruns while no loop section was running`);
+  if (d.audio_render_max_pct > 80) w.push(`audio service peaked at ${d.audio_render_max_pct}% of its time budget`);
+  if (d.latency_us.p99 > 2000) w.push(`1 in 100 events took over ${d.latency_us.p99} us to route`);
+  for (const [k, what] of [["save_errors", "settings save failures"], ["patch_errors", "patch load failures"],
+    ["adc_timeouts", "pad/fader ADC timeouts"], ["seq_overflows", "sequencer overflows"],
+    ["second_without_first", "key contacts out of order (velocity)"], ["enc_invalid", "knob steps out of order"]])
+    if (r[k]) w.push(`${r[k]} ${what}`);
+  if (r.flash_boot === 2 && r.store_state !== 1) w.push(`settings storage not mounted (state ${r.store_state})`);
+  if (r.audio_core1 === 2 || r.audio_core1 === 3) w.push(`core 1 ${CORE1[r.audio_core1]}: all voices on core 0`);
+  for (const k of ["stack0_free", "stack1_free"])
+    if (r[k] > 0 && r[k] < 1024) w.push(`core ${k[5]} stack nearly full (${r[k]} B never used)`);
+  return w;
+}
+
+// The report file (the same shape as ks_report.py's). raws: the snapshots' bytes, oldest first.
+function report({ raws, ident = null, caps = null, notes = "", host = "", time = new Date(), lost = "" }) {
+  const snaps = raws.map(decode);
+  const last = snaps.at(-1);
+  const summary = derive(last);
+  const loads = snaps.slice(1).map((s, i) => derive(s, snaps[i]).cpu_pct).filter(Boolean);
+  if (loads.length) {
+    summary.cpu_pct_peak = Object.fromEntries(Object.keys(loads[0]).map((k) => [k, Math.max(...loads.map((x) => x[k]))]));
+    summary.cpu_pct_mean = Object.fromEntries(Object.keys(loads[0]).map((k) => [k, round1(loads.reduce((s, x) => s + x[k], 0) / loads.length)]));
+  }
+  const reboots = snaps.slice(1).filter((s, i) => s.device.uptime_ms < snaps[i].device.uptime_ms).length;
+  const w = warnings(last);
+  if (reboots) w.unshift(`the keyboard restarted ${reboots} time(s) while watching`);
+  const out = { tool: "installer-1", time: time.toISOString(), host: { os: host }, port: null, ident, caps,
+    summary, warnings: w, reboots_seen: reboots, snapshots: raws.map((b, i) => ({ raw: hex(b), ...snaps[i] })), notes };
+  if (lost) out.lost_contact = lost;
+  return out;
+}
+
+// The summary lines the page shows.
+function describe(rep) {
+  const s = rep.summary, d = rep.snapshots.at(-1).device, r = rep.snapshots.at(-1).result, l = s.latency_us;
+  const lines = [
+    `Oscuro ${d.version}-test, ${d.flavour} build, up ${Math.round(s.uptime_s)} s, CPU ${r.cpu_mhz} MHz`,
+    `Keys, pads, knobs → MIDI: ${s.latency_events} events, median ${l.p50} µs, 99% under ${l.p99} µs, worst ${l.max} µs`,
+    `Audio: worst service ${Math.round(s.audio_render_max_us)} µs (${Math.round(s.audio_render_max_pct)}% of budget), ${s.audio_overruns} overruns`,
+    ...(importHeld(rep.snapshots.at(-1)) ? [`  of which ${r.overrun_by_patch} during a patch import (engine held, silent; the flash erases block the audio refill)`] : []),
+    `Scan pass worst ${s.scan_pass_max_us} µs, screen frame worst ${s.ui_frame_max_us} µs`,
+  ];
+  const power = rep.snapshots.at(-1).power;
+  if (power) lines.push(`Battery: ${power.level ?? "unknown"} bars, ADC ${power.raw ?? "unknown"}, external power ${power.external ?? "unknown"}; last unplugged ADC ${power.last_battery_raw ?? "unknown"}, plugged ADC ${power.last_external_raw ?? "unknown"}; ${power.power_changes} power changes, ${power.timeouts} ADC timeouts`);
+  const p = s.audio_parts_max_us;
+  lines.push(`Audio parts, independent maxima: events ${p.events} µs, synth ${p.synth} µs, pack ${p.pack} µs; max ${s.audio_msgs_max} messages/block`);
+  if (s.audio_voices_at_synth_max)
+    lines.push(`Voices: up to ${s.audio_voices_max}; the slowest synth block had ${s.audio_voices_at_synth_max} (${Math.round(p.synth / s.audio_voices_at_synth_max)} µs per voice)`);
+  if (s.audio_voices_at_synth_max) {
+    const q = s.audio_split_at_max_us;
+    lines.push(`  That block, both cores' work: voice control setup ${Math.round(q.control)} µs, per-sample loops ${Math.round(q.samples)} µs`);
+    lines.push(`  Core 0 waited ${Math.round(s.audio_wait_at_max_us)} µs for core 1 in it`);
+  }
+  if (s.audio_profile) {
+    const q = s.audio_profile;
+    lines.push(`Engine profile pass (${q.passes} voices), cycles per voice-sample: oscillator lookups from flash ${Math.round(q.osc_flash_cycles_per_sample)}, the same from SRAM ${Math.round(q.osc_sram_cycles_per_sample)}, filter ${Math.round(q.filter_cycles_per_sample)}`);
+  }
+  if (s.layers) {
+    const y = s.layers;
+    lines.push(`Layered parts: ${y.parts} parts, up to ${y.voices_max} voices together (the limit went down to ${y.limit_min}); the parts took voices from each other ${y.cross} times, from themselves ${y.self} times, shed ${y.shed} for time, granted ${y.floor_grants} below a floor`);
+    lines.push(`  The parts rendered in at most ${Math.round(y.cost_max_us)} µs; one voice costs ${y.cost_per_voice_us.join(" / ")} µs in parts 1-3`);
+  }
+  const sf = s.stack_free, b = (n) => (n ? `${n} B` : "not measured");
+  lines.push(`Core 1: ${s.audio_core1}; stack never used: core 0 ${b(sf.core0)}, core 1 ${b(sf.core1)}`);
+  lines.push(`Audio service interval worst ${s.audio_service_gap_max_us} µs (not DMA lateness); scan line gap ${s.scan_line_gap_max_us} µs`);
+  lines.push(`LVGL service excluding yields worst ${s.ui_work_max_us} µs; longest non-yielding segment ${s.ui_no_yield_max_us} µs`);
+  if (s.cpu_pct_peak) {
+    const p = s.cpu_pct_peak;
+    const pollLabel = s.cpu_poll_excludes_yields ? "poll excluding service yields" : "poll inclusive (overlaps)";
+    lines.push(`CPU peak over 5 s: scan ${p.scan}%, input ${p.input}%, ${pollLabel} ${p.poll}%, audio ${p.audio}%`);
+    lines.push("Independent interval peaks; these counters are not a total CPU breakdown. Screen CPU is audio only.");
+  }
+  return lines;
+}
+
+return { DiagError, WATCH_MS, RESULT_KEYS, readDiag, flashCheck, decode, derive, warnings, report, describe };
+})();
+
+
+const $ = (id) => document.getElementById(id);
+const bytes = async (file) => new Uint8Array(await file.arrayBuffer());
+let busy = false;
+
+// ---- tabs (arrow keys, #install / #patches / #memory / #report) ---------------------------------------
+const tabs = [...document.querySelectorAll("[role=tab]")];
+function selectTab(tab, focus = false) {
+  for (const t of tabs) {
+    const on = t === tab;
+    t.setAttribute("aria-selected", on);
+    t.tabIndex = on ? 0 : -1;
+    $(t.getAttribute("aria-controls")).hidden = !on;
+  }
+  if (focus) tab.focus();
+  history.replaceState(null, "", `#${tab.id.slice(2)}`);
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => selectTab(t));
+  t.addEventListener("keydown", (e) => {
+    const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (k) selectTab(tabs[(i + k + tabs.length) % tabs.length], true);
+    if (e.key === "Home") selectTab(tabs[0], true);
+    if (e.key === "End") selectTab(tabs.at(-1), true);
+  });
+});
+const fromHash = () => { const t = $(`t-${location.hash.slice(1)}`); if (t) selectTab(t); };
+window.addEventListener("hashchange", fromHash);
+fromHash();
+
+// ---- file drop zones: each file is checked as soon as it is picked --------------------------
+const checked = {};                   // input id → result of its check, or null
+const CHECKS = {
+  app: async ([f]) => { U.appUpdate(await bytes(f)); return `${f.name}, ${Math.round(f.size / 1024)} KB`; },
+  stock: async ([f]) => {
+    const p = U.parsePackage(await bytes(f));
+    const s = U.stockFile(p.name);
+    if (!s && $("x-model").checked) return `${p.name}: its model is not checked`;
+    if (!s) throw new Error(`This firmware is for the ${p.name}, not the SMK-37 Elite, Pro, MKE-P37 or Starrykey 37 Play.`);
+    return `M-Vave firmware ${s.version} for the ${s.model}`;
+  },
+  patches: async (files) => {
+    const all = { patches: [], skipped: 0, engines: new Set() };
+    for (const f of files) {
+      const r = P.readPatchFile(await bytes(f));
+      all.patches.push(...r.patches);
+      all.skipped += r.skipped;
+      r.engines.forEach((e) => all.engines.add(e));
+    }
+    const n = all.patches.reduce((k, p) => k + p.names.length, 0);
+    if (!n) throw new Error("No synth patches in these files.");
+    const kinds = [...new Set(all.patches.map((p) => P.FORMAT_NAMES[p.format]))].join(", ");
+    const names = all.patches.flatMap((p) => p.names).filter(Boolean);
+    all.text = `${n} patch${n === 1 ? "" : "es"} (${kinds}): ${names.slice(0, 5).join(", ")}${names.length > 5 ? ", …" : ""}` +
+      (all.skipped ? `. ${all.skipped} other messages are ignored.` : "");
+    return all;
+  },
+  backup: async ([f]) => {
+    const b = A.parseBackup(await bytes(f));
+    return `Backup from ${new Date(b.created * 1000).toLocaleString()}, ${b.size / 1024} KiB`;
+  },
+};
+
+for (const zone of document.querySelectorAll(".drop")) {
+  const input = zone.querySelector("input");
+  const file = zone.querySelector(".file");
+  const empty = file.innerHTML;
+  async function check() {
+    zone.classList.remove("good", "wrong");
+    checked[input.id] = null;
+    if (!input.files.length) { file.innerHTML = empty; refresh(); return; }
+    try {
+      const r = await CHECKS[zone.dataset.check]([...input.files]);
+      checked[input.id] = r;
+      file.textContent = typeof r === "string" ? r : r.text;
+      zone.classList.add("good");
+    } catch (e) {
+      file.textContent = e.message;
+      zone.classList.add("wrong");
+    }
+    refresh();
+  }
+  input.addEventListener("change", check);
+  zone.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("over"); });
+  zone.addEventListener("dragleave", () => zone.classList.remove("over"));
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    zone.classList.remove("over");
+    const dt = new DataTransfer();
+    for (const f of [...e.dataTransfer.files].slice(0, input.multiple ? 64 : 1)) dt.items.add(f);
+    input.files = dt.files;
+    check();
+  });
+}
+
+const dest = () => document.querySelector("input[name=p-dest]:checked").value;
+document.querySelectorAll("input[name=p-dest]").forEach((r) => r.addEventListener("change", refresh));
+$("p-bank").addEventListener("focus", () => { document.querySelector("input[name=p-dest][value=slot]").checked = true; refresh(); });
+
+const tidied = () => P.tidy(checked["p-files"], { duplicates: $("p-dup").checked, placeholders: $("p-ph").checked });
+function tidyNote() {
+  const f = checked["p-files"], el = $("p-tidy");
+  if (!f || (!$("p-dup").checked && !$("p-ph").checked)) { el.textContent = ""; return; }
+  const t = tidied(), n = t.patches.reduce((k, p) => k + p.names.length, 0);
+  el.textContent = `Will send ${n} patch${n === 1 ? "" : "es"}: ${t.removed.duplicates} duplicate and ${t.removed.placeholders} placeholder left out.`;
+}
+$("x-model").addEventListener("change", () => document.querySelectorAll("[data-check=stock] input").forEach((i) => i.dispatchEvent(new Event("change"))));
+$("p-dup").addEventListener("change", () => { tidyNote(); });
+$("p-ph").addEventListener("change", () => { tidyNote(); });
+
+function refresh() {
+  tidyNote();
+  $("b-install").disabled = busy || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"]);
+  $("b-revert").disabled = busy || !checked["r-stock"];
+  $("b-handoff").disabled = busy || !checked["r-stock"];
+  $("b-patches").disabled = busy || !checked["p-files"];
+  $("b-restore").disabled = busy || !checked["a-file"];
+  for (const id of ["b-find", "b-backup", "b-erase", "b-diag", "b-flash"]) $(id).disabled = busy;
+  $("b-watch").disabled = busy && !watching;
+  $("b-save").disabled = busy || !diag.raws.length;
+}
+
+// ---- progress and result ------------------------------------------------------------------
+function show(step, fraction, msg = "", cls = "") {
+  const s = $("status");
+  s.hidden = false;
+  s.classList.toggle("idle", step === null);
+  if (step !== null) $("step").textContent = step;
+  const pct = Math.round(Math.max(0, Math.min(1, fraction)) * 100);
+  $("fill").style.width = `${pct}%`;
+  $("pct").textContent = step === null ? "" : `${pct}%`;
+  $("msg").textContent = msg;
+  $("msg").className = cls;
+}
+const failure = (e) => e instanceof U.UpdateError || e instanceof U.PackageError || e instanceof P.PatchError || e instanceof A.AreaError ||
+  e instanceof D.DiagError ? e.message : `Unexpected error: ${e.message}`;
+
+// One task at a time; the page asks before closing while it writes.
+async function task(step, fn, guard = "") {
+  busy = true; refresh();
+  if (guard) window.onbeforeunload = () => guard;
+  try {
+    show(step, 0);
+    await fn();
+  } catch (e) {
+    show(null, 0, failure(e), "bad");
+  } finally {
+    busy = false; refresh();
+    window.onbeforeunload = null;
+  }
+}
+
+// ---- Web MIDI transport -----------------------------------------------------------------
+let access = null;
+async function midi() {
+  if (!navigator.requestMIDIAccess) throw new U.UpdateError("This browser has no Web MIDI. Use Chrome or Edge.");
+  if (!access) {
+    try { access = await navigator.requestMIDIAccess({ sysex: true }); }
+    catch { throw new U.UpdateError("MIDI access was not allowed. Allow it in the browser's site settings and try again."); }
+  }
+  return access;
+}
+
+function linkFor(input, output) {
+  const queue = [], waiters = [];
+  const onmsg = (e) => {
+    if (e.data[0] !== 0xf0) return;
+    const w = waiters.shift();
+    w ? w(e.data) : queue.push(e.data);
+  };
+  input.addEventListener("midimessage", onmsg);
+  return {
+    send: async (m) => output.send(m),
+    receive: (ms) => queue.length ? Promise.resolve(queue.shift()) : new Promise((res) => {
+      const t = setTimeout(() => { const i = waiters.indexOf(w); if (i >= 0) waiters.splice(i, 1); res(null); }, ms);
+      const w = (m) => { clearTimeout(t); res(m); };
+      waiters.push(w);
+    }),
+    close: async () => input.removeEventListener("midimessage", onmsg),
+  };
+}
+
+// Every output/input pair with the same name, opened, as a link.
+async function* ports() {
+  const a = await midi();
+  for (const out of a.outputs.values()) {
+    const inp = [...a.inputs.values()].find((i) => i.name === out.name);
+    if (!inp) continue;
+    try { await out.open(); await inp.open(); } catch { continue; }
+    yield linkFor(inp, out);
+  }
+}
+
+// The keyboard's port for the update protocol: the first pair that answers the identity query.
+async function connect() {
+  for await (const link of ports()) {
+    if (await U.identify(link, 1)) return link;
+    await link.close();
+  }
+  return null;
+}
+const transport = { connect, sleep: (ms) => new Promise((r) => setTimeout(r, ms)) };
+
+// The Bank list of the Patch tab: one entry per bank the keyboard reports (one when it
+// reports none); the choice is kept while the count stays the same.
+function populateBanks(dev) {
+  const sel = $("p-bank"), n = dev && dev.engine ? dev.banks : 1;
+  if (sel.options.length === n) return;
+  sel.replaceChildren(...Array.from({ length: n }, (_, i) => Object.assign(document.createElement("option"), { value: i, textContent: `Bank ${i + 1}` })));
+}
+
+// keysmith's own port: the pair that answers CAPS (the config SysEx).
+async function connectKeysmith() {
+  for await (const link of ports()) {
+    const dev = await P.caps(link);
+    if (dev) return { link, dev };
+    await link.close();
+  }
+  throw new A.AreaError("No keyboard running Oscuro answered. Check the cable, close other MIDI apps, and update Oscuro if it is older than 0.7.");
+}
+
+// ---- the keyboard's screen ------------------------------------------------------------------
+const BUILDS = {                       // flavour → what the About screen says, and its accent (firmware/ui/ui_palette.c)
+  retrowave: ["RETRO CZ-1", "#a77bff"], aio: ["RETRO CZ-1", "#a77bff"], live: ["LIVE", "#ff3d9a"], daw: ["DAW", "#2cc8f0"], dx7: ["DX7 FM", "#a77bff"], synth: ["DX7 FM", "#a77bff"], viroid: ["VIROID VA", "#ff610c"], viroid_ti: ["VIROID TI", "#ff610c"],
+};
+let kb = null;                         // what the last check found
+
+function screen(title, build, accent, lines, idle = false) {
+  $("k-screen").classList.toggle("idle", idle);
+  $("k-title").textContent = title;
+  $("k-build").textContent = build;
+  document.documentElement.style.setProperty("--accent", accent);
+  $("k-lines").replaceChildren(...lines.map((l) => {
+    const s = document.createElement("span");
+    if (Array.isArray(l)) { s.append(`${l[0]} `); const b = document.createElement("b"); b.textContent = l[1]; s.append(b); }
+    else s.textContent = l;
+    return s;
+  }));
+}
+
+function hints() {
+  const ks = kb?.kind === "keysmith", stock = kb?.kind === "stock";
+  const set = (id, text, cls = "") => { $(id).textContent = text; $(id).className = `hint ${cls}`; };
+  set("i-hint", stock ? "This keyboard runs M-Vave's firmware: choose both files." : ks ? (P.flashProblem(kb.caps) || "This keyboard runs Oscuro: app.bin alone is enough.") : "",
+    ks && P.flashProblem(kb.caps) ? "bad" : "");
+  const merged = !!kb?.engines && kb.engines.length > 1;   // the aio build: more than the running engine is selectable
+  set("p-hint", !ks ? "" : merged ? `This Oscuro build plays every synth (${kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")}): any patch file can go in, and the keyboard switches its synth for it.`
+    : !kb.caps?.engine ? `This Oscuro build (${BUILDS[kb.caps?.flavour]?.[0] || kb.caps?.flavour || "older"}) has no synth that takes patches. Install the Viroid or DX7 build.`
+    : kb.area && kb.area.state === A.STATE.FOREIGN ? "The patch memory still holds M-Vave's data: back it up and erase it under Patch memory first." : "",
+    !ks ? "" : merged ? "" : "warn");
+  const st = kb?.area?.state;
+  const fp = ks ? P.flashProblem(kb.caps) : "";
+  set("m-hint", !ks ? "" : fp ? fp : !kb.area ? "The patch memory is not available: start the keyboard normally (not from the dongle), and update Oscuro if it is older than 0.8."
+    : st === A.STATE.FOREIGN ? "The memory holds M-Vave's data. Save a backup, then erase it." : st === A.STATE.BANK ? "The memory is ready for patches." : "The memory is empty and ready for patches.",
+    !ks ? "" : !kb.area ? "bad" : st === A.STATE.FOREIGN ? "warn" : "ok");
+  $("s-erase").classList.toggle("done", ks && !!kb.area && st !== A.STATE.FOREIGN);
+  steps();
+}
+
+// The primary button moves along: backup first, then erase, then neither.
+function steps() {
+  const backed = $("s-backup").classList.contains("done"), erased = $("s-erase").classList.contains("done");
+  $("b-backup").classList.toggle("quiet", backed || erased);
+  $("b-backup").textContent = backed ? "Save another backup" : "Save a backup";
+  $("b-erase").classList.toggle("quiet", !backed || erased);
+}
+
+function render() {
+  if (!kb) return;
+  if (kb.kind === "none") {
+    screen("No keyboard found", "", "#4a5160", ["Connect the USB cable, close DAWs and other MIDI apps, and check again."], true);
+  } else if (kb.kind === "stock") {
+    screen(`M-Vave firmware ${String(kb.id.version).padStart(3, "0")}`, "Oscuro not installed", "#8a93a6", [["Model", kb.id.model]]);
+  } else {
+    const [name, accent] = BUILDS[kb.caps?.flavour] || [kb.caps?.flavour?.toUpperCase() || "", "#ffb000"];
+    const area = kb.area ? A.STATE_NAMES[kb.area.state] : P.flashProblem(kb.caps) ? `flash chip ${kb.caps.flashId} not supported` : "not available";
+    populateBanks(kb.caps);
+    screen(`Oscuro ${kb.ident?.version || ""}`.trim(), name, accent, [
+      ["Synth patches", kb.engines && kb.engines.length > 1 ? "all: " + kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")
+        : kb.caps?.engine ? P.ENGINE_NAMES[kb.caps.engine] || kb.caps.engine : "not in this build"],
+      ["Patch memory", area],
+    ]);
+  }
+  hints();
+}
+
+async function check(link = null) {
+  let own = !link;
+  try {
+    if (link) {
+      kb = { kind: "keysmith", caps: await P.caps(link), ident: await P.ident(link), area: await A.areaInfo(link) };
+      if (kb.caps) kb.engines = await P.engines(link);   // merged aio build: the selectable synths (even while one runs)
+      return;
+    }
+    for await (const l of ports()) {
+      const caps = await P.caps(l);
+      const ident = caps ? await P.ident(l) : null;
+      if (caps || ident) { kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l) };
+        if (caps) kb.engines = await P.engines(l);
+        link = l; return; }
+      const id = await U.identify(l, 1);
+      await l.close();
+      if (id) { kb = { kind: id.version >= 900 ? "keysmith" : "stock", id }; return; }
+    }
+    kb = { kind: "none" };
+  } finally {
+    if (own && link) await link.close();
+    render();
+  }
+}
+
+$("b-find").addEventListener("click", () => task("Looking for the keyboard", async () => {
+  await check();
+  show(null, 1, "");
+  $("status").hidden = true;
+}));
+
+// ---- install / go back ---------------------------------------------------------------------
+async function install(makePackage) {
+  await task("Reading the files", async () => {
+    const raw = await makePackage();
+    await U.install(transport, raw, (step, text, f) => show(text, f), { anyModel: $("x-model").checked });
+    show(null, 1, "Finished. The keyboard has restarted.", "ok");
+    kb = null;
+    screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
+    hints();
+  }, "An update is running.");
+}
+$("b-install").addEventListener("click", async () => install(async () => $("i-stock").files.length
+  ? U.buildKeysmith(await bytes($("i-stock").files[0]), await bytes($("i-app").files[0]), { anyModel: $("x-model").checked })
+  : U.appUpdate(await bytes($("i-app").files[0]))));
+$("b-revert").addEventListener("click", async () => {
+  if (kb?.area && kb.area.state !== A.STATE.FOREIGN &&
+      !confirm("The patch memory doesn't hold M-Vave's data now. M-Vave's firmware won't bring it back: restore your backup first under Patch memory. Go back anyway?"))
+    return;
+  install(async () => bytes($("r-stock").files[0]));
+});
+
+$("b-handoff").addEventListener("click", async () => {
+  if (!confirm("Oscuro will restart this keyboard into M-Vave's own updater (the screen may stay dark) and install the file with it. Do not unplug it until it says done. Continue?"))
+    return;
+  await task("Reading the file", async () => {
+    const raw = await bytes($("r-stock").files[0]);
+    await U.recover(transport, raw, (step, text, f) => show(text, f), { anyModel: $("x-model").checked });
+    show(null, 1, "Finished. The keyboard has restarted.", "ok");
+    kb = null;
+    screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
+    hints();
+  }, "An update is running.");
+});
+
+// ---- synth patches ---------------------------------------------------------------------------
+$("b-patches").addEventListener("click", () => task("Looking for the keyboard", async () => {
+  const { link } = await connectKeysmith();
+  try {
+    const file = tidied();
+    const r = await P.sendPatches(link, file, dest(), parseInt($("p-bank").value, 10) || 0,
+      (done, t, name) => show(`Sending ${name || "patches"}`, t ? done / t : 1),
+      (eng) => show("Switching the keyboard's synth", 1, P.ENGINE_NAMES[eng] || eng));
+    populateBanks(await P.caps(link));
+    if (!r.sent) { show(null, 0, r.left ? `${r.left} patches: this keyboard plays none of these engines.` : "Nothing was sent.", "bad"); return; }
+    show(null, 1, `Sent ${r.sent} patch${r.sent === 1 ? "" : "es"}${r.where.length ? ` (${r.where.join("; ")})` : " to play now"}.` +
+      (r.left ? ` ${r.left} for engines this build cannot play were left out.` : ""), "ok");
+  } finally { await link.close(); }
+}));
+
+// ---- patch memory ------------------------------------------------------------------------------
+let savedBackup = false;               // a backup was saved from this page since it opened
+
+async function withArea(step, fn) {
+  await task(step, async () => {
+    const { link } = await connectKeysmith();
+    try { await fn(link); await check(link); } finally { await link.close(); }
+  }, "The patch memory is being written.");
+}
+
+$("b-backup").addEventListener("click", () => withArea("Saving a backup", async (link) => {
+  const { file } = await A.backup(link, (d, t) => show("Saving a backup", d / t));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([file], { type: "application/octet-stream" }));
+  a.download = `smk37-patch-memory-${new Date().toISOString().slice(0, 10)}.ksua`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  savedBackup = true;
+  $("s-backup").classList.add("done");
+  steps();
+  show(null, 1, `Backup saved as ${a.download}. Keep it somewhere safe: it is the only copy.`, "ok");
+}));
+
+$("b-erase").addEventListener("click", () => withArea("Erasing the patch memory", async (link) => {
+  const info = await A.areaInfo(link);
+  const ask = info?.state === A.STATE.FOREIGN
+    ? (savedBackup ? "Erase M-Vave's data from the patch memory? Your backup can bring it back."
+      : "The patch memory holds M-Vave's data and no backup was saved from this page. Erase it anyway? It can't be brought back without a backup.")
+    : "Erase the patch memory? Every patch stored on the keyboard is deleted.";
+  if (!confirm(ask)) { show(null, 0, "Nothing was erased."); return; }
+  await A.erase(link, (d, t) => show("Erasing the patch memory", d / t));
+  show(null, 1, "Erased. The patch memory is ready for synth patches.", "ok");
+}));
+
+$("b-restore").addEventListener("click", () => withArea("Restoring the backup", async (link) => {
+  const file = await bytes($("a-file").files[0]);
+  const b = A.parseBackup(file);
+  if (!confirm(`Restore the backup from ${new Date(b.created * 1000).toLocaleString()}? Everything now in the patch memory, Oscuro's patches included, is replaced.`)) {
+    show(null, 0, "Nothing was written.");
+    return;
+  }
+  await A.restore(link, file, (d, t) => show("Restoring the backup", d / t));
+  show(null, 1, "Restored and checked.", "ok");
+}));
+
+// ---- test report (docs/TEST_BUILDS.md) ---------------------------------------------------------
+const diag = { raws: [], ident: null, caps: null, lost: "" };
+let watching = false;                  // the watch loop runs; b-watch stops it
+
+function diagShow() {
+  const box = $("d-summary");
+  box.replaceChildren();
+  if (!diag.raws.length) return;
+  const rep = D.report({ raws: diag.raws });
+  const line = (text, cls = "") => { const d = document.createElement("div"); d.textContent = text; d.className = cls; box.append(d); };
+  D.describe(rep).forEach((t) => line(t));
+  if (diag.raws.length > 1) line(`${diag.raws.length} readings`);
+  rep.warnings.forEach((w) => line(`Warning: ${w}`, "warn"));
+  if (!rep.warnings.length) line("No warnings.", "ok");
+}
+
+// Connect, check it's a test build, take the first reading. → the link (the caller closes it).
+async function diagStart() {
+  const { link, dev } = await connectKeysmith();
+  try {
+    const ident = await P.ident(link);
+    const raw = await D.readDiag(link);
+    if (!raw) throw new D.DiagError(`This keyboard runs Oscuro ${ident?.version || ""}, not a test build: it keeps no diagnostics. Install the _test app file.`);
+    Object.assign(diag, { raws: [raw], ident, caps: dev, lost: "" });
+    diagShow();
+    return link;
+  } catch (e) { await link.close(); throw e; }
+}
+
+$("b-diag").addEventListener("click", () => task("Reading the diagnostics", async () => {
+  const link = await diagStart();
+  await link.close();
+  show(null, 1, "Read. Add a note below, then save the report.", "ok");
+}));
+
+$("b-flash").addEventListener("click", () => task("Checking the flash chip", async () => {
+  const { link } = await connectKeysmith();
+  let r;
+  try { r = await D.flashCheck(link); } finally { await link.close(); }
+  if (!r) throw new D.DiagError("This Oscuro did not answer the flash check. Update it first, or send the report instead.");
+  const ok = !r.step;
+  const text = `Flash chip ID ${r.id} (status ${r.sr1.toString(16).padStart(2, "0")} ${r.sr2.toString(16).padStart(2, "0")}). ` +
+    (ok ? "The write test passed: Oscuro writes to this chip." : r.step === 1 ? "This is not a flash ID Oscuro can use. Nothing was changed." : `The write test failed at step ${r.step}: Oscuro will not write to this chip.`);
+  const box = $("d-summary");
+  box.replaceChildren();
+  const d = document.createElement("div");
+  d.textContent = text;
+  d.className = ok ? "ok" : "warn";
+  box.append(d);
+  show(null, 1, text, ok ? "ok" : "bad");
+}));
+
+$("b-watch").addEventListener("click", () => {
+  if (watching) { watching = false; $("b-watch").textContent = "Watch while I play"; return; }
+  task("Watching", async () => {
+    const link = await diagStart();
+    watching = true;
+    $("b-watch").textContent = "Stop watching";
+    refresh();
+    try {
+      while (watching) {
+        show(null, 1, `Watching: ${diag.raws.length} reading${diag.raws.length === 1 ? "" : "s"}. Play as usual, then stop.`);
+        await new Promise((r) => setTimeout(r, D.WATCH_MS));
+        if (!watching) break;
+        try { diag.raws.push(await D.readDiag(link)); }
+        catch (e) {
+          diag.lost = e.message;
+          show(null, 1, "Lost the keyboard: it may have restarted or been unplugged. What was read so far can be saved.", "bad");
+          return;
+        }
+        diagShow();
+      }
+      show(null, 1, `Stopped after ${diag.raws.length} readings. Add a note below, then save the report.`, "ok");
+    } finally {
+      watching = false;
+      $("b-watch").textContent = "Watch while I play";
+      await link.close();
+    }
+  });
+});
+
+$("b-save").addEventListener("click", () => {
+  const rep = D.report({ ...diag, notes: $("d-notes").value.trim(), host: navigator.userAgent });
+  rep.port = "web-midi";
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[-:]/g, "").replace("T", "-");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(rep, null, 1)], { type: "application/json" }));
+  a.download = `oscuro-report-${stamp}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  Object.assign(diag, { raws: [], lost: "" });   // the next report starts clean
+  $("d-notes").value = "";
+  diagShow();
+  refresh();
+  show(null, 1, `Saved ${a.download}. Please send this file.`, "ok");
+});
+
+refresh();
+
+// ---- site: releases and showcase banks that live next to this page ---------------------------------------
+const HOSTED = (() => { const m = document.querySelector('meta[name="oscuro-downloads"]')?.content; return m ? new URL(m, location.href) : null; })();
+const hosted = {};
+const fetchHosted = async (item) => {
+  const r = await fetch(new URL(item.file, HOSTED));
+  if (!r.ok) throw new Error(`The download failed (${r.status}).`);
+  const blob = await r.blob();
+  if (crypto?.subtle) {
+    const hex = [...new Uint8Array(await crypto.subtle.digest("SHA-256", await blob.arrayBuffer()))].map((b) => b.toString(16).padStart(2, "0")).join("");
+    if (hex !== item.sha256) throw new Error("The download does not match its checksum. Try again.");
+  }
+  return new File([blob], item.file.split("/").pop());
+};
+const fillInput = (id, files) => { const dt = new DataTransfer(); files.forEach((f) => dt.items.add(f)); $(id).files = dt.files; $(id).dispatchEvent(new Event("change")); };
+const relLabel = (r) => r.show_build ? r.build : r.version;
+const sizeKb = (n) => `${Math.round(n / 1024)} KB`;
+
+async function hostedInit() {
+  if (!HOSTED) return;
+  try {
+    const r = await fetch(new URL("index.json", HOSTED));
+    if (!r.ok) throw new Error(String(r.status));
+    hosted.index = await r.json();
+  } catch { return; }          // offline or not published yet: the file pickers below keep working
+  const { releases, banks } = hosted.index;
+  if (releases.length) {
+    const variants = [...new Map(releases.map((x) => [x.variant, x.label]))];
+    $("rel-variant").innerHTML = variants.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+    const versions = () => releases.filter((x) => x.variant === $("rel-variant").value);
+    const pick = () => versions().find((x) => x.version === $("rel-version").value);
+    const versionList = () => {
+      $("rel-version").innerHTML = versions().map((x, i) => `<option value="${x.version}">${relLabel(x)}${i === 0 ? " (latest)" : ""}</option>`).join("");
+      choose();
+    };
+    async function choose() {
+      const rel = pick();
+      $("rel-install").disabled = true;
+      $("rel-full").hidden = !rel?.fwsc;
+      if (!rel) return;
+      $("rel-note").textContent = "Fetching…";
+      try {
+        fillInput("i-app", [await fetchHosted(rel.app)]);
+        $("rel-note").textContent = `${rel.label} ${relLabel(rel)} is in the file box below (${sizeKb(rel.app.size)}).`;
+        $("rel-install").disabled = busy;
+      } catch (e) { $("rel-note").textContent = e.message; }
+    }
+    $("rel-variant").addEventListener("change", versionList);
+    $("rel-version").addEventListener("change", choose);
+    $("rel-install").addEventListener("click", async () => {
+      const rel = pick();
+      if (!confirm(`This writes ${rel.label} ${relLabel(rel)} to the keyboard and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
+      install(async () => bytes(await fetchHosted(rel.fwsc)));
+    });
+    $("rel").hidden = false;
+    versionList();
+  }
+  if (banks.length) {
+    $("bank-pick").innerHTML = `<option value="">Choose a bank…</option>` + banks.map((b, i) => `<option value="${i}">${b.title} (.${b.kind})</option>`).join("") + `<option value="all">All six</option>`;
+    $("bank-pick").addEventListener("change", async () => {
+      const v = $("bank-pick").value;
+      if (!v) return;
+      $("bank-note").textContent = "Fetching…";
+      try {
+        const files = await Promise.all((v === "all" ? banks : [banks[+v]]).map(fetchHosted));
+        fillInput("p-files", files);
+        $("bank-note").textContent = `${files.length} file${files.length === 1 ? "" : "s"} are in the file box below.`;
+      } catch (e) { $("bank-note").textContent = e.message; }
+    });
+    $("bank-rel").hidden = false;
+  }
+}
+hostedInit();
+</script>
+</body>
+</html>

@@ -44,13 +44,14 @@
   <p class="kicker">Install</p>
   <h1>Discover the dark side of your SMK-37.</h1>
   <p class="lead">Our own installer, online or on your computer. M-Vave&#x27;s own firmware can go back any time. Flashing always carries some risk.</p>
-  <p class="more"><span class="btn primary big disabled" aria-disabled="true">Download Oscuro Viroid</span></p><p class="note">The download goes live with the first public build. This page is ready for it.</p>
+  <p class="more"><a class="btn primary big" href="installer/">Open the installer</a> <a class="btn ghost big" href="../downloads/oscuro-0.84-viroid-ti-rack.zip" download>Download the installer kit</a></p>
+  <p class="note">Viroid TI Rack 0.84 · Installer, firmware and showcase banks in one zip · 1.2 MB</p>
 </div></header>
 <section><div class="wrap">
   <h2 class="h-sm">Two ways to install</h2>
   <div class="trio two ways">
-    <div class="tile"><p class="kicker">Online</p><h3>Install from your browser</h3><p>Open the installer in Chrome or Edge, connect the keyboard and follow the prompts. Nothing to download first.</p><p class="warn">It depends on your connection. The firmware is fetched while it is written, so a dropped or slow connection, a sleeping computer or a pulled cable can interrupt the write, and an interrupted write can leave the keyboard unable to start. Use a wired connection and keep the keyboard plugged in until it restarts.</p><p class="more"><span class="btn ghost disabled" aria-disabled="true">Open the installer</span></p><p class="note">Available with the first public build.</p></div>
-    <div class="tile"><p class="kicker">From a file</p><h3>Install from your computer</h3><p>Download the installer and the firmware once, then run the installer from your computer. Nothing is fetched while it writes.</p><p class="good">The steadier choice. Everything is on your computer before anything is written, so the connection can come and go and the write does not care.</p><p class="more"><span class="btn ghost disabled" aria-disabled="true">Download the local installer</span></p><p class="note">Available with the first public build.</p></div>
+    <div class="tile"><p class="kicker">Online</p><h3>Install from your browser</h3><p>Open the installer in Chrome or Edge, pick a release from the list and connect the keyboard. The page downloads the file, checks it, and only then writes.</p><p class="warn">Nothing is written until the whole file has arrived and passed its checksum. Keep the keyboard plugged in and the computer awake until it restarts.</p><p class="more"><a class="btn primary" href="installer/">Open the installer</a></p></div>
+    <div class="tile"><p class="kicker">From a file</p><h3>Install from your computer</h3><p>Download the kit once: the installer page, the firmware and the showcase banks. Open the installer from your computer and choose the files from the same folder.</p><p class="good">The steadier choice. Everything is on your computer before anything is written, so the connection can come and go and the write does not care.</p><p class="more"><a class="btn primary" href="../downloads/oscuro-0.84-viroid-ti-rack.zip" download>Download the kit</a></p></div>
   </div>
   <p class="plain-p">The keyboard restarts into Oscuro and starts on the synth screen.</p>
 </div></section>
@@ -62,6 +63,23 @@
   <h2 class="h-sm">What it leaves out</h2>
   <p class="plain-p">Oscuro Viroid has no Bluetooth and no step sequencer. That memory goes to the synth and the effects. Oscuro DAW, in development, is the build for those.</p>
   <p class="plain-p">On your computer the keyboard appears as “SMK-37 Oscuro USB”. A DAW or script that remembers M-Vave&#x27;s device name may need the keyboard selected again.</p>
+</div></section>
+<section id="banks" class="banks"><div class="wrap">
+  <p class="kicker">Showcase banks</p>
+  <h2 class="h-sm">Join the dark side. We have cookies.</h2>
+  <p class="lead">A jar of sounds to start with: 192 patches in six banks, written for Viroid&#x27;s engine and ready to send to the keyboard from the installer. Pads that breathe, basses that growl, leads that cut, and a few that simply misbehave.</p>
+  <p class="note">A few names from the jar: Slow Tide, Glass Bell, Hyper Beam, Rise Up, Stone Sub, Marimba, Deep Hum, Brass Hit, OTT Sub, Sag Fall, Fold Lead, Morph Rise, 808 Boom, Reese Dark, Dub Wub, Hoover.</p>
+  <div class="trio">
+    <div class="tile"><h3>Eight families, four of each</h3><p>Banks 1 to 4 hold pads, bells and keys, leads, sweeps and FX, basses, plucks, textures and drones, and stacks. The two bass banks split into Sub and 808, Reese, Neuro, Wobble, Psy and techno, Jungle and DnB, Acid and house and funk, Grit and trap.</p></div>
+    <div class="tile"><h3>.syx: Virus patches</h3><p>Virus TI single-patch files, 32 to a bank, in the format a Virus uses. A patch&#x27;s Virus effect settings set up the FX rack when it loads.</p></div>
+    <div class="tile"><h3>.oscbank: Oscuro banks</h3><p>Oscuro&#x27;s own bank format. Each patch brings a full FX rack, every byte of every effect, a wider modulation matrix, and some carry an arpeggiator pattern. They need Oscuro&#x27;s FX rack.</p></div>
+  </div>
+  <h3 class="spec-h">The banks</h3>
+  <ul class="banklist"><li><span class="bn">Showcase 1</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../downloads/banks/ti_showcase_1.syx" download>Download</a></li><li><span class="bn">Showcase 2, wavetables</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../downloads/banks/ti_showcase_2.syx" download>Download</a></li><li><span class="bn">Showcase bass</span><span class="chip">.syx</span><span class="sz">16 KB</span><a class="btn ghost" href="../downloads/banks/ti_showcase_bass.syx" download>Download</a></li><li><span class="bn">Showcase 1 with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../downloads/banks/oscuro_showcase_1.oscbank" download>Download</a></li><li><span class="bn">Showcase 2 with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../downloads/banks/oscuro_showcase_2.oscbank" download>Download</a></li><li><span class="bn">Showcase bass with racks</span><span class="chip">.oscbank</span><span class="sz">22 KB</span><a class="btn ghost" href="../downloads/banks/oscuro_showcase_bass.oscbank" download>Download</a></li></ul>
+  <p class="more"><a class="btn primary" href="installer/#patches">Open the banks in the installer</a> <a class="btn ghost" href="../downloads/oscuro-showcase-banks.zip" download>Download all six · 14 KB</a> <a class="btn ghost" href="https://ko-fi.com/kartun83">Feed the jar</a></p>
+  
+  <p class="plain-p">Open the installer&#x27;s Synth patches tab, pick a bank and send it. The first time, the installer asks you to back up and clear the keyboard&#x27;s patch memory (the Patch memory tab), because patches are stored where M-Vave keeps its own data.</p>
+  <p class="note">Written for Oscuro&#x27;s Viroid engine; none is copied from a commercial or factory set. Free to use and share with Oscuro.</p>
 </div></section>
 <section><div class="wrap">
   <h2 class="h-sm">Easy to try. Easy to undo.</h2>
@@ -81,7 +99,7 @@
 
 </main>
 <footer><div class="wrap foot">
-  <span class="foot-brand">Oscuro 0.84.39</span>
+  <span class="foot-brand">Oscuro 0.84</span>
   <span class="foot-links"><a href="./">Install</a><a href="../specs/">Specs</a><a href="../changelog/">Changelog</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="https://ko-fi.com/kartun83">Support on Ko-fi</a></span>
 </div>
 <div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
