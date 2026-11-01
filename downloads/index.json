@@ -12,14 +12,15 @@
     "sha256": "97732e5990a10193f45b860967d52001fa2cdcaba535672774bafa8a2cc14059"
    },
    "fwsc": {
-    "file": "releases/0.84/viroid-ti-rack/oscuro-0.84.64-test-viroid_ti-blk192-scanasync.fwsc",
-    "size": 721620,
-    "sha256": "e5fa13fd2b9f44f9485166fd8a7e5fef53ccc279311250d86ca3ea28c55ae4f0"
+    "file": "releases/0.84/viroid-ti-rack/oscuro-0.84.9-test-viroid_ti.fwsc",
+    "size": 705236,
+    "sha256": "9486d62475b77c45dc393840988bcbececcd330d8671a169332cb3eed8fab2c3",
+    "build": "0.84.9"
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1219883,
-    "sha256": "599496df310393190c139832997e7266ea582b4819ea05c6018cd9c79a41cbba"
+    "size": 1204157,
+    "sha256": "35d1da3079b9ca2b6ab61077d98bd1ffab5c30d495bb6b9087ead0382b565cf5"
    }
   }
  ],

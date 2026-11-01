@@ -216,7 +216,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
         </div>
         <p class="hint" id="rel-note"></p>
         <div class="full" id="rel-full" hidden>
-          <p>Or install the complete image: it needs no M-Vave file, and the keyboard can be running M-Vave's firmware or any Oscuro build.</p>
+          <p>Or install the complete image: it needs no M-Vave file, and the keyboard can be running M-Vave's firmware or any Oscuro build. <span id="rel-full-note"></span></p>
           <button id="rel-install" class="quiet" disabled>Install the complete image</button>
         </div>
       </div>
@@ -600,6 +600,22 @@ function modelProblem(id, pkg) {
 const updaterModelOk = (id1, id0, pkg, anyModel = false) => !!id1 && id1.updater && (anyModel || id1.model === id0.model ||
   id1.model === /^(.+)_[0-9]+$/.exec(pkg.name)?.[1] || (pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id1.model)));
 
+// Some entries (USR, isd_config.ini, script.ver, blimit.bin in M-Vave's file) are enciphered per 32 bytes with a key
+// that depends on the entry's offset in the file (CHIP_KEY ^ offset/4; M-Vave's updater decodes USR the same way).
+// Moving such an entry without re-keying leaves the loader a corrupt isd_config.ini and USR. The data now sits at `to`
+// still enciphered for `from`; entries that were plain (flash.bin's neighbours, ota.bin, tail.bin) stay as they are.
+function rekeyEntry(lg, to, from, size, stored, crc) {
+  if (!size) return;
+  const key = (off) => CHIP_KEY ^ ((off >>> 2) & 0xffff);
+  const plain = lg.slice(to, to + stored);
+  if (crc16(plain.subarray(0, size)) === crc) return;       // not enciphered
+  const clear = plain.slice();
+  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(from + k));
+  need(crc16(clear.subarray(0, size)) === crc, "A file entry does not match its CRC, plain or enciphered; cannot move it.");
+  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(to + k));
+  lg.set(clear, to);
+}
+
 // A keysmith package: the M-Vave file with app.bin replaced (padded with 0xFF to
 // the stock slot, so nothing else moves; as dongle/host/appimage.py), its CRCs,
 // the flash image CRC in the UFW header, and the name.
@@ -639,7 +655,11 @@ function buildKeysmith(stockRaw, appBin, { anyModel = false } = {}) {
     const eo = 0x40 + i * 0x50;
     cipher(lg, eo, 0x50, 0xffff);
     if (i === p.flashEntry) { put(lg, eo + 4, crc16(a2), 2); put(lg, eo + 12, a2.length, 4); put(lg, eo + 16, a2.length, 4); }
-    else if (le(lg, eo + 8, 4) >= p.flashOffset + p.flashSize) put(lg, eo + 8, le(lg, eo + 8, 4) + delta, 4);
+    else if (le(lg, eo + 8, 4) >= p.flashOffset + p.flashSize) {
+      const from = le(lg, eo + 8, 4), to = from + delta;
+      rekeyEntry(lg, to, from, le(lg, eo + 12, 4), le(lg, eo + 16, 4), le(lg, eo + 4, 2));
+      put(lg, eo + 8, to, 4);
+    }
     cipher(lg, eo, 0x50, 0xffff);
   }
   put(h, 2, crc16(lg.subarray(0x40, 0x40 + count * 0x50)), 2);
@@ -768,13 +788,21 @@ async function writeStage({ connect, sleep }, link, pkg, say) {
   await link.send(TRIGGER);
   const span = Math.max(1, pkg.dataLen);
   let sent = 0;                                        // app-only asks for its first sector last
+  const trace = [];                                    // the loader's requests, newest last: a stall shows where it stopped
+  const hex = (r) => "0x" + r.addr.toString(16) + "+" + r.len;
+  const t0 = Date.now();
+  let passes = 1, asked = 0, low = Infinity, prev = -1;  // a jump up is a new pass over the file
   const s2 = await serve(link, pkg.logical, 180000, (r) => {
+    trace.push(r);
+    if (trace.length > 8) trace.shift();
+    if (prev >= 0 && r.addr > prev + 0x8000) { passes++; low = Infinity; }
+    prev = r.addr; asked += r.len; low = Math.min(low, r.addr);
     if (r.addr < pkg.dataStart) return;
     sent += r.len;
-    say("write", "Writing. Do not switch the keyboard off or unplug it.", Math.min(1, sent / span));
+    say("write", `Writing. Do not switch the keyboard off or unplug it. ${Math.round((Date.now() - t0) / 1000)} s, pass ${passes}, asked ${Math.round(asked / 1024)} KiB of ${Math.round(span / 1024)}, lowest this pass ${low.toString(16)}, last ${hex(r)}.`, Math.min(1, sent / span));
   });
   await link.close();
-  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again.");
+  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again. After " + Math.round((Date.now() - t0) / 1000) + " s and " + passes + " pass(es). Last requests: " + (trace.map(hex).join(", ") || "none") + ".");
 
   say("verify", "Restarting and checking", 1);
   await sleep(2000);
@@ -794,6 +822,7 @@ async function writeStage({ connect, sleep }, link, pkg, say) {
 // opts.anyModel: skip the model check (the keyboard's updater still checks the file's flash image before anything is written).
 async function install({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
   const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  refuseOversize(pkg);
   const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
   if (!target) throw new UpdateError("The file's name is not a firmware name such as SMK-37 Elite_016.");
   let link = await connect();
@@ -854,8 +883,18 @@ const HANDOFF_PROBLEMS = {
 // take it; M-Vave's updater can, started by Oscuro's handoff (recover) or by stock itself.
 const isOversize = (pkg) => !pkg.appOnly && pkg.flashSize > APP_END;
 
+// M-Vave's updater has only been seen to finish a package whose flash image fits its own (stock-size) layout. A bigger
+// one has not been proven from a stock unit, and an attempt left a keyboard that needed the dongle, so it is refused
+// unless a test page turns this on.
+const settings = { oversizeWhole: false };
+function refuseOversize(pkg) {
+  if (isOversize(pkg) && !settings.oversizeWhole)
+    throw new UpdateError("This image is bigger than M-Vave's updater is known to write, so nothing was changed. Install the complete image of the release first, then install this app on top of it.");
+}
+
 async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
   const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  refuseOversize(pkg);
   // M-Vave's own file, or an Oscuro package that outgrew the stock layout (oversize: Oscuro's own updater stops at 0x9d000)
   if (pkg.appOnly || (pkg.name === KEYSMITH_NAME && !isOversize(pkg))) throw new UpdateError("This needs M-Vave's own firmware file (such as SMK-37 Elite_016.fwsc).");
   let link = await connect();
@@ -885,7 +924,7 @@ async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = fal
   return writeStage({ connect, sleep }, link, pkg, say);
 }
 
-return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, recover };
+return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, settings, recover };
 })();
 
 const P = (() => {
@@ -2334,6 +2373,8 @@ async function hostedInit() {
       const rel = pick();
       $("rel-install").disabled = true;
       $("rel-full").hidden = !rel?.fwsc;
+      const older = rel?.fwsc?.build && rel.fwsc.build !== rel.build;       // the image that fits M-Vave's updater can be older than the app
+      $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater: install the app above afterwards to get ${relLabel(rel)}.` : "";
       if (!rel) return;
       $("rel-note").textContent = "Fetching…";
       try {
@@ -2346,7 +2387,7 @@ async function hostedInit() {
     $("rel-version").addEventListener("change", choose);
     $("rel-install").addEventListener("click", async () => {
       const rel = pick();
-      if (!confirm(`This writes ${rel.label} ${relLabel(rel)} to the keyboard and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
+      if (!confirm(`This writes ${rel.label} ${rel.fwsc.build || relLabel(rel)} to the keyboard and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
       install(async () => bytes(await fetchHosted(rel.fwsc)));
     });
     $("rel").hidden = false;
