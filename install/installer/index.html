@@ -2370,7 +2370,7 @@ async function hostedInit() {
       $("rel-install").disabled = true;
       $("rel-full").hidden = !rel?.fwsc;
       const older = rel?.fwsc?.build && rel.fwsc.build !== rel.build;       // the image that fits M-Vave's updater can be older than the app
-      $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater; afterwards use Install Oscuro to get ${relLabel(rel)}.` : "";
+      $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater. Afterwards press Install Oscuro to update to the version selected above (${relLabel(rel)}).` : "";
       if (!rel) return;
       $("rel-note").textContent = "Fetching…";
       try {
