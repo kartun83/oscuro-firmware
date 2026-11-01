@@ -215,8 +215,12 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
           <label>Version <select id="rel-version" aria-label="Version"></select></label>
         </div>
         <p class="hint" id="rel-note"></p>
+        <div class="full" id="rel-app-box" hidden>
+          <p><b>Install Oscuro</b>: the keyboard already runs Oscuro, and this updates its app.</p>
+          <button id="rel-app" disabled>Install Oscuro</button>
+        </div>
         <div class="full" id="rel-full" hidden>
-          <p>Or install the complete image: it needs no M-Vave file, and the keyboard can be running M-Vave's firmware or any Oscuro build. <span id="rel-full-note"></span></p>
+          <p><b>Install the complete image</b>: for a keyboard that runs M-Vave's firmware (the first install), or to start over. It needs no M-Vave file. <span id="rel-full-note"></span></p>
           <button id="rel-install" class="quiet" disabled>Install the complete image</button>
         </div>
       </div>
@@ -2366,17 +2370,29 @@ async function hostedInit() {
       $("rel-install").disabled = true;
       $("rel-full").hidden = !rel?.fwsc;
       const older = rel?.fwsc?.build && rel.fwsc.build !== rel.build;       // the image that fits M-Vave's updater can be older than the app
-      $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater: install the app above afterwards to get ${relLabel(rel)}.` : "";
+      $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater; afterwards use Install Oscuro to get ${relLabel(rel)}.` : "";
       if (!rel) return;
       $("rel-note").textContent = "Fetching…";
       try {
         fillInput("i-app", [await fetchHosted(rel.app)]);
-        $("rel-note").textContent = `${rel.label} ${relLabel(rel)} is in the file box below (${sizeKb(rel.app.size)}).`;
+        $("rel-note").textContent = `${rel.label} ${relLabel(rel)} is ready (the app is ${sizeKb(rel.app.size)}).`;
         $("rel-install").disabled = busy;
       } catch (e) { $("rel-note").textContent = e.message; }
     }
     $("rel-variant").addEventListener("change", versionList);
     $("rel-version").addEventListener("change", choose);
+    // the file boxes and the old Install button stay in the page, hidden: the two buttons above drive them
+    for (const id of ["i-app", "i-stock"]) $(id).closest("label").style.display = "none";
+    for (const el of [document.querySelector("#p-install section h2 + p"), $("i-hint"), $("b-install").closest(".actions")]) if (el) el.style.display = "none";
+    const syncApp = () => { $("rel-app").disabled = $("b-install").disabled; };
+    new MutationObserver(syncApp).observe($("b-install"), { attributes: true, attributeFilter: ["disabled"] });
+    syncApp();
+    $("rel-app-box").hidden = false;
+    $("rel-app").addEventListener("click", () => {
+      const rel = pick();
+      if (!confirm(`This updates the keyboard's Oscuro app to ${rel.label} ${relLabel(rel)} and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
+      $("b-install").click();
+    });
     $("rel-install").addEventListener("click", async () => {
       const rel = pick();
       if (!confirm(`This writes ${rel.label} ${rel.fwsc.build || relLabel(rel)} to the keyboard and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
