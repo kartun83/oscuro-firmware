@@ -121,6 +121,21 @@
   #msg:empty { display: none; }
   #msg.ok { color: var(--ok); } #msg.bad { color: var(--bad); }
 
+  /* ---- what the player confirms before installing ---- */
+  fieldset.acks { margin: 0 0 16px; padding: 12px 16px 14px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+  fieldset.acks legend { padding: 0 6px; font-weight: 650; font-size: 15px; }
+  fieldset.acks label { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; margin: 8px 0 0; font-size: 14px; color: var(--ink2); cursor: pointer; }
+  fieldset.acks label b { color: var(--ink); font-weight: 600; }
+  fieldset.acks input { margin: 4px 0 0; }
+  input[type=checkbox] { accent-color: var(--ink); }
+  dialog { max-width: 540px; width: calc(100% - 32px); padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: var(--r);
+           background: var(--surface); color: var(--ink); box-shadow: 0 20px 60px rgba(0, 0, 0, .35); }
+  dialog::backdrop { background: rgba(6, 8, 12, .6); }
+  dialog p { margin: 0 0 12px; color: var(--ink2); font-size: 15px; }
+  dialog p b { color: var(--ink); }
+  dialog input[type=text] { display: block; width: 100%; margin-top: 6px; font: inherit; font-weight: 400; padding: 8px 10px; letter-spacing: .04em;
+           border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); }
+
   footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink2); }
   footer p { margin: 0 0 8px; max-width: 70ch; }
   code { font-size: .92em; }
@@ -206,8 +221,19 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       <p>The first install, from M-Vave's firmware, also needs M-Vave's firmware file; the page combines the two on this computer.
         When the keyboard already runs Oscuro, <code>app.bin</code> alone is enough.</p>
       <p class="hint" id="i-hint"></p>
+      <fieldset class="acks" id="acks">
+        <legend>Before you install</legend>
+        <label><input type="checkbox" id="ack-risk">
+          <span><b>I understand that custom firmware can behave unexpectedly.</b> Oscuro is checked with automated tests and on real
+            keyboards, but it can't be guaranteed to work on every unit. All hardware testing starts from M-Vave's latest official firmware
+            (version 16 for the SMK-37 family). Installing over another custom firmware may work, but there are too many to test them all.</span></label>
+        <label><input type="checkbox" id="ack-layout">
+          <span><b>I understand that some releases move or resize parts of the flash.</b> Installing another custom firmware over Oscuro,
+            if it doesn't expect this, can leave the keyboard faulty or unresponsive. To switch to another custom firmware,
+            <a href="#install-stock">go back to M-Vave's firmware</a> first.</span></label>
+      </fieldset>
       <div class="choice"><label><input type="checkbox" id="x-model"> Don't check the keyboard's model
-        <span class="hint">(for a board with another name; the keyboard still checks the file itself before anything is written, and this applies to the buttons below as well)</span></label></div>
+        <span class="hint">(asks first; for a keyboard that reports the wrong model. Applies to the buttons below as well)</span></label></div>
       <div class="rel" id="rel" hidden>
         <h3>Choose a release</h3>
         <div class="row">
@@ -239,7 +265,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       <div class="actions"><button id="b-install" disabled>Install Oscuro</button></div>
     </section>
 
-    <section>
+    <section id="install-stock">
       <h2>Go back to M-Vave's firmware</h2>
       <p>Works from Oscuro and from any M-Vave version. If you erased the patch memory for Oscuro's synth,
         <a href="#memory">restore your backup</a> first: M-Vave's firmware doesn't bring it back.</p>
@@ -279,6 +305,14 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
         <label><input type="radio" name="p-dest" value="slot" checked> Store in bank
           <select id="p-bank" aria-label="Bank"><option value="0">Bank 1</option></select>
           from its first slot</label>
+        <label class="p-name" id="p-name-row" hidden>Bank name
+          <input id="p-bname" maxlength="16" size="18" placeholder="optional" aria-label="Bank name (shown on the keyboard)"></label>
+        <label class="p-mode">If the bank has patches:
+          <select id="p-mode" aria-label="Existing patches in the bank">
+            <option value="overwrite">Overwrite from slot 1 (keep the rest)</option>
+            <option value="replace">Replace the whole bank</option>
+            <option value="append">Append to the free slots (as many as fit)</option>
+          </select></label>
         <label><input type="radio" name="p-dest" value="edit"> Play now, don't store</label>
       </div>
       <div class="choice" role="group" aria-label="Tidy up before sending">
@@ -325,6 +359,14 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       </label>
       <div class="actions"><button id="b-restore" class="quiet" disabled>Restore backup</button></div>
     </section>
+
+    <section>
+      <h2>Records of other synths</h2>
+      <p>All synth builds share one patch memory. When you flash a build with a different synth, the earlier synth's patches stay in the flash:
+        this build cannot play them, they take room, and a patch you store in the same slot group replaces them. Save a backup first
+        (the installer asks before any update), then remove them to free the room. A backup restores them later.</p>
+      <div class="actions"><button id="b-purge" class="quiet">Remove other synths' records</button></div>
+    </section>
   </div>
 
   <!-- ================= Test report ================= -->
@@ -349,6 +391,22 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
     </section>
   </div>
 
+  <dialog id="model-dlg" aria-labelledby="model-dlg-h">
+    <form method="dialog">
+      <h2 id="model-dlg-h">Skip the model check?</h2>
+      <p>The installer normally refuses firmware made for another keyboard model. Skipping that check can help with a keyboard that
+        reports the wrong model: a board sold under another name, or one that was flashed with the wrong firmware before.</p>
+      <p><b>If the keyboard really is a different model, installing can leave it unable to start or unresponsive, and the recovery
+        dongle may be the only way back.</b> The keyboard still checks that each file is intact before anything is written.</p>
+      <label class="field">Type <b>I AGREE</b> to skip the model check until this page is closed
+        <input type="text" id="model-dlg-in" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="model-dlg-h"></label>
+      <div class="actions">
+        <button value="ok" id="model-dlg-ok" disabled>Skip the model check</button>
+        <button value="cancel" class="quiet" formnovalidate>Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
   <div id="status" class="idle" hidden aria-live="polite">
     <div class="top"><span id="step"></span><span class="pct" id="pct"></span></div>
     <div class="bar"><div id="fill"></div></div>
@@ -357,7 +415,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
 
   <footer>
     <p>Installing writes only the keyboard's app area; its boot code, settings and calibration are left alone, and a file for another
-      keyboard is refused before anything is written. If the keyboard loses power while writing, run the same step again. If it no longer
+      keyboard is refused before anything is written (unless you turn off the model check). If the keyboard loses power while writing, run the same step again. If it no longer
       starts, it needs the recovery dongle.</p>
     <p>Oscuro is free. Donations are welcome: <a href="https://ko-fi.com/kartun83" target="_blank" rel="noopener">ko-fi.com/kartun83</a>.</p>
   </footer>
@@ -577,7 +635,10 @@ function growApp(flash, appBin) {
 }
 
 const sameName = (reported, fileName) => reported === fileName || (fileName.length === 20 && reported.startsWith(fileName));
-const KEYSMITH_NAME = "SMK-37 Elite_900";       // = SMK37_OTA_MODEL
+const KEYSMITH_NAME = "SMK-37 Elite_900";       // the package's name (stock's updater sees this one)
+// What a running Oscuro answers to the identity query (= SMK37_OTA_MODEL); builds before 0.84.65 answered KEYSMITH_NAME.
+const OSCURO_ID = "SMK-37 Oscuro_01";
+const isOscuro = (id) => !!id && (id.text === OSCURO_ID || id.text === KEYSMITH_NAME);
 
 // M-Vave's boards that share keysmith's flash layout (same boot region, same app area); the Pro's flash chip differs.
 // The MKE-P37 and the Starrykey 37 Play are the same keyboard sold under other names: their stock files differ from the
@@ -596,7 +657,7 @@ function modelProblem(id, pkg) {
   const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
   if (!target) return "The file's name is not a firmware name such as SMK-37 Elite_016.";
   if (id.model === target[1]) return "";
-  if ((pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id.model)) || (id.text === KEYSMITH_NAME && STOCK_MODELS.includes(target[1]))) return "";
+  if ((pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id.model)) || (isOscuro(id) && STOCK_MODELS.includes(target[1]))) return "";
   return `The keyboard is a ${id.model}; this file is for the ${target[1]}.`;
 }
 
@@ -809,7 +870,7 @@ async function writeStage({ connect, sleep }, link, pkg, say) {
     if (!id2) await sleep(1000);
   }
   if (!id2) throw new UpdateError("The keyboard did not come back after the update. Switch it off and on.");
-  if (!sameName(id2.text, pkg.name)) throw new UpdateError(`The keyboard now reports ${id2.text}, not ${pkg.name}.`);
+  if (!sameName(id2.text, pkg.name) && !(pkg.name === KEYSMITH_NAME && isOscuro(id2))) throw new UpdateError(`The keyboard now reports ${id2.text}, not ${pkg.name}.`);
   say("done", `Done: the keyboard runs ${pkg.name === KEYSMITH_NAME ? "Oscuro" : pkg.name}.`, 1);
   return id2;
 }
@@ -827,7 +888,7 @@ async function install({ connect, sleep }, raw, say = () => {}, { anyModel = fal
   if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
   const wrong = anyModel ? "" : modelProblem(id0, pkg);
   if (wrong) { await link.close(); throw new UpdateError(wrong); }
-  const keysmith = id0.text === KEYSMITH_NAME;
+  const keysmith = isOscuro(id0);
   if (keysmith && isOversize(pkg)) { await link.close(); return recover({ connect, sleep }, pkg, say, { anyModel }); }
   if (pkg.appOnly && !keysmith) {
     await link.close();
@@ -897,7 +958,7 @@ async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = fal
   if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
   const id0 = await identify(link);
   if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
-  if (id0.text !== KEYSMITH_NAME) { await link.close(); throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro: use Install M-Vave firmware instead.`); }
+  if (!isOscuro(id0)) { await link.close(); throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro: use Install M-Vave firmware instead.`); }
   const wrong = anyModel ? "" : modelProblem(id0, pkg);
   if (wrong) { await link.close(); throw new UpdateError(wrong); }
 
@@ -920,7 +981,7 @@ async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = fal
   return writeStage({ connect, sleep }, link, pkg, say);
 }
 
-return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, settings, recover };
+return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, OSCURO_ID, isOscuro, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, settings, recover };
 })();
 
 const P = (() => {
@@ -1047,7 +1108,7 @@ function readOscBank(bytes) {
     const format = `${engine}-blob`;
     patches.push({ msg, format, engine, names: [patchName] });
   }
-  return { patches, skipped: 0, engines: new Set([engine]) };
+  return { patches, skipped: 0, engines: new Set([engine]), bankName: name };
 }
 
 // Each: [format id, engine id, test(msg) → names[] or null]. The engine ids are
@@ -1140,7 +1201,7 @@ function tidy(file, { duplicates = false, placeholders = false } = {}) {
 class PatchError extends Error {}
 
 // ---- keysmith config SysEx ------------------------------------------------------------
-const CMD = { CAPS_REQ: 0x03, CAPS: 0x04, BEGIN: 0x20, DATA: 0x21, COMMIT: 0x22, ENGINES_REQ: 0x50, ENGINES: 0x51, ENGINE_SET: 0x52, ACK: 0x7e };
+const CMD = { CAPS_REQ: 0x03, CAPS: 0x04, BEGIN: 0x20, DATA: 0x21, COMMIT: 0x22, DELETE: 0x24, MAP_REQ: 0x25, MAP: 0x26, PURGE: 0x27, BANK_NAME_REQ: 0x28, BANK_NAME: 0x29, BANK_NAME_SET: 0x2a, RENAME: 0x2b, COPY: 0x2c, ENGINES_REQ: 0x50, ENGINES: 0x51, ENGINE_SET: 0x52, ACK: 0x7e };
 const EDIT_SLOT = 0x3fff;
 const CHUNK = 64;
 const STATUS = ["ok", "malformed", "out of order", "out of range", "damaged in transfer", "could not be stored",
@@ -1198,7 +1259,7 @@ function flashProblem(caps) {
   return `This keyboard's flash chip (ID ${caps.flashId}) is not one Oscuro has been tested with (${WRITABLE_FLASH.join(", ")}), so Oscuro refuses to write to it: no updates, saved settings or patch memory. Update Oscuro (0.21.3 and later test unknown chips) or send this ID to the Oscuro author.`;
 }
 
-// CAPS → { flavour, engine, slots, blobLen, formats, bankSize, banks, flashId, flashWritable } or null (no answer: not keysmith,
+// CAPS → { flavour, engine, slots, blobLen, formats, bankSize, banks, flashId, flashWritable, bankNameMax } or null (no answer: not keysmith,
 // or a keysmith older than this command: 0.6 and before).
 function parseCaps(m) {
   if (!is(m, CMD.CAPS)) return null;
@@ -1212,12 +1273,13 @@ function parseCaps(m) {
   let bankSize = slots, banks = 1;                 // older Oscuro: one flat bank
   let flashId = null;                              // 0.20.1+: the flash chip's JEDEC id, 6 hex digits
   let flashWritable = null;                        // 0.21.3+: the driver writes it (known part, or passed the write test)
+  let bankNameMax = 0;                             // 0.85.34+: bank names, patch rename and copy (the longest name; 0: not supported)
   const formats = [];
   for (const f of rest) {
-    const b = /^bank=(\d+)x(\d+)$/.exec(f), fl = /^flash=([0-9a-f]{6})$/.exec(f), fw = /^flashw=([01])$/.exec(f);
-    if (b) { bankSize = +b[1]; banks = +b[2]; } else if (fl) flashId = fl[1]; else if (fw) flashWritable = fw[1] === "1"; else formats.push(f);
+    const b = /^bank=(\d+)x(\d+)$/.exec(f), fl = /^flash=([0-9a-f]{6})$/.exec(f), fw = /^flashw=([01])$/.exec(f), bn = /^bnames=(\d+)$/.exec(f);
+    if (b) { bankSize = +b[1]; banks = +b[2]; } else if (fl) flashId = fl[1]; else if (fw) flashWritable = fw[1] === "1"; else if (bn) bankNameMax = +bn[1]; else formats.push(f);
   }
-  return { slots, blobLen: m[9] | (m[10] << 7), flavour, engine, formats, bankSize, banks, flashId, flashWritable };
+  return { slots, blobLen: m[9] | (m[10] << 7), flavour, engine, formats, bankSize, banks, flashId, flashWritable, bankNameMax };
 }
 
 // First slot of bank `bank` (0-based).
@@ -1298,17 +1360,17 @@ async function setEngine(link, id)
 const nameCount = (list) => list.reduce((n, p) => n + p.names.length, 0);
 const slotNote = (dev, start) => `bank ${Math.floor(start / dev.bankSize) + 1}, slot ${start % dev.bankSize + 1}`;
 
-async function sendPatches(link, file, dest, bank, progress = () => {}, note = () => {})
+// mode: "overwrite" (default: from the bank's first slot, over what is there), "replace" (empty the bank first), or "append"
+// (into the bank's free slots and after, as many as fit).
+async function sendPatches(link, file, dest, bank, progress = () => {}, note = () => {}, mode = "overwrite")
 {
   const list = await engines(link);                     // null: no switch; ["x"]: single engine; >1: merged build
   const merged = !!(list && list.length > 1);
   const dev0 = await caps(link);
   if (!merged)
   {
-    const start = dest === "edit" ? EDIT_SLOT : bankStart(dev0, bank);
-    const ok = checkFit(file, dev0, start);
-    const sent = await upload(link, ok, start, progress);
-    return { sent, left: nameCount(file.patches) - nameCount(ok), where: start === EDIT_SLOT ? [] : [slotNote(dev0, start)] };
+    const r = await sendTo(link, file, dev0, dest, bank, progress, mode);
+    return { sent: r.sent, left: nameCount(file.patches) - nameCount(r.ok) + r.left, where: r.where };
   }
   let dev = dev0, sent = 0, left = 0;
   const where = [];
@@ -1320,13 +1382,32 @@ async function sendPatches(link, file, dest, bank, progress = () => {}, note = (
       note(eng);
       dev = await setEngine(link, eng);
     }
-    const start = dest === "edit" ? EDIT_SLOT : bankStart(dev, Math.min(bank, dev.banks - 1));
-    const ok = checkFit({ patches: sub, engines: new Set([eng]) }, dev, start);
-    sent += await upload(link, ok, start, progress);
-    left += count - nameCount(ok);
-    if (start !== EDIT_SLOT) where.push(slotNote(dev, start));
+    const r = await sendTo(link, { patches: sub, engines: new Set([eng]) }, dev, dest, Math.min(bank, dev.banks - 1), progress, mode);
+    sent += r.sent;
+    left += count - nameCount(r.ok) + r.left;
+    where.push(...r.where);
   }
   return { sent, left, where };
+}
+
+// One engine's share of a send, in the chosen mode.
+async function sendTo(link, file, dev, dest, bank, progress, mode) {
+  if (dest === "edit") {
+    const ok = checkFit(file, dev, EDIT_SLOT);
+    return { sent: await upload(link, ok, EDIT_SLOT, progress), ok, left: 0, where: [] };
+  }
+  const start = bankStart(dev, bank);
+  if (mode === "append") {
+    const map = await readMap(link);
+    if (!map) throw new PatchError("This Oscuro is too old to append: update it first, or overwrite the bank.");
+    const ok = checkFit(file, dev, start);
+    const { items, left } = planAppend(map, dev, ok, bank);
+    const sent = await uploadAt(link, items, progress);
+    return { sent, ok, left, where: items.length ? [`bank ${bank + 1}, free slots from ${slotNote(dev, items[0].slot)}`] : [] };
+  }
+  const ok = checkFit(file, dev, start);
+  if (mode === "replace") await deleteSlots(link, start, dev.bankSize);
+  return { sent: await upload(link, ok, start, progress), ok, left: 0, where: [slotNote(dev, start)] };
 }
 
 // Gate 1: which patches this keyboard can take. Throws PatchError with a
@@ -1359,9 +1440,20 @@ async function ask(link, cmd, seq, payload) {
 // Upload the checked patches to consecutive slots (or the edit buffer).
 // progress(done, total, name).
 async function upload(link, patches, startSlot, progress = () => {}) {
-  const total = patches.reduce((n, p) => n + p.names.length, 0);
-  let slot = startSlot, done = 0, seq = 0;
-  for (const p of patches) {
+  let slot = startSlot;
+  const items = patches.map((p) => {
+    const it = { p, slot };
+    if (slot !== EDIT_SLOT) slot += p.names.length;
+    return it;
+  });
+  return uploadAt(link, items, progress);
+}
+
+// Upload each patch message to its own first slot: items = [{ p, slot }].
+async function uploadAt(link, items, progress = () => {}) {
+  const total = items.reduce((n, it) => n + it.p.names.length, 0);
+  let done = 0, seq = 0;
+  for (const { p, slot } of items) {
     progress(done, total, p.names[0]);
     const m = p.msg;
     let st = await ask(link, CMD.BEGIN, seq++, [...u14(slot), ...u14(m.length)]);
@@ -1370,13 +1462,179 @@ async function upload(link, patches, startSlot, progress = () => {}) {
     if (!st) st = await ask(link, CMD.COMMIT, seq++, kspack(le32(crc32(m))));
     if (st) throw new PatchError(`“${p.names[0]}”: ${STATUS[st] || `error ${st}`}.`);
     done += p.names.length;
-    if (slot !== EDIT_SLOT) slot += p.names.length;
   }
   progress(done, total, "");
   return done;
 }
 
-return { extractSysex, ENGINE_NAMES, FORMAT_NAMES, identifyPatch, readPatchFile, isPlaceholder, tidy, PatchError, EDIT_SLOT, frame, is, kspack, ksunpack, le32, crc32, KNOWN_FLASH, WRITABLE_FLASH, flashProblem, parseCaps, bankStart, ident, caps, parseEngines, engines, setEngine, sendPatches, checkFit, upload };
+// The patch memory (PATCH_MAP, Oscuro 0.85.7+): → { own, foreign, live, cap, used(slot) } or null on an older Oscuro.
+// own: patches of the running engine; foreign: records other engines left (they take room until overwritten or purged);
+// live / cap: bytes in use / in the block.
+async function readMap(link) {
+  for (let t = 0; t < 2; t++) {
+    await link.send(frame(CMD.MAP_REQ, 0x40 + t));
+    for (let m; (m = await link.receive(1500));) {
+      if (is(m, CMD.MAP)) {
+        const body = m.subarray(7, -1), n14 = (i) => body[i] | (body[i + 1] << 7), n21 = (i) => body[i] | (body[i + 1] << 7) | (body[i + 2] << 14);
+        const bits = ksunpack(body.subarray(10));
+        return { own: n14(0), foreign: n14(2), live: n21(4), cap: n21(7), bits, used: (slot) => !!(bits[slot >> 3] & (1 << (slot & 7))) };
+      }
+      if (is(m, CMD.ACK) && m[7] === CMD.MAP_REQ) {
+        if (m[8] === 1) return null;                       // an Oscuro without PATCH_MAP
+        throw new PatchError(`The keyboard could not report its patch memory: ${STATUS[m[8]] || `error ${m[8]}`}.`);
+      }
+    }
+  }
+  throw new PatchError("The keyboard stopped answering.");
+}
+
+// Empty `count` slots from `slot` (0-based).
+async function deleteSlots(link, slot, count) {
+  const st = await ask(link, CMD.DELETE, 0x50, [...u14(slot), ...u14(count)]);
+  if (st === 1) throw new PatchError("This Oscuro is too old to delete patches: update it first.");
+  if (st) throw new PatchError(`Deleting patches: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// Delete the records other engines left in the patch memory.
+async function purgeForeign(link) {
+  const st = await ask(link, CMD.PURGE, 0x51, []);
+  if (st === 1) throw new PatchError("This Oscuro is too old to clean its patch memory: update it first.");
+  if (st) throw new PatchError(`Cleaning the patch memory: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// Append: give each patch message (k names = k consecutive slots) the first run of free slots at or after the bank's first
+// slot. → { items: [{ p, slot }], left } (left: names that found no room).
+function planAppend(map, dev, patches, bank) {
+  const taken = new Set();
+  for (let i = 0; i < dev.slots; i++) if (map.used(i)) taken.add(i);
+  const items = [];
+  let left = 0;
+  for (const p of patches) {
+    const k = p.names.length;
+    let at = -1;
+    for (let s = bankStart(dev, bank); s + k <= dev.slots && at < 0; s++) {
+      let free = true;
+      for (let j = 0; j < k && free; j++) if (taken.has(s + j)) free = false;
+      if (free) at = s;
+    }
+    if (at < 0) { left += k; continue; }
+    for (let j = 0; j < k; j++) taken.add(at + j);
+    items.push({ p, slot: at });
+  }
+  return { items, left };
+}
+
+// ---- bank names, patch rename and copy (Oscuro 0.85.34+; the installer and the editor share these) -------------
+const BANK_NAME_MAX = 16;
+
+// What the keyboard keeps of a typed name: printable ASCII, no leading or trailing spaces, at most 16 characters.
+function cleanBankName(s) {
+  return String(s ?? "").replace(/[^\x20-\x7e]/g, "").replace(/^ +/, "").slice(0, BANK_NAME_MAX).replace(/ +$/, "");
+}
+
+// The name offered for a bank a file is uploaded to: a .oscbank carries its own, the other formats the file name without
+// its extension (underscores read as spaces). "" when there is nothing usable.
+function suggestBankName(file, fileName) {
+  if (file && file.bankName) return cleanBankName(file.bankName);
+  const base = String(fileName || "").split(/[\\/]/).pop().replace(/\.[^.]*$/, "").replace(/_+/g, " ");
+  return cleanBankName(base);
+}
+
+// "Bank 2" or "Bank 2 · Pads and Leads" (names: the array readBankNames returned, or null).
+const bankLabel = (i, names) => `Bank ${i + 1}` + (names && names[i] ? ` · ${names[i]}` : "");
+
+const asciiOf = (body) => String.fromCharCode(...body);
+const ascii = (s) => [...s].map((c) => c.charCodeAt(0));
+
+// The name of one bank: "" when unnamed, null when this Oscuro cannot name banks.
+async function readBankName(link, bank) {
+  for (let t = 0; t < 2; t++) {
+    await link.send(frame(CMD.BANK_NAME_REQ, 0x60 + t, u14(bank)));
+    for (let m; (m = await link.receive(1000));) {
+      if (is(m, CMD.BANK_NAME) && (m[7] | (m[8] << 7)) === bank) return asciiOf(m.subarray(9, -1));
+      if (is(m, CMD.ACK) && m[7] === CMD.BANK_NAME_REQ) {
+        if (m[8] === 1 || m[8] === 6) return null;         // an Oscuro without bank names / no patch engine
+        throw new PatchError(`Reading the bank name: ${STATUS[m[8]] || `error ${m[8]}`}.`);
+      }
+    }
+  }
+  throw new PatchError("The keyboard stopped answering.");
+}
+
+// Every bank's name as an array (index = bank), or null when the keyboard cannot name banks.
+async function readBankNames(link, dev) {
+  if (!dev || !dev.bankNameMax || !dev.engine) return null;
+  const names = [];
+  for (let b = 0; b < dev.banks; b++) {
+    const n = await readBankName(link, b);
+    if (n === null) return null;
+    names.push(n);
+  }
+  return names;
+}
+
+// Name a bank ("" clears it).
+async function setBankName(link, bank, name) {
+  const st = await ask(link, CMD.BANK_NAME_SET, 0x62, [...u14(bank), ...ascii(cleanBankName(name))]);
+  if (st === 1) throw new PatchError("This Oscuro is too old to name banks: update it first.");
+  if (st) throw new PatchError(`Naming the bank: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// Rename the stored patch in `slot`; the patch keeps everything else (its FX rack included).
+async function renamePatch(link, slot, name) {
+  const n = cleanBankName(name);
+  if (!n) throw new PatchError("A patch needs a name.");
+  const st = await ask(link, CMD.RENAME, 0x63, [...u14(slot), ...ascii(n)]);
+  if (st === 1) throw new PatchError("This Oscuro is too old to rename patches: update it first.");
+  if (st) throw new PatchError(`Renaming the patch: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// Copy the patch in `src` over `dst` on the keyboard (name given: the copy is renamed).
+async function copyPatch(link, src, dst, name = "") {
+  const n = cleanBankName(name);
+  const st = await ask(link, CMD.COPY, 0x64, [...u14(src), ...u14(dst), ...ascii(n)]);
+  if (st === 1) throw new PatchError("This Oscuro is too old to duplicate patches: update it first.");
+  if (st) throw new PatchError(`Duplicating the patch: ${STATUS[st] || `error ${st}`}.`);
+}
+
+// Up to `n` free slots of `bank`, lowest first (map: readMap's result) — where duplicates go.
+function freeSlots(map, dev, bank, n) {
+  const first = bankStart(dev, bank), out = [];
+  for (let i = 0; i < dev.bankSize && out.length < n; i++) if (!map.used(first + i)) out.push(first + i);
+  return out;
+}
+
+// Give `bank` the typed name when it differs from the stored one (an empty name clears it). → true when the keyboard changed.
+async function nameBank(link, dev, bank, name) {
+  if (!dev || !dev.bankNameMax) return false;
+  const n = cleanBankName(name), cur = await readBankName(link, bank);
+  if (cur === null || cur === n) return false;
+  await setBankName(link, bank, n);
+  return true;
+}
+
+// ---- what the patch memory holds (shared by every synth build: one 64-record store) ------------------
+// A build keeps only its own engine's records readable. Records another engine left stay in the flash, take room, and
+// are REPLACED when this engine stores a patch in the same slot group, so switching builds is only safe after a backup.
+const kib = (n) => Math.round(n / 102.4) / 10;
+function memorySummary(dev, map) {
+  const layout = dev && dev.engine ? `${dev.banks} bank${dev.banks === 1 ? "" : "s"} of ${dev.bankSize}` : "";
+  if (!map) return { layout, stored: "", foreign: 0, own: 0 };
+  const stored = `${map.own} patch${map.own === 1 ? "" : "es"}, ${kib(map.live)} of ${kib(map.cap)} KiB used`;
+  return { layout, stored, foreign: map.foreign, own: map.own };
+}
+// Install or flash over patches: true while something would be lost or stranded and no backup was saved yet.
+function needsBackup(map, saved) {
+  return !saved && !!map && map.own + map.foreign > 0;
+}
+function foreignWarning(map) {
+  if (!map || !map.foreign) return "";
+  return `${map.foreign} record${map.foreign === 1 ? "" : "s"} of another synth ${map.foreign === 1 ? "is" : "are"} in the patch memory. ` +
+    "This build cannot play them, they take room, and a patch stored in the same slot group replaces them. " +
+    "Save a backup to keep them (a backup brings them all back), then remove them here.";
+}
+
+return { extractSysex, ENGINE_NAMES, FORMAT_NAMES, identifyPatch, readPatchFile, isPlaceholder, tidy, PatchError, EDIT_SLOT, frame, is, kspack, ksunpack, le32, crc32, KNOWN_FLASH, WRITABLE_FLASH, flashProblem, parseCaps, bankStart, ident, caps, parseEngines, engines, setEngine, sendPatches, checkFit, upload, uploadAt, readMap, deleteSlots, purgeForeign, planAppend, BANK_NAME_MAX, cleanBankName, suggestBankName, bankLabel, readBankName, readBankNames, setBankName, renamePatch, copyPatch, freeSlots, nameBank, memorySummary, needsBackup, foreignWarning };
 })();
 
 const A = (() => {
@@ -1863,9 +2121,11 @@ const CHECKS = {
     return `M-Vave firmware ${s.version} for the ${s.model}`;
   },
   patches: async (files) => {
-    const all = { patches: [], skipped: 0, engines: new Set() };
+    bnameTouched = false;                                       // a new file offers its own bank name again
+    const all = { patches: [], skipped: 0, engines: new Set(), suggest: "" };
     for (const f of files) {
       const r = P.readPatchFile(await bytes(f));
+      if (files.length === 1) all.suggest = P.suggestBankName(r, f.name);   // the bank's default name: the file's
       all.patches.push(...r.patches);
       all.skipped += r.skipped;
       r.engines.forEach((e) => all.engines.add(e));
@@ -1916,6 +2176,7 @@ for (const zone of document.querySelectorAll(".drop")) {
   });
 }
 
+let bankNamesNow = null, bnameTouched = false;      // the Bank name field (syncBankName)
 const dest = () => document.querySelector("input[name=p-dest]:checked").value;
 document.querySelectorAll("input[name=p-dest]").forEach((r) => r.addEventListener("change", refresh));
 $("p-bank").addEventListener("focus", () => { document.querySelector("input[name=p-dest][value=slot]").checked = true; refresh(); });
@@ -1927,16 +2188,43 @@ function tidyNote() {
   const t = tidied(), n = t.patches.reduce((k, p) => k + p.names.length, 0);
   el.textContent = `Will send ${n} patch${n === 1 ? "" : "es"}: ${t.removed.duplicates} duplicate and ${t.removed.placeholders} placeholder left out.`;
 }
-$("x-model").addEventListener("change", () => document.querySelectorAll("[data-check=stock] input").forEach((i) => i.dispatchEvent(new Event("change"))));
+// Skipping the model check: only after the player types the phrase in the dialog.
+const AGREE = "I AGREE";
+const agreed = () => $("model-dlg-in").value.trim().toUpperCase() === AGREE;
+const recheckStock = () => document.querySelectorAll("[data-check=stock] input").forEach((i) => i.dispatchEvent(new Event("change")));
+$("x-model").addEventListener("change", () => {
+  if (!$("x-model").checked) { recheckStock(); return; }
+  $("x-model").checked = false;                                   // set again only on a typed agreement
+  $("model-dlg-in").value = "";
+  $("model-dlg-ok").disabled = true;
+  $("model-dlg").returnValue = "";
+  $("model-dlg").showModal();
+});
+$("model-dlg-in").addEventListener("input", () => { $("model-dlg-ok").disabled = !agreed(); });
+$("model-dlg").addEventListener("close", () => {
+  if ($("model-dlg").returnValue === "ok" && agreed()) { $("x-model").checked = true; recheckStock(); }
+  $("x-model").focus();
+});
+
+// The two statements under "Before you install": Install Oscuro stays off until both are ticked.
+const acksOk = () => $("ack-risk").checked && $("ack-layout").checked;
+function acksNag() {
+  const first = [$("ack-risk"), $("ack-layout")].find((c) => !c.checked);
+  show(null, 0, "Tick both statements under \"Before you install\" first.", "bad");
+  first?.focus();
+}
+$("ack-risk").addEventListener("change", refresh);
+$("ack-layout").addEventListener("change", refresh);
 $("p-dup").addEventListener("change", () => { tidyNote(); });
 $("p-ph").addEventListener("change", () => { tidyNote(); });
 
 function refresh() {
   tidyNote();
-  $("b-install").disabled = busy || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"]);
+  $("b-install").disabled = busy || !acksOk() || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"]);
   $("b-revert").disabled = busy || !checked["r-stock"];
   $("b-handoff").disabled = busy || !checked["r-stock"];
   $("b-patches").disabled = busy || !checked["p-files"];
+  syncBankName();
   $("b-restore").disabled = busy || !checked["a-file"];
   for (const id of ["b-find", "b-backup", "b-erase", "b-diag", "b-flash"]) $(id).disabled = busy;
   $("b-watch").disabled = busy && !watching;
@@ -2026,11 +2314,26 @@ const transport = { connect, sleep: (ms) => new Promise((r) => setTimeout(r, ms)
 
 // The Bank list of the Patch tab: one entry per bank the keyboard reports (one when it
 // reports none); the choice is kept while the count stays the same.
-function populateBanks(dev) {
+// names: the bank names the keyboard keeps (Oscuro 0.85.32+), shown beside the number.
+function populateBanks(dev, names = null) {
   const sel = $("p-bank"), n = dev && dev.engine ? dev.banks : 1;
-  if (sel.options.length === n) return;
-  sel.replaceChildren(...Array.from({ length: n }, (_, i) => Object.assign(document.createElement("option"), { value: i, textContent: `Bank ${i + 1}` })));
+  const keep = sel.value, labels = Array.from({ length: n }, (_, i) => P.bankLabel(i, names));
+  if (sel.options.length !== n || labels.some((l, i) => sel.options[i].textContent !== l))
+    sel.replaceChildren(...labels.map((l, i) => Object.assign(document.createElement("option"), { value: i, textContent: l })));
+  if (keep && +keep < n) sel.value = keep;
+  $("p-name-row").hidden = !(dev && dev.engine && dev.bankNameMax);
+  syncBankName(names);
 }
+
+// The Bank name field: the name the chosen bank has, else the one the file suggests; what the player types stays.
+function syncBankName(names = bankNamesNow) {
+  bankNamesNow = names;
+  if (bnameTouched) return;
+  const bank = parseInt($("p-bank").value, 10) || 0;
+  $("p-bname").value = (names && names[bank]) || checked["p-files"]?.suggest || "";
+}
+$("p-bname").addEventListener("input", () => { bnameTouched = true; });
+$("p-bank").addEventListener("change", () => { bnameTouched = false; syncBankName(); });
 
 // keysmith's own port: the pair that answers CAPS (the config SysEx).
 async function connectKeysmith() {
@@ -2069,8 +2372,9 @@ function hints() {
   const merged = !!kb?.engines && kb.engines.length > 1;   // the aio build: more than the running engine is selectable
   set("p-hint", !ks ? "" : merged ? `This Oscuro build plays every synth (${kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")}): any patch file can go in, and the keyboard switches its synth for it.`
     : !kb.caps?.engine ? `This Oscuro build (${BUILDS[kb.caps?.flavour]?.[0] || kb.caps?.flavour || "older"}) has no synth that takes patches. Install the Viroid or DX7 build.`
-    : kb.area && kb.area.state === A.STATE.FOREIGN ? "The patch memory still holds M-Vave's data: back it up and erase it under Patch memory first." : "",
-    !ks ? "" : merged ? "" : "warn");
+    : kb.area && kb.area.state === A.STATE.FOREIGN ? "The patch memory still holds M-Vave's data: back it up and erase it under Patch memory first."
+    : P.foreignWarning(kb.map),
+    !ks ? "" : merged && !kb.map?.foreign ? "" : "warn");
   const st = kb?.area?.state;
   const fp = ks ? P.flashProblem(kb.caps) : "";
   set("m-hint", !ks ? "" : fp ? fp : !kb.area ? "The patch memory is not available: start the keyboard normally (not from the dongle), and update Oscuro if it is older than 0.8."
@@ -2097,11 +2401,13 @@ function render() {
   } else {
     const [name, accent] = BUILDS[kb.caps?.flavour] || [kb.caps?.flavour?.toUpperCase() || "", "#ffb000"];
     const area = kb.area ? A.STATE_NAMES[kb.area.state] : P.flashProblem(kb.caps) ? `flash chip ${kb.caps.flashId} not supported` : "not available";
-    populateBanks(kb.caps);
+    populateBanks(kb.caps, kb.bankNames);
     screen(`Oscuro ${kb.ident?.version || ""}`.trim(), name, accent, [
       ["Synth patches", kb.engines && kb.engines.length > 1 ? "all: " + kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")
         : kb.caps?.engine ? P.ENGINE_NAMES[kb.caps.engine] || kb.caps.engine : "not in this build"],
       ["Patch memory", area],
+      ...(kb.map ? [["Stored", `${P.memorySummary(kb.caps, kb.map).stored}; ${P.memorySummary(kb.caps, kb.map).layout}`]] : []),
+      ...(kb.map?.foreign ? [["Other synths", `${kb.map.foreign} record${kb.map.foreign === 1 ? "" : "s"} (not playable here)`]] : []),
     ]);
   }
   hints();
@@ -2113,6 +2419,8 @@ async function check(link = null) {
     if (link) {
       kb = { kind: "keysmith", caps: await P.caps(link), ident: await P.ident(link), area: await A.areaInfo(link) };
       if (kb.caps) kb.engines = await P.engines(link);   // merged aio build: the selectable synths (even while one runs)
+      if (kb.caps) kb.bankNames = await P.readBankNames(link, kb.caps).catch(() => null);
+      kb.map = kb.caps?.engine ? await P.readMap(link).catch(() => null) : null;
       return;
     }
     for await (const l of ports()) {
@@ -2120,10 +2428,12 @@ async function check(link = null) {
       const ident = caps ? await P.ident(l) : null;
       if (caps || ident) { kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l) };
         if (caps) kb.engines = await P.engines(l);
+        if (caps) kb.bankNames = await P.readBankNames(l, caps).catch(() => null);
+        kb.map = caps?.engine ? await P.readMap(l).catch(() => null) : null;
         link = l; return; }
       const id = await U.identify(l, 1);
       await l.close();
-      if (id) { kb = { kind: id.version >= 900 ? "keysmith" : "stock", id }; return; }
+      if (id) { kb = { kind: U.isOscuro(id) ? "keysmith" : "stock", id }; return; }
     }
     kb = { kind: "none" };
   } finally {
@@ -2149,9 +2459,20 @@ async function install(makePackage) {
     hints();
   }, "An update is running.");
 }
-$("b-install").addEventListener("click", async () => install(async () => $("i-stock").files.length
+// Flashing another build over stored patches: back them up first (forced), unless the player insists.
+async function backupGate() {
+  if (kb?.kind !== "keysmith" || !P.needsBackup(kb.map, savedBackup)) return true;
+  if (!confirm(`The patch memory holds ${kb.map.own + kb.map.foreign} patch record${kb.map.own + kb.map.foreign === 1 ? "" : "s"}. ` +
+    "A build with another synth keeps them in the flash but cannot play them, and storing patches there replaces them. " +
+    "Save a backup of the patch memory now? (Cancel asks again whether to go on without one.)")) {
+    return confirm("Go on WITHOUT a backup? Patches of the current synth may become unreachable or be overwritten.");
+  }
+  await withArea("Saving a backup", saveBackup);
+  return savedBackup;
+}
+$("b-install").addEventListener("click", async () => { if (!acksOk()) return acksNag(); if (!(await backupGate())) return; install(async () => $("i-stock").files.length
   ? U.buildKeysmith(await bytes($("i-stock").files[0]), await bytes($("i-app").files[0]), { anyModel: $("x-model").checked })
-  : U.appUpdate(await bytes($("i-app").files[0]))));
+  : U.appUpdate(await bytes($("i-app").files[0]))); });
 $("b-revert").addEventListener("click", async () => {
   if (kb?.area && kb.area.state !== A.STATE.FOREIGN &&
       !confirm("The patch memory doesn't hold M-Vave's data now. M-Vave's firmware won't bring it back: restore your backup first under Patch memory. Go back anyway?"))
@@ -2179,11 +2500,16 @@ $("b-patches").addEventListener("click", () => task("Looking for the keyboard", 
     const file = tidied();
     const r = await P.sendPatches(link, file, dest(), parseInt($("p-bank").value, 10) || 0,
       (done, t, name) => show(`Sending ${name || "patches"}`, t ? done / t : 1),
-      (eng) => show("Switching the keyboard's synth", 1, P.ENGINE_NAMES[eng] || eng));
-    populateBanks(await P.caps(link));
+      (eng) => show("Switching the keyboard's synth", 1, P.ENGINE_NAMES[eng] || eng), $("p-mode").value);
+    const dev = await P.caps(link);
+    if (r.sent && dest() === "slot" && dev && dev.bankNameMax) {   // the bank's name: what the field says (default: the file's)
+      try { await P.nameBank(link, dev, parseInt($("p-bank").value, 10) || 0, $("p-bname").value); } catch (e) { show(null, 1, `Patches sent, but the bank name was not set: ${e.message}`, "bad"); return; }
+    }
+    bnameTouched = false;
+    populateBanks(dev, dev ? await P.readBankNames(link, dev).catch(() => null) : null);
     if (!r.sent) { show(null, 0, r.left ? `${r.left} patches: this keyboard plays none of these engines.` : "Nothing was sent.", "bad"); return; }
     show(null, 1, `Sent ${r.sent} patch${r.sent === 1 ? "" : "es"}${r.where.length ? ` (${r.where.join("; ")})` : " to play now"}.` +
-      (r.left ? ` ${r.left} for engines this build cannot play were left out.` : ""), "ok");
+      (r.left ? ` ${r.left} did not go: another engine, or no room left.` : ""), "ok");
   } finally { await link.close(); }
 }));
 
@@ -2197,7 +2523,7 @@ async function withArea(step, fn) {
   }, "The patch memory is being written.");
 }
 
-$("b-backup").addEventListener("click", () => withArea("Saving a backup", async (link) => {
+async function saveBackup(link) {
   const { file } = await A.backup(link, (d, t) => show("Saving a backup", d / t));
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([file], { type: "application/octet-stream" }));
@@ -2208,7 +2534,8 @@ $("b-backup").addEventListener("click", () => withArea("Saving a backup", async 
   $("s-backup").classList.add("done");
   steps();
   show(null, 1, `Backup saved as ${a.download}. Keep it somewhere safe: it is the only copy.`, "ok");
-}));
+}
+$("b-backup").addEventListener("click", () => withArea("Saving a backup", saveBackup));
 
 $("b-erase").addEventListener("click", () => withArea("Erasing the patch memory", async (link) => {
   const info = await A.areaInfo(link);
@@ -2219,6 +2546,16 @@ $("b-erase").addEventListener("click", () => withArea("Erasing the patch memory"
   if (!confirm(ask)) { show(null, 0, "Nothing was erased."); return; }
   await A.erase(link, (d, t) => show("Erasing the patch memory", d / t));
   show(null, 1, "Erased. The patch memory is ready for synth patches.", "ok");
+}));
+
+$("b-purge").addEventListener("click", () => withArea("Cleaning the patch memory", async (link) => {
+  const map = await P.readMap(link);
+  if (!map || !map.foreign) { show(null, 1, "No records of other synths are stored.", "ok"); return; }
+  if (!savedBackup && !confirm(`${map.foreign} record${map.foreign === 1 ? "" : "s"} of another synth would be deleted and no backup was saved from this page. Delete anyway?`)) {
+    show(null, 0, "Nothing was deleted."); return;
+  }
+  await P.purgeForeign(link);
+  show(null, 1, "Removed. Your current synth's patches are untouched.", "ok");
 }));
 
 $("b-restore").addEventListener("click", () => withArea("Restoring the backup", async (link) => {
@@ -2365,9 +2702,13 @@ async function hostedInit() {
       $("rel-version").innerHTML = versions().map((x, i) => `<option value="${x.version}">${relLabel(x)}${i === 0 ? " (latest)" : ""}</option>`).join("");
       choose();
     };
+    let fullReady = false;                       // the chosen release's files were fetched
+    // the complete image skips Install Oscuro, so it carries the same "Before you install" gate
+    const syncFull = () => { $("rel-install").disabled = busy || !fullReady || !acksOk(); };
     async function choose() {
       const rel = pick();
-      $("rel-install").disabled = true;
+      fullReady = false;
+      syncFull();
       $("rel-full").hidden = !rel?.fwsc;
       const older = rel?.fwsc?.build && rel.fwsc.build !== rel.build;       // the image that fits M-Vave's updater can be older than the app
       $("rel-full-note").textContent = older ? `It holds Oscuro ${rel.fwsc.build}, a build small enough for M-Vave's updater. Afterwards press Install Oscuro to update to the version selected above (${relLabel(rel)}).` : "";
@@ -2376,7 +2717,8 @@ async function hostedInit() {
       try {
         fillInput("i-app", [await fetchHosted(rel.app)]);
         $("rel-note").textContent = `${rel.label} ${relLabel(rel)} is ready (the app is ${sizeKb(rel.app.size)}).`;
-        $("rel-install").disabled = busy;
+        fullReady = true;
+        syncFull();
       } catch (e) { $("rel-note").textContent = e.message; }
     }
     $("rel-variant").addEventListener("change", versionList);
@@ -2384,7 +2726,8 @@ async function hostedInit() {
     // the file boxes and the old Install button stay in the page, hidden: the two buttons above drive them
     for (const id of ["i-app", "i-stock"]) $(id).closest("label").style.display = "none";
     for (const el of [document.querySelector("#p-install section h2 + p"), $("i-hint"), $("b-install").closest(".actions")]) if (el) el.style.display = "none";
-    const syncApp = () => { $("rel-app").disabled = $("b-install").disabled; };
+    const syncApp = () => { $("rel-app").disabled = $("b-install").disabled; syncFull(); };
+    for (const id of ["ack-risk", "ack-layout"]) $(id).addEventListener("change", syncFull);
     new MutationObserver(syncApp).observe($("b-install"), { attributes: true, attributeFilter: ["disabled"] });
     syncApp();
     $("rel-app-box").hidden = false;
@@ -2394,6 +2737,7 @@ async function hostedInit() {
       $("b-install").click();
     });
     $("rel-install").addEventListener("click", async () => {
+      if (!acksOk()) return acksNag();
       const rel = pick();
       if (!confirm(`This writes ${rel.label} ${rel.fwsc.build || relLabel(rel)} to the keyboard and restarts it. Keep it plugged in until it restarts. Continue?`)) return;
       install(async () => bytes(await fetchHosted(rel.fwsc)));

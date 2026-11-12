@@ -1,0 +1,50 @@
+# Oscuro license
+
+Copyright (c) 2026 The Oscuro author (https://github.com/kartun83). All rights reserved.
+
+This license covers the Oscuro firmware images, installer, editor and documentation published as binaries ("the Software"). Source code is not published.
+
+## 1. Grant
+
+You may, free of charge:
+
+1. Install and use the Software on devices you own or are authorised to modify.
+2. Make copies for backup and for restoring your own devices.
+3. Share the complete, unmodified release package (with this license and `THIRD_PARTY_NOTICES.md`) with others for non-commercial use, provided you do not charge for it.
+
+## 2. Restrictions
+
+You may not:
+
+1. Sell, rent or sublicense the Software, or bundle it in a paid product or service.
+2. Modify, decompile, disassemble or reverse engineer the Software, except where applicable law gives you that right regardless of this clause.
+3. Remove or alter copyright, license or attribution notices.
+
+## 3. Third-party components
+
+The Software contains components under their own licenses (Apache-2.0, MIT, BSD-2-Clause). Their notices and license texts are in `THIRD_PARTY_NOTICES.md` and `LICENSE-APACHE-2.0.txt`. Those licenses apply to those components and are not changed by this one.
+
+## 4. Material owned by others
+
+Some builds carry material that this license does not cover and that remains the property of its owners:
+
+- Complete-image (`.fwsc`) files include boot code made by M-Vave.
+- Viroid TI builds include numeric tables derived from the Access Virus TI firmware.
+
+They are provided only so that you can run Oscuro on a device you own. This license grants you no rights to them, and you are responsible for any use of them beyond that. If you own those rights and want an item removed, contact the author.
+
+## 5. Device risk
+
+Flashing firmware can make a device stop working. You flash at your own risk. Keep the recovery files and instructions for your device before you install. The Software is independent and is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named.
+
+## 6. No warranty, limited liability
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE AUTHOR IS NOT LIABLE FOR ANY DAMAGE, INCLUDING DAMAGE TO YOUR DEVICE OR DATA, ARISING FROM USE OF THE SOFTWARE.
+
+## 7. Termination
+
+This license ends automatically if you breach it. Then you must stop using and delete the Software.
+
+## 8. Contact
+
+https://github.com/kartun83/oscuro-firmware/issues
