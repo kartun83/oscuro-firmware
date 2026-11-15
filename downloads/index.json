@@ -1,6 +1,98 @@
 {
  "releases": [
   {
+   "version": "0.87",
+   "build": "0.87.0",
+   "show_build": false,
+   "variant": "viroid-ti-rack",
+   "label": "Viroid TI Rack",
+   "app": {
+    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.0-viroid_ti-app.bin",
+    "size": 670500,
+    "sha256": "997bd045b6b81547d3ccfe640bcc23254e6da3862f27255b38186eb7f9960ae9"
+   },
+   "fwsc": {
+    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.0-viroid_ti.fwsc",
+    "size": 1350420,
+    "sha256": "730e9fe5834088d2b657bc5dba1e33c1ae4249f4c659f127c6be9cdb25e122be",
+    "build": "0.87.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-viroid-ti-rack.zip",
+    "size": 1904106,
+    "sha256": "27ec18026df74737d19138ca1b557dc9eedfefc9a98ca9aa73dda1c1da60d975"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.0",
+   "show_build": false,
+   "variant": "retrowave",
+   "label": "Retrowave",
+   "app": {
+    "file": "releases/0.87/retrowave/oscuro-0.87.0-retrowave-app.bin",
+    "size": 649176,
+    "sha256": "4482749eae2d42da9cf876663307bf350b7f3fe369b1240527ad466b5c735a12"
+   },
+   "fwsc": {
+    "file": "releases/0.87/retrowave/oscuro-0.87.0-retrowave.fwsc",
+    "size": 1329684,
+    "sha256": "e8cf9a9bdce1dd6d7ba8856261c393c307a23fd22037fb09858bd758a17eaf7a",
+    "build": "0.87.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-retrowave.zip",
+    "size": 1842173,
+    "sha256": "b21dc961c4941614af6411f59232d1d138427e467171fbb9885b29e86695e355"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.0",
+   "show_build": false,
+   "variant": "daw",
+   "label": "DAW Controller",
+   "app": {
+    "file": "releases/0.87/daw/oscuro-0.87.0-daw-app.bin",
+    "size": 625672,
+    "sha256": "06cc2758d089b5fbb83f2d6c7b79bb7c17e92b7ae2795554dd79d78d699794c1"
+   },
+   "fwsc": {
+    "file": "releases/0.87/daw/oscuro-0.87.0-daw.fwsc",
+    "size": 1305108,
+    "sha256": "1ef93f59e3a88ec3df605b746c09661bddc1b6249f99c12e8b500551c0436ebb",
+    "build": "0.87.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-daw.zip",
+    "size": 1796080,
+    "sha256": "0854fd8aefb937bfbb537297279272d03832e884eecc70a757abc93c9adee45c"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.0",
+   "show_build": true,
+   "variant": "viroid-ti-rack-fm1",
+   "label": "Viroid TI Rack for FM-1 (test build)",
+   "app": {
+    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.0-fm1-viroid_ti-app.bin",
+    "size": 675492,
+    "sha256": "37e7f6824b158e6ed654b0ce5d722e06784b939c1773e5ff107fa6cc436a24c9"
+   },
+   "fwsc": {
+    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.0-fm1_viroid_ti.fwsc",
+    "size": 1534996,
+    "sha256": "878598aac8c9b44377ed44b49b3d439f450c8ae5fb5fe93fab38b782e5e15790",
+    "build": "0.87.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-viroid-ti-rack-fm1.zip",
+    "size": 1875271,
+    "sha256": "0b02c0ceee704ee2324f76a124a23b992ab29bc425bd348e966de1f461053f4a"
+   }
+  },
+  {
    "version": "0.84",
    "build": "0.84.64",
    "show_build": false,
@@ -19,8 +111,8 @@
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1210131,
-    "sha256": "47ed5b83a6628e9862c2823fbaf6b19ef371000a013ce0ee8c8392facfca8b06"
+    "size": 1235684,
+    "sha256": "98e99d5d5e73d7a04e65dabdd36de0322be46d5e29922eea6ccabaccc5e4e21b"
    }
   }
  ],

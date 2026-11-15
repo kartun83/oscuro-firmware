@@ -195,7 +195,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
 <main>
   <header>
     <h1>Oscuro installer</h1>
-    <p>For the M-Vave SMK-37 Elite and SMK-37 Pro (also sold as the MKE-P37 and the Starrykey 37 Play), over the USB cable. Use Chrome or Edge on a computer, and close DAWs and other MIDI apps first.</p>
+    <p>For the M-Vave FM1 and SMK-37 Elite and SMK-37 Pro (also sold as the MKE-P37 and the Starrykey 37 Play), over the USB cable. Use Chrome or Edge on a computer, and close DAWs and other MIDI apps first.</p>
   </header>
 
   <div class="lcd" aria-live="polite">
@@ -218,15 +218,17 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
   <div role="tabpanel" id="p-install" aria-labelledby="t-install">
     <section>
       <h2>Install or update Oscuro</h2>
+      <p class="hint">FM-1: stock V15 first install uses the bundled Viroid TI test package. Check the keyboard, then click Install Oscuro. On Oscuro with FM-1 USB update support, choose an FM-1 app.bin to update.</p>
       <p>The first install, from M-Vave's firmware, also needs M-Vave's firmware file; the page combines the two on this computer.
-        When the keyboard already runs Oscuro, <code>app.bin</code> alone is enough.</p>
+        When the keyboard already runs Oscuro, <code>app.bin</code> alone is enough. Same-flavour app updates keep your patches and settings;
+        <a href="#memory">saving a backup</a> is optional. Back up before switching synths: another synth cannot play the existing patches and may replace them when saving.</p>
       <p class="hint" id="i-hint"></p>
       <fieldset class="acks" id="acks">
         <legend>Before you install</legend>
         <label><input type="checkbox" id="ack-risk">
           <span><b>I understand that custom firmware can behave unexpectedly.</b> Oscuro is checked with automated tests and on real
-            keyboards, but it can't be guaranteed to work on every unit. All hardware testing starts from M-Vave's latest official firmware
-            (version 16 for the SMK-37 family). Installing over another custom firmware may work, but there are too many to test them all.</span></label>
+            keyboards, but it can't be guaranteed to work on every unit. All hardware testing starts from <span id="ack-base">M-Vave's latest official firmware
+            (version 16 for the SMK-37 family)</span>. Installing over another custom firmware may work, but there are too many to test them all.</span></label>
         <label><input type="checkbox" id="ack-layout">
           <span><b>I understand that some releases move or resize parts of the flash.</b> Installing another custom firmware over Oscuro,
             if it doesn't expect this, can leave the keyboard faulty or unresponsive. To switch to another custom firmware,
@@ -234,6 +236,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       </fieldset>
       <div class="choice"><label><input type="checkbox" id="x-model"> Don't check the keyboard's model
         <span class="hint">(asks first; for a keyboard that reports the wrong model. Applies to the buttons below as well)</span></label></div>
+      <p class="hint" id="fm1-package"></p>
       <div class="rel" id="rel" hidden>
         <h3>Choose a release</h3>
         <div class="row">
@@ -269,6 +272,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       <h2>Go back to M-Vave's firmware</h2>
       <p>Works from Oscuro and from any M-Vave version. If you erased the patch memory for Oscuro's synth,
         <a href="#memory">restore your backup</a> first: M-Vave's firmware doesn't bring it back.</p>
+      <p class="hint">FM-1 rollback has two stages: load the restore updater, then write your stock .fwsc. Settings and Oscuro patches are cleared. Keep USB connected through both restarts.</p>
       <label class="drop" data-check="stock">
         <input type="file" id="r-stock" accept=".fwsc">
         <span class="what">M-Vave firmware</span>
@@ -364,7 +368,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
       <h2>Records of other synths</h2>
       <p>All synth builds share one patch memory. When you flash a build with a different synth, the earlier synth's patches stay in the flash:
         this build cannot play them, they take room, and a patch you store in the same slot group replaces them. Save a backup first
-        (the installer asks before any update), then remove them to free the room. A backup restores them later.</p>
+        under Patch memory, then remove them to free the room. A backup restores them later.</p>
       <div class="actions"><button id="b-purge" class="quiet">Remove other synths' records</button></div>
     </section>
   </div>
@@ -422,568 +426,6 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
 </main>
 
 <script type="module">
-const U = (() => {
-// installer/update.mjs — the keysmith installer's logic, shared by the page
-// (index.html, Web MIDI) and the host tests (tests/, Node).
-//
-// One protocol for both directions: M-Vave's own USB-MIDI update protocol
-// (research/OTA_BAUDGIRL_FM1.md), which stock speaks and keysmith speaks too
-// (firmware/board/smk37/smk37_ota.h). The device asks for bytes of the package's
-// logical image (the .fwsc without its 20 marker bytes); this side answers.
-//
-//   revert:  the M-Vave .fwsc as downloaded from M-Vave
-//   install: a keysmith .fwsc built here, in memory, from that same M-Vave file
-//            and keysmith's app.bin (buildKeysmith): M-Vave's boot code and
-//            settings never leave the user's machine in a file we publish.
-//   update:  keysmith to another keysmith build, app.bin only (appUpdate): a
-//            small header + app.bin that only keysmith's updater takes.
-//
-// Written for this project from the format notes in research/ and
-// dongle/host/appimage.py; no code from other installers.
-
-// ---- JieLi primitives ------------------------------------------------------------
-function crc16(data, crc = 0) {                 // poly 0x1021, init 0, not reflected
-  for (const b of data) {
-    crc ^= b << 8;
-    for (let k = 0; k < 8; k++) crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
-  }
-  return crc;
-}
-
-function cipher(buf, off, len, key) {           // JieLi's CRC-keyed XOR stream
-  for (let i = 0; i < len; i++) {
-    buf[off + i] ^= key & 0xff;
-    key = ((key << 1) ^ (key & 0x8000 ? 0x1021 : 0)) & 0xffff;
-  }
-}
-
-const CHIP_KEY = 0x980f;                               // isd_config.ini of the SMK-37 Elite
-const APP_BASE = 0x4000;                               // app area in flash
-const APP_END = 0x9d000;                               // end of the stock package's flash.bin (the stock VM start)
-const VM_START_MAX = 0xb8000;                   // a grown image keeps VM 32 KiB and stock's loader copy (0xb9000) clear
-function sfcCipher(buf, from, to) {                    // symmetric: enciphers and deciphers
-  for (let o = from; o < to; o += 32) cipher(buf, o, Math.min(32, to - o), CHIP_KEY ^ (((o - APP_BASE) >>> 2) & 0xffff));
-}
-
-const le = (b, o, n) => { let v = 0; for (let i = n - 1; i >= 0; i--) v = v * 256 + b[o + i]; return v; };
-const put = (b, o, v, n) => { for (let i = 0; i < n; i++) b[o + i] = Math.floor(v / 2 ** (8 * i)) & 0xff; };
-const cstr = (b) => { let s = ""; for (const c of b) { if (!c) break; s += String.fromCharCode(c); } return s; };
-
-// ---- the .fwsc package ------------------------------------------------------------
-const BLOCKS = 20, BLOCK = 0x30;
-
-function logical(raw, blocks = BLOCKS) {         // drop the marker byte of each of the first `blocks` blocks
-  const out = new Uint8Array(raw.length - blocks);
-  for (let i = 0; i < blocks; i++) out.set(raw.subarray(i * BLOCK, i * BLOCK + 0x2f), i * 0x2f);
-  out.set(raw.subarray(blocks * BLOCK), blocks * 0x2f);
-  return out;
-}
-
-// How many blocks carry a marker: the name's letters, then 0x7d filler up to the first data block. Almost always 20;
-// M-Vave's Pro 016 file has 36 (16 more filler markers), which shifted every byte after block 20.
-function markerBlocks(raw) {
-  let i = 0;
-  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] !== 0x7d) i++;
-  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] === 0x7d) i++;
-  return i;
-}
-
-function unlogical(lg, markers) {
-  const raw = new Uint8Array(lg.length + BLOCKS);
-  for (let i = 0; i < BLOCKS; i++) {
-    raw.set(lg.subarray(i * 0x2f, (i + 1) * 0x2f), i * BLOCK);
-    raw[i * BLOCK + 0x2f] = markers[i];
-  }
-  raw.set(lg.subarray(BLOCKS * 0x2f), BLOCKS * BLOCK);
-  return raw;
-}
-
-function nameOf(raw, blocks = BLOCKS) {                // product name in the marker bytes
-  let s = "";
-  for (let i = 0; i < blocks; i++) { const m = raw[i * BLOCK + 0x2f]; if (m === 0x7d) break; s += String.fromCharCode((m - i - 1) & 0xff); }
-  return s;
-}
-const markersFor = (name) => Array.from({ length: BLOCKS }, (_, i) => (i < name.length ? (name.charCodeAt(i) + i + 1) & 0xff : 0x7d));
-
-class PackageError extends Error {}
-const need = (ok, msg) => { if (!ok) throw new PackageError(msg); };
-
-// Everything the installer checks before sending a byte. Throws PackageError.
-function parsePackage(raw) {
-  need(raw.length > 0x1000, "This file is too small to be firmware.");
-  const tries = [BLOCKS];
-  const mb = markerBlocks(raw);
-  if (mb > BLOCKS && mb < 64) tries.push(mb);          // the layout the file itself shows, if it is not the usual one
-  let err;
-  for (const blocks of tries) {
-    try { return parseWith(raw, blocks); } catch (e) { if (!(e instanceof PackageError)) throw e; err ??= e; }
-  }
-  throw err;
-}
-
-function parseWith(raw, blocks) {
-  const lg = logical(raw, blocks);
-  const h = lg.slice(0, 0x40);
-  cipher(h, 0, 0x40, 0xffff);
-  need(crc16(h.subarray(2, 0x40)) === le(h, 0, 2), "This is not an M-Vave firmware file (.fwsc).");
-  const count = le(h, 8, 2);
-  need(count > 0 && count <= 16, "This is not an M-Vave firmware file (.fwsc).");
-  need(crc16(lg.subarray(0x40, 0x40 + count * 0x50)) === le(h, 2, 2), "The file's header is damaged.");
-  const entries = [];
-  for (let i = 0; i < count; i++) {
-    const e = lg.slice(0x40 + i * 0x50, 0x40 + (i + 1) * 0x50);
-    cipher(e, 0, 0x50, 0xffff);
-    entries.push({ index: i, type: le(e, 0, 2), crc: le(e, 4, 2), offset: le(e, 8, 4), size: le(e, 12, 4) });
-  }
-  const fl = entries.filter((e) => e.type === 0);
-  need(fl.length === 1, "The file has no flash image.");
-  const f = fl[0];
-  need(f.offset + f.size <= lg.length && f.size > 0x5000 && f.size <= VM_START_MAX, "The file's flash image is out of range.");
-  need(crc16(lg.subarray(f.offset, f.offset + f.size)) === f.crc, "The file is damaged (flash image checksum).");
-  const chip = cstr(h.subarray(16, 64));
-  return { name: nameOf(raw, blocks), chip, flashOffset: f.offset, flashSize: f.size, flashEntry: f.index, logical: lg,
-    appOnly: false, dataStart: f.offset + APP_BASE, dataLen: f.size - APP_BASE };
-}
-
-// app area (deciphered): app_area_head at 0x4000, 32-byte entries (CRC16 of the
-// entry at +0, data CRC at +2, offset +4, size +8, index +14, name +16).
-function appArea(flash) {
-  const a = flash.slice();
-  sfcCipher(a, APP_BASE, a.length);
-  const ent = (o) => ({ o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), off: le(a, o + 4, 4), size: le(a, o + 8, 4),
-    index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) });
-  const head = ent(APP_BASE);
-  need(head.hok && head.name === "app_area_head", "The file is not for this keyboard (no app area).");
-  let app = null;
-  for (let o = APP_BASE + 32; o < APP_BASE + 0x400; o += 32) {
-    const e = ent(o);
-    need(e.hok, "The file's app area is damaged.");
-    if (e.name === "app.bin") app = e;
-    if (e.index !== 0) break;
-  }
-  need(app, "The file has no app.bin.");
-  need(crc16(a.subarray(APP_BASE + app.off, APP_BASE + app.off + app.size)) === le(a, app.o + 2, 2), "The file's app.bin is damaged.");
-  return { a, head, app };
-}
-
-// A 015 Starrykey package has room for 20 name characters, one short: the keyboard's full name starts with the file's.
-
-// All entries of the app area's directory (deciphered area `a`): offset +4, size +8, index +14, name +16.
-function dirEntries(a) {
-  const out = [];
-  for (let o = APP_BASE; o + 32 <= APP_BASE + 0x400; o += 32) {
-    const e = { o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), dcrc: le(a, o + 2, 2), off: le(a, o + 4, 4),
-      size: le(a, o + 8, 4), index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) };
-    out.push(e);
-    if (o > APP_BASE && e.index !== 0) break;
-  }
-  return out;
-}
-
-// The largest app.bin growApp accepts for an image whose cfg_tool.bin (383 bytes) follows it.
-const MAX_APP = VM_START_MAX - APP_BASE - 0x120 - 383;
-
-// An app.bin longer than the stock slot: the same edit as dongle/host/appimage.py grow_app (and what M-VAVE's open
-// packer, smk37_open sdk/Package.cs, lays out). cfg_tool.bin moves up behind the new app.bin, the VM record moves up to
-// the next 4 KiB (its end stays) and PRCT, [0, VM start), grows with it. Returns the new flash.bin: [0, VM start).
-// `flash` is the package's flash.bin (the stock layout). The old VM sectors below the new start hold app bytes.
-function growApp(flash, appBin) {
-  const { a: area, head, app } = appArea(flash);
-  const ents = dirEntries(area);
-  const one = (name) => { const f = ents.filter((e) => e.name === name); need(f.length === 1 && f[0].hok, "The file's app area has no usable " + name + " record."); return f[0]; };
-  const vm = one("VM"), prct = one("PRCT");
-  need(vm.off === flash.length && prct.off === 0 && prct.size === flash.length, "The file's VM/PRCT records are not the stock layout.");
-  const vmEnd = vm.off + vm.size, vmMin = le(area, vm.o + 28, 4);
-  const oldEnd = app.off + app.size;
-  const tail = ents.filter((e) => e.o !== app.o && e.o !== APP_BASE && e !== vm && e !== prct && e.off >= oldEnd && e.off + e.size <= head.size)
-    .sort((x, y) => x.off - y.off);
-  let at = oldEnd;
-  for (const e of tail) { need(e.off === at, "The file's app area is not the stock layout."); at += e.size; }
-  need(at === head.size, "The file's app area is not the stock layout.");
-  const newEnd = app.off + appBin.length + tail.reduce((n, e) => n + e.size, 0);
-  const vmStart = Math.max(vm.off, Math.ceil((APP_BASE + newEnd) / 0x1000) * 0x1000);
-  need(vmStart <= VM_START_MAX && vmEnd - vmStart >= Math.min(vmMin, vmEnd - VM_START_MAX),
-    `This Oscuro file is too big: at most ${MAX_APP} bytes fit in front of the settings area.`);
-  const out = new Uint8Array(vmStart).fill(0xff);
-  out.set(area.subarray(0, APP_BASE + app.off));
-  const data = tail.map((e) => area.slice(APP_BASE + e.off, APP_BASE + e.off + e.size));
-  out.set(appBin, APP_BASE + app.off);
-  let pos = app.off + appBin.length;
-  tail.forEach((e, i) => {
-    out.set(data[i], APP_BASE + pos);
-    put(out, e.o + 4, pos, 4); put(out, e.o + 8, e.size, 4);
-    put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
-    pos += e.size;
-  });
-  // directory records that did not move are copied as they were (everything below app.bin, then the records after the data)
-  for (const e of ents) if (e.o !== app.o && !tail.includes(e) && e !== vm && e !== prct) out.set(area.subarray(e.o, e.o + 32), e.o);
-  put(out, app.o + 2, crc16(out.subarray(APP_BASE + app.off, APP_BASE + app.off + appBin.length)), 2);
-  put(out, app.o + 8, appBin.length, 4);
-  put(out, app.o, crc16(out.subarray(app.o + 2, app.o + 32)), 2);
-  if (vmStart !== vm.off) {
-    for (const [e, off, size] of [[vm, vmStart, vmEnd - vmStart], [prct, 0, vmStart]]) {
-      out.set(area.subarray(e.o, e.o + 32), e.o);
-      put(out, e.o + 4, off, 4); put(out, e.o + 8, size, 4);
-      put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
-    }
-  } else for (const e of [vm, prct]) out.set(area.subarray(e.o, e.o + 32), e.o);
-  put(out, APP_BASE + 8, newEnd, 4);
-  put(out, APP_BASE + 2, crc16(out.subarray(APP_BASE + 32, APP_BASE + newEnd)), 2);
-  put(out, APP_BASE, crc16(out.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
-  sfcCipher(out, APP_BASE, out.length);
-  return out;
-}
-
-const sameName = (reported, fileName) => reported === fileName || (fileName.length === 20 && reported.startsWith(fileName));
-const KEYSMITH_NAME = "SMK-37 Elite_900";       // the package's name (stock's updater sees this one)
-// What a running Oscuro answers to the identity query (= SMK37_OTA_MODEL); builds before 0.84.65 answered KEYSMITH_NAME.
-const OSCURO_ID = "SMK-37 Oscuro_01";
-const isOscuro = (id) => !!id && (id.text === OSCURO_ID || id.text === KEYSMITH_NAME);
-
-// M-Vave's boards that share keysmith's flash layout (same boot region, same app area); the Pro's flash chip differs.
-// The MKE-P37 and the Starrykey 37 Play are the same keyboard sold under other names: their stock files differ from the
-// Pro's in the app code and the model name, and the boot region and the app area layout are identical.
-const STOCK_MODELS = ["SMK-37 Elite", "SMK-37 Pro", "MKE-P37", "STARRYKEY-37 PLAY"];
-// "SMK-37 Pro_015" -> {model: "SMK-37 Pro", version: "015"}, or null for a file that is not one of those boards'. A
-// 015 Starrykey file has no room for its last name character, so its version reads "01".
-function stockFile(name) {
-  const m = /^(.+)_([0-9]+)$/.exec(name);
-  return m && STOCK_MODELS.includes(m[1]) ? { model: m[1], version: m[2] } : null;
-}
-
-// Why `pkg` must not go onto the keyboard that answered (id = parseIdentity), or "". keysmith's own package is named
-// for the Elite by design and goes onto either stock board; a keysmith unit takes either board's stock file back.
-function modelProblem(id, pkg) {
-  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
-  if (!target) return "The file's name is not a firmware name such as SMK-37 Elite_016.";
-  if (id.model === target[1]) return "";
-  if ((pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id.model)) || (isOscuro(id) && STOCK_MODELS.includes(target[1]))) return "";
-  return `The keyboard is a ${id.model}; this file is for the ${target[1]}.`;
-}
-
-// The updater the keyboard restarted into reports the board's own model.
-const updaterModelOk = (id1, id0, pkg, anyModel = false) => !!id1 && id1.updater && (anyModel || id1.model === id0.model ||
-  id1.model === /^(.+)_[0-9]+$/.exec(pkg.name)?.[1] || (pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id1.model)));
-
-// Some entries (USR, isd_config.ini, script.ver, blimit.bin in M-Vave's file) are enciphered per 32 bytes with a key
-// that depends on the entry's offset in the file (CHIP_KEY ^ offset/4; M-Vave's updater decodes USR the same way).
-// Moving such an entry without re-keying leaves the loader a corrupt isd_config.ini and USR. The data now sits at `to`
-// still enciphered for `from`; entries that were plain (flash.bin's neighbours, ota.bin, tail.bin) stay as they are.
-function rekeyEntry(lg, to, from, size, stored, crc) {
-  if (!size) return;
-  const key = (off) => CHIP_KEY ^ ((off >>> 2) & 0xffff);
-  const plain = lg.slice(to, to + stored);
-  if (crc16(plain.subarray(0, size)) === crc) return;       // not enciphered
-  const clear = plain.slice();
-  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(from + k));
-  need(crc16(clear.subarray(0, size)) === crc, "A file entry does not match its CRC, plain or enciphered; cannot move it.");
-  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(to + k));
-  lg.set(clear, to);
-}
-
-// A keysmith package: the M-Vave file with app.bin replaced (padded with 0xFF to
-// the stock slot, so nothing else moves; as dongle/host/appimage.py), its CRCs,
-// the flash image CRC in the UFW header, and the name.
-function buildKeysmith(stockRaw, appBin, { anyModel = false } = {}) {
-  const p = parsePackage(stockRaw);
-  need(anyModel || stockFile(p.name), `That file is for the ${p.name || "unknown device"}; this needs M-Vave's file for the SMK-37 Elite, SMK-37 Pro, MKE-P37 or Starrykey 37 Play.`);
-  need(appBin.length > 0x100 && appBin.length <= MAX_APP, "That Oscuro file does not look like an Oscuro app.bin.");
-  const flash = p.logical.slice(p.flashOffset, p.flashOffset + p.flashSize);
-  const { a, head, app } = appArea(flash);
-  let a2;                                              // the new flash.bin, enciphered
-  if (appBin.length > app.size) {
-    need(p.flashSize === APP_END, "Oscuro's app.bin does not fit.");
-    a2 = growApp(flash, appBin);                       // past the stock slot: the directory moves too
-  } else {
-    const at = APP_BASE + app.off;
-    a.fill(0xff, at, at + app.size);
-    a.set(appBin, at);
-    put(a, app.o + 2, crc16(a.subarray(at, at + app.size)), 2);
-    put(a, app.o, crc16(a.subarray(app.o + 2, app.o + 32)), 2);
-    put(a, APP_BASE + 2, crc16(a.subarray(APP_BASE + 32, APP_BASE + head.size)), 2);
-    put(a, APP_BASE, crc16(a.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
-    sfcCipher(a, APP_BASE, a.length);
-    a2 = a;
-  }
-  // the logical image again: header, flash.bin (any size), the entries behind it moved by the size difference
-  const delta = a2.length - p.flashSize;
-  const old = p.logical;
-  const lg = new Uint8Array(old.length + delta);
-  lg.set(old.subarray(0, p.flashOffset));
-  lg.set(a2, p.flashOffset);
-  lg.set(old.subarray(p.flashOffset + p.flashSize), p.flashOffset + a2.length);
-  const h = lg.subarray(0, 0x40);
-  cipher(h, 0, 0x40, 0xffff);
-  const count = le(h, 8, 2);
-  if (delta) put(h, 4, le(h, 4, 4) + delta, 4);
-  for (let i = 0; i < count; i++) {                    // entries: flash.bin's data CRC and size, the others' offsets
-    const eo = 0x40 + i * 0x50;
-    cipher(lg, eo, 0x50, 0xffff);
-    if (i === p.flashEntry) { put(lg, eo + 4, crc16(a2), 2); put(lg, eo + 12, a2.length, 4); put(lg, eo + 16, a2.length, 4); }
-    else if (le(lg, eo + 8, 4) >= p.flashOffset + p.flashSize) {
-      const from = le(lg, eo + 8, 4), to = from + delta;
-      rekeyEntry(lg, to, from, le(lg, eo + 12, 4), le(lg, eo + 16, 4), le(lg, eo + 4, 2));
-      put(lg, eo + 8, to, 4);
-    }
-    cipher(lg, eo, 0x50, 0xffff);
-  }
-  put(h, 2, crc16(lg.subarray(0x40, 0x40 + count * 0x50)), 2);
-  put(h, 0, crc16(h.subarray(2, 0x40)), 2);
-  cipher(h, 0, 0x40, 0xffff);
-  const out = unlogical(lg, markersFor(KEYSMITH_NAME));
-  parsePackage(out);                                   // must pass its own checks
-  return out;
-}
-
-// An app-only update for keysmith's own updater (smk37_ota.h): header
-// "KSAPP1", app length +8, app CRC16 +12, model +16, CRC16 of [0, 0x3E) at +0x3E,
-// then app.bin. Only offered when keysmith answers the identity query; the
-// header is also made to fail stock's UFW header check (+0x3C is free for that).
-const APP_MODEL = "SMK-37 Elite";
-// The stock app slot (0x97b08 bytes). The TI wavetable bank pushed a viroid app.bin past 512 KiB.
-const APP_SLOT = 0x97b08;
-// Longer than the slot, up to MAX_APP, only a unit whose Oscuro is 0.83.2 or newer takes it (it grows the slot; an older
-// one refuses at the first step with nothing changed).
-function appUpdate(appBin) {
-  need(appBin.length > 0x100 && appBin.length <= MAX_APP, "That Oscuro file does not look like an Oscuro app.bin.");
-  const lg = new Uint8Array(0x40 + appBin.length);
-  lg.set(new TextEncoder().encode("KSAPP1"), 0);
-  put(lg, 8, appBin.length, 4);
-  put(lg, 12, crc16(appBin), 2);
-  lg.set(new TextEncoder().encode(APP_MODEL), 16);
-  lg.set(appBin, 0x40);
-  for (let t = 0; ; t++) {
-    put(lg, 0x3c, t, 2);
-    put(lg, 0x3e, crc16(lg.subarray(0, 0x3e)), 2);
-    const h = lg.slice(0, 0x40);
-    cipher(h, 0, 0x40, 0xffff);
-    if (crc16(h.subarray(2, 0x40)) !== le(h, 0, 2)) break;   // stock would refuse it as damaged
-  }
-  return { name: KEYSMITH_NAME, logical: lg, appOnly: true, dataStart: 0x40, dataLen: appBin.length };
-}
-
-// ---- wire format --------------------------------------------------------------------
-function pack7(bytes) {
-  const out = []; let acc = 0, nb = 0;
-  for (const b of bytes) { acc |= b << nb; nb += 8; while (nb >= 7) { out.push(acc & 0x7f); acc >>>= 7; nb -= 7; } }
-  if (nb) out.push(acc & 0x7f);
-  return out;
-}
-function unpack7(s) {
-  const out = []; let acc = 0, nb = 0;
-  for (const b of s) { acc |= (b & 0x7f) << nb; nb += 7; while (nb >= 8) { out.push(acc & 0xff); acc >>>= 8; nb -= 8; } }
-  return Uint8Array.from(out);
-}
-function frame(body) {
-  let sum = 0; for (let i = 6; i < body.length; i++) sum += body[i];
-  return Uint8Array.from([0xf0, ...pack7([...body, ~sum & 0xff]), 0xf7]);
-}
-
-const IDENTITY_QUERY = Uint8Array.of(0xf0, 0x00, 0x32, 0x45, 0x00, 0x00, 0x00, 0x40, 0x7f, 0xf7);
-const TRIGGER = Uint8Array.of(0xf0, 0x22, 0x24, 0x35, 0x7f, 0xf7);
-const DONE_VERIFY = 0xe0000000, DONE_UPGRADE = 0xf0000000;
-
-// {model: "SMK-37 Elite", version: 16, updater: false} or null
-function parseIdentity(msg) {
-  if (!msg || msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
-  const d = unpack7(msg.subarray(1, -1));
-  if (d.length !== 34 || d[0] !== 0x00 || d[1] !== 0x59 || d[2] !== 0x11 || le(d, 3, 3) !== 27) return null;
-  const s = cstr(d.subarray(6, 33));
-  const m = /^(ota-)?(.+)_([0-9]+)$/.exec(s);
-  return m ? { model: m[2], version: parseInt(m[3], 10), updater: !!m[1], text: s } : null;
-}
-
-function parseRequest(msg) {
-  if (msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
-  const u = unpack7(msg.subarray(1, -1));
-  if (u.length !== 15 || u[0] !== 0x00 || u[1] !== 0x59 || u[2] !== 0x30 || le(u, 3, 3) !== 8) return null;
-  let sum = 0; for (let i = 6; i < 14; i++) sum += u[i];
-  if (u[14] !== (~sum & 0xff) && u[14] !== (-sum & 0xff)) return null;
-  return { type: u[6], addr: le(u, 7, 4), len: le(u, 11, 3) };
-}
-
-function answer(req, lg) {
-  const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
-  const data = done ? [...new TextEncoder().encode("success"), 0] : lg.subarray(req.addr, req.addr + req.len);
-  const body = [0x00, 0x59, 0x30, 0, 0, 0, req.type, 0, 0, 0, 0, 0, 0, 0, ...data];
-  put(body, 3, data.length + 8, 3);
-  put(body, 7, req.addr, 4);
-  put(body, 11, data.length, 3);
-  return frame(body);
-}
-
-// ---- the session ----------------------------------------------------------------------
-// link: { send(Uint8Array), receive(timeoutMs) -> Promise<Uint8Array|null>, close() }
-// connect(): Promise<link|null> — the keyboard's MIDI port, whichever firmware runs
-// (the page asks every port with IDENTITY_QUERY). sleep(ms).
-class UpdateError extends Error {}
-
-async function identify(link, tries = 3) {
-  for (let k = 0; k < tries; k++) {
-    await link.send(IDENTITY_QUERY);
-    const end = Date.now() + 1000;
-    while (Date.now() < end) {
-      const id = parseIdentity(await link.receive(end - Date.now()));
-      if (id) return id;
-    }
-  }
-  return null;
-}
-
-async function serve(link, lg, idleMs, onRequest) {
-  let last = Date.now();
-  for (;;) {
-    const msg = await link.receive(500);
-    if (!msg) { if (Date.now() - last > idleMs) return null; continue; }
-    const req = parseRequest(msg);
-    if (!req) continue;
-    last = Date.now();
-    const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
-    if (!done && (req.len > 512 || req.addr + req.len > lg.length))
-      throw new UpdateError("The keyboard asked for data outside the file; stopped.");
-    await link.send(answer(req, lg));
-    if (done) return req.addr;
-    onRequest?.(req);
-  }
-}
-
-// Step 2 on a link to the updater (stock's loader or keysmith's own): write, then wait for the unit to come back as `pkg`.
-async function writeStage({ connect, sleep }, link, pkg, say) {
-  say("write", "Writing. Do not switch the keyboard off or unplug it.", 0);
-  await link.send(TRIGGER);
-  const span = Math.max(1, pkg.dataLen);
-  let sent = 0;                                        // app-only asks for its first sector last
-  const s2 = await serve(link, pkg.logical, 180000, (r) => {
-    if (r.addr < pkg.dataStart) return;
-    sent += r.len;
-    say("write", "Writing. Do not switch the keyboard off or unplug it.", Math.min(1, sent / span));
-  });
-  await link.close();
-  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again.");
-
-  say("verify", "Restarting and checking", 1);
-  await sleep(2000);
-  let id2 = null;
-  for (let t = 0; t < 30 && !id2; t++) {
-    link = await connect();
-    if (link) { id2 = await identify(link); await link.close(); }
-    if (!id2) await sleep(1000);
-  }
-  if (!id2) throw new UpdateError("The keyboard did not come back after the update. Switch it off and on.");
-  if (!sameName(id2.text, pkg.name) && !(pkg.name === KEYSMITH_NAME && isOscuro(id2))) throw new UpdateError(`The keyboard now reports ${id2.text}, not ${pkg.name}.`);
-  say("done", `Done: the keyboard runs ${pkg.name === KEYSMITH_NAME ? "Oscuro" : pkg.name}.`, 1);
-  return id2;
-}
-
-// Install `raw` (.fwsc bytes, or a package from appUpdate). say(step, text, fraction) reports progress.
-// opts.anyModel: skip the model check (the keyboard's updater still checks the file's flash image before anything is written).
-async function install({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
-  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
-  refuseOversize(pkg);
-  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
-  if (!target) throw new UpdateError("The file's name is not a firmware name such as SMK-37 Elite_016.");
-  let link = await connect();
-  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
-  const id0 = await identify(link);
-  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
-  const wrong = anyModel ? "" : modelProblem(id0, pkg);
-  if (wrong) { await link.close(); throw new UpdateError(wrong); }
-  const keysmith = isOscuro(id0);
-  if (keysmith && isOversize(pkg)) { await link.close(); return recover({ connect, sleep }, pkg, say, { anyModel }); }
-  if (pkg.appOnly && !keysmith) {
-    await link.close();
-    throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro. The first install needs M-Vave's firmware file too.`);
-  }
-  // stock refuses its own version; keysmith takes any build (unchanged sectors are skipped)
-  if (!keysmith && id0.version === parseInt(target[2], 10)) { await link.close(); throw new UpdateError(`The keyboard already runs ${pkg.name}.`); }
-
-  say("check", keysmith ? "Oscuro is checking the file" : "The keyboard is checking the file", 0);
-  await link.send(TRIGGER);
-  const s1 = await serve(link, pkg.logical, 10000, null);
-  if (s1 !== DONE_VERIFY) {
-    await link.close();
-    const big = pkg.appOnly && pkg.dataLen > APP_SLOT ? " This app is bigger than the stock slot: it needs Oscuro 0.83.2 or newer on the keyboard (or use the whole-package install with M-Vave's file)." : "";
-    throw new UpdateError("The keyboard refused the file or stopped answering. Nothing was changed; switch it off and on, and try again. If its screen said the flash chip is unknown, Oscuro cannot write to this unit." + big);
-  }
-
-  // stock restarts into its updater (a new USB device); keysmith stays connected
-  await sleep(keysmith ? 300 : 3000);
-  if (!keysmith) {
-    await link.close();
-    say("restart", "The keyboard is restarting into its updater (the screen may go dark)", 0);
-    link = null;
-    for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
-    if (!link) throw new UpdateError("The keyboard did not come back after restarting into its updater.");
-  }
-  const id1 = await identify(link);
-  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer."); }
-
-  return writeStage({ connect, sleep }, link, pkg, say);
-}
-
-// ---- back to M-Vave's updater without keysmith's own (F2) -----------------------------------
-// keysmith hands the unit to the stock loader (no flash written), then this page runs stock's step 2 with the
-// M-Vave file. For a unit whose chip keysmith's updater refuses. Firmware side: smk37_handoff.h.
-const HANDOFF_REQUEST = Uint8Array.of(0xf0, 0x7d, 0x4b, 0x53, 0x7f, 0x03, 0xf7);
-function parseHandoffReply(m) {
-  const ok = m && m.length === 8 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x7f && m[5] === 0x04 && m[7] === 0xf7;
-  return ok ? m[6] : null;
-}
-const HANDOFF_PROBLEMS = {
-  1: "This keyboard never ran M-Vave's own update, so it has no copy of M-Vave's updater to go back to. Nothing was changed.",
-  2: "The copy of M-Vave's updater in this keyboard is damaged. Nothing was changed.",
-  3: "Oscuro is running from RAM (a test run), not from flash. Nothing was changed.",
-  4: "Oscuro could not read the flash. Nothing was changed.",
-};
-
-// A package whose flash.bin passes the stock APP region (buildKeysmith with a longer app.bin). Oscuro's own updater cannot
-// take it; M-Vave's updater can, started by Oscuro's handoff (recover) or by stock itself.
-const isOversize = (pkg) => !pkg.appOnly && pkg.flashSize > APP_END;
-
-// M-Vave's updater has only been seen to finish a package whose flash image fits its own (stock-size) layout. A bigger
-// one has not been proven from a stock unit, and an attempt left a keyboard that needed the dongle, so it is refused
-// unless a test page turns this on.
-const settings = { oversizeWhole: false };
-function refuseOversize(pkg) {
-  if (isOversize(pkg) && !settings.oversizeWhole)
-    throw new UpdateError("This image is bigger than M-Vave's updater is known to write, so nothing was changed. Install the complete image of the release first, then install this app on top of it.");
-}
-
-async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
-  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
-  refuseOversize(pkg);
-  // M-Vave's own file, or an Oscuro package that outgrew the stock layout (oversize: Oscuro's own updater stops at 0x9d000)
-  if (pkg.appOnly || (pkg.name === KEYSMITH_NAME && !isOversize(pkg))) throw new UpdateError("This needs M-Vave's own firmware file (such as SMK-37 Elite_016.fwsc).");
-  let link = await connect();
-  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
-  const id0 = await identify(link);
-  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
-  if (!isOscuro(id0)) { await link.close(); throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro: use Install M-Vave firmware instead.`); }
-  const wrong = anyModel ? "" : modelProblem(id0, pkg);
-  if (wrong) { await link.close(); throw new UpdateError(wrong); }
-
-  say("handoff", "Oscuro is starting M-Vave's updater (the screen may go dark)", 0);
-  let code = null;
-  for (let t = 0; t < 2 && code === null; t++) {
-    await link.send(HANDOFF_REQUEST);
-    for (let m; code === null && (m = await link.receive(3000));) code = parseHandoffReply(m);
-  }
-  await link.close();
-  if (code === null) throw new UpdateError("This Oscuro does not know the command (it is older than 0.21.3). Nothing was changed.");
-  if (code !== 0) throw new UpdateError(HANDOFF_PROBLEMS[code] || `Oscuro refused (code ${code}). Nothing was changed.`);
-
-  await sleep(3000);
-  link = null;
-  for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
-  if (!link) throw new UpdateError("The keyboard did not come back in M-Vave's updater. Switch it off and on: it should start Oscuro again.");
-  const id1 = await identify(link);
-  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer. Switch it off and on: it should start Oscuro again."); }
-  return writeStage({ connect, sleep }, link, pkg, say);
-}
-
-return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, OSCURO_ID, isOscuro, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, settings, recover };
-})();
-
 const P = (() => {
 // installer/patches.mjs — synth patches for the page (index.html, Web MIDI) and
 // the host tests (tests/test_patches.mjs, Node).
@@ -1636,7 +1078,616 @@ function foreignWarning(map) {
 
 return { extractSysex, ENGINE_NAMES, FORMAT_NAMES, identifyPatch, readPatchFile, isPlaceholder, tidy, PatchError, EDIT_SLOT, frame, is, kspack, ksunpack, le32, crc32, KNOWN_FLASH, WRITABLE_FLASH, flashProblem, parseCaps, bankStart, ident, caps, parseEngines, engines, setEngine, sendPatches, checkFit, upload, uploadAt, readMap, deleteSlots, purgeForeign, planAppend, BANK_NAME_MAX, cleanBankName, suggestBankName, bankLabel, readBankName, readBankNames, setBankName, renamePatch, copyPatch, freeSlots, nameBank, memorySummary, needsBackup, foreignWarning };
 })();
+const U = (() => {
+const { ident } = P;
+// installer/update.mjs — the keysmith installer's logic, shared by the page
+// (index.html, Web MIDI) and the host tests (tests/, Node).
+//
+// One protocol for both directions: M-Vave's own USB-MIDI update protocol
+// (research/OTA_BAUDGIRL_FM1.md), which stock speaks and keysmith speaks too
+// (firmware/board/smk37/smk37_ota.h). The device asks for bytes of the package's
+// logical image (the .fwsc without its 20 marker bytes); this side answers.
+//
+//   revert:  the M-Vave .fwsc as downloaded from M-Vave
+//   install: a keysmith .fwsc built here, in memory, from that same M-Vave file
+//            and keysmith's app.bin (buildKeysmith): M-Vave's boot code and
+//            settings never leave the user's machine in a file we publish.
+//   update:  keysmith to another keysmith build, app.bin only (appUpdate): a
+//            small header + app.bin that only keysmith's updater takes.
+//
+// Written for this project from the format notes in research/ and
+// dongle/host/appimage.py; no code from other installers.
 
+// ---- JieLi primitives ------------------------------------------------------------
+function crc16(data, crc = 0) {                 // poly 0x1021, init 0, not reflected
+  for (const b of data) {
+    crc ^= b << 8;
+    for (let k = 0; k < 8; k++) crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+  }
+  return crc;
+}
+
+function cipher(buf, off, len, key) {           // JieLi's CRC-keyed XOR stream
+  for (let i = 0; i < len; i++) {
+    buf[off + i] ^= key & 0xff;
+    key = ((key << 1) ^ (key & 0x8000 ? 0x1021 : 0)) & 0xffff;
+  }
+}
+
+const CHIP_KEY = 0x980f;                               // isd_config.ini of the SMK-37 Elite
+const APP_BASE = 0x4000;                               // app area in flash
+const APP_END = 0x9d000;                               // end of the stock package's flash.bin (the stock VM start)
+const VM_START_MAX = 0xb8000;                   // a grown image keeps VM 32 KiB and stock's loader copy (0xb9000) clear
+function sfcCipher(buf, from, to) {                    // symmetric: enciphers and deciphers
+  for (let o = from; o < to; o += 32) cipher(buf, o, Math.min(32, to - o), CHIP_KEY ^ (((o - APP_BASE) >>> 2) & 0xffff));
+}
+
+const le = (b, o, n) => { let v = 0; for (let i = n - 1; i >= 0; i--) v = v * 256 + b[o + i]; return v; };
+const put = (b, o, v, n) => { for (let i = 0; i < n; i++) b[o + i] = Math.floor(v / 2 ** (8 * i)) & 0xff; };
+const cstr = (b) => { let s = ""; for (const c of b) { if (!c) break; s += String.fromCharCode(c); } return s; };
+
+// ---- the .fwsc package ------------------------------------------------------------
+const BLOCKS = 20, BLOCK = 0x30;
+
+function logical(raw, blocks = BLOCKS) {         // drop the marker byte of each of the first `blocks` blocks
+  const out = new Uint8Array(raw.length - blocks);
+  for (let i = 0; i < blocks; i++) out.set(raw.subarray(i * BLOCK, i * BLOCK + 0x2f), i * 0x2f);
+  out.set(raw.subarray(blocks * BLOCK), blocks * 0x2f);
+  return out;
+}
+
+// How many blocks carry a marker: the name's letters, then 0x7d filler up to the first data block. Almost always 20;
+// M-Vave's Pro 016 file has 36 (16 more filler markers), which shifted every byte after block 20.
+function markerBlocks(raw) {
+  let i = 0;
+  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] !== 0x7d) i++;
+  while ((i + 1) * BLOCK <= raw.length && raw[i * BLOCK + 0x2f] === 0x7d) i++;
+  return i;
+}
+
+function unlogical(lg, markers) {
+  const raw = new Uint8Array(lg.length + BLOCKS);
+  for (let i = 0; i < BLOCKS; i++) {
+    raw.set(lg.subarray(i * 0x2f, (i + 1) * 0x2f), i * BLOCK);
+    raw[i * BLOCK + 0x2f] = markers[i];
+  }
+  raw.set(lg.subarray(BLOCKS * 0x2f), BLOCKS * BLOCK);
+  return raw;
+}
+
+function nameOf(raw, blocks = BLOCKS) {                // product name in the marker bytes
+  let s = "";
+  for (let i = 0; i < blocks; i++) { const m = raw[i * BLOCK + 0x2f]; if (m === 0x7d) break; s += String.fromCharCode((m - i - 1) & 0xff); }
+  return s;
+}
+const markersFor = (name) => Array.from({ length: BLOCKS }, (_, i) => (i < name.length ? (name.charCodeAt(i) + i + 1) & 0xff : 0x7d));
+
+class PackageError extends Error {}
+const need = (ok, msg) => { if (!ok) throw new PackageError(msg); };
+
+// Everything the installer checks before sending a byte. Throws PackageError.
+function parsePackage(raw) {
+  need(raw.length > 0x1000, "This file is too small to be firmware.");
+  const tries = [BLOCKS];
+  const mb = markerBlocks(raw);
+  if (mb > BLOCKS && mb < 64) tries.push(mb);          // the layout the file itself shows, if it is not the usual one
+  let err;
+  for (const blocks of tries) {
+    try { return parseWith(raw, blocks); } catch (e) { if (!(e instanceof PackageError)) throw e; err ??= e; }
+  }
+  throw err;
+}
+
+function parseWith(raw, blocks) {
+  const lg = logical(raw, blocks);
+  const h = lg.slice(0, 0x40);
+  cipher(h, 0, 0x40, 0xffff);
+  need(crc16(h.subarray(2, 0x40)) === le(h, 0, 2), "This is not an M-Vave firmware file (.fwsc).");
+  const count = le(h, 8, 2);
+  need(count > 0 && count <= 16, "This is not an M-Vave firmware file (.fwsc).");
+  need(crc16(lg.subarray(0x40, 0x40 + count * 0x50)) === le(h, 2, 2), "The file's header is damaged.");
+  const entries = [];
+  for (let i = 0; i < count; i++) {
+    const e = lg.slice(0x40 + i * 0x50, 0x40 + (i + 1) * 0x50);
+    cipher(e, 0, 0x50, 0xffff);
+    entries.push({ index: i, type: le(e, 0, 2), crc: le(e, 4, 2), offset: le(e, 8, 4), size: le(e, 12, 4) });
+  }
+  const fl = entries.filter((e) => e.type === 0);
+  need(fl.length === 1, "The file has no flash image.");
+  const f = fl[0];
+  need(f.offset + f.size <= lg.length && f.size > 0x5000 && f.size <= VM_START_MAX, "The file's flash image is out of range.");
+  need(crc16(lg.subarray(f.offset, f.offset + f.size)) === f.crc, "The file is damaged (flash image checksum).");
+  const chip = cstr(h.subarray(16, 64));
+  return { name: nameOf(raw, blocks), chip, flashOffset: f.offset, flashSize: f.size, flashEntry: f.index, logical: lg,
+    appOnly: false, dataStart: f.offset + APP_BASE, dataLen: f.size - APP_BASE };
+}
+
+// app area (deciphered): app_area_head at 0x4000, 32-byte entries (CRC16 of the
+// entry at +0, data CRC at +2, offset +4, size +8, index +14, name +16).
+function appArea(flash) {
+  const a = flash.slice();
+  sfcCipher(a, APP_BASE, a.length);
+  const ent = (o) => ({ o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), off: le(a, o + 4, 4), size: le(a, o + 8, 4),
+    index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) });
+  const head = ent(APP_BASE);
+  need(head.hok && head.name === "app_area_head", "The file is not for this keyboard (no app area).");
+  let app = null;
+  for (let o = APP_BASE + 32; o < APP_BASE + 0x400; o += 32) {
+    const e = ent(o);
+    need(e.hok, "The file's app area is damaged.");
+    if (e.name === "app.bin") app = e;
+    if (e.index !== 0) break;
+  }
+  need(app, "The file has no app.bin.");
+  need(crc16(a.subarray(APP_BASE + app.off, APP_BASE + app.off + app.size)) === le(a, app.o + 2, 2), "The file's app.bin is damaged.");
+  return { a, head, app };
+}
+
+// A 015 Starrykey package has room for 20 name characters, one short: the keyboard's full name starts with the file's.
+
+// All entries of the app area's directory (deciphered area `a`): offset +4, size +8, index +14, name +16.
+function dirEntries(a) {
+  const out = [];
+  for (let o = APP_BASE; o + 32 <= APP_BASE + 0x400; o += 32) {
+    const e = { o, hok: crc16(a.subarray(o + 2, o + 32)) === le(a, o, 2), dcrc: le(a, o + 2, 2), off: le(a, o + 4, 4),
+      size: le(a, o + 8, 4), index: le(a, o + 14, 2), name: cstr(a.subarray(o + 16, o + 32)) };
+    out.push(e);
+    if (o > APP_BASE && e.index !== 0) break;
+  }
+  return out;
+}
+
+// The largest app.bin growApp accepts for an image whose cfg_tool.bin (383 bytes) follows it.
+const MAX_APP = VM_START_MAX - APP_BASE - 0x120 - 383;
+
+// An app.bin longer than the stock slot: the same edit as dongle/host/appimage.py grow_app (and what M-VAVE's open
+// packer, smk37_open sdk/Package.cs, lays out). cfg_tool.bin moves up behind the new app.bin, the VM record moves up to
+// the next 4 KiB (its end stays) and PRCT, [0, VM start), grows with it. Returns the new flash.bin: [0, VM start).
+// `flash` is the package's flash.bin (the stock layout). The old VM sectors below the new start hold app bytes.
+function growApp(flash, appBin) {
+  const { a: area, head, app } = appArea(flash);
+  const ents = dirEntries(area);
+  const one = (name) => { const f = ents.filter((e) => e.name === name); need(f.length === 1 && f[0].hok, "The file's app area has no usable " + name + " record."); return f[0]; };
+  const vm = one("VM"), prct = one("PRCT");
+  need(vm.off === flash.length && prct.off === 0 && prct.size === flash.length, "The file's VM/PRCT records are not the stock layout.");
+  const vmEnd = vm.off + vm.size, vmMin = le(area, vm.o + 28, 4);
+  const oldEnd = app.off + app.size;
+  const tail = ents.filter((e) => e.o !== app.o && e.o !== APP_BASE && e !== vm && e !== prct && e.off >= oldEnd && e.off + e.size <= head.size)
+    .sort((x, y) => x.off - y.off);
+  let at = oldEnd;
+  for (const e of tail) { need(e.off === at, "The file's app area is not the stock layout."); at += e.size; }
+  need(at === head.size, "The file's app area is not the stock layout.");
+  const newEnd = app.off + appBin.length + tail.reduce((n, e) => n + e.size, 0);
+  const vmStart = Math.max(vm.off, Math.ceil((APP_BASE + newEnd) / 0x1000) * 0x1000);
+  need(vmStart <= VM_START_MAX && vmEnd - vmStart >= Math.min(vmMin, vmEnd - VM_START_MAX),
+    `This Oscuro file is too big: at most ${MAX_APP} bytes fit in front of the settings area.`);
+  const out = new Uint8Array(vmStart).fill(0xff);
+  out.set(area.subarray(0, APP_BASE + app.off));
+  const data = tail.map((e) => area.slice(APP_BASE + e.off, APP_BASE + e.off + e.size));
+  out.set(appBin, APP_BASE + app.off);
+  let pos = app.off + appBin.length;
+  tail.forEach((e, i) => {
+    out.set(data[i], APP_BASE + pos);
+    put(out, e.o + 4, pos, 4); put(out, e.o + 8, e.size, 4);
+    put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
+    pos += e.size;
+  });
+  // directory records that did not move are copied as they were (everything below app.bin, then the records after the data)
+  for (const e of ents) if (e.o !== app.o && !tail.includes(e) && e !== vm && e !== prct) out.set(area.subarray(e.o, e.o + 32), e.o);
+  put(out, app.o + 2, crc16(out.subarray(APP_BASE + app.off, APP_BASE + app.off + appBin.length)), 2);
+  put(out, app.o + 8, appBin.length, 4);
+  put(out, app.o, crc16(out.subarray(app.o + 2, app.o + 32)), 2);
+  if (vmStart !== vm.off) {
+    for (const [e, off, size] of [[vm, vmStart, vmEnd - vmStart], [prct, 0, vmStart]]) {
+      out.set(area.subarray(e.o, e.o + 32), e.o);
+      put(out, e.o + 4, off, 4); put(out, e.o + 8, size, 4);
+      put(out, e.o, crc16(out.subarray(e.o + 2, e.o + 32)), 2);
+    }
+  } else for (const e of [vm, prct]) out.set(area.subarray(e.o, e.o + 32), e.o);
+  put(out, APP_BASE + 8, newEnd, 4);
+  put(out, APP_BASE + 2, crc16(out.subarray(APP_BASE + 32, APP_BASE + newEnd)), 2);
+  put(out, APP_BASE, crc16(out.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
+  sfcCipher(out, APP_BASE, out.length);
+  return out;
+}
+
+const sameName = (reported, fileName) => reported === fileName || (fileName.length === 20 && reported.startsWith(fileName));
+const KEYSMITH_NAME = "SMK-37 Elite_900";       // the package's name (stock's updater sees this one)
+// What a running Oscuro answers to the identity query (= SMK37_OTA_MODEL); builds before 0.84.65 answered KEYSMITH_NAME.
+const OSCURO_ID = "SMK-37 Oscuro_01";
+const isFM1 = (id) => !!id && /^(?:ota-)?FM-?1(?:$|[ _])/i.test(id.text || id.model || "");
+const isOscuro = (id) => !!id && (id.text === OSCURO_ID || id.text === KEYSMITH_NAME || /^FM1 Oscuro [0-9]{2}_[0-9]{3,}$/.test(id.text));
+const deviceModel = (id) => isFM1(id) ? "FM1" : id?.model || "";
+const FM1_UPDATE_PROBLEM = "FM1 requires an FM1 app-only image and Oscuro with USB update support (0.85.46+, or the earlier 0.86.4+ FM-1 test builds). Stock and Oscuro 0.86.3 need one final recovery-dongle install first.";
+const FM1_MAX_APP = 0xa9d61; // physical APP 0x4120 through 0xae000, reserving cfg_tool.bin (383 bytes)
+const FM1_APP_NAME = "FM1 Oscuro_900"; // stable package board name; runtime identity carries build/series
+function firmwareProblem(id, pkg) {
+  const board = isFM1(id), target = isFM1({ text: pkg.name });
+  if (board !== target) return FM1_UPDATE_PROBLEM;
+  if (board && (!pkg.appOnly || pkg.board !== "FM1" || (!isOscuro(id) && !id.updater))) return FM1_UPDATE_PROBLEM;
+  return "";
+}
+const fm1VersionOk = (v) => {
+  const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(v || "");
+  return !!m && (+m[1] > 0 || +m[2] > 86 || (+m[2] === 86 && +m[3] >= 4) || (+m[2] === 85 && +m[3] >= 46));
+};
+const FM1_CAPS_QUERY = Uint8Array.from([0xf0, ...pack7([0, 0x59, 0x12, 0, 0, 0, 0xff]), 0xf7]);
+async function fm1UpdateCapable(link) {
+  const full = await ident(link);
+  if (!fm1VersionOk(full?.version)) return false;
+  await link.send(FM1_CAPS_QUERY);
+  for (let m; (m = await link.receive(500));) {
+    const d = unpack7(m.subarray(1, -1));
+    if (m[0] !== 0xf0 || m.at(-1) !== 0xf7 || d.length !== 15 ||
+        d[0] !== 0 || d[1] !== 0x59 || d[2] !== 0x12 || le(d, 3, 3) !== 8) continue;
+    let sum = 0; for (let i = 6; i < 14; i++) sum += d[i];
+    if (d[14] === (~sum & 255) && cstr(d.subarray(6, 14)) === "FM1OTA1") return true;
+  }
+  return false;
+}
+function refuseFM1App(appBin) {
+  // Every FM1 live/diagnostic app carries this board tag at a fixed boot offset.
+  const tag = new TextDecoder().decode(appBin.subarray(0x100, 0x108));
+  need(tag !== "OSC-FM1-", FM1_UPDATE_PROBLEM);
+}
+
+// M-Vave's boards that share keysmith's flash layout (same boot region, same app area); the Pro's flash chip differs.
+// The MKE-P37 and the Starrykey 37 Play are the same keyboard sold under other names: their stock files differ from the
+// Pro's in the app code and the model name, and the boot region and the app area layout are identical.
+const STOCK_MODELS = ["SMK-37 Elite", "SMK-37 Pro", "MKE-P37", "STARRYKEY-37 PLAY"];
+// "SMK-37 Pro_015" -> {model: "SMK-37 Pro", version: "015"}, or null for a file that is not one of those boards'. A
+// 015 Starrykey file has no room for its last name character, so its version reads "01".
+function stockFile(name) {
+  const m = /^(.+)_([0-9]+)$/.exec(name);
+  return m && STOCK_MODELS.includes(m[1]) ? { model: m[1], version: m[2] } : null;
+}
+
+// Why `pkg` must not go onto the keyboard that answered (id = parseIdentity), or "". keysmith's own package is named
+// for the Elite by design and goes onto either stock board; a keysmith unit takes either board's stock file back.
+function modelProblem(id, pkg) {
+  const board = firmwareProblem(id, pkg);
+  if (board) return board;
+  if (isFM1(id)) return ""; // firmwareProblem already required FM1 app-only and Oscuro
+  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
+  if (!target) return "The file's name is not a firmware name such as SMK-37 Elite_016.";
+  if (id.model === target[1]) return "";
+  if ((pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id.model)) || (isOscuro(id) && STOCK_MODELS.includes(target[1]))) return "";
+  return `The keyboard is a ${id.model}; this file is for the ${target[1]}.`;
+}
+
+// The updater the keyboard restarted into reports the board's own model.
+const updaterModelOk = (id1, id0, pkg, anyModel = false) => !!id1 && !firmwareProblem(id1, pkg) && isFM1(id1) === isFM1(id0) && id1.updater && (isFM1(id0) || anyModel || id1.model === id0.model ||
+  id1.model === /^(.+)_[0-9]+$/.exec(pkg.name)?.[1] || (pkg.name === KEYSMITH_NAME && STOCK_MODELS.includes(id1.model)));
+
+// Some entries (USR, isd_config.ini, script.ver, blimit.bin in M-Vave's file) are enciphered per 32 bytes with a key
+// that depends on the entry's offset in the file (CHIP_KEY ^ offset/4; M-Vave's updater decodes USR the same way).
+// Moving such an entry without re-keying leaves the loader a corrupt isd_config.ini and USR. The data now sits at `to`
+// still enciphered for `from`; entries that were plain (flash.bin's neighbours, ota.bin, tail.bin) stay as they are.
+function rekeyEntry(lg, to, from, size, stored, crc) {
+  if (!size) return;
+  const key = (off) => CHIP_KEY ^ ((off >>> 2) & 0xffff);
+  const plain = lg.slice(to, to + stored);
+  if (crc16(plain.subarray(0, size)) === crc) return;       // not enciphered
+  const clear = plain.slice();
+  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(from + k));
+  need(crc16(clear.subarray(0, size)) === crc, "A file entry does not match its CRC, plain or enciphered; cannot move it.");
+  for (let k = 0; k < stored; k += 32) cipher(clear, k, Math.min(32, stored - k), key(to + k));
+  lg.set(clear, to);
+}
+
+// A keysmith package: the M-Vave file with app.bin replaced (padded with 0xFF to
+// the stock slot, so nothing else moves; as dongle/host/appimage.py), its CRCs,
+// the flash image CRC in the UFW header, and the name.
+function buildKeysmith(stockRaw, appBin, { anyModel = false } = {}) {
+  refuseFM1App(appBin);
+  const p = parsePackage(stockRaw);
+  need(!isFM1({ text: p.name }), FM1_UPDATE_PROBLEM);
+  need(anyModel || stockFile(p.name), `That file is for the ${p.name || "unknown device"}; this needs M-Vave's file for the SMK-37 Elite, SMK-37 Pro, MKE-P37 or Starrykey 37 Play.`);
+  need(appBin.length > 0x100 && appBin.length <= MAX_APP, "That Oscuro file does not look like an Oscuro app.bin.");
+  const flash = p.logical.slice(p.flashOffset, p.flashOffset + p.flashSize);
+  const { a, head, app } = appArea(flash);
+  let a2;                                              // the new flash.bin, enciphered
+  if (appBin.length > app.size) {
+    need(p.flashSize === APP_END, "Oscuro's app.bin does not fit.");
+    a2 = growApp(flash, appBin);                       // past the stock slot: the directory moves too
+  } else {
+    const at = APP_BASE + app.off;
+    a.fill(0xff, at, at + app.size);
+    a.set(appBin, at);
+    put(a, app.o + 2, crc16(a.subarray(at, at + app.size)), 2);
+    put(a, app.o, crc16(a.subarray(app.o + 2, app.o + 32)), 2);
+    put(a, APP_BASE + 2, crc16(a.subarray(APP_BASE + 32, APP_BASE + head.size)), 2);
+    put(a, APP_BASE, crc16(a.subarray(APP_BASE + 2, APP_BASE + 32)), 2);
+    sfcCipher(a, APP_BASE, a.length);
+    a2 = a;
+  }
+  // the logical image again: header, flash.bin (any size), the entries behind it moved by the size difference
+  const delta = a2.length - p.flashSize;
+  const old = p.logical;
+  const lg = new Uint8Array(old.length + delta);
+  lg.set(old.subarray(0, p.flashOffset));
+  lg.set(a2, p.flashOffset);
+  lg.set(old.subarray(p.flashOffset + p.flashSize), p.flashOffset + a2.length);
+  const h = lg.subarray(0, 0x40);
+  cipher(h, 0, 0x40, 0xffff);
+  const count = le(h, 8, 2);
+  if (delta) put(h, 4, le(h, 4, 4) + delta, 4);
+  for (let i = 0; i < count; i++) {                    // entries: flash.bin's data CRC and size, the others' offsets
+    const eo = 0x40 + i * 0x50;
+    cipher(lg, eo, 0x50, 0xffff);
+    if (i === p.flashEntry) { put(lg, eo + 4, crc16(a2), 2); put(lg, eo + 12, a2.length, 4); put(lg, eo + 16, a2.length, 4); }
+    else if (le(lg, eo + 8, 4) >= p.flashOffset + p.flashSize) {
+      const from = le(lg, eo + 8, 4), to = from + delta;
+      rekeyEntry(lg, to, from, le(lg, eo + 12, 4), le(lg, eo + 16, 4), le(lg, eo + 4, 2));
+      put(lg, eo + 8, to, 4);
+    }
+    cipher(lg, eo, 0x50, 0xffff);
+  }
+  put(h, 2, crc16(lg.subarray(0x40, 0x40 + count * 0x50)), 2);
+  put(h, 0, crc16(h.subarray(2, 0x40)), 2);
+  cipher(h, 0, 0x40, 0xffff);
+  const out = unlogical(lg, markersFor(KEYSMITH_NAME));
+  parsePackage(out);                                   // must pass its own checks
+  return out;
+}
+
+// An app-only update for keysmith's own updater (smk37_ota.h): header
+// "KSAPP1", app length +8, app CRC16 +12, model +16, CRC16 of [0, 0x3E) at +0x3E,
+// then app.bin. Only offered when keysmith answers the identity query; the
+// header is also made to fail stock's UFW header check (+0x3C is free for that).
+const APP_MODEL = "SMK-37 Elite";
+// The stock app slot (0x97b08 bytes). The TI wavetable bank pushed a viroid app.bin past 512 KiB.
+const APP_SLOT = 0x97b08;
+// Longer than the slot, up to MAX_APP, only a unit whose Oscuro is 0.83.2 or newer takes it (it grows the slot; an older
+// one refuses at the first step with nothing changed).
+function appUpdate(appBin) {
+  const fm1 = new TextDecoder().decode(appBin.subarray(0x100, 0x10d)) === "OSC-FM1-LIVE1";
+  if (!fm1) refuseFM1App(appBin);
+  need(appBin.length > 0x100 && appBin.length <= (fm1 ? FM1_MAX_APP : MAX_APP), "That Oscuro file does not look like an Oscuro app.bin.");
+  const lg = new Uint8Array(0x40 + appBin.length);
+  lg.set(new TextEncoder().encode("KSAPP1"), 0);
+  put(lg, 8, appBin.length, 4);
+  put(lg, 12, crc16(appBin), 2);
+  lg.set(new TextEncoder().encode(fm1 ? "FM1" : APP_MODEL), 16);
+  lg.set(appBin, 0x40);
+  for (let t = 0; ; t++) {
+    put(lg, 0x3c, t, 2);
+    put(lg, 0x3e, crc16(lg.subarray(0, 0x3e)), 2);
+    const h = lg.slice(0, 0x40);
+    cipher(h, 0, 0x40, 0xffff);
+    if (crc16(h.subarray(2, 0x40)) !== le(h, 0, 2)) break;   // stock would refuse it as damaged
+  }
+  return { name: fm1 ? FM1_APP_NAME : KEYSMITH_NAME, board: fm1 ? "FM1" : "SMK37", logical: lg, appOnly: true, dataStart: 0x40, dataLen: appBin.length };
+}
+
+// ---- wire format --------------------------------------------------------------------
+function pack7(bytes) {
+  const out = []; let acc = 0, nb = 0;
+  for (const b of bytes) { acc |= b << nb; nb += 8; while (nb >= 7) { out.push(acc & 0x7f); acc >>>= 7; nb -= 7; } }
+  if (nb) out.push(acc & 0x7f);
+  return out;
+}
+function unpack7(s) {
+  const out = []; let acc = 0, nb = 0;
+  for (const b of s) { acc |= (b & 0x7f) << nb; nb += 7; while (nb >= 8) { out.push(acc & 0xff); acc >>>= 8; nb -= 8; } }
+  return Uint8Array.from(out);
+}
+function frame(body) {
+  let sum = 0; for (let i = 6; i < body.length; i++) sum += body[i];
+  return Uint8Array.from([0xf0, ...pack7([...body, ~sum & 0xff]), 0xf7]);
+}
+
+const IDENTITY_QUERY = Uint8Array.of(0xf0, 0x00, 0x32, 0x45, 0x00, 0x00, 0x00, 0x40, 0x7f, 0xf7);
+const TRIGGER = Uint8Array.of(0xf0, 0x22, 0x24, 0x35, 0x7f, 0xf7);
+const DONE_VERIFY = 0xe0000000, DONE_UPGRADE = 0xf0000000;
+
+// {model: "SMK-37 Elite", version: 16, updater: false} or null
+function parseIdentity(msg) {
+  if (!msg || msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
+  const d = unpack7(msg.subarray(1, -1));
+  if (d.length !== 34 || d[0] !== 0x00 || d[1] !== 0x59 || d[2] !== 0x11 || le(d, 3, 3) !== 27) return null;
+  const s = cstr(d.subarray(6, 33));
+  const m = /^(ota-)?(.+)_([0-9]+)$/.exec(s);
+  return m ? { model: m[2], version: parseInt(m[3], 10), updater: !!m[1], text: s } : null;
+}
+
+function parseRequest(msg) {
+  if (msg[0] !== 0xf0 || msg[msg.length - 1] !== 0xf7) return null;
+  const u = unpack7(msg.subarray(1, -1));
+  if (u.length !== 15 || u[0] !== 0x00 || u[1] !== 0x59 || u[2] !== 0x30 || le(u, 3, 3) !== 8) return null;
+  let sum = 0; for (let i = 6; i < 14; i++) sum += u[i];
+  if (u[14] !== (~sum & 0xff) && u[14] !== (-sum & 0xff)) return null;
+  return { type: u[6], addr: le(u, 7, 4), len: le(u, 11, 3) };
+}
+
+function answer(req, lg) {
+  const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
+  const data = done ? [...new TextEncoder().encode("success"), 0] : lg.subarray(req.addr, req.addr + req.len);
+  const body = [0x00, 0x59, 0x30, 0, 0, 0, req.type, 0, 0, 0, 0, 0, 0, 0, ...data];
+  put(body, 3, data.length + 8, 3);
+  put(body, 7, req.addr, 4);
+  put(body, 11, data.length, 3);
+  return frame(body);
+}
+
+// ---- the session ----------------------------------------------------------------------
+// link: { send(Uint8Array), receive(timeoutMs) -> Promise<Uint8Array|null>, close() }
+// connect(): Promise<link|null> — the keyboard's MIDI port, whichever firmware runs
+// (the page asks every port with IDENTITY_QUERY). sleep(ms).
+class UpdateError extends Error {}
+
+async function identify(link, tries = 3) {
+  for (let k = 0; k < tries; k++) {
+    await link.send(IDENTITY_QUERY);
+    const end = Date.now() + 1000;
+    while (Date.now() < end) {
+      const id = parseIdentity(await link.receive(end - Date.now()));
+      if (id) return id;
+    }
+  }
+  return null;
+}
+
+async function serve(link, lg, idleMs, onRequest) {
+  let last = Date.now();
+  for (;;) {
+    const msg = await link.receive(500);
+    if (!msg) { if (Date.now() - last > idleMs) return null; continue; }
+    const req = parseRequest(msg);
+    if (!req) continue;
+    last = Date.now();
+    const done = req.addr === DONE_VERIFY || req.addr === DONE_UPGRADE;
+    if (!done && (req.len > 512 || req.addr + req.len > lg.length))
+      throw new UpdateError("The keyboard asked for data outside the file; stopped.");
+    await link.send(answer(req, lg));
+    if (done) return req.addr;
+    onRequest?.(req);
+  }
+}
+
+// Step 2 on a link to the updater (stock's loader or keysmith's own): write, then wait for the unit to come back as `pkg`.
+async function writeStage({ connect, sleep }, link, pkg, say) {
+  say("write", "Writing. Do not switch the keyboard off or unplug it.", 0);
+  await link.send(TRIGGER);
+  const span = Math.max(1, pkg.dataLen);
+  let sent = 0;                                        // app-only asks for its first sector last
+  const s2 = await serve(link, pkg.logical, 180000, (r) => {
+    if (r.addr < pkg.dataStart) return;
+    sent += r.len;
+    say("write", "Writing. Do not switch the keyboard off or unplug it.", Math.min(1, sent / span));
+  });
+  await link.close();
+  if (s2 !== DONE_UPGRADE) throw new UpdateError("The update did not finish. Oscuro and stock can both retry: run the update again.");
+
+  say("verify", "Restarting and checking", 1);
+  await sleep(2000);
+  let id2 = null;
+  for (let t = 0; t < 30 && !id2; t++) {
+    link = await connect();
+    if (link) { id2 = await identify(link); await link.close(); }
+    if (!id2) await sleep(1000);
+  }
+  if (!id2) throw new UpdateError("The keyboard did not come back after the update. Switch it off and on.");
+  if (!sameName(id2.text, pkg.name) && !(pkg.name === KEYSMITH_NAME && isOscuro(id2) && !isFM1(id2)) &&
+      !(pkg.board === "FM1" && pkg.appOnly && isFM1(id2) && isOscuro(id2))) throw new UpdateError(`The keyboard now reports ${id2.text}, not ${pkg.name}.`);
+  say("done", `Done: the keyboard runs ${pkg.name === KEYSMITH_NAME ? "Oscuro" : pkg.name}.`, 1);
+  return id2;
+}
+
+// Install `raw` (.fwsc bytes, or a package from appUpdate). say(step, text, fraction) reports progress.
+// opts.anyModel: skip the model check (the keyboard's updater still checks the file's flash image before anything is written).
+async function install({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
+  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  refuseOversize(pkg);
+  const target = /^(.+)_([0-9]+)$/.exec(pkg.name);
+  if (!target) throw new UpdateError("The file's name is not a firmware name such as SMK-37 Elite_016.");
+  let link = await connect();
+  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
+  const id0 = await identify(link);
+  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
+  const wrong = firmwareProblem(id0, pkg) || (anyModel ? "" : modelProblem(id0, pkg));
+  if (wrong) { await link.close(); throw new UpdateError(wrong); }
+  if (isFM1(id0)) {
+    if (pkg.dataLen > FM1_MAX_APP || !(await fm1UpdateCapable(link))) {
+      await link.close(); throw new UpdateError(FM1_UPDATE_PROBLEM);
+    }
+  }
+  const keysmith = isOscuro(id0);
+  if (keysmith && isOversize(pkg)) { await link.close(); return recover({ connect, sleep }, pkg, say, { anyModel }); }
+  if (pkg.appOnly && !keysmith) {
+    await link.close();
+    throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro. The first install needs M-Vave's firmware file too.`);
+  }
+  // stock refuses its own version; keysmith takes any build (unchanged sectors are skipped)
+  if (!keysmith && id0.version === parseInt(target[2], 10)) { await link.close(); throw new UpdateError(`The keyboard already runs ${pkg.name}.`); }
+
+  say("check", keysmith ? "Oscuro is checking the file" : "The keyboard is checking the file", 0);
+  await link.send(TRIGGER);
+  const s1 = await serve(link, pkg.logical, 10000, null);
+  if (s1 !== DONE_VERIFY) {
+    await link.close();
+    const big = pkg.appOnly && pkg.dataLen > APP_SLOT ? " This app is bigger than the stock slot: it needs Oscuro 0.83.2 or newer on the keyboard (or use the whole-package install with M-Vave's file)." : "";
+    throw new UpdateError("The keyboard refused the file or stopped answering. Nothing was changed; switch it off and on, and try again. If its screen said the flash chip is unknown, Oscuro cannot write to this unit." + big);
+  }
+
+  // stock restarts into its updater (a new USB device); keysmith stays connected
+  await sleep(keysmith ? 300 : 3000);
+  if (!keysmith) {
+    await link.close();
+    say("restart", "The keyboard is restarting into its updater (the screen may go dark)", 0);
+    link = null;
+    for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
+    if (!link) throw new UpdateError("The keyboard did not come back after restarting into its updater.");
+  }
+  const id1 = await identify(link);
+  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer."); }
+
+  return writeStage({ connect, sleep }, link, pkg, say);
+}
+
+// ---- back to M-Vave's updater without keysmith's own (F2) -----------------------------------
+// keysmith hands the unit to the stock loader (no flash written), then this page runs stock's step 2 with the
+// M-Vave file. For a unit whose chip keysmith's updater refuses. Firmware side: smk37_handoff.h.
+const HANDOFF_REQUEST = Uint8Array.of(0xf0, 0x7d, 0x4b, 0x53, 0x7f, 0x03, 0xf7);
+function parseHandoffReply(m) {
+  const ok = m && m.length === 8 && m[0] === 0xf0 && m[1] === 0x7d && m[2] === 0x4b && m[3] === 0x53 && m[4] === 0x7f && m[5] === 0x04 && m[7] === 0xf7;
+  return ok ? m[6] : null;
+}
+const HANDOFF_PROBLEMS = {
+  1: "This keyboard never ran M-Vave's own update, so it has no copy of M-Vave's updater to go back to. Nothing was changed.",
+  2: "The copy of M-Vave's updater in this keyboard is damaged. Nothing was changed.",
+  3: "Oscuro is running from RAM (a test run), not from flash. Nothing was changed.",
+  4: "Oscuro could not read the flash. Nothing was changed.",
+};
+
+// A package whose flash.bin passes the stock APP region (buildKeysmith with a longer app.bin). Oscuro's own updater cannot
+// take it; M-Vave's updater can, started by Oscuro's handoff (recover) or by stock itself.
+const isOversize = (pkg) => !pkg.appOnly && pkg.flashSize > APP_END;
+
+// M-Vave's updater has only been seen to finish a package whose flash image fits its own (stock-size) layout. A bigger
+// one has not been proven from a stock unit, and an attempt left a keyboard that needed the dongle, so it is refused
+// unless a test page turns this on.
+const settings = { oversizeWhole: false };
+function refuseOversize(pkg) {
+  if (isOversize(pkg) && !settings.oversizeWhole)
+    throw new UpdateError("This image is bigger than M-Vave's updater is known to write, so nothing was changed. Install the complete image of the release first, then install this app on top of it.");
+}
+
+async function recover({ connect, sleep }, raw, say = () => {}, { anyModel = false } = {}) {
+  const pkg = raw instanceof Uint8Array ? parsePackage(raw) : raw;
+  refuseOversize(pkg);
+  // M-Vave's own file, or an Oscuro package that outgrew the stock layout (oversize: Oscuro's own updater stops at 0x9d000)
+  if (pkg.appOnly || (pkg.name === KEYSMITH_NAME && !isOversize(pkg))) throw new UpdateError("This needs M-Vave's own firmware file (such as SMK-37 Elite_016.fwsc).");
+  let link = await connect();
+  if (!link) throw new UpdateError("No SMK-37 found. Connect it with a USB cable, switch it on, close other MIDI programs, and try again.");
+  const id0 = await identify(link);
+  if (!id0) { await link.close(); throw new UpdateError("The keyboard did not answer."); }
+  if (isFM1(id0) || isFM1({ text: pkg.name }) || firmwareProblem(id0, pkg)) { await link.close(); throw new UpdateError(FM1_UPDATE_PROBLEM); }
+  if (!isOscuro(id0)) { await link.close(); throw new UpdateError(`The keyboard runs ${id0.text}, not Oscuro: use Install M-Vave firmware instead.`); }
+  const wrong = firmwareProblem(id0, pkg) || (anyModel ? "" : modelProblem(id0, pkg));
+  if (wrong) { await link.close(); throw new UpdateError(wrong); }
+
+  say("handoff", "Oscuro is starting M-Vave's updater (the screen may go dark)", 0);
+  let code = null;
+  for (let t = 0; t < 2 && code === null; t++) {
+    await link.send(HANDOFF_REQUEST);
+    for (let m; code === null && (m = await link.receive(3000));) code = parseHandoffReply(m);
+  }
+  await link.close();
+  if (code === null) throw new UpdateError("This Oscuro does not know the command (it is older than 0.21.3). Nothing was changed.");
+  if (code !== 0) throw new UpdateError(HANDOFF_PROBLEMS[code] || `Oscuro refused (code ${code}). Nothing was changed.`);
+
+  await sleep(3000);
+  link = null;
+  for (let t = 0; t < 30 && !link; t++) { link = await connect(); if (!link) await sleep(1000); }
+  if (!link) throw new UpdateError("The keyboard did not come back in M-Vave's updater. Switch it off and on: it should start Oscuro again.");
+  const id1 = await identify(link);
+  if (!updaterModelOk(id1, id0, pkg, anyModel)) { await link.close(); throw new UpdateError("The keyboard's updater did not answer. Switch it off and on: it should start Oscuro again."); }
+  return writeStage({ connect, sleep }, link, pkg, say);
+}
+
+return { crc16, cipher, VM_START_MAX, logical, PackageError, parsePackage, MAX_APP, growApp, sameName, KEYSMITH_NAME, OSCURO_ID, isFM1, isOscuro, deviceModel, FM1_UPDATE_PROBLEM, FM1_MAX_APP, FM1_APP_NAME, fm1VersionOk, FM1_CAPS_QUERY, fm1UpdateCapable, STOCK_MODELS, stockFile, modelProblem, updaterModelOk, buildKeysmith, APP_MODEL, APP_SLOT, appUpdate, pack7, unpack7, IDENTITY_QUERY, TRIGGER, parseIdentity, parseRequest, answer, UpdateError, identify, install, HANDOFF_REQUEST, parseHandoffReply, HANDOFF_PROBLEMS, isOversize, settings, recover };
+})();
 const A = (() => {
 // installer/userarea.mjs — the keyboard's patch memory ("user area", USRFLASH)
 // for the page (index.html) and the host tests (tests/test_userarea.mjs).
@@ -1789,7 +1840,6 @@ async function erase(link, progress = () => {}) {
 
 return { AreaError, STATE, STATE_NAMES, areaInfo, makeBackup, parseBackup, backup, restore, erase };
 })();
-
 const D = (() => {
 // installer/diag.mjs — a test build's diagnostics for the page (index.html) and
 // the host tests (tests/test_diag.mjs): the same read and the same report file
@@ -2078,7 +2128,118 @@ function describe(rep) {
 
 return { DiagError, WATCH_MS, RESULT_KEYS, readDiag, flashCheck, decode, derive, warnings, report, describe };
 })();
+const F = (() => {
+// Private FM12 test session. Uses Oscuro's existing package and wire helpers.
+// The caller must verify the exact private package hash before calling install.
 
+const VERIFY=0xe0000000, WRITE=0xf0000000;
+function timing(packet) {
+  if(!packet || packet[0]!==240 || packet.at(-1)!==247)return null;
+  const d=U.unpack7(packet.subarray(1,-1));
+  if(d.length!==39 || d[0]!==0 || d[1]!==0x59 || d[2]!==0x31 || d[3]!==32 || d[4] || d[5])return null;
+  const view=new DataView(d.buffer,d.byteOffset+6,32);
+  if(view.getUint32(28,true)!==0x314946)return null;
+  let sum=0;for(let i=6;i<38;i++)sum+=d[i];
+  if(d[38]!== (~sum&255))return null;
+  return Array.from({length:8},(_,i)=>view.getUint32(i*4,true));
+}
+async function serve(link,pkg,finish,say,now=()=>performance.now()) {
+  const started=now();let last=started,sent=0,count=0,sendMs=0,maxGap=0;
+  for(;;){
+    const packet=await link.receive(1000),t=now();
+    if(!packet){if(t-last>30000)throw Error('No request for 30 seconds. Stop and use dongle recovery if power-cycling.');continue;}
+    const metrics=timing(packet);
+    if(metrics){say('timing',`Device seconds: USB ${(metrics[0]/1e6).toFixed(2)}, read ${(metrics[1]/1e6).toFixed(2)}, erase ${(metrics[2]/1e6).toFixed(2)}, program ${(metrics[3]/1e6).toFixed(2)}, display ${(metrics[4]/1e6).toFixed(2)}; ${metrics[5]} reads`);continue;}
+    const r=U.parseRequest(packet);if(!r)continue;
+    maxGap=Math.max(maxGap,t-last);last=t;
+    const done=r.addr===VERIFY||r.addr===WRITE;
+    if((done && r.len!==8)||(!done && (r.len>512 || r.addr+r.len>pkg.logical.length)))throw Error('Request outside package; stopped.');
+    if(done && r.addr!==finish)throw Error('Unexpected completion stage; stopped.');
+    const before=now();await link.send(U.answer(r,pkg.logical));sendMs+=now()-before;
+    if(done){say('timing',`Host: ${((now()-started)/1000).toFixed(2)}s, ${count} replies, send calls ${sendMs.toFixed(1)}ms, largest request gap ${maxGap.toFixed(1)}ms`);return;}
+    sent+=r.len;count++;
+    say(finish===VERIFY?'check':'write',`${count} requests · ${(sent/1024).toFixed(0)} KiB · ${(sent/1024/Math.max(.001,(now()-started)/1000)).toFixed(1)} KiB/s`,finish===WRITE?Math.min(.99,sent/(pkg.targetLength||0xdf000)):0);
+  }
+}
+// Identities per board: the stock firmware we start from and what Oscuro answers after the install.
+const BOARDS={fm1:{stock:'FM-1_015',final:'FM1 Oscuro 50_086',label:'FM-1'},smk37:{stock:'SMK-37 Elite_016',final:'SMK-37 Oscuro_01',label:'SMK-37'}};
+async function install({connect,sleep},pkg,product,say=()=>{},boardName='fm1') {
+  const board=BOARDS[boardName];if(!board)throw Error('Unknown board '+boardName);
+  const loader='ota-'+product;
+  let link=null;
+  async function find(want,tries){
+    for(let i=0;i<tries;i++){
+      const candidate=await connect();
+      if(candidate){const id=await U.identify(candidate,1);if(id && want(id)){return {link:candidate,id};}await candidate.close();}
+      await sleep(500);
+    }
+    throw Error('Expected '+board.label+' MIDI identity not found. UBOOT/dongle mode is not MIDI.');
+  }
+  try{
+    const first=await find(id=>id.text===board.stock||id.text===loader,1);link=first.link;
+    say('device',first.id.text);
+    if(first.id.text===board.stock){
+      await link.send(U.TRIGGER);await serve(link,pkg,VERIFY,say);await link.close();link=null;
+      say('restart','Waiting for RAM updater');await sleep(1500);
+      const next=await find(id=>id.text===loader,60);link=next.link;
+    }
+    await link.send(U.TRIGGER);await serve(link,pkg,WRITE,say);await link.close();link=null;
+    say('restart','Flash completed. Waiting for Oscuro');await sleep(1500);
+    const final=await find(id=>id.text===board.final,60);link=final.link;
+    say('done',`Installed ${final.id.text}`,1);
+  }finally{if(link)await link.close();}
+}
+
+function crc32(bytes){let c=0xffffffff;for(const b of bytes){c^=b;for(let j=0;j<8;j++)c=(c>>>1)^((c&1)?0xedb88320:0);}return (~c)>>>0;}
+function stockRestore(raw,boot){
+  const p=U.parsePackage(raw);
+  if(!/^FM-1_0[0-9]{2}$/.test(p.name)||p.flashSize!==0x93000)throw Error('Choose an original FM-1 stock .fwsc (0x93000 flash image).');
+  const flash=p.logical.subarray(p.flashOffset,p.flashOffset+p.flashSize);
+  if(boot.length!==0x4000 || !boot.every((b,i)=>b===flash[i]))throw Error('Stock BOOT differs from this unit; stopped before installing the bridge.');
+  const target=new Uint8Array(0xe9000).fill(255);target.set(flash);
+  const table=new Uint8Array(0xe9*4),view=new DataView(table.buffer);
+  for(let a=0;a<target.length;a+=4096)view.setUint32(a/1024,crc32(target.subarray(a,a+4096)),true);
+  let at=1024;const files=[[0,flash],[201,target],[202,table]],entries=[];
+  for(const [type,data] of files){at=(at+255)&~255;const e=new Uint8Array(80),v=new DataView(e.buffer);v.setUint16(0,type,true);v.setUint16(4,U.crc16(data),true);v.setUint32(8,at,true);v.setUint32(12,data.length,true);entries.push({e,at,data});at+=data.length;}
+  const logical=new Uint8Array(at).fill(255),h=new Uint8Array(64),hv=new DataView(h.buffer);hv.setUint32(4,at,true);hv.setUint16(8,3,true);
+  entries.forEach(({e,at,data},i)=>{U.cipher(e,0,80,65535);logical.set(e,64+80*i);logical.set(data,at);});
+  hv.setUint16(2,U.crc16(logical.subarray(64,304)),true);hv.setUint16(0,U.crc16(h.subarray(2)),true);U.cipher(h,0,64,65535);logical.set(h);
+  return {name:p.name,logical,dataLen:target.length,targetLength:target.length};
+}
+async function rollback({connect,sleep},pkg,bridge,say=()=>{}){
+  const loader='ota-FM-1_9086010';let link=null;
+  const stageSay=(n)=>(phase,text,value)=>say(phase,phase==='timing'?text:`Stage ${n}/2 · ${text}`,value);
+  const bridgeSay=stageSay(1),restoreSay=stageSay(2);
+  async function wait(want){for(let k=0;k<60;k++){const l=await connect();if(l){const id=await U.identify(l,1);if(id&&want(id))return l;await l.close();}await sleep(500);}throw Error('Expected identity not found after rollback stage.');}
+  try{
+    link=await connect();if(!link)throw Error('No FM-1 MIDI device; remove the dongle and boot normally.');
+    const id=await U.identify(link,1);
+    if(id?.text!==loader){
+      if(!U.isFM1(id)||!U.isOscuro(id)||!(await U.fm1UpdateCapable(link)))throw Error('Rollback bridge requires FM-1 Oscuro with USB update support.');
+      bridgeSay('bridge','Loading the restore updater',0);
+      const app=U.appUpdate(bridge);
+      await link.send(U.TRIGGER);await serve(link,app,VERIFY,bridgeSay);await sleep(300);
+      const ready=await U.identify(link,1);if(ready?.text!=='ota-'+id.text)throw Error('Unexpected updater before bridge write.');
+      await link.send(U.TRIGGER);await serve(link,app,WRITE,bridgeSay);await link.close();link=null;
+      await sleep(1500);link=await wait(i=>i.text===loader);
+    }
+    restoreSay('restore','Restoring stock firmware and clearing stock settings',0);
+    await link.send(U.TRIGGER);await serve(link,pkg,WRITE,restoreSay);await link.close();link=null;
+    await sleep(1500);link=await wait(i=>i.text===pkg.name);
+    say('done','Restored '+pkg.name,1);
+  }finally{if(link)await link.close();}
+}
+
+return { timing, serve, BOARDS, install, crc32, stockRestore, rollback };
+})();
+
+
+
+
+
+const FM1_BUNDLE = null; // private build replaces this configuration
+const FM1_ROLLBACK = {"sha256":"0600b62ae05ead16e9a36806948d040f569369256346e64df2f51d136a19478a","bridge":"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AQAB+wEAQbKLAGIIAQDB6gEAAfsBAIF5CABiCAEAweoBAAH7AQCBeQcAYggBAAGiAQAB+wEAQbIGAGIIAQDB6gEAAfsBAAGiBgBiCAEAAaIBAAH7AQBBsggAYggBAIEQAgAB+wEA4ZEJAGIIAQChIAEAAfsBAMHqAgBiCAEAwYEBAAH7AQDhkQ0AYggBAKHaAQAB+wEAwYELAGIIAQABogEAAfsBAEGyiwBiCAEAweoBAAH7AQCBeQgAYggBAMHqAQAB+wEAgXkHAGIIAQABogEAAfsBAEGyBgBiCAIAAfsBAOGRBgBiCAEAAaIBAAH7AQBBsgkAYggBAEGyAQAB+wEAodoJAGIIAQDBgQEAAfsBAOGRAgBiCAEAoSABAAH7AQDB6g0AYggBAKHaAQAB+wEAwYELAGIIAQABogEAAfsBAEGyiwBiCAEAweoBAAH7AQCBeQgAYggBAMHqAQAB+wEAgXkHAGIIAQABogEAAfsBAEGyBQBiCAEAYWkCAAH7AQBBWQYAYggBAAGiAQAB+wEAQbIJAGIIAQDBgQIAAfsJAGIIAQDB6gEAAfsBAMEwAwBiCAEAodoBAAH7AQBBWQwAYggBAKHaAQAB+wEAwYELAGIIAQABogoAAfsBAIEQggBiCAEAweoBAAH7AQCBeQgAYggBAMHqAQAB+wEAgXkHAGIIAQABogEAAfsBAEGyAwBiCAEAoSABAIF5AgAB+wEAweoHAGIIAQABogEAAfsBAEGyCQBiCAEAgXkCAAH7CABiCAEAAUkBAAH7AQDB6gQAYggBAIF5AQAB+wEAQbIMAGIIAQCh2gEAAfsBAMGBCwBiCAEAAaIKAAH7AQCBEIIAYggBAMHqAQAB+wEAgXkIAGIIAQDB6gEAAfsBAIF5BwBiCAEAAaIJAAH7AQABSQcAYggBAAGiAQAB+wEAQbIJAGIIAQCBeQIAAfsIAGIIAQABogEAAfsBAMGBBABiCAEAgRACAAH7AQCBEAsAYggBAKHaAQAB+wEAwYELAGIIAQABogEAAfsBAEGyCACBEIMAYggBAMHqAQAB+wEAgXkIAGIIAQDB6gEAAfsBAIF5BwBiCAEAAaIGAAH7AQCh2gEAwYEBAIEQCABiCAEAAaIBAAH7AQBBsgkAYggBAMGBAgAB+wgAYggCAAH7AQChIAUAYggBAIHKAQAB+wEAYWkLAGII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"}; // {sha256, bridge}: the hosted rollback bridge (Oscuro's own RAM updater) lets an FM-1 on Oscuro go back to M-Vave's FM-1 file; the site build sets it
+const SMK_BUNDLE = null; // private SMK-37 first-install bundle, same shape without the rollback bridge
 
 const $ = (id) => document.getElementById(id);
 const bytes = async (file) => new Uint8Array(await file.arrayBuffer());
@@ -2115,6 +2276,12 @@ const CHECKS = {
   app: async ([f]) => { U.appUpdate(await bytes(f)); return `${f.name}, ${Math.round(f.size / 1024)} KB`; },
   stock: async ([f]) => {
     const p = U.parsePackage(await bytes(f));
+    if ((FM1_BUNDLE || FM1_ROLLBACK) && /^FM-1_0[0-9]{2}$/.test(p.name)) {
+      // the unit compares its own BOOT with the package's before it writes anything; a private bundle also checks it here
+      const boot = FM1_BUNDLE ? (await fm1Bundle()).boot : p.logical.slice(p.flashOffset, p.flashOffset + 0x4000);
+      F.stockRestore(await bytes(f), boot);
+      return `FM-1 stock firmware ${p.name}`;
+    }
     const s = U.stockFile(p.name);
     if (!s && $("x-model").checked) return `${p.name}: its model is not checked`;
     if (!s) throw new Error(`This firmware is for the ${p.name}, not the SMK-37 Elite, Pro, MKE-P37 or Starrykey 37 Play.`);
@@ -2220,9 +2387,13 @@ $("p-ph").addEventListener("change", () => { tidyNote(); });
 
 function refresh() {
   tidyNote();
-  $("b-install").disabled = busy || !acksOk() || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"]);
-  $("b-revert").disabled = busy || !checked["r-stock"];
-  $("b-handoff").disabled = busy || !checked["r-stock"];
+  const fm1 = U.isFM1(kb?.id);
+  const fm1Ready = fm1 && kb?.fm1UpdateCapable;
+  const firstFM1 = fm1 && FM1_BUNDLE && !fm1Ready;
+  const firstSMK = !!SMK_BUNDLE && kb?.id?.text === SMK_STOCK_ID;
+  $("b-install").disabled = busy || !acksOk() || (!firstFM1 && !firstSMK && ((fm1 && !fm1Ready) || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"])));
+  $("b-revert").disabled = busy || (fm1 && !FM1_BUNDLE && !FM1_ROLLBACK) || !checked["r-stock"];
+  $("b-handoff").disabled = busy || fm1 || !checked["r-stock"];
   $("b-patches").disabled = busy || !checked["p-files"];
   syncBankName();
   $("b-restore").disabled = busy || !checked["a-file"];
@@ -2365,9 +2536,10 @@ function screen(title, build, accent, lines, idle = false) {
 }
 
 function hints() {
+  $("ack-base").textContent = U.isFM1(kb?.id) ? "M-Vave's FM-1 firmware version 15 (FM-1.fwsc)" : "M-Vave's latest official firmware (version 16 for the SMK-37 family)";
   const ks = kb?.kind === "keysmith", stock = kb?.kind === "stock";
   const set = (id, text, cls = "") => { $(id).textContent = text; $(id).className = `hint ${cls}`; };
-  set("i-hint", stock ? "This keyboard runs M-Vave's firmware: choose both files." : ks ? (P.flashProblem(kb.caps) || "This keyboard runs Oscuro: app.bin alone is enough.") : "",
+  set("i-hint", U.isFM1(kb?.id) ? (kb.fm1UpdateCapable ? "FM1 USB updates are ready: choose the FM1 app.bin only." : FM1_BUNDLE ? `FM-1 stock V15: Install Oscuro uses bundled Viroid TI ${FM1_BUNDLE.meta.firmware_version || "0.86.6"} TEST; no app file is needed.` : U.FM1_UPDATE_PROBLEM) : stock ? "This keyboard runs M-Vave's firmware: choose both files." : ks ? (P.flashProblem(kb.caps) || "This keyboard runs Oscuro: app.bin alone is enough.") : "",
     ks && P.flashProblem(kb.caps) ? "bad" : "");
   const merged = !!kb?.engines && kb.engines.length > 1;   // the aio build: more than the running engine is selectable
   set("p-hint", !ks ? "" : merged ? `This Oscuro build plays every synth (${kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")}): any patch file can go in, and the keyboard switches its synth for it.`
@@ -2382,6 +2554,7 @@ function hints() {
     !ks ? "" : !kb.area ? "bad" : st === A.STATE.FOREIGN ? "warn" : "ok");
   $("s-erase").classList.toggle("done", ks && !!kb.area && st !== A.STATE.FOREIGN);
   steps();
+  refresh();
 }
 
 // The primary button moves along: backup first, then erase, then neither.
@@ -2397,12 +2570,13 @@ function render() {
   if (kb.kind === "none") {
     screen("No keyboard found", "", "#4a5160", ["Connect the USB cable, close DAWs and other MIDI apps, and check again."], true);
   } else if (kb.kind === "stock") {
-    screen(`M-Vave firmware ${String(kb.id.version).padStart(3, "0")}`, "Oscuro not installed", "#8a93a6", [["Model", kb.id.model]]);
+    screen(`M-Vave firmware ${String(kb.id.version).padStart(3, "0")}`, "Oscuro not installed", "#8a93a6", [["Model", U.deviceModel(kb.id)]]);
   } else {
     const [name, accent] = BUILDS[kb.caps?.flavour] || [kb.caps?.flavour?.toUpperCase() || "", "#ffb000"];
     const area = kb.area ? A.STATE_NAMES[kb.area.state] : P.flashProblem(kb.caps) ? `flash chip ${kb.caps.flashId} not supported` : "not available";
     populateBanks(kb.caps, kb.bankNames);
     screen(`Oscuro ${kb.ident?.version || ""}`.trim(), name, accent, [
+      ...(kb.id ? [["Model", U.deviceModel(kb.id)]] : []),
       ["Synth patches", kb.engines && kb.engines.length > 1 ? "all: " + kb.engines.map((e) => P.ENGINE_NAMES[e] || e).join(", ")
         : kb.caps?.engine ? P.ENGINE_NAMES[kb.caps.engine] || kb.caps.engine : "not in this build"],
       ["Patch memory", area],
@@ -2417,7 +2591,8 @@ async function check(link = null) {
   let own = !link;
   try {
     if (link) {
-      kb = { kind: "keysmith", caps: await P.caps(link), ident: await P.ident(link), area: await A.areaInfo(link) };
+      kb = { kind: "keysmith", caps: await P.caps(link), ident: await P.ident(link), area: await A.areaInfo(link), id: await U.identify(link, 1) };
+      if (U.isFM1(kb.id)) kb.fm1UpdateCapable = await U.fm1UpdateCapable(link);
       if (kb.caps) kb.engines = await P.engines(link);   // merged aio build: the selectable synths (even while one runs)
       if (kb.caps) kb.bankNames = await P.readBankNames(link, kb.caps).catch(() => null);
       kb.map = kb.caps?.engine ? await P.readMap(link).catch(() => null) : null;
@@ -2426,7 +2601,8 @@ async function check(link = null) {
     for await (const l of ports()) {
       const caps = await P.caps(l);
       const ident = caps ? await P.ident(l) : null;
-      if (caps || ident) { kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l) };
+      if (caps || ident) { kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l), id: await U.identify(l, 1) };
+        if (U.isFM1(kb.id)) kb.fm1UpdateCapable = await U.fm1UpdateCapable(l);
         if (caps) kb.engines = await P.engines(l);
         if (caps) kb.bankNames = await P.readBankNames(l, caps).catch(() => null);
         kb.map = caps?.engine ? await P.readMap(l).catch(() => null) : null;
@@ -2448,32 +2624,116 @@ $("b-find").addEventListener("click", () => task("Looking for the keyboard", asy
   $("status").hidden = true;
 }));
 
+async function fm1Bundle() {
+  if (!FM1_BUNDLE) throw Error("This page has no FM-1 first-install bundle.");
+  const decode = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const verify = async (raw, expected) => {
+    const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", raw)), v => v.toString(16).padStart(2,"0")).join("");
+    if (hash !== expected) throw Error("FM-1 bundle checksum mismatch");
+  };
+  const raw=decode(FM1_BUNDLE.package), bridge=decode(FM1_BUNDLE.bridge);
+  await verify(raw,FM1_BUNDLE.meta.package_sha256);
+  await verify(bridge,FM1_BUNDLE.meta.rollback_bridge_sha256);
+  const pkg=U.parsePackage(raw);
+  if(pkg.name!==FM1_BUNDLE.meta.product) throw Error("FM-1 package identity mismatch");
+  return {pkg,bridge,boot:pkg.logical.subarray(pkg.flashOffset,pkg.flashOffset+0x4000)};
+}
+const SMK_STOCK_ID = "SMK-37 Elite_016";
+async function smkRun() {
+  await task("Checking SMK-37 package", async () => {
+    const decode = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+    const raw = decode(SMK_BUNDLE.package);
+    const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", raw)), v => v.toString(16).padStart(2,"0")).join("");
+    if (hash !== SMK_BUNDLE.meta.package_sha256) throw Error("SMK-37 bundle checksum mismatch");
+    const pkg = U.parsePackage(raw);
+    if (pkg.name !== SMK_BUNDLE.meta.product) throw Error("SMK-37 package identity mismatch");
+    pkg.targetLength = 0xc0000;   // the type-201 entry runs to the end of the restored tail window
+    const say = (phase, text, f) => { console.info("SMK-37", phase, text); show(text, f ?? 0); };
+    await F.install(transport, pkg, SMK_BUNDLE.meta.product, say, "smk37");
+    show(null, 1, "Finished. The keyboard has restarted.", "ok");
+    kb = null; hints();
+    screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
+  }, "An update is running.");
+}
+// Public FM-1 revert: the hosted bridge (checked against its checksum) moves the unit into Oscuro's RAM restore updater,
+// which refuses to write unless the unit's BOOT sector equals the package's; then M-Vave's own FM-1 file is written.
+async function fm1PublicRollback() {
+  if (!confirm("This puts M-Vave's own FM-1 firmware back and clears Oscuro's settings and patches. Keep the keyboard plugged in until it says done. Continue?")) return;
+  await task("Checking FM-1 package", async () => {
+    const decode = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+    const bridge = decode(FM1_ROLLBACK.bridge);
+    const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bridge)), v => v.toString(16).padStart(2, "0")).join("");
+    if (hash !== FM1_ROLLBACK.sha256) throw Error("The restore updater does not match its checksum. Nothing was changed.");
+    const raw = await bytes($("r-stock").files[0]);
+    const p = U.parsePackage(raw);
+    const stock = F.stockRestore(raw, p.logical.slice(p.flashOffset, p.flashOffset + 0x4000));
+    const say = (phase, text, f) => { console.info("FM-1", phase, text); show(text, f ?? 0); };
+    await F.rollback(transport, stock, bridge, say);
+    show(null, 1, "Finished. The keyboard has restarted.", "ok");
+    kb = null; hints();
+    screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
+  }, "An update is running.");
+}
+async function fm1Run(restore) {
+  await task("Checking FM-1 package", async () => {
+    const b=await fm1Bundle();
+    const say=(phase,text,f)=>{ console.info("FM-1",phase,text); show(text,f ?? 0); };
+    if(restore) {
+      const stock=F.stockRestore(await bytes($("r-stock").files[0]),b.boot);
+      await F.rollback(transport,stock,b.bridge,say);
+    } else await F.install(transport,b.pkg,FM1_BUNDLE.meta.product,say);
+    show(null,1,"Finished. The keyboard has restarted.","ok");
+    kb=null; hints();
+    screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
+  }, "An update is running.");
+}
+$("fm1-package").textContent=FM1_BUNDLE ? `FM-1 Viroid TI ${FM1_BUNDLE.meta.firmware_version || "0.86.6"} TEST · first install and stock rollback · private bundle for this unit.` : "FM-1 first install requires a prepared FM-1 bundle; app updates remain available.";
+
 // ---- install / go back ---------------------------------------------------------------------
+// A release's complete image for an SMK-37 on M-Vave's firmware is a first-install package: stock stages Oscuro's own RAM
+// loader, which writes the grown image (an app past the stock slot) in one pass. Everything else goes through U.install.
+const SMK_FIRST_INSTALL = "SMK-37 Elite_901";
+const FM1_FIRST_INSTALL = "FM-1_9086008";   // the FM-1 package's loader id (the same one-pass loader, FM-1 flash map)
+async function firstInstall(pkg) {
+  if (kb?.id && U.isOscuro(kb.id)) throw Error("This keyboard already runs Oscuro. Use Install Oscuro to update its app; the complete image is for a keyboard on M-Vave's firmware.");
+  const fm1 = pkg.name === FM1_FIRST_INSTALL;
+  if (fm1 !== !!U.isFM1(kb?.id)) throw Error(fm1 ? "This image is for the FM-1; the keyboard found is not one." : "This image is for the SMK-37; the keyboard found is an FM-1.");
+  if (!fm1) pkg.targetLength = pkg.logical.length;   // progress only
+  const say = (phase, text, f) => { console.info(fm1 ? "FM-1" : "SMK-37", phase, text); show(text, f ?? 0); };
+  if (fm1) await F.install(transport, pkg, FM1_FIRST_INSTALL, say);
+  else await F.install(transport, pkg, SMK_FIRST_INSTALL, say, "smk37");
+}
 async function install(makePackage) {
   await task("Reading the files", async () => {
     const raw = await makePackage();
-    await U.install(transport, raw, (step, text, f) => show(text, f), { anyModel: $("x-model").checked });
+    let first = null;
+    if (raw instanceof Uint8Array) { try { first = U.parsePackage(raw); } catch { first = null; } }
+    if (first?.name === SMK_FIRST_INSTALL || first?.name === FM1_FIRST_INSTALL) await firstInstall(first);
+    else await U.install(transport, raw, (step, text, f) => show(text, f), { anyModel: $("x-model").checked });
     show(null, 1, "Finished. The keyboard has restarted.", "ok");
     kb = null;
     screen("Keyboard restarted", "", "#4a5160", ["Check it again to see what it runs now."], true);
     hints();
   }, "An update is running.");
 }
-// Flashing another build over stored patches: back them up first (forced), unless the player insists.
-async function backupGate() {
-  if (kb?.kind !== "keysmith" || !P.needsBackup(kb.map, savedBackup)) return true;
-  if (!confirm(`The patch memory holds ${kb.map.own + kb.map.foreign} patch record${kb.map.own + kb.map.foreign === 1 ? "" : "s"}. ` +
-    "A build with another synth keeps them in the flash but cannot play them, and storing patches there replaces them. " +
-    "Save a backup of the patch memory now? (Cancel asks again whether to go on without one.)")) {
-    return confirm("Go on WITHOUT a backup? Patches of the current synth may become unreachable or be overwritten.");
+// App updates preserve patch memory. Backups remain available under Patch memory.
+$("b-install").addEventListener("click", async () => {
+  if (!acksOk()) return acksNag();
+  if (!kb || kb.kind === "none") await task("Checking keyboard", () => check());
+  if (SMK_BUNDLE && kb?.id?.text === SMK_STOCK_ID) return smkRun();
+  if (U.isFM1(kb?.id)) {
+    if (!kb.fm1UpdateCapable && FM1_BUNDLE) return fm1Run(false);
+    // A stock file left in the picker must never enter the SMK repacker.
+    return install(async () => U.appUpdate(await bytes($("i-app").files[0])));
   }
-  await withArea("Saving a backup", saveBackup);
-  return savedBackup;
-}
-$("b-install").addEventListener("click", async () => { if (!acksOk()) return acksNag(); if (!(await backupGate())) return; install(async () => $("i-stock").files.length
+  return install(async () => $("i-stock").files.length
   ? U.buildKeysmith(await bytes($("i-stock").files[0]), await bytes($("i-app").files[0]), { anyModel: $("x-model").checked })
-  : U.appUpdate(await bytes($("i-app").files[0]))); });
+  : U.appUpdate(await bytes($("i-app").files[0])));
+});
 $("b-revert").addEventListener("click", async () => {
+  if (!kb || kb.kind === "none") await task("Checking keyboard", () => check());
+  if (U.isFM1(kb?.id) && FM1_BUNDLE) return fm1Run(true);
+  if (U.isFM1(kb?.id) && FM1_ROLLBACK) return fm1PublicRollback();
   if (kb?.area && kb.area.state !== A.STATE.FOREIGN &&
       !confirm("The patch memory doesn't hold M-Vave's data now. M-Vave's firmware won't bring it back: restore your backup first under Patch memory. Go back anyway?"))
     return;
@@ -2694,9 +2954,20 @@ async function hostedInit() {
   } catch { return; }          // offline or not published yet: the file pickers below keep working
   const { releases, banks } = hosted.index;
   if (releases.length) {
-    const variants = [...new Map(releases.map((x) => [x.variant, x.label]))];
-    $("rel-variant").innerHTML = variants.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
-    const versions = () => releases.filter((x) => x.variant === $("rel-variant").value);
+    // only the builds for the identified board are listed; before a check, all of them
+    const boardOf = (x) => /-fm1$/.test(x.variant) ? "fm1" : "smk";
+    const mine = () => { const b = !kb?.id ? null : U.isFM1(kb.id) ? "fm1" : "smk"; return releases.filter((x) => !b || boardOf(x) === b); };
+    let listed = null;
+    const fillVariants = () => {
+      const key = mine().map((x) => x.variant).join();
+      if (key === listed) return;
+      listed = key;
+      const keep = $("rel-variant").value, list = [...new Map(mine().map((x) => [x.variant, x.label]))];
+      $("rel-variant").innerHTML = list.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+      if (list.some(([v]) => v === keep)) $("rel-variant").value = keep;
+      versionList();
+    };
+    const versions = () => mine().filter((x) => x.variant === $("rel-variant").value);
     const pick = () => versions().find((x) => x.version === $("rel-version").value);
     const versionList = () => {
       $("rel-version").innerHTML = versions().map((x, i) => `<option value="${x.version}">${relLabel(x)}${i === 0 ? " (latest)" : ""}</option>`).join("");
@@ -2704,7 +2975,8 @@ async function hostedInit() {
     };
     let fullReady = false;                       // the chosen release's files were fetched
     // the complete image skips Install Oscuro, so it carries the same "Before you install" gate
-    const syncFull = () => { $("rel-install").disabled = busy || !fullReady || !acksOk(); };
+    // Install Oscuro waits for the chosen release's app to be fetched too: until then the file box still holds the previous choice
+    const syncFull = () => { $("rel-install").disabled = busy || !fullReady || !acksOk(); $("rel-app").disabled = $("b-install").disabled || !fullReady; };
     async function choose() {
       const rel = pick();
       fullReady = false;
@@ -2722,11 +2994,12 @@ async function hostedInit() {
       } catch (e) { $("rel-note").textContent = e.message; }
     }
     $("rel-variant").addEventListener("change", versionList);
+    new MutationObserver(fillVariants).observe($("k-build"), { childList: true, characterData: true, subtree: true });
     $("rel-version").addEventListener("change", choose);
     // the file boxes and the old Install button stay in the page, hidden: the two buttons above drive them
     for (const id of ["i-app", "i-stock"]) $(id).closest("label").style.display = "none";
     for (const el of [document.querySelector("#p-install section h2 + p"), $("i-hint"), $("b-install").closest(".actions")]) if (el) el.style.display = "none";
-    const syncApp = () => { $("rel-app").disabled = $("b-install").disabled; syncFull(); };
+    const syncApp = () => syncFull();
     for (const id of ["ack-risk", "ack-layout"]) $(id).addEventListener("change", syncFull);
     new MutationObserver(syncApp).observe($("b-install"), { attributes: true, attributeFilter: ["disabled"] });
     syncApp();
@@ -2743,7 +3016,7 @@ async function hostedInit() {
       install(async () => bytes(await fetchHosted(rel.fwsc)));
     });
     $("rel").hidden = false;
-    versionList();
+    fillVariants();
   }
   if (banks.length) {
     $("bank-pick").innerHTML = `<option value="">Choose a bank…</option>` + banks.map((b, i) => `<option value="${i}">${b.title} (.${b.kind})</option>`).join("") + `<option value="all">All six</option>`;
