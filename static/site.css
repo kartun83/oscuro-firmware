@@ -163,6 +163,8 @@ section { position: relative; }
 .rel-block summary::-webkit-details-marker { display: none; }
 .rel-block h3 { display: inline; font: 600 12px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
 .rel-block h3 span { color: var(--faint); margin-left: 8px; }
+.rel-block .grp { margin-top: 20px; font: 600 13px var(--mono); letter-spacing: .04em; color: var(--fg); }
+.rel-block .grp span { color: var(--faint); margin-left: 6px; font-weight: 400; }
 .rel-block ul { margin-top: 12px; display: grid; gap: 8px; }
 .rel-block li { color: var(--muted); font-size: .98rem; padding-left: 18px; position: relative; }
 .rel-block li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 1px; background: var(--faint); }
