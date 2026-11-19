@@ -248,7 +248,7 @@ footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 40px 0 56
 .spec { display: grid; margin-top: 16px; border-top: 1px solid var(--line); }
 .spec > div { display: grid; grid-template-columns: minmax(130px, 220px) 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .spec dt { color: var(--faint); }
-.spec dd { color: var(--text); }
+.spec dd { color: var(--text); white-space: pre-line; }
 @media (max-width: 900px) { .dd-grid { grid-template-columns: 1fr; } .dd.flip .dd-copy { order: 0; } .gal { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .spec > div { grid-template-columns: 1fr; gap: 4px; } }
 .dd-copy .kicker { color: var(--accent); font-size: .78rem; letter-spacing: .16em; }
