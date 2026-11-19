@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Making your own Moog patches · Oscuro</title>
+<meta name="description" content="The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/moog/ (four banks of 128).">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Making your own Moog patches · Oscuro">
+<meta property="og:description" content="The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/moog/ (four banks of 128).">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/patches/moog/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/patches/moog/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/patches/moog/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/patches/moog/">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="../../sound/">Sonido</a>
+    <a href="../../rack/">Rack</a>
+    <a href="../../play/">Tocar</a>
+    <a href="../../specs/">Ficha técnica</a>
+    <a href="../../changelog/">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../../install/">Instalar</a>
+  <span class="lang"><a href="../../../patches/moog/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../../">Resumen</a><a href="../../sound/">Sonido</a><a href="../../rack/">Rack</a><a href="../../play/">Tocar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">Crea tus propios parches</a> · MOOG</p>
+  <h1>Making your own Moog patches</h1>
+  <p class="lead">The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, <code>os_bank_gen.py</code> turns the file into a bank, and the installer sends the bank to the keyboard. You need <code>os_bank_gen.py</code> (in <code>tools/</code>) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. 512 ready-made patches are in <code>patches/moog/</code> (four banks of 128).</p>
+  <p class="note">En las versiones: Retrowave, Phosphor, Moog</p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Guías de parches"><p class="kicker">Guías</p><ul>
+    <li><a href="../">Empieza aquí</a></li>
+    <li><a href="../viroid/">Viroid</a></li>
+    <li><a href="../wt-ppg/">WT PPG</a></li>
+    <li><a href="../juno-60/">JUNO-60</a></li>
+    <li><a href="./" aria-current="page">MOOG</a></li>
+    <li><a href="../mt-drums/">MT DRUMS</a></li>
+    <li><a href="../dx7/">DX7 FM</a></li>
+    <li><a href="../cz-1/">CZ-1</a></li>
+    <li><a href="../vec-1/">VEC-1</a></li>
+    <li><a href="../dwo-1/">DWO-1</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
+    <p class="callout">Estas guías solo están en inglés por ahora.</p>
+    <h2 id="the-three-steps">The three steps</h2>
+<ol><li>Write <code>my_moog.json</code> (format below).</li><li>Build the bank; the tool refuses unknown keys and out-of-range values:</li></ol>
+<pre><code>python3 tools/os_bank_gen.py --engine mg --json my_moog.json --output my_moog.oscbank --bank-name "My Moog"</code></pre>
+<ol start="3"><li>Open the installer page, <strong>Synth patches</strong>, choose <code>my_moog.oscbank</code>, send. In the Retrowave and Phosphor builds the installer switches the keyboard to the engine of the file by itself; to switch by hand, hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to MOOG and press <strong>&gt;</strong>.</li></ol>
+<h2 id="the-json-file">The JSON file</h2>
+<p>A list of patch objects (or an object with a <code>"patches"</code> list), at most 128. Each has a <code>name</code> (plain ASCII, up to 10 characters) and any of the keys below. <strong>A key you leave out keeps the INIT value.</strong> <code>cat</code> and <code>desc</code> are notes for people.</p>
+<pre><code>[
+  {"name": "FAT BASS", "P_CUTOFF": 90, "P_RES": 55, "P_ENV_AMT": 80, "P_ATTACK": 0, "P_DECAY": 20, "P_SUSTAIN": 70,
+   "P_OSC1_LVL": 110, "P_OSC2_LVL": 100, "P_OSC3_LVL": 80, "E_OSC2_DET": 12, "E_OSC3_WAVE": 0, "E_OSC3_OCT": 1},
+  {"name": "SOFT PAD", "P_CUTOFF": 70, "P_RES": 15, "P_ATTACK": 70, "P_RELEASE": 90, "E_OSC1_WAVE": 3, "E_OSC2_WAVE": 0,
+   "E_OSC2_DET": 8, "E_LFO_DEST": 1, "E_LFO_DEPTH": 20, "E_FX_CHORUS_DEPTH": 70}
+]</code></pre>
+<h2 id="every-key">Every key</h2>
+<p>All values are whole numbers. <code>P_*</code> are the 16 knob parameters (PARA and the second page), <code>E_*</code> are on the EDIT page. Wave values: 0 sine, 1 saw, 2 pulse, 3 triangle. Octave values 0 to 4 mean -2 to +2.</p>
+<div class="tbl"><table><thead><tr><th>Key</th><th>Range</th><th>INIT</th><th>What it does</th></tr></thead><tbody><tr><td><code>P_CUTOFF</code></td><td>0 to 127</td><td>100</td><td>Filter cutoff</td></tr><tr><td><code>P_RES</code></td><td>0 to 127</td><td>30</td><td>Filter resonance</td></tr><tr><td><code>P_ENV_AMT</code></td><td>0 to 127</td><td>60</td><td>Filter envelope depth (the knob); multiplied by <code>E_FLT_ENV_AMT</code></td></tr><tr><td><code>P_ATTACK</code></td><td>0 to 127</td><td>10</td><td>Amplitude envelope attack</td></tr><tr><td><code>P_DECAY</code></td><td>0 to 127</td><td>40</td><td>Amplitude envelope decay</td></tr><tr><td><code>P_SUSTAIN</code></td><td>0 to 127</td><td>80</td><td>Amplitude envelope sustain</td></tr><tr><td><code>P_RELEASE</code></td><td>0 to 127</td><td>40</td><td>Amplitude envelope release</td></tr><tr><td><code>P_LFO</code></td><td>0 to 127</td><td>40</td><td>LFO amount (the knob); multiplied by <code>E_LFO_DEPTH</code></td></tr><tr><td><code>P_OSC1_LVL</code></td><td>0 to 127</td><td>100</td><td>Oscillator 1 level</td></tr><tr><td><code>P_OSC2_LVL</code></td><td>0 to 127</td><td>80</td><td>Oscillator 2 level</td></tr><tr><td><code>P_OSC3_LVL</code></td><td>0 to 127</td><td>0</td><td>Oscillator 3 level</td></tr><tr><td><code>P_NOISE</code></td><td>0 to 127</td><td>0</td><td>Noise level; silent until <code>E_FX_NOISE_TYPE</code> is 1 or 2</td></tr><tr><td><code>P_GLIDE</code></td><td>0 to 127</td><td>0</td><td>Stored, but it does not change the sound at present: the glide is <code>E_GLIDE_TIME</code> with <code>E_GLIDE_MODE</code></td></tr><tr><td><code>P_CHORUS</code></td><td>0 to 127</td><td>0</td><td>Chorus amount; 0 switches the chorus off</td></tr><tr><td><code>P_OSC2_SEM</code></td><td>0 to 24</td><td>0</td><td>Oscillator 2 tuning in semitones</td></tr><tr><td><code>P_VOL</code></td><td>0 to 127</td><td>100</td><td>Volume</td></tr><tr><td><code>E_OSC1_WAVE</code></td><td>0 to 3</td><td>1</td><td>Oscillator 1 wave</td></tr><tr><td><code>E_OSC1_OCT</code></td><td>0 to 4</td><td>2</td><td>Oscillator 1 octave (2 = normal)</td></tr><tr><td><code>E_OSC1_SEMI</code></td><td>0 to 24</td><td>12</td><td>Oscillator 1 semitones (12 = in tune)</td></tr><tr><td><code>E_OSC1_DET</code></td><td>0 to 100</td><td>0</td><td>Oscillator 1 detune</td></tr><tr><td><code>E_OSC1_PW</code></td><td>0 to 100</td><td>50</td><td>Oscillator 1 pulse width</td></tr><tr><td><code>E_OSC2_WAVE</code></td><td>0 to 3</td><td>1</td><td>Oscillator 2 wave</td></tr><tr><td><code>E_OSC2_OCT</code></td><td>0 to 4</td><td>2</td><td>Oscillator 2 octave</td></tr><tr><td><code>E_OSC2_SEMI</code></td><td>0 to 24</td><td>12</td><td>Oscillator 2 semitones</td></tr><tr><td><code>E_OSC2_DET</code></td><td>0 to 100</td><td>0</td><td>Oscillator 2 detune</td></tr><tr><td><code>E_OSC2_PW</code></td><td>0 to 100</td><td>50</td><td>Oscillator 2 pulse width</td></tr><tr><td><code>E_OSC3_WAVE</code></td><td>0 to 3</td><td>0</td><td>Oscillator 3 wave</td></tr><tr><td><code>E_OSC3_OCT</code></td><td>0 to 4</td><td>2</td><td>Oscillator 3 octave</td></tr><tr><td><code>E_OSC3_SEMI</code></td><td>0 to 24</td><td>12</td><td>Oscillator 3 semitones</td></tr><tr><td><code>E_OSC3_DET</code></td><td>0 to 100</td><td>0</td><td>Oscillator 3 detune</td></tr><tr><td><code>E_OSC3_PW</code></td><td>0 to 100</td><td>50</td><td>Oscillator 3 pulse width</td></tr><tr><td><code>E_FLT_ENV_AMT</code></td><td>0 to 127</td><td>60</td><td>Filter envelope depth on the EDIT page; it multiplies <code>P_ENV_AMT</code></td></tr><tr><td><code>E_FLT_KT</code></td><td>0 to 127</td><td>0</td><td>Keyboard tracking of the cutoff</td></tr><tr><td><code>E_FLT_POL</code></td><td>0 to 1</td><td>1</td><td>Filter envelope polarity: 1 opens, 0 closes</td></tr><tr><td><code>E_FILT_ATK</code></td><td>0 to 127</td><td>10</td><td>Filter envelope attack</td></tr><tr><td><code>E_FILT_DEC</code></td><td>0 to 127</td><td>40</td><td>Filter envelope decay</td></tr><tr><td><code>E_FILT_SUS</code></td><td>0 to 127</td><td>60</td><td>Filter envelope sustain</td></tr><tr><td><code>E_FILT_REL</code></td><td>0 to 127</td><td>40</td><td>Filter envelope release</td></tr><tr><td><code>E_LFO_WAVE</code></td><td>0 to 3</td><td>0</td><td>LFO wave</td></tr><tr><td><code>E_LFO_RATE</code></td><td>0 to 127</td><td>50</td><td>LFO rate</td></tr><tr><td><code>E_LFO_DEPTH</code></td><td>0 to 127</td><td>40</td><td>LFO depth</td></tr><tr><td><code>E_LFO_DEST</code></td><td>0 to 2</td><td>0</td><td>LFO destination: 0 filter, 1 pitch, 2 amplitude</td></tr><tr><td><code>E_GLIDE_TIME</code></td><td>0 to 127</td><td>0</td><td>Glide time (works when <code>E_GLIDE_MODE</code> is 1 or 2)</td></tr><tr><td><code>E_GLIDE_MODE</code></td><td>0 to 2</td><td>0</td><td>0 off, 1 always, 2 only on overlapping (legato) notes</td></tr><tr><td><code>E_FX_CHORUS_RATE</code></td><td>0 to 127</td><td>40</td><td>Chorus rate</td></tr><tr><td><code>E_FX_CHORUS_DEPTH</code></td><td>0 to 127</td><td>50</td><td>Chorus depth</td></tr><tr><td><code>E_FX_NOISE_TYPE</code></td><td>0 to 2</td><td>0</td><td>Noise colour: 0 off, 1 white, 2 pink</td></tr></tbody></table></div>
+<h2 id="recipes">Recipes</h2>
+<ul><li><strong>Fat bass:</strong> cutoff 80 to 110, resonance 40 to 80, attack 0 to 5, decay 10 to 30, two detuned saws and a sine an octave down, a fast filter envelope.</li><li><strong>Brass lead:</strong> cutoff 70 to 100, resonance 30 to 60, attack 10 to 20, saw plus pulse, oscillator 2 a fifth or an octave up (<code>E_OSC2_SEMI</code> 19 or 24).</li><li><strong>Pad:</strong> cutoff 60 to 80, resonance 10 to 20, attack 40 to 80, long release, sine and triangle with a small detune, a little LFO on the pitch, chorus on.</li><li><strong>Percussion:</strong> cutoff 100 to 127, resonance 50 to 100, attack 0, decay 5 to 20, sustain 0, noise (<code>P_NOISE</code> with <code>E_FX_NOISE_TYPE</code> 1) plus one oscillator, a fast filter envelope.</li></ul>
+<h2 id="asking-an-llm">Asking an LLM</h2>
+<p>Give it this guide (the key table and the example) and ask for the JSON only; build with the tool above. A prompt that makes an LLM write hex blobs is in <code>llm-prompts/llm-patch-crafting-prompt.md</code>; the JSON route is easier to check.</p>
+  </div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Instalar</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.88</span>
+  <span class="foot-links"><a href="../../install/">Instalar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a><a href="../../legal/">Licencia</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Flashear firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

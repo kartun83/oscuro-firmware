@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Making your own WT PPG patches (by hand or with an LLM) · Oscuro</title>
+<meta name="description" content="The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need wtppg_bank.py (in tools/ of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in README.md next to this file.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Making your own WT PPG patches (by hand or with an LLM) · Oscuro">
+<meta property="og:description" content="The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need wtppg_bank.py (in tools/ of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in README.md next to this file.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/patches/wt-ppg/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/patches/wt-ppg/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/patches/wt-ppg/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/patches/wt-ppg/">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="../../sound/">Sonido</a>
+    <a href="../../rack/">Rack</a>
+    <a href="../../play/">Tocar</a>
+    <a href="../../specs/">Ficha técnica</a>
+    <a href="../../changelog/">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../../install/">Instalar</a>
+  <span class="lang"><a href="../../../patches/wt-ppg/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../../">Resumen</a><a href="../../sound/">Sonido</a><a href="../../rack/">Rack</a><a href="../../play/">Tocar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">Crea tus propios parches</a> · WT PPG</p>
+  <h1>Making your own WT PPG patches (by hand or with an LLM)</h1>
+  <p class="lead">The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need <code>wtppg_bank.py</code> (in <code>tools/</code> of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <p class="note">En las versiones: Retrowave, Phosphor</p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Guías de parches"><p class="kicker">Guías</p><ul>
+    <li><a href="../">Empieza aquí</a></li>
+    <li><a href="../viroid/">Viroid</a></li>
+    <li><a href="./" aria-current="page">WT PPG</a></li>
+    <li><a href="../juno-60/">JUNO-60</a></li>
+    <li><a href="../moog/">MOOG</a></li>
+    <li><a href="../mt-drums/">MT DRUMS</a></li>
+    <li><a href="../dx7/">DX7 FM</a></li>
+    <li><a href="../cz-1/">CZ-1</a></li>
+    <li><a href="../vec-1/">VEC-1</a></li>
+    <li><a href="../dwo-1/">DWO-1</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
+    <p class="callout">Estas guías solo están en inglés por ahora.</p>
+    <h2 id="the-three-steps">The three steps</h2>
+<ol><li>Write <code>my_patches.json</code> (format below). An LLM can write it for you: see <em>Asking an LLM</em>.</li><li>Build the bank (the tool checks every value and tells you which one is wrong):</li></ol>
+<pre><code>python3 tools/wtppg_bank.py json my_patches.json my_patches.oscbank --name "My WT PPG"</code></pre>
+<ol start="3"><li>Load it: open the installer page, <strong>Synth patches</strong>, choose <code>my_patches.oscbank</code>, send. The installer switches the keyboard to WT PPG by itself; to switch by hand, hold <strong>Oct −</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to WT PPG and press <strong>&gt;</strong>. Every engine keeps its own patches in the keyboard's patch memory; the user guide's <em>Patch memory backup</em> explains the first send. The installer's three WT PPG banks are built the same way: the twelve starter patches (<code>tools/wtppg_bank.py</code>), <em>WT PPG Atmospheres</em> (<code>patches/wtppg/wtppg_atmospheres.json</code>: pads, drones and textures that move through the tables) and <em>WT PPG Bass &amp; Lead</em> (<code>patches/wtppg/wtppg_bass_lead.json</code>: basses, leads and struck sounds). Copy their style; <code>"cat"</code> and <code>"desc"</code> in a patch are notes for readers and are not sent.</li></ol>
+<h2 id="the-json-file">The JSON file</h2>
+<p>A list of patch objects. Each has a <code>name</code> (plain ASCII, up to 10 characters) and any of the parameter keys below. <strong>A key you leave out keeps the INIT value</strong>, so a patch lists only what makes it different. Values are whole numbers. At most 128 patches per file.</p>
+<pre><code>[
+  {"name": "WARM PAD", "P_TABLE": 12, "P_POS": 50, "P_CUTOFF": 90, "P_ATTACK": 85, "P_SUSTAIN": 110, "P_RELEASE": 95,
+   "P_DETUNE": 72, "E_TABLE_B": 13, "E_POS_B": 45},
+  {"name": "SHORT PLK", "P_TABLE": 8, "P_POS": 25, "P_SWEEP": 100, "P_CUTOFF": 90, "P_SUSTAIN": 0, "P_DECAY": 52,
+   "E_PD": 45, "E_PS": 0}
+]</code></pre>
+<h2 id="how-a-patch-sounds-the-signal-path">How a patch sounds: the signal path</h2>
+<p>Two <strong>oscillators</strong>, A and B, each plays a wave from a <strong>table</strong> at a <strong>position</strong>. The A and B sounds are mixed (<strong>P_MIX</strong>), run through a resonant <strong>filter</strong>, then the <strong>amplitude envelope</strong>. A <strong>position envelope</strong> (EDIT section POS) can sweep the wave position while a note sounds (that is the PPG's signature); the <strong>filter envelope</strong> (EDIT section FENV) moves the cutoff; one <strong>LFO</strong> can move the position, the pitch and the cutoff.</p>
+<p><strong>Tables.</strong> There are 32 (<code>P_TABLE</code>, <code>E_TABLE_B</code>), eight key waves each; the position runs along the eight and blends between neighbours. A table is a family and a variant (A to D), the number is <code>family * 4 + variant</code>:</p>
+<div class="tbl"><table><thead><tr><th>Tables</th><th>Family</th><th>What it is</th></tr></thead><tbody><tr><td>0 to 3</td><td>SawSweep</td><td>a saw whose upper harmonics open up as the position rises: sine to full saw</td></tr><tr><td>4 to 7</td><td>SqrSweep</td><td>the same with odd harmonics only: sine to square</td></tr><tr><td>8 to 11</td><td>PWM</td><td>a pulse whose width narrows as the position rises</td></tr><tr><td>12 to 15</td><td>Formant</td><td>a resonant peak that moves up the spectrum: vowel-like, glassy</td></tr><tr><td>16 to 19</td><td>FM</td><td>two-operator FM, the index grows with the position: bells and metal</td></tr><tr><td>20 to 23</td><td>SyncSweep</td><td>a hard-sync style sweep</td></tr><tr><td>24 to 27</td><td>Organ</td><td>drawbar-like stacks: more registers with the position</td></tr><tr><td>28 to 31</td><td>Morph</td><td>blends between two random spectra: textures</td></tr></tbody></table></div>
+<p>The variants differ in the spectral slope or the ratio (A is the most conventional). The tables are generated for this engine, not copies of any instrument's ROM.</p>
+<p><strong>Scales.</strong> Times (attack, decay, release, LFO delay and fade) are exponential: 0 is 2 ms, 64 about 0.2 s... 127 about 16 s. Sustain levels are 0 to 127 linear. Bipolar values (marked <em>centre 64</em>) mean no effect at 64, negative below, positive above.</p>
+<h2 id="every-parameter">Every parameter</h2>
+<p><code>P_*</code> are the 16 knob parameters (PARA and FX pages); <code>E_*</code> are on the EDIT page (hold <strong>PARA</strong>, press <strong>&gt;</strong>). INIT is the default.</p>
+<div class="tbl"><table><thead><tr><th>Key</th><th>Range</th><th>INIT</th><th>Where</th><th>What it does</th></tr></thead><tbody><tr><td><code>P_TABLE</code></td><td>0 to 31</td><td>0</td><td>PARA K1</td><td>oscillator A's table</td></tr><tr><td><code>P_POS</code></td><td>0 to 127</td><td>40</td><td>PARA K2</td><td>oscillator A's wave position (0 = first key wave, 127 = last)</td></tr><tr><td><code>P_SWEEP</code></td><td>0 to 127</td><td>64</td><td>PARA K3</td><td>how far the position envelope moves A's position: centre 64 none, up = upwards (at most seven key waves), down = downwards</td></tr><tr><td><code>P_CUTOFF</code></td><td>0 to 127</td><td>110</td><td>PARA K4</td><td>filter cutoff, 20 Hz to about 18 kHz in ten octaves</td></tr><tr><td><code>P_RESO</code></td><td>0 to 127</td><td>20</td><td>PARA K5</td><td>filter resonance; above 110 it rings and clips softly</td></tr><tr><td><code>P_FENV</code></td><td>0 to 127</td><td>64</td><td>PARA K6</td><td>filter envelope depth, centre 64 none, plus or minus five octaves</td></tr><tr><td><code>P_DETUNE</code></td><td>0 to 127</td><td>70</td><td>PARA K7</td><td>oscillator B against A, centre 64 in tune, plus or minus one semitone at the ends</td></tr><tr><td><code>P_LEVEL</code></td><td>0 to 127</td><td>100</td><td>PARA K8</td><td>output level</td></tr><tr><td><code>P_ATTACK</code></td><td>0 to 127</td><td>2</td><td>FX K1</td><td>amplitude attack time</td></tr><tr><td><code>P_DECAY</code></td><td>0 to 127</td><td>60</td><td>FX K2</td><td>amplitude decay time to the sustain level</td></tr><tr><td><code>P_SUSTAIN</code></td><td>0 to 127</td><td>100</td><td>FX K3</td><td>amplitude sustain level (0 makes a plucked or bell sound)</td></tr><tr><td><code>P_RELEASE</code></td><td>0 to 127</td><td>50</td><td>FX K4</td><td>amplitude release time</td></tr><tr><td><code>P_LFORATE</code></td><td>0 to 127</td><td>40</td><td>FX K5</td><td>LFO speed, 0.1 Hz to about 13 Hz</td></tr><tr><td><code>P_LFOPOS</code></td><td>0 to 127</td><td>0</td><td>FX K6</td><td>LFO depth to the wave positions (up to plus or minus 3.5 key waves)</td></tr><tr><td><code>P_MIX</code></td><td>0 to 127</td><td>64</td><td>FX K7</td><td>A against B: 0 is A only, 127 is B only, 64 both full</td></tr><tr><td><code>P_FIDELITY</code></td><td>0 to 2</td><td>2</td><td>FX K8</td><td>0 Lo-fi 8 (stepped, 8-bit, the aliasing of the old machines), 1 Hi-fi 12, 2 Clean</td></tr><tr><td><code>E_TABLE_B</code></td><td>0 to 31</td><td>0</td><td>EDIT OSC</td><td>oscillator B's table</td></tr><tr><td><code>E_POS_B</code></td><td>0 to 127</td><td>40</td><td>EDIT OSC</td><td>oscillator B's wave position</td></tr><tr><td><code>E_OCT_A</code></td><td>0 to 4</td><td>2</td><td>EDIT OSC</td><td>A's octave: 0 is minus two octaves, 2 is none, 4 is plus two</td></tr><tr><td><code>E_OCT_B</code></td><td>0 to 4</td><td>2</td><td>EDIT OSC</td><td>B's octave, the same scale</td></tr><tr><td><code>E_SEMI_B</code></td><td>0 to 24</td><td>12</td><td>EDIT OSC</td><td>B's transposition in semitones, 12 is none</td></tr><tr><td><code>E_FTYPE</code></td><td>0 to 2</td><td>0</td><td>EDIT FILT</td><td>0 low-pass, 1 band-pass, 2 high-pass</td></tr><tr><td><code>E_KEYTRK</code></td><td>0 to 127</td><td>80</td><td>EDIT FILT</td><td>cutoff follows the keyboard, 127 is one octave of cutoff per octave played</td></tr><tr><td><code>E_VELCUT</code></td><td>0 to 127</td><td>0</td><td>EDIT FILT</td><td>velocity opens the filter, up to four octaves</td></tr><tr><td><code>E_FA</code> <code>E_FD</code> <code>E_FS</code> <code>E_FR</code></td><td>0 to 127</td><td>0, 50, 0, 40</td><td>EDIT FENV</td><td>filter envelope: attack, decay, sustain (level), release</td></tr><tr><td><code>E_PA</code> <code>E_PD</code> <code>E_PS</code> <code>E_PR</code></td><td>0 to 127</td><td>0, 60, 0, 40</td><td>EDIT POS</td><td>position envelope: attack, decay, sustain (level), release</td></tr><tr><td><code>E_SWEEP_B</code></td><td>0 to 127</td><td>64</td><td>EDIT POS</td><td>how far the position envelope moves B's position, centre 64 none</td></tr><tr><td><code>E_LSHAPE</code></td><td>0 to 5</td><td>0</td><td>EDIT LFO</td><td>0 sine, 1 triangle, 2 saw down, 3 ramp up, 4 square, 5 random</td></tr><tr><td><code>E_LPITCH</code></td><td>0 to 127</td><td>0</td><td>EDIT LFO</td><td>LFO depth to pitch, up to two semitones (vibrato)</td></tr><tr><td><code>E_LCUT</code></td><td>0 to 127</td><td>0</td><td>EDIT LFO</td><td>LFO depth to cutoff, up to three octaves</td></tr><tr><td><code>E_LDELAY</code></td><td>0 to 127</td><td>0</td><td>EDIT LFO</td><td>time before the LFO starts (0 none)</td></tr><tr><td><code>E_LFADE</code></td><td>0 to 127</td><td>0</td><td>EDIT LFO</td><td>time the LFO takes to reach full depth (0 none)</td></tr><tr><td><code>E_VOICES</code></td><td>1 to 8</td><td>8</td><td>EDIT VOICE</td><td>how many notes sound at once (fewer is a lighter load)</td></tr><tr><td><code>E_VELAMP</code></td><td>0 to 127</td><td>80</td><td>EDIT VOICE</td><td>how much velocity changes the loudness</td></tr></tbody></table></div>
+<p>Also live from the controllers, not stored in a patch: the mod wheel (CC 1) adds vibrato, the pedal (CC 64), expression (CC 11), pitch bend and pressure (pressure opens the filter). CC 70 position, 74 cutoff, 71 reso, 73 attack, 75 decay, 79 sustain, 72 release and 7 level move the matching knobs.</p>
+<h2 id="recipes-to-start-from">Recipes to start from</h2>
+<ul><li><strong>Percussive or bell:</strong> <code>P_SUSTAIN</code> 0, <code>P_DECAY</code> 50 to 90, an FM table (16 to 19), <code>P_SWEEP</code> high with a short position decay (<code>E_PD</code> 40 to 70, <code>E_PS</code> 0): the timbre starts bright and settles.</li><li><strong>Pad:</strong> slow attack and release (<code>P_ATTACK</code> 80 to 100, <code>P_RELEASE</code> 90), a Formant or Morph table, a little <code>P_LFOPOS</code>, <code>P_DETUNE</code> 70 to 75 for width, <code>P_FIDELITY</code> 2.</li><li><strong>Bass:</strong> <code>E_OCT_A</code> and <code>E_OCT_B</code> at 1 (an octave down), a SqrSweep or PWM table, <code>P_CUTOFF</code> 60 to 80, <code>P_FENV</code> 85 to 100 with a short filter decay (<code>E_FD</code> 40 to 50, <code>E_FS</code> 10 to 20), <code>E_KEYTRK</code> low.</li><li><strong>Lead:</strong> <code>P_FIDELITY</code> 0 for grit, <code>P_RESO</code> 50 to 65, <code>E_LPITCH</code> 15 with <code>E_LDELAY</code> 50 and <code>E_LFADE</code> 40 for a vibrato that arrives after the note starts.</li><li><strong>Evolving texture:</strong> <code>E_LSHAPE</code> 5 (random) or 1 with <code>P_LFOPOS</code> 80 or more, long attack and release, two different Morph tables for A and B.</li></ul>
+<h2 id="asking-an-llm">Asking an LLM</h2>
+<p>Give it this guide (or the parameter table and the JSON example) and a prompt like the one below. Ask for the JSON only, build it with the command above, listen, then go back with what you heard ("the second patch is too bright and the attack clicks"): that loop works better than asking for a perfect bank at once.</p>
+<blockquote><p>You write patches for the WT PPG synth engine described in the guide below. Reply with <strong>only</strong> a JSON list (no explanation, no code fence) of N patches. Each patch is an object with <code>"name"</code> (plain ASCII, at most 10 characters, upper case) and a subset of the parameter keys from the table, whole numbers inside the stated ranges; leave out a key to keep its INIT value, and only list what makes the patch different from INIT. Use the table families to choose <code>P_TABLE</code> and <code>E_TABLE_B</code> (choose different tables for A and B on most patches), use <code>P_SWEEP</code>/<code>P_FENV</code>/<code>P_DETUNE</code>/<code>P_MIX</code> and the position envelope to give each patch movement, and keep <code>P_LEVEL</code> at 90 or more with <code>P_RESO</code> below 100 so a patch is neither silent nor clipping. Make the N patches clearly different from one another in character. The sounds I want: (describe them here: e.g. "a glassy pad, a rubbery bass, a bell, a brassy lead, an evolving texture").</p><p>(paste the guide here)</p></blockquote>
+<p>The tool names the first value that is out of range or misspelled (<code>unknown parameter ['P_CUTOF']</code>), and you can paste that line back to the LLM.</p>
+<h2 id="limits">Limits</h2>
+<p>The file builds a bank of up to 128 patches; the keyboard's patch memory keeps every engine's patches apart, and all engines share its room. Names are 10 characters of plain ASCII. Parameters are whole numbers; a value out of its range is refused by the tool (the keyboard itself would limit it to the range). The oscillators play the 32 built-in tables: there is no way to load your own waves yet.</p>
+  </div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Instalar</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.88</span>
+  <span class="foot-links"><a href="../../install/">Instalar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a><a href="../../legal/">Licencia</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Flashear firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

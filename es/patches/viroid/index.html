@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patches for Viroid (the Virus engine) · Oscuro</title>
+<meta name="description" content="Viroid plays Access Virus patches. There is no JSON route here: the patch format is the Access Virus single dump. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (patches/viroid_ti/ in the packages, their README.md lists every patch): Virus TI singles (.syx) and Oscuro banks with an FX rack per patch (.oscbank). The installer&#x27;s Synth patches tab offers them in its Starter bank list. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Patches for Viroid (the Virus engine) · Oscuro">
+<meta property="og:description" content="Viroid plays Access Virus patches. There is no JSON route here: the patch format is the Access Virus single dump. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (patches/viroid_ti/ in the packages, their README.md lists every patch): Virus TI singles (.syx) and Oscuro banks with an FX rack per patch (.oscbank). The installer&#x27;s Synth patches tab offers them in its Starter bank list. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/patches/viroid/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/patches/viroid/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/patches/viroid/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/patches/viroid/">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="../../sound/">Sonido</a>
+    <a href="../../rack/">Rack</a>
+    <a href="../../play/">Tocar</a>
+    <a href="../../specs/">Ficha técnica</a>
+    <a href="../../changelog/">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../../install/">Instalar</a>
+  <span class="lang"><a href="../../../patches/viroid/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../../">Resumen</a><a href="../../sound/">Sonido</a><a href="../../rack/">Rack</a><a href="../../play/">Tocar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">Crea tus propios parches</a> · Viroid</p>
+  <h1>Patches for Viroid (the Virus engine)</h1>
+  <p class="lead">Viroid plays Access Virus patches. There is no JSON route here: the patch format is the <strong>Access Virus single dump</strong>. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (<code>patches/viroid_ti/</code> in the packages, their <a href="../"><code>README.md</code></a> lists every patch): Virus TI singles (<code>.syx</code>) and Oscuro banks with an FX rack per patch (<code>.oscbank</code>). The installer's <strong>Synth patches</strong> tab offers them in its <em>Starter bank</em> list. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <p class="note">En las versiones: Viroid TI Rack, Viroid</p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Guías de parches"><p class="kicker">Guías</p><ul>
+    <li><a href="../">Empieza aquí</a></li>
+    <li><a href="./" aria-current="page">Viroid</a></li>
+    <li><a href="../wt-ppg/">WT PPG</a></li>
+    <li><a href="../juno-60/">JUNO-60</a></li>
+    <li><a href="../moog/">MOOG</a></li>
+    <li><a href="../mt-drums/">MT DRUMS</a></li>
+    <li><a href="../dx7/">DX7 FM</a></li>
+    <li><a href="../cz-1/">CZ-1</a></li>
+    <li><a href="../vec-1/">VEC-1</a></li>
+    <li><a href="../dwo-1/">DWO-1</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
+    <p class="callout">Estas guías solo están en inglés por ahora.</p>
+    <h2 id="where-virus-patches-come-from">Where Virus patches come from</h2>
+<ul><li>Your own collection: single-patch dumps from Virus A, B, C and TI/TI2/Snow, as <code>.syx</code> or <code>.mid</code> files, one patch per file or a whole bank per file.</li><li>Any Virus editor or librarian that can save a bank or a single patch as SysEx.</li><li>Sound packs and soundsets you own.</li></ul>
+<h2 id="loading-them">Loading them</h2>
+<ol><li>Run the <strong>Viroid</strong> build (it is the only engine in that build).</li><li>Open the installer page, <strong>Synth patches</strong>, choose the files and the <strong>Bank</strong> the patches go to (4 banks of 128), and send. A file with more patches than the bank holds continues into the next bank.</li><li>Two optional boxes on that tab tidy a big collection before it is sent: <strong>Skip duplicate sounds</strong> (a copy under another name or category; the first one stays) and <strong>Skip placeholder patches</strong> (patches named only with dashes, underscores or <code>INIT</code>, which sound packs use as separators and credits).</li></ol>
+<p>The patch memory first needs the backup-and-erase step described in the user guide (<em>Patch memory backup</em>).</p>
+<h2 id="editing-on-the-keyboard">Editing on the keyboard</h2>
+<p>K1 to K8 edit the macros of the current patch (cutoff, resonance, envelope, oscillator shape, volume, ...); to save the changes, hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy). Each Virus patch also carries a <strong>modulation matrix</strong> of 6 slots, each with one source and up to three destinations: <code>../MODULATION_MATRIX.md</code> explains how to edit it on the keyboard (hold <strong>Oct -</strong>, press <strong>Left</strong>).</p>
+<h2 id="making-new-virus-patches">Making new Virus patches</h2>
+<p>Make them in an editor or on a Virus and bring them over as above. The importer reads the published layout of the single dump (267 bytes for A/B/C, 524 for TI) and keeps the patch name, the category and the sound parameters.</p>
+  </div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Instalar</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.88</span>
+  <span class="foot-links"><a href="../../install/">Instalar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a><a href="../../legal/">Licencia</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Flashear firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patches for the DX7 FM engine · Oscuro</title>
+<meta name="description" content="The DX7 FM engine is the DX7 core of Dexed (open source): it plays standard Yamaha DX7 voices (155-byte VCED, six operators, 12 notes at once), so patches sound as they do in Dexed. There is no JSON route and no starter bank here: DX7 patches are an enormous, well-established library, and the format is the standard one. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Patches for the DX7 FM engine · Oscuro">
+<meta property="og:description" content="The DX7 FM engine is the DX7 core of Dexed (open source): it plays standard Yamaha DX7 voices (155-byte VCED, six operators, 12 notes at once), so patches sound as they do in Dexed. There is no JSON route and no starter bank here: DX7 patches are an enormous, well-established library, and the format is the standard one. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/patches/dx7/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/patches/dx7/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/patches/dx7/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/patches/dx7/">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Principal">
+    <a href="../../sound/">Sonido</a>
+    <a href="../../rack/">Rack</a>
+    <a href="../../play/">Tocar</a>
+    <a href="../../specs/">Ficha técnica</a>
+    <a href="../../changelog/">Cambios</a>
+  </nav>
+  <a class="btn primary install" href="../../install/">Instalar</a>
+  <span class="lang"><a href="../../../patches/dx7/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="es" lang="es" title="Español" aria-current="true">ES</a></span>
+  <details class="mob"><summary>Menú</summary>
+    <div class="mob-list"><a href="../../">Resumen</a><a href="../../sound/">Sonido</a><a href="../../rack/">Rack</a><a href="../../play/">Tocar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">Crea tus propios parches</a> · DX7 FM</p>
+  <h1>Patches for the DX7 FM engine</h1>
+  <p class="lead">The DX7 FM engine is the DX7 core of Dexed (open source): it plays standard Yamaha DX7 voices (155-byte VCED, six operators, 12 notes at once), so patches sound as they do in Dexed. There is no JSON route and no starter bank here: DX7 patches are an enormous, well-established library, and the format is the standard one. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <p class="note">En las versiones: Retrowave, DX7</p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Guías de parches"><p class="kicker">Guías</p><ul>
+    <li><a href="../">Empieza aquí</a></li>
+    <li><a href="../viroid/">Viroid</a></li>
+    <li><a href="../wt-ppg/">WT PPG</a></li>
+    <li><a href="../juno-60/">JUNO-60</a></li>
+    <li><a href="../moog/">MOOG</a></li>
+    <li><a href="../mt-drums/">MT DRUMS</a></li>
+    <li><a href="./" aria-current="page">DX7 FM</a></li>
+    <li><a href="../cz-1/">CZ-1</a></li>
+    <li><a href="../vec-1/">VEC-1</a></li>
+    <li><a href="../dwo-1/">DWO-1</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
+    <p class="callout">Estas guías solo están en inglés por ahora.</p>
+    <h2 id="where-dx7-patches-come-from">Where DX7 patches come from</h2>
+<ul><li>Cartridge and bank files in the DX7 32-voice <strong>bulk dump</strong> format (<code>.syx</code>), including the thousands of banks that circulate for the DX7 and its clones (a bank is a cartridge: 32 voices).</li><li>Single-voice dumps (<code>.syx</code>) and MIDI files that contain them (<code>.mid</code>).</li><li>Any DX7 editor that can export SysEx: edit there, save the bank, bring it over.</li></ul>
+<h2 id="loading-them">Loading them</h2>
+<ol><li>Run the engine <strong>DX7 FM</strong>: it is the engine of the DX7 build; in the Retrowave build hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to DX7 FM, press <strong>&gt;</strong>.</li><li>Open the installer page, <strong>Synth patches</strong>, choose the <code>.syx</code> or <code>.mid</code> files and the <strong>Bank</strong> (16 banks of 32 patches, one DX7 cartridge each), and send.</li></ol>
+<p>The patch memory first needs the backup-and-erase step described in the user guide (<em>Patch memory backup</em>).</p>
+<h2 id="editing-on-the-keyboard">Editing on the keyboard</h2>
+<p>K1 to K8 offer macros that change the patch itself: Algo (algorithm 1 to 32), Feedbk, Mod Lvl, Car Lvl, Attack, Decay, Release, LFO; the second page has vibrato, transpose, bend range, portamento, mono, wheel, tune and volume. To save the changes, hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy).</p>
+<h2 id="making-new-patches">Making new patches</h2>
+<p>FM programming is a craft of its own: start from a factory-like patch, change one operator at a time. Any DX7 patch editor works for designing, and the bank file it exports loads as above. A test package of the DX7 build carries <code>patches/dx7/P8-test-bank.syx</code> (a bank used in the budget tests), a convenient file for a first send.</p>
+  </div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Instalar</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.88</span>
+  <span class="foot-links"><a href="../../install/">Instalar</a><a href="../../specs/">Ficha técnica</a><a href="../../changelog/">Cambios</a><a href="../../legal/">Licencia</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Informar de un error</a><a href="https://ko-fi.com/kartun83">Apoyar en Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro es un firmware independiente para hardware que su autor posee. No está afiliado ni respaldado por M-Vave, Access Music ni ningún otro fabricante cuyos productos se nombran. Flashear firmware es bajo tu responsabilidad; existe una vía de recuperación.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

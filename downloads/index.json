@@ -19,8 +19,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack.zip",
-    "size": 2032573,
-    "sha256": "abcf1b85f17e3475c4f353246f0e2eec93a4ba501dce47b2394bebdc076cdbc7"
+    "size": 2032575,
+    "sha256": "b0e3388a71f4847fbaf29a61d01ca15f02f9ec4b558689aa54f9f9dde9e47eda"
    }
   },
   {
@@ -42,8 +42,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-retrowave.zip",
-    "size": 1965154,
-    "sha256": "6f266329f3f8c7c3323564917cba9548031cee34d7c709c7ca9f68169e09fc7f"
+    "size": 1965156,
+    "sha256": "70e10bc380077aab3d4e614bebf0c8d955d9aa59726e73ff7a0246ce30b57283"
    }
   },
   {
@@ -65,8 +65,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw.zip",
-    "size": 1919767,
-    "sha256": "08b58a5fe001f220a74748927ec614d5a7b463b9852836d29f85a363be22a0cb"
+    "size": 1919769,
+    "sha256": "c6502511186cf9a4c43e3e73150328de7244c9df8fdfd9394738b8d338c41e76"
    }
   },
   {
@@ -88,8 +88,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw-bluetooth.zip",
-    "size": 2002663,
-    "sha256": "416a21cf57621ce905d881e542e601c40129180eb98d1ae8bad4ca26c64a4421"
+    "size": 2002665,
+    "sha256": "5547f0b7695de79b8945e80a435391cf3651c68e228fb56219290b5f4865e7d9"
    }
   },
   {
@@ -111,8 +111,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-phosphor.zip",
-    "size": 1982815,
-    "sha256": "56c7729fa08cdabf2a242f85fea6e9ca82ba963975b06a189d65301b7574fb9d"
+    "size": 1982817,
+    "sha256": "b7e70b3b43cfcf2456d812aaf0ea73c11c045c0f251d06851fa713e93766453e"
    }
   },
   {
@@ -134,8 +134,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-tympanika.zip",
-    "size": 1882413,
-    "sha256": "be91670ca42f25d9972e0cd36287d8e924c8c98f2ad675487de43f545fa5528c"
+    "size": 1882415,
+    "sha256": "e346d7e58057d56202b58802ae16ad77a42119d039330e457f9049ec1f23a523"
    }
   },
   {
@@ -157,8 +157,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack-fm1.zip",
-    "size": 1984309,
-    "sha256": "fa3fa6d1dd43106a656bc3455e959748500c13beea1548fa7054d079c053e094"
+    "size": 1984311,
+    "sha256": "b95d3f6da1b85619436c132f33ede11e6da8348600e73bbbcc24c12dee07543e"
    }
   },
   {
@@ -180,8 +180,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack.zip",
-    "size": 2014667,
-    "sha256": "5d65c9da169c19ab8ae33c74e0b93447b719b602a8ce8570d1a4382e55e20c48"
+    "size": 2014669,
+    "sha256": "8cd3911cad60c18f6c30b577cbde7480b8f2fcb51861ad07041e0818df343d4b"
    }
   },
   {
@@ -203,8 +203,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-retrowave.zip",
-    "size": 1952444,
-    "sha256": "1476da1e7f1df5ec9346fefeced93a22cc52e45d7dddda689653ca091162adbd"
+    "size": 1952446,
+    "sha256": "94346943864b3c4a591e72e79486644c269e2fd89bd9633864aa1e08162cf35d"
    }
   },
   {
@@ -226,8 +226,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-daw.zip",
-    "size": 1906003,
-    "sha256": "d81c677913ed7dfbd755a174fd0d06c72a4d18a15c612b004aa0cef310ab8e4e"
+    "size": 1906005,
+    "sha256": "791cfb9ac57c888ac9e80cec98cf3cdad988334e766271ae60359c924d2f1ac2"
    }
   },
   {
@@ -249,8 +249,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack-fm1.zip",
-    "size": 1986064,
-    "sha256": "d92529ba70d1fa8fdb7ea63fccdb18b68efb3d8de083022802cbb2bbf597249a"
+    "size": 1986066,
+    "sha256": "719da197482bc4a738af2ff42c6a2d92df1f1153d9989865f08ed4df4fba0cee"
    }
   },
   {
@@ -272,8 +272,8 @@
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1346245,
-    "sha256": "f5af002ac322942910cabe61e337e6e128ff6ae910e64d763462c3cefef07645"
+    "size": 1346247,
+    "sha256": "ba41c32e0499a2b8b695e1002acb0b86fdfe276af82137fa19ad5f410ff47e0a"
    }
   }
  ],

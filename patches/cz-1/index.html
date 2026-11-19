@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patches for the CZ-1 engine · Oscuro</title>
+<meta name="description" content="The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. It has no patch import yet: the installer&#x27;s Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Patches for the CZ-1 engine · Oscuro">
+<meta property="og:description" content="The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. It has no patch import yet: the installer&#x27;s Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/cz-1/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/cz-1/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/patches/cz-1/">
+<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/patches/cz-1/">
+<link rel="preload" href="../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../static/fonts.css">
+<link rel="stylesheet" href="../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../">Oscuro<span>Viroid</span></a>
+  <nav class="desk" aria-label="Main">
+    <a href="../../sound/">Sound</a>
+    <a href="../../rack/">Rack</a>
+    <a href="../../play/">Play</a>
+    <a href="../../specs/">Specs</a>
+    <a href="../../changelog/">Changelog</a>
+  </nav>
+  <a class="btn primary install" href="../../install/">Install</a>
+  <span class="lang"><a href="./" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../es/patches/cz-1/" hreflang="es" lang="es" title="Español">ES</a></span>
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><a href="../../">Overview</a><a href="../../sound/">Sound</a><a href="../../rack/">Rack</a><a href="../../play/">Play</a><a href="../../specs/">Specs</a><a href="../../changelog/">Changelog</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">Make your own patches</a> · CZ-1</p>
+  <h1>Patches for the CZ-1 engine</h1>
+  <p class="lead">The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. <strong>It has no patch import yet</strong>: the installer's Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <p class="note">In the builds: Retrowave, Phosphor</p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Patch guides"><p class="kicker">Guides</p><ul>
+    <li><a href="../">Start here</a></li>
+    <li><a href="../viroid/">Viroid</a></li>
+    <li><a href="../wt-ppg/">WT PPG</a></li>
+    <li><a href="../juno-60/">JUNO-60</a></li>
+    <li><a href="../moog/">MOOG</a></li>
+    <li><a href="../mt-drums/">MT DRUMS</a></li>
+    <li><a href="../dx7/">DX7 FM</a></li>
+    <li><a href="./" aria-current="page">CZ-1</a></li>
+    <li><a href="../vec-1/">VEC-1</a></li>
+    <li><a href="../dwo-1/">DWO-1</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+    <h2 id="what-you-can-do-today">What you can do today</h2>
+<ul><li><strong>Edit on the keyboard.</strong> K1 to K8 edit the macros (Wave, Level, Octave, Detune, Vibrate, Bend, Mode, Volume). <strong>Wave</strong> chooses a waveform (Saw, Square, Pulse, DblSine, SawPls, ResSaw, ResTri, ResTrp) or <strong>Tone</strong>, the waveforms stored in the patch.</li><li><strong>Save to the patch memory:</strong> hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy). The memory has <strong>8 banks of 16</strong> patches for CZ-1.</li><li><strong>Mode</strong> is CZ-ONLY (8 voices), RETRO (6, the default) or FULL (4).</li></ul>
+<h2 id="later">Later</h2>
+<p>An import route for CZ-1 patches (<code>.oscbank</code>, and perhaps the CZ SysEx dumps) is on the list; when it exists, this guide will describe it and the package will carry starter patches.</p>
+  </div>
+</div></section>
+<section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.88</span>
+  <span class="foot-links"><a href="../../install/">Install</a><a href="../../specs/">Specs</a><a href="../../changelog/">Changelog</a><a href="../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="https://ko-fi.com/kartun83">Support on Ko-fi</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../static/site.js" defer></script>
+</body>
+</html>
