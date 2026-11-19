@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patches for the CZ-1 engine · Oscuro</title>
-<meta name="description" content="The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. It has no patch import yet: the installer&#x27;s Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<title>Make CZ-1 patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Patches for the CZ-1 engine · Oscuro">
-<meta property="og:description" content="The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. It has no patch import yet: the installer&#x27;s Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<meta property="og:title" content="Make CZ-1 patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/cz-1/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/cz-1/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Make your own patches</a> · CZ-1</p>
-  <h1>Patches for the CZ-1 engine</h1>
-  <p class="lead">The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series. <strong>It has no patch import yet</strong>: the installer's Synth patches tab does not take CZ-1 files, and there is no bank format to write. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <h1>Make CZ-1 patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   <p class="note">In the builds: Retrowave, Phosphor</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,11 +60,34 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <h2 id="what-you-can-do-today">What you can do today</h2>
-<ul><li><strong>Edit on the keyboard.</strong> K1 to K8 edit the macros (Wave, Level, Octave, Detune, Vibrate, Bend, Mode, Volume). <strong>Wave</strong> chooses a waveform (Saw, Square, Pulse, DblSine, SawPls, ResSaw, ResTri, ResTrp) or <strong>Tone</strong>, the waveforms stored in the patch.</li><li><strong>Save to the patch memory:</strong> hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy). The memory has <strong>8 banks of 16</strong> patches for CZ-1.</li><li><strong>Mode</strong> is CZ-ONLY (8 voices), RETRO (6, the default) or FULL (4).</li></ul>
-<h2 id="later">Later</h2>
-<p>An import route for CZ-1 patches (<code>.oscbank</code>, and perhaps the CZ SysEx dumps) is on the list; when it exists, this guide will describe it and the package will carry starter patches.</p>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../downloads/guides/oscuro-cz-ai-guide.md" data-copied="Copied">Copy guide</button>
+        <a class="btn ghost" href="../../downloads/guides/oscuro-cz-ai-guide.md" download>Download</a></span>
+        <span class="ai-file"><code>oscuro-cz-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>What the AI can&#x27;t do</summary>
+      <p>The guide tells the AI to say these things at the end of its answer. Play the bank, tell the AI what to change, and load the new one.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some tones will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or tones you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which tone and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For CZ-1 in particular: it is a phase-distortion synth in the spirit of the Casio CZ series, re-created in Oscuro, not a sample-exact copy of a Casio CZ. There is no filter and no effect inside a tone: brightness comes from the DCW envelope and the resonant waves. The home-screen knobs (Wave, Vibrate, Mode and the others) are performance controls, not part of a tone, so a bank cannot set them. The keyboard plays 4 to 8 voices depending on its Mode setting. Say so when it matters.</p>
+    </details>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>The CZ-1 engine is a phase-distortion synth in the spirit of the Casio CZ series, in the Retrowave and Phosphor builds. Its patches are Casio CZ tones: two lines, each with a wave and three eight-stage envelopes (DCO pitch, DCW brightness, DCA loudness). General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+      <h2 id="three-ways-to-get-cz-1-patches">Three ways to get CZ-1 patches</h2>
+<ol><li><strong>The starter banks.</strong> <code>patches/cz1/</code> holds three banks of 32 tones made for Oscuro: <code>oscuro_cz_classic</code> (basses, brass, electric pianos, organs, strings, bells), <code>oscuro_cz_synth</code> (leads, plucks, pads, sync-like and resonant sweeps) and <code>oscuro_cz_fx</code> (ring and noise tones, drums, textures, moving pads). The installer also lists them under <strong>Starter banks</strong>.</li><li><strong>Casio CZ dumps you already have.</strong> Choose the <code>.syx</code> file on the installer's <strong>Synth patches</strong> tab. CZ-1 tones keep their own name; a CZ-101 voice stores no name, so it is named after its file (<code>Noisy Punch Bass.syx</code> becomes <em>Noisy Punc</em>, a file of several voices gives <em>Name 1</em>, <em>Name 2</em>, ...).</li><li><strong>Your own, made with an AI chat.</strong> Give <code>guides/llm/oscuro-cz-ai-guide.md</code> to an AI chat (ChatGPT, Claude, Gemini, ...) and say what you want: <em>"eight brassy CZ tones and two bells"</em>. It answers with a bank as JSON; choose the <code>.json</code> file or paste the answer into <strong>Paste text from the AI</strong> on the <strong>Synth patches</strong> tab. The installer checks every value and says which one is wrong.</li></ol>
+<p>The installer switches the keyboard to CZ-1 by itself. The memory holds <strong>8 banks of 16</strong> CZ-1 patches; a name is at most 10 characters.</p>
+<h2 id="what-a-tone-stores-and-what-it-does-not">What a tone stores and what it does not</h2>
+<ul><li>A tone stores the two lines' waves, levels and envelopes, the line mode (<code>1</code>, <code>2</code>, <code>1+1'</code>, <code>1+2'</code>), octave, detune, Ring or Noise modulation and the vibrato. The JSON keys and their ranges are in the AI guide, with recipes.</li><li>The home-screen knobs (Wave, Level, Octave, Detune, Vibrate, Bend, Mode, Volume) are performance controls, not part of a tone.</li><li>CZ-1 is a re-creation in the spirit of the CZ series, not a sample-exact Casio: a dump plays close to, not identical with, the original instrument.</li><li>Envelope rates are steep: a full swing takes about 0.5 s at rate 50, 1.5 s at 40 and 5 s at 30 (99 is instant).</li></ul>
+<h2 id="on-the-keyboard">On the keyboard</h2>
+<ul><li><strong>Edit:</strong> K1 to K8 edit the macros (Wave, Level, Octave, Detune, Vibrate, Bend, Mode, Volume). <strong>Wave</strong> chooses a waveform (Saw, Square, Pulse, DblSine, SawPls, ResSaw, ResTri, ResTrp) or <strong>Tone</strong>, the waveforms stored in the patch.</li><li><strong>Save to the patch memory:</strong> hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy).</li><li><strong>Mode</strong> is CZ-ONLY (8 voices), RETRO (6, the default) or FULL (4). A tone that plays both lines (<code>1+1'</code>, <code>1+2'</code>) uses two voices.</li></ul>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>
