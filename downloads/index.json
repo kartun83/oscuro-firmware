@@ -2,94 +2,163 @@
  "releases": [
   {
    "version": "0.87",
-   "build": "0.87.0",
+   "build": "0.87.22",
    "show_build": false,
    "variant": "viroid-ti-rack",
    "label": "Viroid TI Rack",
    "app": {
-    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.0-viroid_ti-app.bin",
-    "size": 670500,
-    "sha256": "997bd045b6b81547d3ccfe640bcc23254e6da3862f27255b38186eb7f9960ae9"
+    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.22-viroid_ti-app.bin",
+    "size": 679644,
+    "sha256": "ff463835aecdc1d8fcb7cea79ca1f1796c6378cfc76897bb31d851e17df6d99b"
    },
    "fwsc": {
-    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.0-viroid_ti.fwsc",
-    "size": 1350420,
-    "sha256": "730e9fe5834088d2b657bc5dba1e33c1ae4249f4c659f127c6be9cdb25e122be",
-    "build": "0.87.0"
+    "file": "releases/0.87/viroid-ti-rack/oscuro-0.87.22-viroid_ti.fwsc",
+    "size": 1362708,
+    "sha256": "ada7cd88abaa6bf3c8fb005a7a923ff5ef4c06d47a5c9f0e752ddf6d9253cb1e",
+    "build": "0.87.22"
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack.zip",
-    "size": 1904106,
-    "sha256": "27ec18026df74737d19138ca1b557dc9eedfefc9a98ca9aa73dda1c1da60d975"
+    "size": 2032546,
+    "sha256": "273a81dee264cbda75803007f927bccd14e3527874a478a3dc0da174e64a3d3c"
    }
   },
   {
    "version": "0.87",
-   "build": "0.87.0",
+   "build": "0.87.22",
    "show_build": false,
    "variant": "retrowave",
    "label": "Retrowave",
    "app": {
-    "file": "releases/0.87/retrowave/oscuro-0.87.0-retrowave-app.bin",
-    "size": 649176,
-    "sha256": "4482749eae2d42da9cf876663307bf350b7f3fe369b1240527ad466b5c735a12"
+    "file": "releases/0.87/retrowave/oscuro-0.87.22-retrowave-app.bin",
+    "size": 655940,
+    "sha256": "f62fb99d368fc056303ed33c67c7cf76b256b3509759cfa075759805739adf38"
    },
    "fwsc": {
-    "file": "releases/0.87/retrowave/oscuro-0.87.0-retrowave.fwsc",
-    "size": 1329684,
-    "sha256": "e8cf9a9bdce1dd6d7ba8856261c393c307a23fd22037fb09858bd758a17eaf7a",
-    "build": "0.87.0"
+    "file": "releases/0.87/retrowave/oscuro-0.87.22-retrowave.fwsc",
+    "size": 1337876,
+    "sha256": "c97b737795b3f5c62a4effcc07faf19a283916c0abae000eef7970d945c0a41a",
+    "build": "0.87.22"
    },
    "bundle": {
     "file": "oscuro-0.87-retrowave.zip",
-    "size": 1842173,
-    "sha256": "b21dc961c4941614af6411f59232d1d138427e467171fbb9885b29e86695e355"
+    "size": 1965171,
+    "sha256": "26398759acb6221965d888ed08fc017dbfc434da637d6d573c34bfe4855cefd3"
    }
   },
   {
    "version": "0.87",
-   "build": "0.87.0",
+   "build": "0.87.22",
    "show_build": false,
    "variant": "daw",
    "label": "DAW Controller",
    "app": {
-    "file": "releases/0.87/daw/oscuro-0.87.0-daw-app.bin",
-    "size": 625672,
-    "sha256": "06cc2758d089b5fbb83f2d6c7b79bb7c17e92b7ae2795554dd79d78d699794c1"
+    "file": "releases/0.87/daw/oscuro-0.87.22-daw-app.bin",
+    "size": 633056,
+    "sha256": "4ad0f78c35c144969b7ebaaf9d76c867f617c49be9761efe7a13427cacdcecdf"
    },
    "fwsc": {
-    "file": "releases/0.87/daw/oscuro-0.87.0-daw.fwsc",
-    "size": 1305108,
-    "sha256": "1ef93f59e3a88ec3df605b746c09661bddc1b6249f99c12e8b500551c0436ebb",
-    "build": "0.87.0"
+    "file": "releases/0.87/daw/oscuro-0.87.22-daw.fwsc",
+    "size": 1313300,
+    "sha256": "232213feaacfeb22de0c522443142f6f66c03b52e4924ca217d3f8957b86c0b8",
+    "build": "0.87.22"
    },
    "bundle": {
     "file": "oscuro-0.87-daw.zip",
-    "size": 1796080,
-    "sha256": "0854fd8aefb937bfbb537297279272d03832e884eecc70a757abc93c9adee45c"
+    "size": 1919754,
+    "sha256": "20cf0e53fca0316957e161b26f79b285dd6a83dbe522f5f867475215298826aa"
    }
   },
   {
    "version": "0.87",
-   "build": "0.87.0",
-   "show_build": true,
-   "variant": "viroid-ti-rack-fm1",
-   "label": "Viroid TI Rack for FM-1 (test build)",
+   "build": "0.87.22",
+   "show_build": false,
+   "variant": "daw-bluetooth",
+   "label": "DAW Controller with Bluetooth",
    "app": {
-    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.0-fm1-viroid_ti-app.bin",
-    "size": 675492,
-    "sha256": "37e7f6824b158e6ed654b0ce5d722e06784b939c1773e5ff107fa6cc436a24c9"
+    "file": "releases/0.87/daw-bluetooth/oscuro-0.87.22-daw_bt-app.bin",
+    "size": 673144,
+    "sha256": "6673fdc3f996daa70989f78ed86c6cae1f204a5a96c47e541d21059f8a1d0dff"
    },
    "fwsc": {
-    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.0-fm1_viroid_ti.fwsc",
+    "file": "releases/0.87/daw-bluetooth/oscuro-0.87.22-daw_bt.fwsc",
+    "size": 1354516,
+    "sha256": "723e844ddc28a82f7a5f50a5404c263ef695e3f5802f134abfea3018394177d0",
+    "build": "0.87.22"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-daw-bluetooth.zip",
+    "size": 2002644,
+    "sha256": "f1b15356967160c47d880e2dbab5684f89fcc80e70c7e652b35d4c6d3372202f"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.22",
+   "show_build": false,
+   "variant": "phosphor",
+   "label": "Phosphor",
+   "app": {
+    "file": "releases/0.87/phosphor/oscuro-0.87.22-phosphor-app.bin",
+    "size": 669032,
+    "sha256": "f814ccdb98508f0a1a32ca3d6a0f8c1111ba2a453d00d02fc650c69ccdd1d4ae"
+   },
+   "fwsc": {
+    "file": "releases/0.87/phosphor/oscuro-0.87.22-phosphor.fwsc",
+    "size": 1350420,
+    "sha256": "9967f668f0c6f990f66965fdee311b14f31d5a2c2ec91a4f2656eb851fef1708",
+    "build": "0.87.22"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-phosphor.zip",
+    "size": 1982842,
+    "sha256": "e8db567f89ccb9d13772f0ead9dfa95d9c8da575f0ebb1aff11d2e1ac0f6140b"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.22",
+   "show_build": false,
+   "variant": "tympanika",
+   "label": "Tympanika",
+   "app": {
+    "file": "releases/0.87/tympanika/oscuro-0.87.22-tympanika-app.bin",
+    "size": 608712,
+    "sha256": "5d4c9c2505a59a30f5629ee69134e5c2b5c0963628dbd481b3a58060cd2e7060"
+   },
+   "fwsc": {
+    "file": "releases/0.87/tympanika/oscuro-0.87.22-tympanika.fwsc",
+    "size": 1305108,
+    "sha256": "43e585f18b616f1d1726f71bc3c94e6287fd0bc62619e4928d2380c2dac1a69b",
+    "build": "0.87.22"
+   },
+   "bundle": {
+    "file": "oscuro-0.87-tympanika.zip",
+    "size": 1882425,
+    "sha256": "ea755ef0ec2fd5a993483d58376c76be35641774856ee661be2019c8ed806454"
+   }
+  },
+  {
+   "version": "0.87",
+   "build": "0.87.22",
+   "show_build": true,
+   "variant": "viroid-ti-rack-fm1",
+   "label": "Viroid TI Rack for FM-1",
+   "app": {
+    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.22-fm1-viroid_ti-app.bin",
+    "size": 673100,
+    "sha256": "2bdae762522c909e0772c8ce1f7b5f8607866f291c0f550bd963584fd6890012"
+   },
+   "fwsc": {
+    "file": "releases/0.87/viroid-ti-rack-fm1/oscuro-0.87.22-fm1_viroid_ti.fwsc",
     "size": 1534996,
-    "sha256": "878598aac8c9b44377ed44b49b3d439f450c8ae5fb5fe93fab38b782e5e15790",
-    "build": "0.87.0"
+    "sha256": "07c5c8b770efd9c0c3b05d64be61ad1e2e62a4146820cd5f7025c0d04523e603",
+    "build": "0.87.22"
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack-fm1.zip",
-    "size": 1875271,
-    "sha256": "0b02c0ceee704ee2324f76a124a23b992ab29bc425bd348e966de1f461053f4a"
+    "size": 1984372,
+    "sha256": "466dad7ef9b7d001485df4eb519c8e036f35a3b0d155993208b465ff0e487631"
    }
   },
   {
@@ -111,8 +180,8 @@
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1235684,
-    "sha256": "98e99d5d5e73d7a04e65dabdd36de0322be46d5e29922eea6ccabaccc5e4e21b"
+    "size": 1346245,
+    "sha256": "f5af002ac322942910cabe61e337e6e128ff6ae910e64d763462c3cefef07645"
    }
   }
  ],
@@ -136,7 +205,7 @@
    "kind": "syx",
    "file": "banks/ti_showcase_bass.syx",
    "size": 16768,
-   "sha256": "5ff05cbf88c3475d829cce1e0ba15902f4cbd3d24e21faa7222aaaa19a1242b1"
+   "sha256": "890f2b729d588c19c69f6d5d201ad74cd593ca17eef1fb7a69ee55e6bc1b2a46"
   },
   {
    "title": "Showcase 1 with racks",
@@ -157,12 +226,215 @@
    "kind": "oscbank",
    "file": "banks/oscuro_showcase_bass.oscbank",
    "size": 22063,
-   "sha256": "edccfab793b331bcda145d422e1001f5a93aad3dce1a6cf0e574d348fe3465ac"
+   "sha256": "f7eee1d2f8e21af67a8b002aa603dea82264ec4ecef71cde3b9b4753b90f47b4"
+  },
+  {
+   "title": "Juno: Atmospheres",
+   "kind": "oscbank",
+   "file": "banks/juno_atmospheres.oscbank",
+   "size": 6187,
+   "sha256": "7344bef3126f18c6474eed6a1f4de83a75df9db5f283fd927122d27ab9ebded8"
+  },
+  {
+   "title": "Juno: Classics",
+   "kind": "oscbank",
+   "file": "banks/juno_classics.oscbank",
+   "size": 6187,
+   "sha256": "285d6266c01fb668f28bd6820020a955e1b2dcb4eaa208c272de123018ed7794"
+  },
+  {
+   "title": "Juno: Laboratory",
+   "kind": "oscbank",
+   "file": "banks/juno_laboratory.oscbank",
+   "size": 6187,
+   "sha256": "922c80d307ec5e48f9ed1d6b1dcbe5c992d25b71d7edcc94da809e6a98551f25"
+  },
+  {
+   "title": "Juno: Motion",
+   "kind": "oscbank",
+   "file": "banks/juno_motion.oscbank",
+   "size": 6187,
+   "sha256": "11ec40ce2d2075c01ae85d186ba53fc67a24fc3284212fa1e6430c05fdaccb39"
+  },
+  {
+   "title": "Moog: Foundations",
+   "kind": "oscbank",
+   "file": "banks/moog_foundations.oscbank",
+   "size": 8235,
+   "sha256": "3a7f8846b9d89d2cb8e3b8f48b39804aee9fe29c60d13d2ceed57d0a3664f6bf"
+  },
+  {
+   "title": "Moog: Motion",
+   "kind": "oscbank",
+   "file": "banks/moog_motion.oscbank",
+   "size": 8235,
+   "sha256": "3faa14f5b57b0cc8c440fb824eb63e3c89e43d7c5fb2f0d48801d56d272c0146"
+  },
+  {
+   "title": "Moog: Oddities",
+   "kind": "oscbank",
+   "file": "banks/moog_oddities.oscbank",
+   "size": 8235,
+   "sha256": "f3577900d0ddff02d6da5ce8a3c5bc7e021418384d34dacacdc8ddd16aca4cf5"
+  },
+  {
+   "title": "Moog: Percussive",
+   "kind": "oscbank",
+   "file": "banks/moog_percussive.oscbank",
+   "size": 8235,
+   "sha256": "3dcb8fdfcfc58c1073440dee0dd4dca3b7b4a9b0cd50708aa916af088ed9378e"
+  },
+  {
+   "title": "DWO-1: Classic",
+   "kind": "oscbank",
+   "file": "banks/dwo1_classic.oscbank",
+   "size": 1759,
+   "sha256": "106a0b09f7df450d894584eb97e388053d201c29766242219a2cb3e1b64ccc0a"
+  },
+  {
+   "title": "DWO-1: Perc fx",
+   "kind": "oscbank",
+   "file": "banks/dwo1_perc_fx.oscbank",
+   "size": 2045,
+   "sha256": "971753053d0d5b477d1df49b819480d86a094eab5073c7419937f23952b90fa1"
+  },
+  {
+   "title": "DWO-1: Showcase",
+   "kind": "oscbank",
+   "file": "banks/dwo1_showcase.oscbank",
+   "size": 2331,
+   "sha256": "e34085a5579038f67f73d8e48c3206dbce8d70331ff61b83b417e607a136b3a7"
+  },
+  {
+   "title": "VEC-1: Classic",
+   "kind": "oscbank",
+   "file": "banks/vec1_classic.oscbank",
+   "size": 783,
+   "sha256": "bcb99582330c3b41639bffb699825a7df1641a09e794a8456487ed0e5af529c6"
+  },
+  {
+   "title": "VEC-1: Rhythm bass",
+   "kind": "oscbank",
+   "file": "banks/vec1_rhythm_bass.oscbank",
+   "size": 1153,
+   "sha256": "89b4c928cb8cb9ec24be9998c66b9b374d6a5e1c67a3bc3bccb4169e9c52ebcd"
+  },
+  {
+   "title": "VEC-1: Showcase",
+   "kind": "oscbank",
+   "file": "banks/vec1_showcase.oscbank",
+   "size": 1301,
+   "sha256": "d300c19df45cf559a1f15383b7811c81bd6aa12a7c52862b9962e63571494341"
+  },
+  {
+   "title": "Wavetable PPG: Atmospheres",
+   "kind": "oscbank",
+   "file": "banks/wtppg_atmospheres.oscbank",
+   "size": 643,
+   "sha256": "59542e52f842cc473f6713fc06c570a5cb52facf9cf3047656a712e60b652ae4"
+  },
+  {
+   "title": "Wavetable PPG: Bass lead",
+   "kind": "oscbank",
+   "file": "banks/wtppg_bass_lead.oscbank",
+   "size": 743,
+   "sha256": "bb49e1e5a9acf652ef5c90591422b9d5f36693c146e4ed6c35e602191f186a44"
+  },
+  {
+   "title": "Wavetable PPG: Starter",
+   "kind": "oscbank",
+   "file": "banks/wtppg_starter.oscbank",
+   "size": 643,
+   "sha256": "16aca5921b6f1b465d755e9627b7c26ed3a590683cd4ebd6631eec1c7e1c378f"
+  },
+  {
+   "title": "Drum machine: Microtonic jungle",
+   "kind": "oscbank",
+   "file": "banks/microtonic_jungle.oscbank",
+   "size": 4619,
+   "sha256": "0e34931250ef7b1b6fdff48a29da709c2eae08b6788dbb4674e569bb5fc668e3"
+  },
+  {
+   "title": "Drum machine: Drum bass",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_drum_bass.oscbank",
+   "size": 875,
+   "sha256": "3f5b2c23d5513d070a9372e115feda35e823600c7e2718995cb5e55a9fc25d6e"
+  },
+  {
+   "title": "Drum machine: Electro",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_electro.oscbank",
+   "size": 875,
+   "sha256": "284b56447f06ebc2c7846dc63847cd75151153e55034b02f957fac19e98b8c98"
+  },
+  {
+   "title": "Drum machine: Genre collection",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_genre_collection.oscbank",
+   "size": 5035,
+   "sha256": "473525596685cbd2158952ed9c86e78600f44fdd6ae7fffe7f1dc06f4153a60c"
+  },
+  {
+   "title": "Drum machine: House",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_house.oscbank",
+   "size": 875,
+   "sha256": "30e8d2da176c5564139b7a0c45808c0f15ea4323f546a5f272c3cd09b17abd48"
+  },
+  {
+   "title": "Drum machine: Jungle",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_jungle.oscbank",
+   "size": 875,
+   "sha256": "825466d819a22bc58ed4edd83716813c516cd0f0d28db56aa2631529e87682e3"
+  },
+  {
+   "title": "Drum machine: Psy trance",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_psy_trance.oscbank",
+   "size": 875,
+   "sha256": "eb68c722b67e6649b4e217f41227c53ea998fb50a874c0084909f64a283dec99"
+  },
+  {
+   "title": "Drum machine: Techno",
+   "kind": "oscbank",
+   "file": "banks/oscuro_mt_techno.oscbank",
+   "size": 875,
+   "sha256": "55ae353770cb662760ffe56cbaf2960da09328121e66e0fa8ecc73100456f834"
+  },
+  {
+   "title": "Showcase Grain with racks",
+   "kind": "oscbank",
+   "file": "banks/oscuro_showcase_grain.oscbank",
+   "size": 22063,
+   "sha256": "0d49006b89042b8877d8485d70bff078f7a8af383cffe5ea2ab1206886351207"
+  },
+  {
+   "title": "Showcase Motion with racks",
+   "kind": "oscbank",
+   "file": "banks/oscuro_showcase_motion.oscbank",
+   "size": 22063,
+   "sha256": "8a84f90863791198e0aec7ea1c2298606c57ba6cc6fbbad446d8fac475c1895f"
+  },
+  {
+   "title": "Showcase Grain",
+   "kind": "syx",
+   "file": "banks/ti_showcase_grain.syx",
+   "size": 16768,
+   "sha256": "6e102f9954dbfef6ce737dbc9523d859cfb30b1c05b71558a39fdb6d14558cac"
+  },
+  {
+   "title": "Showcase Motion",
+   "kind": "syx",
+   "file": "banks/ti_showcase_motion.syx",
+   "size": 16768,
+   "sha256": "7dd83a0b9c3abefa07fc756215d4bb33b786a7d53244331d2947d86be923e394"
   }
  ],
  "banks_zip": {
   "file": "oscuro-showcase-banks.zip",
-  "size": 14293,
-  "sha256": "ded4ecab7747d97290a4482edc7af0577e6a7faad30dd86d8aa891d4a3e35a3e"
+  "size": 52407,
+  "sha256": "c4e66fb3d20532a98c937a92b7e81b31cb58d03e941ad6061ce3c70e7e3d3a46"
  }
 }
