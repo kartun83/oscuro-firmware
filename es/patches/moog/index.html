@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Making your own Moog patches · Oscuro</title>
-<meta name="description" content="The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/moog/ (four banks of 128).">
+<title>Crea patches de MOOG con un chat de IA · Oscuro</title>
+<meta name="description" content="Un archivo por sintetizador, escrito para ChatGPT, Claude, Gemini o cualquier otro chat de IA. Sin herramientas ni Python: cópialo, di lo que quieres y carga lo que recibas.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Making your own Moog patches · Oscuro">
-<meta property="og:description" content="The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/moog/ (four banks of 128).">
+<meta property="og:title" content="Crea patches de MOOG con un chat de IA · Oscuro">
+<meta property="og:description" content="Un archivo por sintetizador, escrito para ChatGPT, Claude, Gemini o cualquier otro chat de IA. Sin herramientas ni Python: cópialo, di lo que quieres y carga lo que recibas.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/es/patches/moog/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/es/patches/moog/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Crea tus propios parches</a> · MOOG</p>
-  <h1>Making your own Moog patches</h1>
-  <p class="lead">The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, <code>os_bank_gen.py</code> turns the file into a bank, and the installer sends the bank to the keyboard. You need <code>os_bank_gen.py</code> (in <code>tools/</code>) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. 512 ready-made patches are in <code>patches/moog/</code> (four banks of 128).</p>
+  <h1>Crea patches de MOOG con un chat de IA</h1>
+  <p class="lead">Un archivo por sintetizador, escrito para ChatGPT, Claude, Gemini o cualquier otro chat de IA. Sin herramientas ni Python: cópialo, di lo que quieres y carga lo que recibas.</p>
   <p class="note">En las versiones: Retrowave, Phosphor, Moog</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,9 +60,28 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
-    <p class="callout">Estas guías solo están en inglés por ahora.</p>
-    <h2 id="the-three-steps">The three steps</h2>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copia o descarga la guía.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../../downloads/guides/oscuro-mg-ai-guide.md" data-copied="Copiada">Copiar guía</button>
+        <a class="btn ghost" href="../../../downloads/guides/oscuro-mg-ai-guide.md" download>Descargar</a></span>
+        <span class="ai-file"><code>oscuro-mg-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Dásela a un chat de IA</strong> (pégala o adjunta el archivo) y di lo que quieres, por ejemplo: “pads oscuros y bajos para techno ambiental”. La IA te pregunta cuántos patches quieres y los crea.</li>
+      <li class="ai-step"><strong>Recibe el banco:</strong> un archivo, o un bloque de texto si la IA no puede crear archivos.</li>
+      <li class="ai-step"><strong>Cárgalo:</strong> en la pestaña Synth patches del instalador, elige el archivo o pega el texto en “Paste text from the AI”. Después envíalo al teclado.
+        <a class="btn primary" href="../../../install/installer/">Abrir el instalador</a></li>
+    </ol>
+    <details class="ai-more"><summary>Lo que la IA no puede hacer</summary>
+      <p>La guía pide a la IA que diga estas cosas al final de su respuesta. Toca el banco, dile a la IA qué cambiar y carga el nuevo.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some patches will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or patches you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which patch and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For Moog in particular: three oscillators with simple waves, one low-pass filter, two envelopes, one LFO, chorus as the only effect. Sounds that need FM, wavetables, reverb or delay are out of reach; make the nearest analog sound and say so.</p>
+    </details>
+    <details class="ai-more"><summary>Cómo funciona (para curiosos)</summary>
+      <p class="callout">Las herramientas y los parches iniciales que se mencionan (tools/ y patches/) vienen con los paquetes de firmware de Oscuro. Cada guía describe el firmware de la versión que figura al pie.</p>
+      <p class="callout">Estas guías solo están en inglés por ahora.</p>
+      <p>The Moog engine is a three-oscillator monosynth-style voice with a ladder low-pass filter, two envelopes, an LFO and a chorus. A patch is 64 bytes. You describe patches in a JSON file, <code>os_bank_gen.py</code> turns the file into a bank, and the installer sends the bank to the keyboard. You need <code>os_bank_gen.py</code> (in <code>tools/</code>) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. 512 ready-made patches are in <code>patches/moog/</code> (four banks of 128).</p>
+      <h2 id="the-three-steps">The three steps</h2>
 <ol><li>Write <code>my_moog.json</code> (format below).</li><li>Build the bank; the tool refuses unknown keys and out-of-range values:</li></ol>
 <pre><code>python3 tools/os_bank_gen.py --engine mg --json my_moog.json --output my_moog.oscbank --bank-name "My Moog"</code></pre>
 <ol start="3"><li>Open the installer page, <strong>Synth patches</strong>, choose <code>my_moog.oscbank</code>, send. In the Retrowave and Phosphor builds the installer switches the keyboard to the engine of the file by itself; to switch by hand, hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to MOOG and press <strong>&gt;</strong>.</li></ol>
@@ -80,7 +99,8 @@
 <h2 id="recipes">Recipes</h2>
 <ul><li><strong>Fat bass:</strong> cutoff 80 to 110, resonance 40 to 80, attack 0 to 5, decay 10 to 30, two detuned saws and a sine an octave down, a fast filter envelope.</li><li><strong>Brass lead:</strong> cutoff 70 to 100, resonance 30 to 60, attack 10 to 20, saw plus pulse, oscillator 2 a fifth or an octave up (<code>E_OSC2_SEMI</code> 19 or 24).</li><li><strong>Pad:</strong> cutoff 60 to 80, resonance 10 to 20, attack 40 to 80, long release, sine and triangle with a small detune, a little LFO on the pitch, chorus on.</li><li><strong>Percussion:</strong> cutoff 100 to 127, resonance 50 to 100, attack 0, decay 5 to 20, sustain 0, noise (<code>P_NOISE</code> with <code>E_FX_NOISE_TYPE</code> 1) plus one oscillator, a fast filter envelope.</li></ul>
 <h2 id="asking-an-llm">Asking an LLM</h2>
-<p>Give it this guide (the key table and the example) and ask for the JSON only; build with the tool above. A prompt that makes an LLM write hex blobs is in <code>llm-prompts/llm-patch-crafting-prompt.md</code>; the JSON route is easier to check.</p>
+<p>The simplest route is the one-file AI guide <code>../llm-guides/oscuro-mg-ai-guide.md</code>: give it to an AI chat and get a bank back, no tools needed. With this guide instead, ask for the JSON only and build with the tool above.</p>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Instalar</a></p></div></section>

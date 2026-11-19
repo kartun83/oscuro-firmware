@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patches for Viroid (the Virus engine) · Oscuro</title>
-<meta name="description" content="Viroid plays Access Virus patches. There is no JSON route here: the patch format is the Access Virus single dump. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (patches/viroid_ti/ in the packages, their README.md lists every patch): Virus TI singles (.syx) and Oscuro banks with an FX rack per patch (.oscbank). The installer&#x27;s Synth patches tab offers them in its Starter bank list. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<title>Make Viroid patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Patches for Viroid (the Virus engine) · Oscuro">
-<meta property="og:description" content="Viroid plays Access Virus patches. There is no JSON route here: the patch format is the Access Virus single dump. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (patches/viroid_ti/ in the packages, their README.md lists every patch): Virus TI singles (.syx) and Oscuro banks with an FX rack per patch (.oscbank). The installer&#x27;s Synth patches tab offers them in its Starter bank list. General matters (what a bank is, the patch memory) are in README.md next to this file.">
+<meta property="og:title" content="Make Viroid patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/viroid/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/viroid/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Make your own patches</a> · Viroid</p>
-  <h1>Patches for Viroid (the Virus engine)</h1>
-  <p class="lead">Viroid plays Access Virus patches. There is no JSON route here: the patch format is the <strong>Access Virus single dump</strong>. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (<code>patches/viroid_ti/</code> in the packages, their <a href="../"><code>README.md</code></a> lists every patch): Virus TI singles (<code>.syx</code>) and Oscuro banks with an FX rack per patch (<code>.oscbank</code>). The installer's <strong>Synth patches</strong> tab offers them in its <em>Starter bank</em> list. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <h1>Make Viroid patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   <p class="note">In the builds: Viroid TI Rack, Viroid</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,8 +60,29 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <h2 id="where-virus-patches-come-from">Where Virus patches come from</h2>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../downloads/guides/oscuro-va-ai-guide.md" data-copied="Copied">Copy guide</button>
+        <a class="btn ghost" href="../../downloads/guides/oscuro-va-ai-guide.md" download>Download</a></span>
+        <span class="ai-file"><code>oscuro-va-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>What the AI can&#x27;t do</summary>
+      <p>The guide tells the AI to say these things at the end of its answer. Play the bank, tell the AI what to change, and load the new one.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some patches will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or patches you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which patch and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For Viroid in particular:</p>
+<ul><li>An FX rack stored with a patch plays only on the <strong>Viroid TI Rack</strong> build. On other Viroid builds the voice plays, and its delay and reverb follow the rack's first Delay and Reverb (the packer does that for you).</li><li>Wavetable, Wave PWM, Grain and Formant oscillators need the TI image's tables (the Viroid TI Rack build). Classic and HyperSaw play on every Viroid build.</li><li>No samples, no vocoder, no audio input, no comb or vowel filter bank, no ROM arpeggiator patterns.</li><li>There is a processing limit: HyperSaw saws times unison voices must stay at 11 or below (the packer refuses more). Prefer one HyperSaw oscillator with little unison over two dense ones.</li></ul>
+<p>Say so when a request needs them.</p>
+    </details>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>Viroid plays Access Virus patches. There is no JSON route here: the patch format is the <strong>Access Virus single dump</strong>. Besides the sounds you already have, Oscuro ships showcase banks for Viroid (<code>patches/viroid_ti/</code> in the packages, their <a href="../"><code>README.md</code></a> lists every patch): Virus TI singles (<code>.syx</code>) and Oscuro banks with an FX rack per patch (<code>.oscbank</code>). The installer's <strong>Synth patches</strong> tab offers them in its <em>Starter bank</em> list. General matters (what a bank is, the patch memory) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+      <h2 id="where-virus-patches-come-from">Where Virus patches come from</h2>
 <ul><li>Your own collection: single-patch dumps from Virus A, B, C and TI/TI2/Snow, as <code>.syx</code> or <code>.mid</code> files, one patch per file or a whole bank per file.</li><li>Any Virus editor or librarian that can save a bank or a single patch as SysEx.</li><li>Sound packs and soundsets you own.</li></ul>
 <h2 id="loading-them">Loading them</h2>
 <ol><li>Run the <strong>Viroid</strong> build (it is the only engine in that build).</li><li>Open the installer page, <strong>Synth patches</strong>, choose the files and the <strong>Bank</strong> the patches go to (4 banks of 128), and send. A file with more patches than the bank holds continues into the next bank.</li><li>Two optional boxes on that tab tidy a big collection before it is sent: <strong>Skip duplicate sounds</strong> (a copy under another name or category; the first one stays) and <strong>Skip placeholder patches</strong> (patches named only with dashes, underscores or <code>INIT</code>, which sound packs use as separators and credits).</li></ol>
@@ -70,6 +91,7 @@
 <p>K1 to K8 edit the macros of the current patch (cutoff, resonance, envelope, oscillator shape, volume, ...); to save the changes, hold <strong>Oct -</strong> and press <strong>Right</strong> (<strong>Right</strong> again overwrites the stored patch, <strong>Left</strong> stores a copy). Each Virus patch also carries a <strong>modulation matrix</strong> of 6 slots, each with one source and up to three destinations: <code>../MODULATION_MATRIX.md</code> explains how to edit it on the keyboard (hold <strong>Oct -</strong>, press <strong>Left</strong>).</p>
 <h2 id="making-new-virus-patches">Making new Virus patches</h2>
 <p>Make them in an editor or on a Virus and bring them over as above. The importer reads the published layout of the single dump (267 bytes for A/B/C, 524 for TI) and keeps the patch name, the category and the sound parameters.</p>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>

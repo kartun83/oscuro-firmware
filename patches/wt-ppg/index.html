@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Making your own WT PPG patches (by hand or with an LLM) · Oscuro</title>
-<meta name="description" content="The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need wtppg_bank.py (in tools/ of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in README.md next to this file.">
+<title>Make WT PPG patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Making your own WT PPG patches (by hand or with an LLM) · Oscuro">
-<meta property="og:description" content="The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need wtppg_bank.py (in tools/ of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in README.md next to this file.">
+<meta property="og:title" content="Make WT PPG patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/wt-ppg/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/wt-ppg/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Make your own patches</a> · WT PPG</p>
-  <h1>Making your own WT PPG patches (by hand or with an LLM)</h1>
-  <p class="lead">The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need <code>wtppg_bank.py</code> (in <code>tools/</code> of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+  <h1>Make WT PPG patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   <p class="note">In the builds: Retrowave, Phosphor</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,8 +60,27 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <h2 id="the-three-steps">The three steps</h2>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../downloads/guides/oscuro-wp-ai-guide.md" data-copied="Copied">Copy guide</button>
+        <a class="btn ghost" href="../../downloads/guides/oscuro-wp-ai-guide.md" download>Download</a></span>
+        <span class="ai-file"><code>oscuro-wp-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>What the AI can&#x27;t do</summary>
+      <p>The guide tells the AI to say these things at the end of its answer. Play the bank, tell the AI what to change, and load the new one.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some patches will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or patches you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which patch and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For WT PPG in particular: it plays only its 32 built-in wavetables (no samples, no waves of your own), it has no effects (no reverb, delay or chorus inside the patch), and one LFO. Say so when a request needs them.</p>
+    </details>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>The WT PPG engine of the Retrowave and Phosphor builds stores a patch as 50 numbers. You describe patches in a small JSON file, a tool turns the file into a bank, and the installer sends the bank to the keyboard. Nothing here needs the source code: you need <code>wtppg_bank.py</code> (in <code>tools/</code> of the package) and Python 3. General matters (banks, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file.</p>
+      <h2 id="the-three-steps">The three steps</h2>
 <ol><li>Write <code>my_patches.json</code> (format below). An LLM can write it for you: see <em>Asking an LLM</em>.</li><li>Build the bank (the tool checks every value and tells you which one is wrong):</li></ol>
 <pre><code>python3 tools/wtppg_bank.py json my_patches.json my_patches.oscbank --name "My WT PPG"</code></pre>
 <ol start="3"><li>Load it: open the installer page, <strong>Synth patches</strong>, choose <code>my_patches.oscbank</code>, send. The installer switches the keyboard to WT PPG by itself; to switch by hand, hold <strong>Oct −</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to WT PPG and press <strong>&gt;</strong>. Every engine keeps its own patches in the keyboard's patch memory; the user guide's <em>Patch memory backup</em> explains the first send. The installer's three WT PPG banks are built the same way: the twelve starter patches (<code>tools/wtppg_bank.py</code>), <em>WT PPG Atmospheres</em> (<code>patches/wtppg/wtppg_atmospheres.json</code>: pads, drones and textures that move through the tables) and <em>WT PPG Bass &amp; Lead</em> (<code>patches/wtppg/wtppg_bass_lead.json</code>: basses, leads and struck sounds). Copy their style; <code>"cat"</code> and <code>"desc"</code> in a patch are notes for readers and are not sent.</li></ol>
@@ -91,6 +110,7 @@
 <p>The tool names the first value that is out of range or misspelled (<code>unknown parameter ['P_CUTOF']</code>), and you can paste that line back to the LLM.</p>
 <h2 id="limits">Limits</h2>
 <p>The file builds a bank of up to 128 patches; the keyboard's patch memory keeps every engine's patches apart, and all engines share its room. Names are 10 characters of plain ASCII. Parameters are whole numbers; a value out of its range is refused by the tool (the keyboard itself would limit it to the range). The oscillators play the 32 built-in tables: there is no way to load your own waves yet.</p>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>

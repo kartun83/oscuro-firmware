@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Making your own MT drum kits · Oscuro</title>
-<meta name="description" content="MT DRUMS is a Microtonic-style drum synth: eight channels, each with two stored sounds (L and R, 25 settings each) and a Morph that blends L into R. One patch is a whole kit (416 bytes). Notes 36 to 43 play the eight channels at the kit&#x27;s morph position; notes 44 to 51 play the same channels pinned to side R. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. The factory kit banks are in patches/mt/: a jungle set and genre sets (house, electro, drum and bass, psy trance, ...).">
+<title>Make MT DRUMS patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Making your own MT drum kits · Oscuro">
-<meta property="og:description" content="MT DRUMS is a Microtonic-style drum synth: eight channels, each with two stored sounds (L and R, 25 settings each) and a Morph that blends L into R. One patch is a whole kit (416 bytes). Notes 36 to 43 play the eight channels at the kit&#x27;s morph position; notes 44 to 51 play the same channels pinned to side R. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. The factory kit banks are in patches/mt/: a jungle set and genre sets (house, electro, drum and bass, psy trance, ...).">
+<meta property="og:title" content="Make MT DRUMS patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/mt-drums/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/mt-drums/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Make your own patches</a> · MT DRUMS</p>
-  <h1>Making your own MT drum kits</h1>
-  <p class="lead">MT DRUMS is a Microtonic-style drum synth: eight channels, each with two stored sounds (<strong>L</strong> and <strong>R</strong>, 25 settings each) and a <strong>Morph</strong> that blends L into R. One patch is a whole <strong>kit</strong> (416 bytes). Notes 36 to 43 play the eight channels at the kit's morph position; notes 44 to 51 play the same channels pinned to side R. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. The factory kit banks are in <code>patches/mt/</code>: a jungle set and genre sets (house, electro, drum and bass, psy trance, ...).</p>
+  <h1>Make MT DRUMS patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   <p class="note">In the builds: Retrowave, Phosphor, Tympanika</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,8 +60,27 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <p>There is one way to make kits: describe kits in numbers. <code>llm-prompts/llm-bank-crafting-prompt.md</code> is a complete specification written to be pasted into an LLM: the file format, the 25 parameters with the formulas between bytes and Hz, milliseconds and dB, recipes per genre, and a packer script that turns the LLM's answer into a valid bank. Read it yourself too: it is the best reference.</p>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../downloads/guides/oscuro-mt-ai-guide.md" data-copied="Copied">Copy guide</button>
+        <a class="btn ghost" href="../../downloads/guides/oscuro-mt-ai-guide.md" download>Download</a></span>
+        <span class="ai-file"><code>oscuro-mt-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>What the AI can&#x27;t do</summary>
+      <p>The guide tells the AI to say these things at the end of its answer. Play the bank, tell the AI what to change, and load the new one.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some kits will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or kits you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which kit and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For MT drums in particular: every sound is synthesized from one oscillator and one noise source (no samples, so no real acoustic recordings, breaks or vocal shots), there are 8 channels per kit, and there are no effects such as reverb or delay. Say so when a request needs them.</p>
+    </details>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>MT DRUMS is a Microtonic-style drum synth: eight channels, each with two stored sounds (<strong>L</strong> and <strong>R</strong>, 25 settings each) and a <strong>Morph</strong> that blends L into R. One patch is a whole <strong>kit</strong> (416 bytes). Notes 36 to 43 play the eight channels at the kit's morph position; notes 44 to 51 play the same channels pinned to side R. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. The factory kit banks are in <code>patches/mt/</code>: a jungle set and genre sets (house, electro, drum and bass, psy trance, ...).</p>
+      <p>Kits are described in numbers. <code>../llm-guides/oscuro-mt-ai-guide.md</code> is a complete guide written for an AI chat: the 25 parameters with the formulas between values and Hz, milliseconds and dB, recipes per genre, and a packer that turns the answer into a valid bank (or paste the answer into the installer). Read it yourself too: it is the best reference.</p>
 <p>Then open the installer page, <strong>Synth patches</strong>, choose the <code>.oscbank</code> and send. A bank holds 16 kits. In the Retrowave and Phosphor builds the installer switches the keyboard to the engine of the file by itself; to switch by hand, hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to MT DRUMS and press <strong>&gt;</strong>.</p>
 <h2 id="the-kit">The kit</h2>
 <div class="tbl"><table><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td>8 channels</td><td>usual roles: 1 kick, 2 snare, 3 closed hat, 4 open hat, 5 perc or rim, 6 perc or tom, 7 clap or ride, 8 crash or FX</td></tr><tr><td>2 sides</td><td>L and R each hold all 25 parameters of every channel; the Morph (0 = all L, 255 = all R) blends them</td></tr><tr><td>name</td><td>up to 10 ASCII characters</td></tr></tbody></table></div>
@@ -69,6 +88,7 @@
 <p>Continuous values are 0 to 255; steps store the step index (the morph switches them from L to R at 128).</p>
 <div class="tbl"><table><thead><tr><th>#</th><th>Name</th><th>Range</th><th>INIT</th></tr></thead><tbody><tr><td>0</td><td>OSC_WAVE</td><td>3 steps: sine, triangle, saw</td><td>0</td></tr><tr><td>1</td><td>OSC_FREQ</td><td>20 Hz to 20 kHz, <code>20 * 1000^(v/255)</code></td><td>121 (523 Hz)</td></tr><tr><td>2</td><td>OSC_ATK</td><td>0 to 100 ms</td><td>0</td></tr><tr><td>3</td><td>OSC_DCY</td><td>10 ms to 10 s, <code>10 * 1000^(v/255)</code> ms</td><td>128</td></tr><tr><td>4</td><td>MOD_MODE</td><td>3 steps: decay, sine LFO, noise</td><td>0</td></tr><tr><td>5</td><td>MOD_RATE</td><td>the modulation speed</td><td>128</td></tr><tr><td>6</td><td>MOD_AMT</td><td>the modulation amount, 128 = none</td><td>128</td></tr><tr><td>7</td><td>NF_MODE</td><td>noise filter: LP, BP, HP</td><td>0</td></tr><tr><td>8</td><td>NF_FREQ</td><td>noise filter frequency</td><td>255 (20 kHz)</td></tr><tr><td>9</td><td>NF_Q</td><td>noise filter resonance</td><td>43</td></tr><tr><td>10</td><td>NF_STEREO</td><td>2 steps</td><td>0</td></tr><tr><td>11</td><td>NE_MODE</td><td>noise envelope: exponential, linear, multi-hit</td><td>0</td></tr><tr><td>12</td><td>NE_ATK</td><td>noise attack</td><td>0</td></tr><tr><td>13</td><td>NE_DCY</td><td>noise decay</td><td>128</td></tr><tr><td>14</td><td>MIX</td><td>0 = oscillator only, 255 = noise only</td><td>0</td></tr><tr><td>15</td><td>DIST</td><td>distortion</td><td>0</td></tr><tr><td>16</td><td>EQ_FREQ</td><td>equaliser frequency</td><td>128</td></tr><tr><td>17</td><td>EQ_GAIN</td><td>equaliser gain, 128 = 0 dB</td><td>128</td></tr><tr><td>18</td><td>LEVEL</td><td>213 = 0 dB, (v/213) squared</td><td>213</td></tr><tr><td>19</td><td>PAN</td><td>128 = centre</td><td>128</td></tr><tr><td>20</td><td>OUTPUT</td><td>2 steps; keep 0</td><td>0</td></tr><tr><td>21</td><td>CHOKE</td><td>1 = triggering this channel cuts channel n+1 (put it on the closed hat)</td><td>0</td></tr><tr><td>22</td><td>VEL_OSC</td><td>velocity to the oscillator level</td><td>128</td></tr><tr><td>23</td><td>VEL_NOISE</td><td>velocity to the noise level</td><td>128</td></tr><tr><td>24</td><td>VEL_MOD</td><td>velocity to the modulation amount</td><td>128</td></tr></tbody></table></div>
 <p>The exact conversions (frequency, times, Q, octaves, dB) and the checks to run on a finished file are in the prompt document.</p>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>

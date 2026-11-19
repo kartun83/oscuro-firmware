@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Making your own patches · Oscuro</title>
-<meta name="description" content="This folder has one guide per synth engine. Start here for what every engine has in common, then open the guide of the engine you want.">
+<title>Make your own patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Making your own patches · Oscuro">
-<meta property="og:description" content="This folder has one guide per synth engine. Start here for what every engine has in common, then open the guide of the engine you want.">
+<meta property="og:title" content="Make your own patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker">Make your own patches</p>
-  <h1>Making your own patches</h1>
-  <p class="lead">This folder has one guide per synth engine. Start here for what every engine has in common, then open the guide of the engine you want.</p>
+  <h1>Make your own patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,8 +60,27 @@
     <li><a href="dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <h2 id="what-you-are-making">What you are making</h2>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <ul class="ai-files">
+          <li><a href="../downloads/guides/oscuro-va-ai-guide.md" download>Viroid</a> <code>oscuro-va-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-wp-ai-guide.md" download>WT PPG</a> <code>oscuro-wp-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-jn-ai-guide.md" download>JUNO-60</a> <code>oscuro-jn-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-mg-ai-guide.md" download>MOOG</a> <code>oscuro-mg-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-mt-ai-guide.md" download>MT DRUMS</a> <code>oscuro-mt-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-fm-ai-guide.md" download>DX7 FM</a> <code>oscuro-fm-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-vs-ai-guide.md" download>VEC-1</a> <code>oscuro-vs-ai-guide.md</code></li>
+          <li><a href="../downloads/guides/oscuro-es-ai-guide.md" download>DWO-1</a> <code>oscuro-es-ai-guide.md</code></li>
+        </ul></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>This folder has one guide per synth engine. Start here for what every engine has in common, then open the guide of the engine you want.</p>
+      <h2 id="what-you-are-making">What you are making</h2>
 <p>A <strong>patch</strong> is one sound of one engine: a short list of numbers (50 to 143, depending on the engine; 416 for a drum kit) and a name of up to 10 plain ASCII characters. A <strong>bank</strong> is a file of patches for one engine, with the extension <code>.oscbank</code>. The installer's <strong>Synth patches</strong> tab sends a bank to the keyboard's patch memory; you then choose patches with <strong>Left/Right</strong> on the home screen or from the PATCH page.</p>
 <p>Every engine keeps its own patches (0.87.4 and newer): each stored patch is tagged with its engine, so bank 1 of WT PPG and bank 1 of Juno are different patches and sending one engine's bank never overwrites another's. The engines share the room of the patch memory. On a build with several engines, sending a bank switches the keyboard to that bank's engine; to switch by hand, hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to the engine and press <strong>&gt;</strong>. The first time, the user guide's <em>Patch memory backup</em> section explains how to save and erase the memory that holds M-Vave's own data. A bank holds up to 128 patches (drum kits and CZ-1 tones: 16 per bank, DX7 voices: 32); a file with more continues into the next bank.</p>
 <h2 id="the-engines">The engines</h2>
@@ -73,9 +92,10 @@
 <h2 id="asking-an-llm">Asking an LLM</h2>
 <p>Every JSON-in engine guide ends with a section <em>Asking an LLM</em>. The recipe is the same everywhere:</p>
 <ul><li>paste the engine's guide sections <em>How the sound is made</em>, <em>Scales</em> and the key table (or the output of the tool's <code>keys</code> command) into the chat;</li><li>say what you want in words ("twelve slow evolving pads, three of them dark"), and ask for <strong>JSON in the format of the guide's example, nothing else</strong>;</li><li>tell it to use only the listed keys, whole numbers inside the ranges, names of at most 10 characters, and to list only what differs from INIT;</li><li>build the file with the tool and fix what it refuses; send, listen, tell the LLM what to change.</li></ul>
-<p>For Juno, Moog and the MT drums there is also a ready-made prompt in <code>llm-prompts/</code> that makes the LLM write the blobs itself.</p>
+<p>The quickest way is one file per engine written for an AI chat: <code>../llm-guides/</code> (the AI builds the bank itself, or gives you text that the installer turns into a bank).</p>
 <h2 id="file-formats-for-the-curious">File formats, for the curious</h2>
 <ul><li><code>.oscbank</code>: 43-byte header (<code>OSBK</code>, version 1, the two-letter engine id, a 32-byte bank name, the patch count, the bytes per patch), then the raw patches back to back. The engine ids are <code>wp</code> (WT PPG), <code>vs</code> (VEC-1), <code>es</code> (DWO-1), <code>jn</code> (Juno), <code>mg</code> (Moog), <code>mt</code> (MT drums) and <code>va</code> (Viroid; version 2 adds an FX rack per patch).</li><li>SysEx for single patches: <code>F0 7D 4B 53 02 &lt;two letters&gt; &lt;patch bytes&gt; &lt;checksum&gt; F7</code>; the installer uses it for you.</li><li>DX7 <code>.syx</code> bulk dumps (32 voices) and Access Virus single dumps (<code>.syx</code> or <code>.mid</code>) go to their engines unchanged.</li></ul>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../install/">Install</a></p></div></section>

@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Making your own Juno-60 patches · Oscuro</title>
-<meta name="description" content="The Juno engine models a Juno-60/106 style voice: one DCO with saw, pulse and sub, noise, a resonant low-pass filter, one envelope, an LFO and the chorus. A patch is 48 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/juno/.">
+<title>Make JUNO-60 patches with an AI chat · Oscuro</title>
+<meta name="description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
-<meta property="og:title" content="Making your own Juno-60 patches · Oscuro">
-<meta property="og:description" content="The Juno engine models a Juno-60/106 style voice: one DCO with saw, pulse and sub, noise, a resonant low-pass filter, one envelope, an LFO and the chorus. A patch is 48 bytes. You describe patches in a JSON file, os_bank_gen.py turns the file into a bank, and the installer sends the bank to the keyboard. You need os_bank_gen.py (in tools/) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in README.md next to this file. 512 ready-made patches are in patches/juno/.">
+<meta property="og:title" content="Make JUNO-60 patches with an AI chat · Oscuro">
+<meta property="og:description" content="One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/patches/juno-60/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/patches/juno-60/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
@@ -42,8 +42,8 @@
 <article class="page guide">
 <header class="page-head"><div class="wrap">
   <p class="kicker"><a href="../">Make your own patches</a> · JUNO-60</p>
-  <h1>Making your own Juno-60 patches</h1>
-  <p class="lead">The Juno engine models a Juno-60/106 style voice: one DCO with saw, pulse and sub, noise, a resonant low-pass filter, one envelope, an LFO and the chorus. A patch is 48 bytes. You describe patches in a JSON file, <code>os_bank_gen.py</code> turns the file into a bank, and the installer sends the bank to the keyboard. You need <code>os_bank_gen.py</code> (in <code>tools/</code>) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. 512 ready-made patches are in <code>patches/juno/</code>.</p>
+  <h1>Make JUNO-60 patches with an AI chat</h1>
+  <p class="lead">One file per synth, written for ChatGPT, Claude, Gemini or any other AI chat. No tools, no Python: copy it, say what you want, load what you get back.</p>
   <p class="note">In the builds: Retrowave, Phosphor, Juno</p>
 </div></header>
 <section><div class="wrap guide-grid">
@@ -60,8 +60,27 @@
     <li><a href="../dwo-1/">DWO-1</a></li>
   </ul></nav>
   <div class="prose">
-    <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
-    <h2 id="the-three-steps">The three steps</h2>
+    <ol class="ai-steps">
+      <li class="ai-step"><strong>Copy or download the guide.</strong>
+        <span class="ai-get"><button class="btn" type="button" data-copy-src="../../downloads/guides/oscuro-jn-ai-guide.md" data-copied="Copied">Copy guide</button>
+        <a class="btn ghost" href="../../downloads/guides/oscuro-jn-ai-guide.md" download>Download</a></span>
+        <span class="ai-file"><code>oscuro-jn-ai-guide.md</code></span></li>
+      <li class="ai-step"><strong>Give it to an AI chat</strong> (paste it or attach the file) and say what you want, for example: “dark pads and basses for ambient techno”. The AI asks how many patches you want, then makes them.</li>
+      <li class="ai-step"><strong>Get the bank back:</strong> a file, or a block of text if the AI cannot make files.</li>
+      <li class="ai-step"><strong>Load it:</strong> in the installer&#x27;s Synth patches tab, choose the file, or paste the text into “Paste text from the AI”. Then send it to the keyboard.
+        <a class="btn primary" href="../../install/installer/">Open the installer</a></li>
+    </ol>
+    <details class="ai-more"><summary>What the AI can&#x27;t do</summary>
+      <p>The guide tells the AI to say these things at the end of its answer. Play the bank, tell the AI what to change, and load the new one.</p>
+      <p>End every answer that contains a bank with a short paragraph headed <strong>What I couldn't do</strong>, in your own words. It covers:</p>
+<ul><li>You cannot hear the sounds. The values are informed estimates from how the engine works, not tuned by ear; some patches will need adjusting on the keyboard.</li><li>Anything the player asked for that this engine cannot do, and what you made instead.</li><li>Values you had to guess, or patches you are least sure of.</li><li>Whether you built the file yourself, or the player has to paste your text into the installer. If the packer reported an error you could not fix, say which patch and what the error said.</li></ul>
+<p>Never claim that you listened to, played or tested the sounds.</p>
+<p>For Juno-60 in particular: one oscillator with saw, pulse and sub; one envelope; no effects other than the chorus. Sounds that need FM, wavetables, several envelopes or reverb and delay are out of reach; make the nearest Juno-style sound and say so.</p>
+    </details>
+    <details class="ai-more"><summary>How it works (for the curious)</summary>
+      <p class="callout">The tools and starter patches named here (tools/ and patches/) come with Oscuro&#x27;s firmware packages. Each guide describes the firmware as of the version in the footer.</p>
+      <p>The Juno engine models a Juno-60/106 style voice: one DCO with saw, pulse and sub, noise, a resonant low-pass filter, one envelope, an LFO and the chorus. A patch is 48 bytes. You describe patches in a JSON file, <code>os_bank_gen.py</code> turns the file into a bank, and the installer sends the bank to the keyboard. You need <code>os_bank_gen.py</code> (in <code>tools/</code>) and Python 3. General matters (what a bank is, the patch memory, using an LLM) are in <a href="../"><code>README.md</code></a> next to this file. 512 ready-made patches are in <code>patches/juno/</code>.</p>
+      <h2 id="the-three-steps">The three steps</h2>
 <ol><li>Write <code>my_juno.json</code> (format below).</li><li>Build the bank; the tool refuses unknown keys and out-of-range values:</li></ol>
 <pre><code>python3 tools/os_bank_gen.py --engine jn --json my_juno.json --output my_juno.oscbank --bank-name "My Juno"</code></pre>
 <ol start="3"><li>Open the installer page, <strong>Synth patches</strong>, choose <code>my_juno.oscbank</code>, send. In the Retrowave and Phosphor builds the installer switches the keyboard to the engine of the file by itself; to switch by hand, hold <strong>Oct -</strong>, press <strong>PATCH</strong>, turn <strong>K1</strong> to JUNO-60 and press <strong>&gt;</strong>. The installer also takes Juno-106 SysEx dumps; a 106 patch maps onto the keys below.</li></ol>
@@ -79,7 +98,8 @@
 <h2 id="recipes">Recipes</h2>
 <ul><li><strong>Pad:</strong> cutoff 60 to 90, resonance 10 to 30, attack 40 to 80, release 50 to 80, saw plus pulse with some PWM, chorus on, an LFO on the filter.</li><li><strong>Lead:</strong> cutoff 90 to 120, attack 0 to 10, release 30 to 50, saw or pulse dominant, portamento 10 to 30 for legato.</li><li><strong>Bass:</strong> cutoff 30 to 60, resonance 20 to 50, attack 0 to 5, decay 20 to 40, sub at full, saw on, a low DCO range (3 or 4).</li><li><strong>Strings:</strong> cutoff 70 to 90, attack 20 to 40, release 40 to 60, saw with a little pulse, PWM from the LFO, chorus II.</li></ul>
 <h2 id="asking-an-llm">Asking an LLM</h2>
-<p>Give it this guide (the key table and the example) and ask for the JSON only. There is also a prompt that makes an LLM write the blobs itself (<code>llm-prompts/llm-patch-crafting-prompt.md</code>): it answers with hex strings, which is harder to check than JSON. Prefer the JSON route and build with the tool above.</p>
+<p>The simplest route is the one-file AI guide <code>../llm-guides/oscuro-jn-ai-guide.md</code>: give it to an AI chat and get a bank back, no tools needed. With this guide instead, ask for the JSON only and build with the tool above.</p>
+    </details>
   </div>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../../install/">Install</a></p></div></section>

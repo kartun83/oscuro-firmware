@@ -61,4 +61,17 @@
     });
     stage.addEventListener("pointerleave", function () { tilt.style.transform = ""; });
   }
+
+  // The patch pages' "Copy guide": the AI guide's text to the clipboard (without this file the Download link still works).
+  document.querySelectorAll("[data-copy-src]").forEach(function (btn) {
+    var label = btn.textContent;
+    btn.addEventListener("click", function () {
+      fetch(btn.getAttribute("data-copy-src")).then(function (r) { return r.text(); })
+        .then(function (text) { return navigator.clipboard.writeText(text); })
+        .then(function () {
+          btn.textContent = btn.getAttribute("data-copied");
+          setTimeout(function () { btn.textContent = label; }, 2000);
+        }, function () { window.open(btn.getAttribute("data-copy-src"), "_blank", "noopener"); });  // no clipboard: show the text in a new tab, keep this page
+    });
+  });
 })();
