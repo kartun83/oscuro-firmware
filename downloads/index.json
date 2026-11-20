@@ -1,6 +1,167 @@
 {
  "releases": [
   {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "viroid-ti-rack",
+   "label": "Viroid TI Rack",
+   "app": {
+    "file": "releases/0.89/viroid-ti-rack/oscuro-0.89.0-viroid_ti-app.bin",
+    "size": 691004,
+    "sha256": "bd905c4f98281d757c90a2d19e21d03beeeedb1662d762f9869c80c6e7ceccba"
+   },
+   "fwsc": {
+    "file": "releases/0.89/viroid-ti-rack/oscuro-0.89.0-viroid_ti.fwsc",
+    "size": 1370900,
+    "sha256": "5681cde490debec7bf63a8641a85460d5eba2131754081a1fe02463f2df192d9",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-viroid-ti-rack.zip",
+    "size": 2074757,
+    "sha256": "e53825bb3c808ca0ad2e82a1764065119d0010431419ef2e11888aef00e62224"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "retrowave",
+   "label": "Retrowave",
+   "app": {
+    "file": "releases/0.89/retrowave/oscuro-0.89.0-retrowave-app.bin",
+    "size": 659276,
+    "sha256": "d43db74936af4f8debff9f3ef3c2d433ffd3fd49cf8bcdea63782599d6b29791"
+   },
+   "fwsc": {
+    "file": "releases/0.89/retrowave/oscuro-0.89.0-retrowave.fwsc",
+    "size": 1342228,
+    "sha256": "ae198985ea117339017837c62c2f20fee3ebd764e95f67803ec397d2831c849b",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-retrowave.zip",
+    "size": 1995915,
+    "sha256": "c541d26295c82924a14032308e2a875f8a0f27c814481fa5297f02fb5f175865"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "daw",
+   "label": "DAW Controller",
+   "app": {
+    "file": "releases/0.89/daw/oscuro-0.89.0-daw-app.bin",
+    "size": 636536,
+    "sha256": "e988ddb4ba07984a81b8ffc9a3109e7607e575c94bba07eb47faac0bbb212bb4"
+   },
+   "fwsc": {
+    "file": "releases/0.89/daw/oscuro-0.89.0-daw.fwsc",
+    "size": 1317396,
+    "sha256": "6e525f5f89dc5410b50451d8bcf23aa7deccdbe71cd509393a110e34144606ce",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-daw.zip",
+    "size": 1950271,
+    "sha256": "4e7ab28b54cd111ba4b4843ea7fa053d91f59acaf42409d0b59511119f07ea81"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "daw-bluetooth",
+   "label": "DAW Controller with Bluetooth",
+   "app": {
+    "file": "releases/0.89/daw-bluetooth/oscuro-0.89.0-daw_bt-app.bin",
+    "size": 676440,
+    "sha256": "924d19e5f57704a369ad6939499079303716b0d7ced4aecd101cc70a449a1e0e"
+   },
+   "fwsc": {
+    "file": "releases/0.89/daw-bluetooth/oscuro-0.89.0-daw_bt.fwsc",
+    "size": 1358612,
+    "sha256": "6637bfd8a88e4c384c80f9a0219525515c6407769723a5e23973ce020a5ec71c",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-daw-bluetooth.zip",
+    "size": 2033157,
+    "sha256": "34428576ca8caaf7059d41a09740000d6f8ce0f4d6ddbc35d4b5eda1f9bdb0c6"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "phosphor",
+   "label": "Phosphor",
+   "app": {
+    "file": "releases/0.89/phosphor/oscuro-0.89.0-phosphor-app.bin",
+    "size": 673520,
+    "sha256": "45a6fa2a5e717aaaef52d6484cb4c6da99991608cce202358c9b6b5fc0f02427"
+   },
+   "fwsc": {
+    "file": "releases/0.89/phosphor/oscuro-0.89.0-phosphor.fwsc",
+    "size": 1354516,
+    "sha256": "6ad51bc1aeb42ac4008831459d86cbe2cf7212ad1c7428a15641fbc2932e3606",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-phosphor.zip",
+    "size": 2014871,
+    "sha256": "0ebb1430f7ba75a4d16ea43cf8b4b1e65b6c61b1d39e57541c87ef663ea85514"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": false,
+   "variant": "tympanika",
+   "label": "Tympanika",
+   "app": {
+    "file": "releases/0.89/tympanika/oscuro-0.89.0-tympanika-app.bin",
+    "size": 612352,
+    "sha256": "86f4ee0238d5c067d9c044ead331e8f523b2bab59038469d7696d9033ff5ede5"
+   },
+   "fwsc": {
+    "file": "releases/0.89/tympanika/oscuro-0.89.0-tympanika.fwsc",
+    "size": 1305108,
+    "sha256": "652ffbe8ee9c748673c15cbd45d2933edd5429697c5ffc560fbf141b3462f0dc",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-tympanika.zip",
+    "size": 1911617,
+    "sha256": "dba4a21ad7c3d9b9445fd616f92daedc4a37bc840b4ef124abe4116c5c49470c"
+   }
+  },
+  {
+   "version": "0.89",
+   "build": "0.89.0",
+   "show_build": true,
+   "variant": "viroid-ti-rack-fm1",
+   "label": "Viroid TI Rack for FM-1",
+   "app": {
+    "file": "releases/0.89/viroid-ti-rack-fm1/fm1-app.bin",
+    "size": 687100,
+    "sha256": "1c03f7e86d169dd86bbaafde1a4454cc5c8c60dfd56c9606d7c70f4d5af345d9"
+   },
+   "fwsc": {
+    "file": "releases/0.89/viroid-ti-rack-fm1/oscuro-0.89.0-fm1_viroid_ti.fwsc",
+    "size": 1534996,
+    "sha256": "d0418535d85b43a95a728e6aad8700d865104fb268d35ac9c4b52b7477e5c0dc",
+    "build": "0.89.0"
+   },
+   "bundle": {
+    "file": "oscuro-0.89-viroid-ti-rack-fm1.zip",
+    "size": 2032011,
+    "sha256": "8fcb0fe1d63eb59c576e61c103d45b50ab8481d6691d2dbd0ee22e18cff709c9"
+   }
+  },
+  {
    "version": "0.88",
    "build": "0.88.0",
    "show_build": false,
@@ -19,31 +180,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack.zip",
-    "size": 2032607,
-    "sha256": "7b0564e75b3a0f38493eeb316ca6de59d1b09f0bea62c2fc698e69b52362a3a2"
-   }
-  },
-  {
-   "version": "0.88",
-   "build": "0.88.0",
-   "show_build": false,
-   "variant": "retrowave",
-   "label": "Retrowave",
-   "app": {
-    "file": "releases/0.88/retrowave/oscuro-0.88.0-retrowave-app.bin",
-    "size": 655940,
-    "sha256": "86808d1ed872258b10a0217deb39815d6f4d486619fd3a0296374640f12b71c4"
-   },
-   "fwsc": {
-    "file": "releases/0.88/retrowave/oscuro-0.88.0-retrowave.fwsc",
-    "size": 1337876,
-    "sha256": "5d8ac6f4f29b8e6b263e9dc4453f18d121fc9e5bc815c26ed2229f3cd031546d",
-    "build": "0.88.0"
-   },
-   "bundle": {
-    "file": "oscuro-0.88-retrowave.zip",
-    "size": 1965188,
-    "sha256": "62e01c96af08942c0d6d08bbe170679a291683232a6db522b88c01147b87582d"
+    "size": 2056818,
+    "sha256": "d900259184a13a1a499401bbc2268b67f7da76a95f25a01cf57b492bbd165017"
    }
   },
   {
@@ -65,8 +203,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw.zip",
-    "size": 1919801,
-    "sha256": "5c5954d6c4832e11f3fc96db1c52f512022437c552040870e98c85894c1013f1"
+    "size": 1944012,
+    "sha256": "d79cfccf6fb0e4ffc556b6ff87f5791fe84230e4ef1c09943bc295e00226ac2e"
    }
   },
   {
@@ -88,8 +226,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw-bluetooth.zip",
-    "size": 2002697,
-    "sha256": "b5196136b46ffd6b172303668c675d61a03f5cd3210769340280bbe8dc37f721"
+    "size": 2026908,
+    "sha256": "0b403d487cf770fef26a75bc80cbc40a4619fd2f97a1ca36c23e541d27f312af"
    }
   },
   {
@@ -111,8 +249,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-phosphor.zip",
-    "size": 1982849,
-    "sha256": "2fc08f25e530cfcd05e7769e33c21cf766b4cf183a55c91568edafa1052ae0de"
+    "size": 2007060,
+    "sha256": "271bad1f9688789e113b9d61feb5485cf9aebd815b313714709f0c97c2dd750d"
    }
   },
   {
@@ -134,8 +272,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-tympanika.zip",
-    "size": 1882447,
-    "sha256": "684aea54378ec26725638d62145e516edd0479b5ae2608b916ce1b4b93c7ce12"
+    "size": 1906658,
+    "sha256": "e3e84cd5cbfcf05e69fbdd5a0ec49a56ece8175d03b5c6d4cb2dec7a21e15797"
    }
   },
   {
@@ -157,8 +295,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack-fm1.zip",
-    "size": 1984343,
-    "sha256": "a26e4f54a7a36dd66e37df481c8df4e62fe0e82857c0b2db729819903c836e79"
+    "size": 2008554,
+    "sha256": "8bbcd1580a52737c2cc6a3b49092892c3b289c32868c0214d2db51e4a73fc878"
    }
   },
   {
@@ -180,8 +318,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack.zip",
-    "size": 2014701,
-    "sha256": "83455169a745f13f71fe089209a382b80a68e351753172af131a29457bab8a12"
+    "size": 2038912,
+    "sha256": "4004a864c6c6749d9643baa894377620352be71a7962bd7bee8fbba4dde781a8"
    }
   },
   {
@@ -203,8 +341,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-retrowave.zip",
-    "size": 1952478,
-    "sha256": "bde82894df38fe4fd0559c036fb300c03fa3858b2e516d4b131692e1791c3456"
+    "size": 1976689,
+    "sha256": "64def620f9805ab7a817f3195be1db4300604662b6c76bd31b06cc41545ad3e3"
    }
   },
   {
@@ -226,8 +364,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-daw.zip",
-    "size": 1906037,
-    "sha256": "0513c64e78a7501fa8975edef4ddac8cb11070fc660dabca06dd12a26642f82c"
+    "size": 1930248,
+    "sha256": "4a7649f49239ac65a73516189e66623d326bc4159c5b3a3ca6585ac991cc0b02"
    }
   },
   {
@@ -249,8 +387,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack-fm1.zip",
-    "size": 1986098,
-    "sha256": "f8614272ed84f97dba5ecdc7ed5f2275472d83a036eb94e792b49bcbc3c7368b"
+    "size": 2010309,
+    "sha256": "65f5891e2b696592437c948f409ad44c5a69c3994c4dec3d373fd48bcad064a4"
    }
   },
   {
@@ -272,8 +410,8 @@
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1346279,
-    "sha256": "40d96cc2d6e541cc8c62d59a4f3cc6eca3714e26797d4c2d589480dd08b4a03e"
+    "size": 1370490,
+    "sha256": "dd1520c0c39e23cbce8cfd9036637b4a80c7f31eabcd2eeade38b2be11fc8528"
    }
   }
  ],
