@@ -451,6 +451,7 @@ select { font: inherit; padding: 8px 12px; border-radius: 10px; background: var(
     <div class="top"><span id="step"></span><span class="pct" id="pct"></span></div>
     <div class="bar"><div id="fill"></div></div>
     <p id="msg"></p>
+    <p class="hint"><button type="button" id="b-copylog">Copy log</button> for a bug report: ports probed, what the keyboard answered, each step.</p>
   </div>
 
   <footer>
@@ -3449,14 +3450,14 @@ async function serve(link,pkg,finish,say,now=()=>performance.now()) {
   const started=now();let last=started,sent=0,count=0,sendMs=0,maxGap=0;
   for(;;){
     const packet=await link.receive(1000),t=now();
-    if(!packet){if(t-last>30000)throw Error('No request for 30 seconds. Stop and use dongle recovery if power-cycling.');continue;}
+    if(!packet){if(t-last>30000)throw new U.UpdateError('No request for 30 seconds. Stop and use dongle recovery if power-cycling.');continue;}
     const metrics=timing(packet);
     if(metrics){say('timing',`Device seconds: USB ${(metrics[0]/1e6).toFixed(2)}, read ${(metrics[1]/1e6).toFixed(2)}, erase ${(metrics[2]/1e6).toFixed(2)}, program ${(metrics[3]/1e6).toFixed(2)}, display ${(metrics[4]/1e6).toFixed(2)}; ${metrics[5]} reads`);continue;}
     const r=U.parseRequest(packet);if(!r)continue;
     maxGap=Math.max(maxGap,t-last);last=t;
     const done=r.addr===VERIFY||r.addr===WRITE;
-    if((done && r.len!==8)||(!done && (r.len>512 || r.addr+r.len>pkg.logical.length)))throw Error('Request outside package; stopped.');
-    if(done && r.addr!==finish)throw Error('Unexpected completion stage; stopped.');
+    if((done && r.len!==8)||(!done && (r.len>512 || r.addr+r.len>pkg.logical.length)))throw new U.UpdateError('Request outside package; stopped.');
+    if(done && r.addr!==finish)throw new U.UpdateError('Unexpected completion stage; stopped.');
     const before=now();await link.send(U.answer(r,pkg.logical));sendMs+=now()-before;
     if(done){say('timing',`Host: ${((now()-started)/1000).toFixed(2)}s, ${count} replies, send calls ${sendMs.toFixed(1)}ms, largest request gap ${maxGap.toFixed(1)}ms`);return;}
     sent+=r.len;count++;
@@ -3465,29 +3466,74 @@ async function serve(link,pkg,finish,say,now=()=>performance.now()) {
 }
 // Identities per board: the stock firmware we start from and what Oscuro answers after the install.
 const BOARDS={fm1:{stock:'FM-1_015',final:'FM1 Oscuro 50_086',label:'FM-1'},smk37:{stock:'SMK-37 Elite_016',final:'SMK-37 Oscuro_01',label:'SMK-37'}};
-async function install({connect,sleep},pkg,product,say=()=>{},boardName='fm1') {
-  const board=BOARDS[boardName];if(!board)throw Error('Unknown board '+boardName);
+// M-Vave's stock identity of a board: "ok" (a file this image installs over), "old" (an SMK-37 Elite before V016: its update
+// mode was not built for this installer, refused before anything is sent), or "" (not the board's stock). The FM-1 image
+// is built against one stock file; the Elite's later M-Vave releases (V017...) are accepted like the V016 it was built on.
+function stockState(text,boardName='smk37'){
+  const board=BOARDS[boardName];if(!board)return '';
+  if(boardName==='fm1')return text===board.stock?'ok':'';
+  const m=/^SMK-37 Elite_([0-9]{3})$/.exec(text||'');if(!m)return '';
+  const n=+m[1];return n>=16&&n<=99?'ok':n<16?'old':'';
+}
+const loaderOf=(boardName)=>'ota-'+(boardName==='fm1'?'FM-1_9086008':'SMK-37 Elite_901');
+// What a keyboard that answered says about whether this board's complete image may go onto it ("" when it may). Other
+// SMK-37 boards (Pro, MKE-P37, Starrykey: another flash chip, never tried with the one-pass loader) are refused here.
+function boardProblem(id,boardName='smk37'){
+  const board=BOARDS[boardName];if(!board)return 'Unknown board '+boardName;
+  if(!id)return '';
+  const text=id.text||'';
+  if(text===loaderOf(boardName)||stockState(text,boardName)==='ok')return '';
+  if(U.isOscuro(id))return 'This keyboard already runs Oscuro ('+text+'). Use Install Oscuro to update its app; the complete image is for a keyboard on M-Vave\'s firmware.';
+  const isFm1=U.isFM1(id);
+  if(boardName==='fm1'&&!isFm1)return 'This image is for the FM-1; the keyboard says "'+text+'".';
+  if(boardName!=='fm1'&&isFm1)return 'This image is for the SMK-37; the keyboard found is an FM-1 ("'+text+'").';
+  if(stockState(text,boardName)==='old')return 'The keyboard runs M-Vave\'s firmware '+text+': update it to version 16 with M-Vave\'s updater first. Nothing was sent.';
+  if(id.updater)return 'The keyboard is in an updater ("'+text+'") that this image does not use. Unplug it, plug it in again without holding any key, then Check again.';
+  if(boardName!=='fm1'&&U.stockFile(text))return 'The keyboard says "'+text+'", but this complete image only installs over the SMK-37 Elite\'s M-Vave firmware (version 16 or later). '+(U.stockFile(text).model!=='SMK-37 Elite'?'This is another board (the Pro, MKE-P37 and Starrykey have a different flash chip), so it was not touched.':'Nothing was changed.');
+  return 'The keyboard says "'+text+'", but this image installs over '+board.stock+' or later. Nothing was changed.';
+}
+const STEP1_HINT=' If the keyboard\'s screen showed FAILED and a number: FAILED -5 means its boot area is not M-Vave\'s (another bootloader, for example m-bootloader, is installed): put M-Vave\'s back with M-Flasher first. Any other number: switch the keyboard off and on and try again. Nothing was written.';
+// A device that restarts: wait (at most ms) until the browser reports its ports as gone. Opening a port whose device is
+// leaving the USB has hung Chrome's MIDI on Windows, so nothing is probed before that. Links without a `lost` flag (tests) skip it.
+async function gone(l,sleep,ms=15000){
+  if(typeof l?.lost!=='boolean')return;
+  const end=Date.now()+ms;while(Date.now()<end&&!l.lost)await sleep(100);
+}
+async function install({connect,sleep,report},pkg,product,say=()=>{},boardName='fm1') {
+  const board=BOARDS[boardName];if(!board)throw new U.UpdateError('Unknown board '+boardName);
   const loader='ota-'+product;
   let link=null;
-  async function find(want,tries){
+  // Poll for a keyboard whose identity satisfies `want`. The error says what was actually seen: a keyboard that
+  // answered as something else (and is not touched), or no port that answered at all.
+  async function find(want,tries,stage){
+    let seen=null;
     for(let i=0;i<tries;i++){
       const candidate=await connect();
-      if(candidate){const id=await U.identify(candidate,1);if(id && want(id)){return {link:candidate,id};}await candidate.close();}
+      if(candidate){const id=await U.identify(candidate,1);if(id){seen=id;if(want(id))return {link:candidate,id};}await candidate.close();}
       await sleep(500);
     }
-    throw Error('Expected '+board.label+' MIDI identity not found. UBOOT/dongle mode is not MIDI.');
+    const head='Expected '+board.label+' MIDI identity not found. ';
+    if(stage==='loader')throw new U.UpdateError(head+'The keyboard was told to start the updater but did not come back as one'+(seen?' (last seen: "'+seen.text+'")':' (no MIDI port answered)')+'. Unplug it, plug it in again, wait 10 seconds and use Check; if it still shows M-Vave\'s firmware, run the install again.');
+    if(stage==='final')throw new U.UpdateError(head+'The write finished, but the keyboard did not come back as Oscuro'+(seen?' (last seen: "'+seen.text+'")':' (no MIDI port answered)')+'. Unplug it, plug it in again and use Check before doing anything else; do not install again unless Check shows M-Vave\'s firmware.');
+    if(seen){const why=boardProblem(seen,boardName);throw new U.UpdateError(head+(why||'The keyboard says "'+seen.text+'", expected '+board.stock+' or later.'));}
+    const ports=report?report():'';
+    throw new U.UpdateError(head+'No MIDI port answered the identity query. Close other MIDI apps and DAWs and other tabs using MIDI, unplug the keyboard and plug it in again without holding any key (a keyboard in UBOOT or dongle mode is not MIDI), allow MIDI access in the browser, then try again.'+(ports?' Ports: '+ports:''));
   }
   try{
-    const first=await find(id=>id.text===board.stock||id.text===loader,1);link=first.link;
+    const first=await find(id=>id.text===loader||stockState(id.text,boardName)==='ok',6,'first');link=first.link;
     say('device',first.id.text);
-    if(first.id.text===board.stock){
-      await link.send(U.TRIGGER);await serve(link,pkg,VERIFY,say);await link.close();link=null;
-      say('restart','Waiting for RAM updater');await sleep(1500);
-      const next=await find(id=>id.text===loader,60);link=next.link;
+    if(first.id.text!==loader){
+      await link.send(U.TRIGGER);
+      try{await serve(link,pkg,VERIFY,say);}catch(e){if(/^No request/.test(e.message))throw new U.UpdateError(e.message+STEP1_HINT);throw e;}
+      const old=link;await link.close();link=null;
+      say('restart','Waiting for RAM updater');await gone(old,sleep);await sleep(1500);
+      const next=await find(id=>id.text===loader,60,'loader');link=next.link;
     }
-    await link.send(U.TRIGGER);await serve(link,pkg,WRITE,say);await link.close();link=null;
-    say('restart','Flash completed. Waiting for Oscuro');await sleep(1500);
-    const final=await find(id=>id.text===board.final,60);link=final.link;
+    await link.send(U.TRIGGER);await serve(link,pkg,WRITE,say);
+    const old=link;await link.close();link=null;
+    say('restart','Flash completed. Waiting for Oscuro');await gone(old,sleep);await sleep(1500);
+    // Any Oscuro identity counts: a flavour's own ID (docs: Firmware IDs) must not turn a good flash into an error.
+    const final=await find(id=>id.text===board.final||U.isOscuro(id),60,'final');link=final.link;
     say('done',`Installed ${final.id.text}`,1);
   }finally{if(link)await link.close();}
 }
@@ -3532,7 +3578,7 @@ async function rollback({connect,sleep},pkg,bridge,say=()=>{}){
   }finally{if(link)await link.close();}
 }
 
-return { timing, serve, BOARDS, install, crc32, stockRestore, rollback };
+return { timing, serve, BOARDS, stockState, boardProblem, gone, install, crc32, stockRestore, rollback };
 })();
 
 
@@ -3748,7 +3794,7 @@ function refresh() {
   const fm1 = U.isFM1(kb?.id);
   const fm1Ready = fm1 && kb?.fm1UpdateCapable;
   const firstFM1 = fm1 && FM1_BUNDLE && !fm1Ready;
-  const firstSMK = !!SMK_BUNDLE && kb?.id?.text === SMK_STOCK_ID;
+  const firstSMK = !!SMK_BUNDLE && F.stockState(kb?.id?.text, "smk37") === "ok";
   $("b-install").disabled = busy || !acksOk() || (!firstFM1 && !firstSMK && ((fm1 && !fm1Ready) || !checked["i-app"] || ($("i-stock").files.length > 0 && !checked["i-stock"])));
   $("b-revert").disabled = busy || (fm1 && !FM1_BUNDLE && !FM1_ROLLBACK) || !checked["r-stock"];
   $("b-handoff").disabled = busy || fm1 || !checked["r-stock"];
@@ -3783,6 +3829,7 @@ async function task(step, fn, guard = "") {
     show(step, 0);
     await fn();
   } catch (e) {
+    logln("error: " + (e && e.message));
     show(null, 0, failure(e), "bad");
   } finally {
     busy = false; refresh();
@@ -3816,30 +3863,77 @@ function linkFor(input, output) {
       const w = (m) => { clearTimeout(t); res(m); };
       waiters.push(w);
     }),
+    // The ports stay open: closing one while its device leaves the USB has hung Chrome's MIDI on Windows.
     close: async () => input.removeEventListener("midimessage", onmsg),
+    // true once the browser reports the device's ports as gone (it restarted): the installer waits for this before probing again
+    get lost() { return input.state === "disconnected" || output.state === "disconnected"; },
   };
 }
 
-// Every output/input pair with the same name, opened, as a link.
-async function* ports() {
+// ---- the log for a bug report: the ports probed, what answered, every installer step -----------------
+const LOG = [];
+function logln(text) { LOG.push(`${new Date().toISOString().slice(11, 19)} ${text}`); if (LOG.length > 400) LOG.shift(); }
+const logSay = (who, phase, text) => { console.info(who, phase, text); logln(`${who} ${phase}: ${text}`); };
+let lastScan = [];                       // one line per port of the latest probe, also put into the "no MIDI port answered" error
+const scanLine = (text) => { lastScan.push(text); logln("port " + text); };
+$("b-copylog").addEventListener("click", async () => {
+  const text = [`Oscuro installer log`, navigator.userAgent, ...LOG].join("\n");
+  try { await navigator.clipboard.writeText(text); $("b-copylog").textContent = "Copied"; }
+  catch { prompt("Copy this log:", text); }
+  setTimeout(() => { $("b-copylog").textContent = "Copy log"; }, 2000);
+});
+
+// A port that never finishes opening (Windows can leave one pending forever) ends the wait, not the install.
+const within = (p, ms, fallback) => { let t; return Promise.race([p, new Promise((r) => { t = setTimeout(() => r(fallback), ms); })]).finally(() => clearTimeout(t)); };
+const openPort = (port) => within(Promise.resolve().then(() => port.open()).then(() => true, () => false), 3000, "timeout");
+// a port name without its in / out part (Windows names a device's second port pair "MIDIIN2 (X)" / "MIDIOUT2 (X)")
+const portBase = (n) => n.replace(/^MIDI(?:IN|OUT)(\d*) \((.*)\)$/i, "$2 $1").replace(/[ -](?:in|out|input|output)$/i, "").trim().toLowerCase();
+const OUR_PORT = /fm-?1|smk|mke-p37|starry|elite|oscuro|keysmith|m-?vave|ota/i;
+
+// Every input/output pair that belongs together: the same name, else the same name without its in/out part, else the
+// only output there is. The ports that look like the keyboard's come first.
+async function portPairs() {
   const a = await midi();
-  for (const out of a.outputs.values()) {
-    const inp = [...a.inputs.values()].find((i) => i.name === out.name);
-    if (!inp) continue;
-    try { await out.open(); await inp.open(); } catch { continue; }
-    yield linkFor(inp, out);
+  lastScan = [];
+  const outs = [...a.outputs.values()].filter((o) => o.state !== "disconnected");
+  const pairs = [];
+  for (const inp of a.inputs.values()) {
+    if (inp.state === "disconnected") continue;
+    const name = inp.name || "(no name)";
+    const out = outs.find((o) => o.name === inp.name) || outs.find((o) => portBase(o.name || "") === portBase(inp.name || "")) || (outs.length === 1 ? outs[0] : null);
+    if (!out) { scanLine(`"${name}": no output of that name`); continue; }
+    pairs.push({ inp, out, name });
   }
+  return pairs.sort((x, y) => OUR_PORT.test(y.name) - OUR_PORT.test(x.name));
+}
+
+// Probe every pair at once and take the first whose `ask(link)` gives an answer (a truthy result). A slow or dead port (an
+// open can hang for 3 s, a query takes up to 2 s) no longer adds up over many MIDI devices: the scan takes as long as its
+// slowest port and ends as soon as one answers. The other links are closed again. Resolves null when none answers.
+async function probeAll(ask) {
+  const pairs = await portPairs();
+  if (!pairs.length) return null;
+  return new Promise((resolve) => {
+    let left = pairs.length, won = false;
+    const settle = () => { if (--left === 0 && !won) resolve(null); };
+    for (const { inp, out, name } of pairs) (async () => {
+      const oi = await openPort(inp), oo = oi === true ? await openPort(out) : oi;
+      if (oo !== true) { scanLine(`"${name}": ${oo === "timeout" ? "did not open within 3 s (replug the cable, close other MIDI apps)" : "cannot open (in use by another app?)"}`); return; }
+      const link = linkFor(inp, out);
+      const result = await ask(link);
+      scanLine(`"${name}": ${result ? "answered" + (result.text ? " " + result.text : "") : "no answer"}`);
+      if (result && !won) { won = true; resolve({ link, result }); return; }
+      await link.close();
+    })().catch((e) => logln(`port "${name}": ${e && e.message}`)).finally(settle);
+  });
 }
 
 // The keyboard's port for the update protocol: the first pair that answers the identity query.
 async function connect() {
-  for await (const link of ports()) {
-    if (await U.identify(link, 1)) return link;
-    await link.close();
-  }
-  return null;
+  const hit = await probeAll((link) => U.identify(link, 2));
+  return hit ? hit.link : null;
 }
-const transport = { connect, sleep: (ms) => new Promise((r) => setTimeout(r, ms)) };
+const transport = { connect, sleep: (ms) => new Promise((r) => setTimeout(r, ms)), report: () => lastScan.join("; ") };
 
 // The Bank list of the Patch tab: one entry per bank the keyboard reports (one when it
 // reports none); the choice is kept while the count stays the same.
@@ -3866,11 +3960,8 @@ $("p-bank").addEventListener("change", () => { bnameTouched = false; syncBankNam
 
 // keysmith's own port: the pair that answers CAPS (the config SysEx).
 async function connectKeysmith() {
-  for await (const link of ports()) {
-    const dev = await P.caps(link);
-    if (dev) return { link, dev };
-    await link.close();
-  }
+  const hit = await probeAll((link) => P.caps(link));
+  if (hit) return { link: hit.link, dev: hit.result };
   throw new A.AreaError("No keyboard running Oscuro answered. Check the cable, close other MIDI apps, and update Oscuro if it is older than 0.7.");
 }
 
@@ -3967,18 +4058,22 @@ async function check(link = null) {
       kb.map = kb.caps && (kb.caps.engine || kb.caps.store === 2) ? await P.readMap(link, undefined, undefined, kb.caps).catch(() => null) : null;
       return;
     }
-    for await (const l of ports()) {
+    const hit = await probeAll(async (l) => {
       const caps = await P.caps(l);
       const ident = caps ? await P.ident(l) : null;
-      if (caps || ident) { kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l), id: await U.identify(l, 1) };
-        if (U.isFM1(kb.id)) kb.fm1UpdateCapable = await U.fm1UpdateCapable(l);
-        if (caps) kb.engines = await P.engines(l);
-        if (caps) kb.bankNames = await P.readBankNames(l, caps).catch(() => null);
-        kb.map = caps && (caps.engine || caps.store === 2) ? await P.readMap(l, undefined, undefined, caps).catch(() => null) : null;
-        link = l; return; }
+      if (caps || ident) return { caps, ident };
       const id = await U.identify(l, 1);
-      await l.close();
-      if (id) { kb = { kind: U.isOscuro(id) ? "keysmith" : "stock", id }; return; }
+      return id ? { id } : null;
+    });
+    if (hit && hit.result.id) { await hit.link.close(); const id = hit.result.id; kb = { kind: U.isOscuro(id) ? "keysmith" : "stock", id }; return; }
+    if (hit) {
+      const l = hit.link, { caps, ident } = hit.result;
+      kb = { kind: "keysmith", caps, ident, area: await A.areaInfo(l), id: await U.identify(l, 1) };
+      if (U.isFM1(kb.id)) kb.fm1UpdateCapable = await U.fm1UpdateCapable(l);
+      if (caps) kb.engines = await P.engines(l);
+      if (caps) kb.bankNames = await P.readBankNames(l, caps).catch(() => null);
+      kb.map = caps && (caps.engine || caps.store === 2) ? await P.readMap(l, undefined, undefined, caps).catch(() => null) : null;
+      link = l; return;
     }
     kb = { kind: "none" };
   } finally {
@@ -4007,7 +4102,6 @@ async function fm1Bundle() {
   if(pkg.name!==FM1_BUNDLE.meta.product) throw Error("FM-1 package identity mismatch");
   return {pkg,bridge,boot:pkg.logical.subarray(pkg.flashOffset,pkg.flashOffset+0x4000)};
 }
-const SMK_STOCK_ID = "SMK-37 Elite_016";
 async function smkRun() {
   await task("Checking SMK-37 package", async () => {
     const decode = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -4017,7 +4111,7 @@ async function smkRun() {
     const pkg = U.parsePackage(raw);
     if (pkg.name !== SMK_BUNDLE.meta.product) throw Error("SMK-37 package identity mismatch");
     pkg.targetLength = 0xc0000;   // the type-201 entry runs to the end of the restored tail window
-    const say = (phase, text, f) => { console.info("SMK-37", phase, text); show(text, f ?? 0); };
+    const say = (phase, text, f) => { logSay("SMK-37", phase, text); show(text, f ?? 0); };
     await F.install(transport, pkg, SMK_BUNDLE.meta.product, say, "smk37");
     show(null, 1, "Finished. The keyboard has restarted.", "ok");
     kb = null; hints();
@@ -4036,7 +4130,7 @@ async function fm1PublicRollback() {
     const raw = await bytes($("r-stock").files[0]);
     const p = U.parsePackage(raw);
     const stock = F.stockRestore(raw, p.logical.slice(p.flashOffset, p.flashOffset + 0x4000));
-    const say = (phase, text, f) => { console.info("FM-1", phase, text); show(text, f ?? 0); };
+    const say = (phase, text, f) => { logSay("FM-1", phase, text); show(text, f ?? 0); };
     await F.rollback(transport, stock, bridge, say);
     show(null, 1, "Finished. The keyboard has restarted.", "ok");
     kb = null; hints();
@@ -4046,7 +4140,7 @@ async function fm1PublicRollback() {
 async function fm1Run(restore) {
   await task("Checking FM-1 package", async () => {
     const b=await fm1Bundle();
-    const say=(phase,text,f)=>{ console.info("FM-1",phase,text); show(text,f ?? 0); };
+    const say=(phase,text,f)=>{ logSay("FM-1",phase,text); show(text,f ?? 0); };
     if(restore) {
       const stock=F.stockRestore(await bytes($("r-stock").files[0]),b.boot);
       await F.rollback(transport,stock,b.bridge,say);
@@ -4064,11 +4158,11 @@ $("fm1-package").textContent=FM1_BUNDLE ? `FM-1 Viroid TI ${FM1_BUNDLE.meta.firm
 const SMK_FIRST_INSTALL = "SMK-37 Elite_901";
 const FM1_FIRST_INSTALL = "FM-1_9086008";   // the FM-1 package's loader id (the same one-pass loader, FM-1 flash map)
 async function firstInstall(pkg) {
-  if (kb?.id && U.isOscuro(kb.id)) throw Error("This keyboard already runs Oscuro. Use Install Oscuro to update its app; the complete image is for a keyboard on M-Vave's firmware.");
   const fm1 = pkg.name === FM1_FIRST_INSTALL;
-  if (fm1 !== !!U.isFM1(kb?.id)) throw Error(fm1 ? "This image is for the FM-1; the keyboard found is not one." : "This image is for the SMK-37; the keyboard found is an FM-1.");
+  const problem = F.boardProblem(kb?.id, fm1 ? "fm1" : "smk37");   // the exact stock file, or refuse before anything is sent
+  if (problem) throw new U.UpdateError(problem);
   if (!fm1) pkg.targetLength = pkg.logical.length;   // progress only
-  const say = (phase, text, f) => { console.info(fm1 ? "FM-1" : "SMK-37", phase, text); show(text, f ?? 0); };
+  const say = (phase, text, f) => { logSay(fm1 ? "FM-1" : "SMK-37", phase, text); show(text, f ?? 0); };
   if (fm1) await F.install(transport, pkg, FM1_FIRST_INSTALL, say);
   else await F.install(transport, pkg, SMK_FIRST_INSTALL, say, "smk37");
 }
@@ -4162,7 +4256,7 @@ async function install(makePackage, target = { engines: null, toOscuro: true }) 
 $("b-install").addEventListener("click", async () => {
   if (!acksOk()) return acksNag();
   if (!kb || kb.kind === "none") await task("Checking keyboard", () => check());
-  if (SMK_BUNDLE && kb?.id?.text === SMK_STOCK_ID) return smkRun();
+  if (SMK_BUNDLE && F.stockState(kb?.id?.text, "smk37") === "ok") return smkRun();
   if (U.isFM1(kb?.id)) {
     if (!kb.fm1UpdateCapable && FM1_BUNDLE) return fm1Run(false);
     // A stock file left in the picker must never enter the SMK repacker.
