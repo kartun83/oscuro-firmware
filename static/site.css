@@ -45,6 +45,16 @@ ul, ol { padding: 0; list-style: none; }
 .brand { display: flex; align-items: baseline; gap: 12px; font-weight: 800; letter-spacing: .3em; font-size: 13px; text-decoration: none; text-transform: uppercase; }
 .brand span { font-weight: 500; letter-spacing: .04em; text-transform: none; color: var(--muted); font-size: 13px; }
 .bar nav.desk { display: flex; gap: 28px; margin-left: auto; font-size: 14px; }
+.bar nav.prod { display: flex; gap: 4px; padding: 3px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; }
+.bar nav.prod a { padding: 6px 16px; border-radius: 999px; }
+.bar nav.prod a[aria-current] { background: rgba(255, 255, 255, .09); }
+.subbar { border-top: 1px solid var(--line); }
+.subbar .wrap { min-height: 44px; display: flex; align-items: center; }
+.subbar nav { display: flex; gap: 24px; font-size: 13px; overflow-x: auto; }
+.subbar a { color: var(--muted); text-decoration: none; padding: 12px 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+.subbar a:hover, .subbar a[aria-current] { color: var(--fg); }
+.subbar a[aria-current] { border-bottom-color: var(--accent); }
+.mob-h { padding: 10px 14px 2px; font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .bar nav a { color: var(--muted); text-decoration: none; transition: color .2s; }
 .bar nav a:hover, .bar nav a[aria-current] { color: var(--fg); }
 .bar .install { padding: 8px 20px; font-size: 14px; }
@@ -54,7 +64,7 @@ ul, ol { padding: 0; list-style: none; }
 .mob-list { position: absolute; right: 0; top: 44px; min-width: 200px; display: grid; padding: 8px; background: rgba(12, 12, 14, .96); border: 1px solid var(--line); border-radius: 16px; }
 .mob-list a { padding: 12px 14px; text-decoration: none; border-radius: 10px; }
 .mob-list a:hover { background: var(--panel); }
-@media (max-width: 820px) { .bar nav.desk { display: none; } .bar .install { margin-left: auto; } .brand span { display: none; } .bar .wrap { gap: 14px; } .mob { display: block; } }
+@media (max-width: 820px) { .bar nav.desk { display: none; } .bar nav.prod a { padding: 6px 12px; } .bar .install { margin-left: auto; } .brand span { display: none; } .bar .wrap { gap: 14px; } .mob { display: block; } }
 
 /* buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); transition: transform .25s var(--ease), box-shadow .25s, background .25s, border-color .25s; }
