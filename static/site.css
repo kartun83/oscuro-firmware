@@ -326,3 +326,7 @@ footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 40px 0 56
 .ai-more { border-top: 1px solid var(--line); padding: 14px 0; }
 .ai-more > summary { cursor: pointer; font-weight: 600; }
 .ai-more[open] > summary { margin-bottom: 12px; }
+.next-card.has-shot { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.next-card .more { margin-top: 24px; }
+.next-shot { width: 100%; max-width: 360px; height: auto; aspect-ratio: 1; justify-self: center; padding: 12px; border-radius: 24px; background: linear-gradient(180deg, #17171b, #08080a); border: 1px solid var(--line); box-shadow: 0 40px 80px -30px #000, 0 0 100px -30px rgba(255, 106, 31, .25); }
+@media (max-width: 760px) { .next-card.has-shot { grid-template-columns: 1fr; } }
