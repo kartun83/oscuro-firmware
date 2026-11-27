@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Script settings · Oscuro DAW manual</title>
+<meta name="description" content="FL has no settings panel for scripts. The settings are in oscfl_settings.py in the script&#x27;s folder: open it in a text editor, change a value, save, and reload the script (Options → MIDI settings → Update MIDI scripts, or restart FL).">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Script settings · Oscuro DAW manual">
+<meta property="og:description" content="FL has no settings panel for scripts. The settings are in oscfl_settings.py in the script&#x27;s folder: open it in a text editor, change a value, save, and reload the script (Options → MIDI settings → Update MIDI scripts, or restart FL).">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-settings/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-settings/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · Reference</p>
+  <h1><span class="ch-num">16</span> Script settings</h1>
+  <p class="lead">FL has no settings panel for scripts. The settings are in <code>oscfl_settings.py</code> in the script's folder: open it in a text editor, change a value, save, and reload the script (<em>Options → MIDI settings → Update MIDI scripts</em>, or restart FL).</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../fl-device/">8. Device view</a></li>
+    <li><a href="../fl-pads/">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="../fl-mixer/">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="./" aria-current="page">16. Script settings</a></li>
+    <li><a href="../fl-troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <div class="tbl"><table><thead><tr><th>Setting</th><th>Default</th><th>Does</th></tr></thead><tbody><tr><td><code>seq_views</code></td><td><code>True</code></td><td><kbd>SEQ</kbd> changes the views. <code>False</code> gives <kbd>SEQ</kbd> back to the keyboard's step sequencer</td></tr><tr><td><code>soft_takeover</code></td><td><code>True</code></td><td>Faders pick up the value. <code>False</code>: the value jumps to the fader</td></tr><tr><td><code>accent</code></td><td><code>'fl'</code></td><td>The script's green accent on the screen. <code>'off'</code> keeps your own (<strong>Globe → System → Accent</strong>)</td></tr><tr><td><code>fine</code></td><td><code>False</code></td><td>256 knob steps per range instead of 128 (<kbd>Oct-</kbd> or the Shift pad always gives 1024)</td></tr><tr><td><code>follow_window</code></td><td><code>True</code></td><td>FL's mixer window gaining the focus opens the Mixer view; another FL window (channel rack, playlist, piano roll, plugin) taking it leaves the Mixer view for Device. <code>False</code>: the views change only with <kbd>SEQ</kbd>. The Mixer always follows the selected insert</td></tr><tr><td><code>pad_map</code></td><td>the Overview's transport</td><td>What the bottom row of pad bank B does per view. <code>{'overview': ['Stop', 'Play', 'Rec', 'Song', 'Loop rec', 'Metro', 'Marker &lt;', 'Marker &gt;']}</code>. Names: Stop, Play, Rec, Song, Loop rec, Metro, Countdown, Step edit, Marker &lt;, Marker &gt;, Marker +, Undo, Redo, Capture, Tap; <code>''</code> is a dark pad. A view that is not listed keeps its pad mode's row; an unknown name is a dark pad and one line in FL's <em>Script output</em></td></tr><tr><td><code>flush_budget</code></td><td><code>300</code></td><td>Bytes sent to the keyboard per pass. Use about <strong>120 over Bluetooth</strong>; lower it if the keyboard says <em>Host lost</em></td></tr></tbody></table></div>
+    <p class="pager"><a href="../fl-workflows/">← Shape, mix, program, perform, navigate</a><a class="next" href="../fl-troubleshooting/">Troubleshooting →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

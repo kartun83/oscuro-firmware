@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pad modes: steps, channels, patterns, performance, routing · Oscuro DAW manual</title>
+<meta name="description" content="Pad bank B is where FL Studio shines on this keyboard: its step sequencer, the channel rack, patterns, performance mode and the mixer&#x27;s routing are each one chord away. Pad bank A keeps playing notes into the selected channel.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Pad modes: steps, channels, patterns, performance, routing · Oscuro DAW manual">
+<meta property="og:description" content="Pad bank B is where FL Studio shines on this keyboard: its step sequencer, the channel rack, patterns, performance mode and the mixer&#x27;s routing are each one chord away. Pad bank A keeps playing notes into the selected channel.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-pads/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-pads/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · Views</p>
+  <h1><span class="ch-num">9</span> Pad modes: steps, channels, patterns, performance, routing</h1>
+  <p class="lead">Pad bank B is where FL Studio shines on this keyboard: its step sequencer, the channel rack, patterns, performance mode and the mixer's routing are each one chord away. Pad bank A keeps playing notes into the selected channel.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../fl-device/">8. Device view</a></li>
+    <li><a href="./" aria-current="page">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="../fl-mixer/">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="../fl-settings/">16. Script settings</a></li>
+    <li><a href="../fl-troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="picking-a-mode">Picking a mode</h2>
+<p>Hold <kbd>Oct-</kbd> and tap a bottom-row pad (9-16); hold the Shift pad to see the eight modes lit, the current one bright. The mode stays when you change views. The screen names the new mode, for example <em>Pads: Steps of Kick</em>.</p>
+<div class="tbl"><table><thead><tr><th><kbd>Oct-</kbd> + pad</th><th>Mode</th><th>Top row (1-8)</th><th>Bottom row (9-16)</th></tr></thead><tbody><tr><td>9</td><td><strong>Steps</strong></td><td>steps 1-8</td><td>steps 9-16</td></tr><tr><td>10</td><td><strong>Channels</strong></td><td>select 8 channels</td><td>mute them</td></tr><tr><td>11</td><td><strong>Patterns</strong></td><td>patterns 1-8</td><td>patterns 9-16</td></tr><tr><td>12</td><td><strong>Mute</strong></td><td>select 8 inserts</td><td>mute</td></tr><tr><td>13</td><td><strong>Solo</strong></td><td>select 8 inserts</td><td>solo</td></tr><tr><td>14</td><td><strong>Arm</strong></td><td>select 8 inserts</td><td>record arm</td></tr><tr><td>15</td><td><strong>Perform</strong></td><td>8 playlist tracks, this block</td><td>the next block</td></tr><tr><td>16</td><td><strong>Route</strong></td><td>select 8 inserts</td><td>sends from the selected insert</td></tr></tbody></table></div>
+<p><strong>Shift pad + <kbd>Left</kbd> / <kbd>Right</kbd></strong> turns the page: steps by 16, channels by 8, patterns by 16, performance blocks by one.</p>
+<p><strong>Pad names.</strong> Hold <kbd>Oct-</kbd> with <em>Settings → Display → Hints</em> on (firmware 0.90.8) and the keyboard names every pad by what a <strong>plain tap</strong> does now: in Steps the step number (blank beyond the pattern's length), in Channels, Mute, Solo, Arm and Route the channel or insert names in their colours with <em>Mute</em>, <em>Solo</em>, <em>Arm</em> or <em>Route</em> under them, in Patterns the pattern names (an empty slot reads <em>New</em>), in Perform the playlist track names (blank while performance mode is off). With Hints off nothing shows and the pads work as always.</p>
+<p><strong>In the Overview the bottom row is the transport</strong> (Stop, Play, Rec, Song, Loop rec, Metro, Marker &lt;, Marker &gt;) whatever the mode; the top row stays the mode's top row, and <kbd>Oct-</kbd> + a bottom pad still picks the mode (<em>Overview</em>).</p>
+<h2 id="steps">Steps</h2>
+<p>The sixteen pads are sixteen steps of the <strong>selected channel</strong> in the <strong>current pattern</strong>, FL's step sequencer: lit in the channel's colour where a step is set, dim where it is empty (each beat a little brighter), white for the step playing now. The status bar shows <strong>Steps 1-16/16</strong>.</p>
+<div class="tbl"><table><thead><tr><th>Control</th><th>Does</th></tr></thead><tbody><tr><td>Tap an empty step</td><td>Set it</td></tr><tr><td>Tap a set step and let go</td><td>Clear it (unless you turned a knob while holding it)</td></tr><tr><td>Hold a step, turn K1</td><td>Velocity</td></tr><tr><td>K2</td><td>Release velocity</td></tr><tr><td>K3</td><td>Fine pitch</td></tr><tr><td>K4</td><td>Pan</td></tr><tr><td>K5 / K6</td><td>Mod X / Mod Y</td></tr><tr><td>K7</td><td>Shift (a small delay)</td></tr><tr><td>K8</td><td>Note</td></tr></tbody></table></div>
+<p>Pick another channel (Channels mode, the Overview's K7, or the mouse) and the pads show its steps. Longer patterns have more pages.</p>
+<h2 id="channels">Channels</h2>
+<p>The channel rack is your drum kit: the top row selects eight channels (lit in their colours, the selected one bright), the bottom row mutes them. Select a channel here, then switch to Steps to program it, or play it on pad bank A.</p>
+<h2 id="patterns">Patterns</h2>
+<p>Sixteen patterns: the current one bright, patterns with content dim, empty ones nearly dark. A tap selects that pattern; an empty pad makes a new pattern there.</p>
+<h2 id="mute-solo-arm">Mute, Solo, Arm</h2>
+<p>The top row selects one of eight mixer inserts (in their colours), the bottom row toggles its mute, solo or record arm. <kbd>Oct-</kbd> + pads 1 / 2 move to the previous / next eight inserts.</p>
+<h2 id="perform">Perform</h2>
+<p>FL's <strong>performance mode</strong> on the pads: eight playlist tracks across, the current block on the top row and the next block on the bottom row. Turn performance mode on in the playlist first; until then the pads stay dark and the screen says so.</p>
+<div class="tbl"><table><thead><tr><th>Pad</th><th>Light</th><th>Tap</th><th>Hold half a second</th></tr></thead><tbody><tr><td>a clip</td><td>dim in its colour</td><td>launch it</td><td>stop the track</td></tr><tr><td>playing</td><td>bright</td><td></td><td></td></tr><tr><td>about to start</td><td>pulsing</td><td></td><td></td></tr></tbody></table></div>
+<h2 id="route">Route</h2>
+<p>The bottom row shows where the <strong>selected insert</strong> sends: lit where it routes to that insert. A tap adds or removes the route, as FL's mixer does when you click a route switch. The selected insert's own pad stays dark.</p>
+    <p class="pager"><a href="../fl-device/">← Device view</a><a class="next" href="../fl-mixer/">Mixer view →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

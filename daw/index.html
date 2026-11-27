@@ -4,18 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Oscuro DAW · Harmony Helper and controller for your DAW</title>
-<meta name="description" content="The DAW build sends MIDI to your DAW and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.">
+<meta name="description" content="The DAW build turns the keyboard into a controller for Bitwig Studio, Ableton Live and FL Studio, over USB or Bluetooth, and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#060607">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
 <meta property="og:title" content="Oscuro DAW · Harmony Helper and controller for your DAW">
-<meta property="og:description" content="The DAW build sends MIDI to your DAW and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.">
+<meta property="og:description" content="The DAW build turns the keyboard into a controller for Bitwig Studio, Ableton Live and FL Studio, over USB or Bluetooth, and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.">
 <link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/">
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/daw/">
-<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/daw/">
 <link rel="preload" href="../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../static/fonts.css">
 <link rel="stylesheet" href="../static/site.css">
@@ -34,7 +32,7 @@
     <a href="../support/">Support</a>
   </nav>
   <a class="btn primary install" href="../install/">Install</a>
-  <span class="lang"><a href="./" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../es/daw/" hreflang="es" lang="es" title="Español">ES</a></span>
+  
   <details class="mob"><summary>Menu</summary>
     <div class="mob-list"><p class="mob-h">Viroid</p><a href="../">Overview</a><a href="../sound/">Sound</a><a href="../rack/">Rack</a><a href="../play/">Play</a><a href="../specs/">Specs</a>
     <p class="mob-h">DAW</p><a href="./">DAW</a>
@@ -46,7 +44,7 @@
 <header class="page-head"><div class="wrap">
   <p class="kicker">DAW</p>
   <h1>A chord partner for your DAW.</h1>
-  <p class="lead">The DAW build sends MIDI to your DAW and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.</p>
+  <p class="lead">The DAW build turns the keyboard into a controller for Bitwig Studio, Ableton Live and FL Studio, over USB or Bluetooth, and adds the Harmony Helper: pads that suggest the next chord, name what you play and show which notes fit. The sound comes from your DAW.</p>
 </div></header>
 <section class="dd"><div class="wrap dd-grid">
   <div class="dd-copy reveal"><p class="kicker">Harmony Helper</p><h2>Pads that know what comes next.</h2><p>Hold PATCH and the sixteen pads become a chord board. Play a chord and seven pads offer the chords that tend to follow it, coloured by how well they fit: green is safe, orange explores, violet borrows from outside the scale. The bottom row keeps the chords of your scale within reach.</p>
@@ -67,22 +65,34 @@
   <div class="dd-shots reveal" aria-hidden="true"><img src="../static/screens/harmony_memory.webp" alt="" width="960" height="960" loading="lazy"><img src="../static/screens/harmony_comp.webp" alt="" width="960" height="960" loading="lazy"><img src="../static/screens/harmony_bass.webp" alt="" width="960" height="960" loading="lazy"></div>
 </div></section>
 <section class="dd flip"><div class="wrap dd-grid">
-  <div class="dd-copy reveal"><p class="kicker">Controller</p><h2>Plays with your DAW, not around it.</h2><p>Under the helper sits a full controller: keys, pads, knobs, faders, wheels and buttons as MIDI, with presets you edit in a browser. With M-Vave&#x27;s own DAW script it works as before. A script that speaks Oscuro&#x27;s protocol gets more: pad colours from your clips, the track name on the display, knobs that report how fast they turn, a Shift pad, and a scale and tempo you share with the session.</p>
-    <ul class="plain"><li>USB Ports can be split in three: keys, pads and the DAW link each get their own port, so keys and pads record to different tracks.</li><li>A Bluetooth variant of the build is available as a test feature, tried with a Mac only.</li><li>Pad response, knob curve and speed, and wheel calibration are settings.</li></ul>
+  <div class="dd-copy reveal"><p class="kicker">Controller</p><h2>Plays with your DAW, not around it.</h2><p>Under the helper sits a full controller: keys, pads, knobs, faders, wheels and buttons as MIDI, with presets you edit in a browser. With the Oscuro scripts for Bitwig Studio, Ableton Live and FL Studio the knobs follow the device you are working on, the faders mix, the pads select, mute and launch, and the screen shows four views of your project: Device, Mixer, Overview and Browser. The scripts also give pad colours from your clips, the track name on the display, a Shift pad, and a scale and tempo you share with the session. M-Vave&#x27;s own DAW script keeps working too.</p>
+    <ul class="plain"><li>USB Ports can be split in three: keys, pads and the DAW link each get their own port, so keys and pads record to different tracks.</li><li>Bluetooth LE MIDI is built in next to USB, so the keyboard can work without a cable to the computer. It has been tried with a Mac only.</li><li>Pad response, knob curve and speed, and wheel calibration are settings.</li></ul>
   </div>
   <div class="dd-shots reveal" aria-hidden="true"><img src="../static/screens/daw_track.webp" alt="" width="960" height="960" loading="lazy"></div>
 </div></section>
 
+<section id="downloads"><div class="wrap">
+  <h2 class="h-sm spec-h">Download without the whole package</h2>
+  <p class="plain-p">Everything the DAW build needs, as separate files. The links below always point to the newest version, and the file names carry no version, so you can link to them.</p>
+  <h3 class="spec-h">Complete image for the keyboard · 0.90</h3>
+  <ul class="banklist"><li><span class="bn">DAW Controller with Bluetooth, SMK-37 Elite</span><span class="chip">.fwsc</span><span class="sz">1.4 MB</span><a class="btn ghost" href="../downloads/latest/oscuro-daw-bluetooth-elite.fwsc" download>Download</a></li><li><span class="bn">DAW Controller with Bluetooth, SMK-37 Pro</span><span class="chip">.fwsc</span><span class="sz">1.4 MB</span><a class="btn ghost" href="../downloads/latest/oscuro-daw-bluetooth-pro.fwsc" download>Download</a></li></ul>
+  <p class="note">A complete image installs on a keyboard that still runs M-Vave&#x27;s firmware, or starts over on one that already runs Oscuro. Open it in the web installer; it needs no M-Vave file. The installer checks that the file matches your keyboard before anything is written.</p>
+  <h3 class="spec-h">DAW scripts · 0.90</h3>
+  <ul class="banklist"><li><span class="bn">Bitwig Studio</span><span class="chip">.zip</span><span class="sz">0.5 MB</span><a class="btn ghost" href="../downloads/latest/oscuro-bitwig-script.zip" download>Download</a></li><li><span class="bn">Ableton Live</span><span class="chip">.zip</span><span class="sz">0.5 MB</span><a class="btn ghost" href="../downloads/latest/oscuro-ableton-script.zip" download>Download</a></li><li><span class="bn">FL Studio</span><span class="chip">.zip</span><span class="sz">0.4 MB</span><a class="btn ghost" href="../downloads/latest/oscuro-flstudio-script.zip" download>Download</a></li></ul>
+  <p class="note">One zip per DAW: the script folder and that DAW&#x27;s manual as a PDF. The manual is also online, with a book for each DAW.</p>
+  <p class="more"><a class="btn ghost" href="manual/">Read the DAW manual</a></p>
+</div></section>
 <section><div class="wrap">
   <h2 class="h-sm spec-h">Good to know</h2>
-  <ul class="note ack"><li>The sound comes from your DAW. This build has no synth patches and no effects rack; a small built-in test voice sounds from the keys and pads and cannot be switched off.</li><li>The chord memory is not saved: it is lost when the keyboard restarts. Strum and Humanize in the helper are stored but do not shape the notes yet.</li><li>No ready-made script for Oscuro&#x27;s own protocol is included yet. Any DAW works with plain MIDI, and M-Vave&#x27;s own script keeps working.</li><li>For the SMK-37 and compatible models. Pick “DAW Controller”, or the Bluetooth variant, in the installer.</li></ul>
+  <ul class="note ack"><li>The sound comes from your DAW. This build has no synth patches and no effects rack; a small built-in test voice sounds from the keys and pads and cannot be switched off.</li><li>The chord memory is not saved: it is lost when the keyboard restarts. Strum and Humanize in the helper are stored but do not shape the notes yet.</li><li>The Bitwig script is the oldest. The Ableton Live and FL Studio scripts are new and have had only a short test with a keyboard, so expect rough edges and tell us what you find.</li><li>For the SMK-37 Elite and Pro. Pick “DAW Controller with Bluetooth” in the installer. The complete image for the Pro has not been tried on a Pro yet. The Elite image has.</li></ul>
+  <p class="more"><a class="btn ghost" href="manual/">Read the DAW manual</a></p>
 </div></section>
 <section class="closer"><div class="wrap"><p class="reveal"><a class="btn primary big" href="../install/">Install</a></p></div></section>
 </article>
 
 </main>
 <footer><div class="wrap foot">
-  <span class="foot-brand">Oscuro 0.89</span>
+  <span class="foot-brand">Oscuro 0.90</span>
   <span class="foot-links"><a href="../install/">Install</a><a href="./">DAW build</a><a href="../specs/">Specs</a><a href="../changelog/">Changelog</a><a href="../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../support/">Support</a></span>
 </div>
 <div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>

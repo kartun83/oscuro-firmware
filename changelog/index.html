@@ -14,8 +14,6 @@
 <meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/changelog/">
 <meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="alternate" hreflang="en" href="https://kartun83.github.io/oscuro-firmware/changelog/">
-<link rel="alternate" hreflang="es" href="https://kartun83.github.io/oscuro-firmware/es/changelog/">
 <link rel="preload" href="../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../static/fonts.css">
 <link rel="stylesheet" href="../static/site.css">
@@ -34,7 +32,7 @@
     <a href="../support/">Support</a>
   </nav>
   <a class="btn primary install" href="../install/">Install</a>
-  <span class="lang"><a href="./" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../es/changelog/" hreflang="es" lang="es" title="Español">ES</a></span>
+  
   <details class="mob"><summary>Menu</summary>
     <div class="mob-list"><p class="mob-h">Viroid</p><a href="../">Overview</a><a href="../sound/">Sound</a><a href="../rack/">Rack</a><a href="../play/">Play</a><a href="../specs/">Specs</a>
     <p class="mob-h">DAW</p><a href="../daw/">DAW</a>
@@ -51,6 +49,13 @@
 </div></header>
 <section><div class="wrap">
 
+  <article class="release">
+    <header><h2>0.90</h2><p class="meta">2026-11-27 · covers 0.90.0 to 0.90.10 · 11 updates</p></header>
+    <div class="rel-block"><h3>Highlights</h3><ul class="hl"><li>DAW Controller: scripts for Bitwig Studio, Ableton Live and FL Studio, and four views of your project on the keyboard&#x27;s screen (Device, Mixer, Overview, Browser)</li><li>The DAW Controller is now published only as the Bluetooth build; it works over USB as before</li><li>Complete images for the SMK-37 Elite and SMK-37 Pro, so a keyboard on M-Vave&#x27;s firmware can install it in one step (the Pro image has not yet been tried on a Pro)</li></ul></div>
+    <details class="rel-block" open><summary><h3>New <span>4</span></h3></summary><h4 class="grp">MIDI, clock and tempo <span>(1)</span></h4><ul><li>DAW integration v1 for Bitwig Studio 6.1 and Ableton Live 12 (mixer, overview, browser views, device and drum pads, a 16-step sequencer with key lanes), now also over Bluetooth MIDI; the host scripts pace what they send, against &quot;Host lost&quot; on busy projects (not yet tried in a DAW).</li></ul><h4 class="grp">DAW controller and harmony <span>(2)</span></h4><ul><li>DAW Overview pad bank B bottom row is the transport (stop, play, rec, loop, metronome, cue previous / next / add; list in the script&#x27;s oscuro_pads.config.js), and holding Oct- with Hints on shows the 16 pad names in their colours; Bitwig script 1.0.3</li><li>in the DAW build a turned knob shows its name and value on the Device page line for about 1.5 s, and the status bar says NO HOST in red while no DAW script is talking</li></ul><h4 class="grp">Settings, editor and system <span>(1)</span></h4><ul><li>the web installer takes a complete image built for the SMK-37 Pro (first install from M-Vave&#x27;s firmware, apps past the stock slot); the Elite and Pro images are told apart before anything is sent. Not yet tried on a Pro</li></ul></details>
+    <details class="rel-block"><summary><h3>Improved <span>3</span></h3></summary><h4 class="grp">MIDI, clock and tempo <span>(2)</span></h4><ul><li>the DAW Controller is now published only as the Bluetooth build (USB works the same in it); no separate wired-only image</li><li>DAW screens redesigned: Device shows the remote pages left and right of the current one (Bitwig), the Mixer shows 4 strips with two-line names (8 in Settings → DAW &amp; USB → Mixer Strips), Overview puts the tempo on the right, the Browser shows its filters as name over value, and a bottom bar shows the track&#x27;s M/S/R, position and tempo. Bitwig script 1.0.1.</li></ul><h4 class="grp">DAW controller and harmony <span>(1)</span></h4><ul><li>the DAW build&#x27;s settings leave out what needs a synth: no Synthesizer, Patch Arp, USB Prog In or Bank B Knobs / Faders (bank B belongs to the DAW script, or sends its preset controllers).</li></ul></details>
+    <details class="rel-block fixes"><summary><h3>Fixed <span>5</span></h3></summary><h4 class="grp">MIDI, clock and tempo <span>(3)</span></h4><ul><li>ARP and Globe shortcut keys were one key too high: Up is the lowest key, TAP is the 12th, Gate/Swing/Tempo are +/- in that order, Globe CHN1 is the lowest key; the lowest key no longer toggles ARP</li><li>DAW: the Browser follows a fast turn on a long list at once, Oct- + K8 sets the tempo in the Overview, Left / Right turn the Harmony carousel when Harmony is on, the bottom bar shows the tempo with two decimals and NO HOST under the played key, and a fader waiting for pick-up shows an arrow</li><li>the DAW link over Bluetooth no longer drops to &quot;Host lost&quot; and back while you turn a knob fast.</li></ul><h4 class="grp">DAW controller and harmony <span>(1)</span></h4><ul><li>Oct- hint shows the usual shortcut rows again when the DAW host (Ableton) sends no pad names</li></ul><h4 class="grp">Settings, editor and system <span>(1)</span></h4><ul><li>the web installer finds a keyboard on M-Vave&#x27;s stock firmware again (0.90.0 said &quot;No SMK-37 found&quot;).</li></ul></details>
+  </article>
   <article class="release">
     <header><h2>0.89</h2><p class="meta">2026-11-20 · covers 0.88.1 to 0.89.2 · 13 updates</p></header>
     
@@ -84,7 +89,7 @@
 
 </main>
 <footer><div class="wrap foot">
-  <span class="foot-brand">Oscuro 0.89</span>
+  <span class="foot-brand">Oscuro 0.90</span>
   <span class="foot-links"><a href="../install/">Install</a><a href="../daw/">DAW build</a><a href="../specs/">Specs</a><a href="./">Changelog</a><a href="../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../support/">Support</a></span>
 </div>
 <div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>

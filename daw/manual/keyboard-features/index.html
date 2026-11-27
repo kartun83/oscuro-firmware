@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scale, Chord, Arp, Note Repeat, sequencer, clock · Oscuro DAW manual</title>
+<meta name="description" content="The DAW builds keep the keyboard&#x27;s own performance features. They work the same in a DAW session: they change the notes the keys and pads send, and the DAW records the result.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Scale, Chord, Arp, Note Repeat, sequencer, clock · Oscuro DAW manual">
+<meta property="og:description" content="The DAW builds keep the keyboard&#x27;s own performance features. They work the same in a DAW session: they change the notes the keys and pads send, and the DAW records the result.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/keyboard-features/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/keyboard-features/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../">Viroid</a>
+    <a href="../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../changelog/">Changelog</a>
+    <a href="../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../">Overview</a><a href="../../../sound/">Sound</a><a href="../../../rack/">Rack</a><a href="../../../play/">Play</a><a href="../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../changelog/">Changelog</a><a href="../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">DAW manual</a> · The keyboard&#x27;s own features</p>
+  <h1>Scale, Chord, Arp, Note Repeat, sequencer, clock</h1>
+  <p class="lead">The DAW builds keep the keyboard's own performance features. They work the same in a DAW session: they change the notes the keys and pads send, and the DAW records the result.</p>
+  <p class="more"><a class="btn ghost" href="../bitwig/oscuro-bitwig-manual.pdf" download>Download the Bitwig PDF</a> <span class="note">PDF, 0.5 MB</span> <a class="btn ghost" href="../live/oscuro-live-manual.pdf" download>Download the Live PDF</a> <span class="note">PDF, 0.5 MB</span> <a class="btn ghost" href="../flstudio/oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker">Two books</p><ul>
+    <li><a href="../bitwig/">Oscuro for Bitwig Studio</a></li>
+    <li><a href="../live/">Oscuro for Ableton Live</a></li>
+    <li><a href="../flstudio/">Oscuro for FL Studio</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">This chapter is the same in both books: <a href="../bitwig/">Oscuro for Bitwig Studio</a> <a href="../live/">Oscuro for Ableton Live</a> <a href="../flstudio/">Oscuro for FL Studio</a></p>
+    <h2 id="how-the-buttons-work">How the buttons work</h2>
+<p>Most of these buttons share one pattern: <strong>tap</strong> opens the list, <strong>hold</strong> switches the mode on or off. In a list, K1 picks a row, K2 changes it, K3 pages, <kbd>Left</kbd> goes back. While a list is open it has the knobs and <kbd>Left</kbd> / <kbd>Right</kbd>; the DAW gets them back when it closes.</p>
+<h2 id="scale">Scale</h2>
+<p>Tap <kbd>SCALE</kbd>: K1 Base, K2 Scale, K3 Fix, K4 Shift. Hold <kbd>SCALE</kbd> to switch it on or off. With it on, the keys are pulled into the scale; <strong>Fix</strong> decides what a key outside it does (Down, Up, Near, or Filter it out). Make your own <strong>User 1-4</strong> scales by tapping keys on the SCALE list. The Harmony Helper uses the same scale.</p>
+<h2 id="chord">Chord</h2>
+<p>Tap <kbd>CHORD</kbd>: Chord (Maj, Min, Dim, Aug), Type (Triad to 13th), Voicing (Fixed or in the Scale). Hold <kbd>CHORD</kbd> to switch it on or off. With it on, each key plays a whole chord.</p>
+<h2 id="arpeggiator">Arpeggiator</h2>
+<p>Tap <kbd>ARP</kbd> for its list; hold it for 0.6 s to switch it on or off. Its sections, reached with <kbd>Left</kbd> / <kbd>Right</kbd>: <strong>ARP</strong>, <strong>RHYTHM</strong> (Euclidean), <strong>EVOLVE</strong>, <strong>STRUM</strong>, <strong>HUMAN</strong>. Hold <kbd>ARP</kbd> and turn K1-K8 to edit without opening the list (the knobs are the keyboard's while you hold it).</p>
+<h2 id="note-repeat">Note Repeat</h2>
+<p>Hold <kbd>NOTE REPEAT</kbd> and turn K1-K5 (Gate, Swing, Tempo, Rate, Latch); tap it to switch on or off. Pads then repeat while held, for drum rolls into the DAW.</p>
+<h2 id="step-sequencer">Step sequencer</h2>
+<p>Seq1, Seq2 (melodic) and Drum (14 lanes), each with 8 patterns of up to 64 steps. In a DAW session <kbd>SEQ</kbd>, <kbd>SEQ PLAY</kbd> and <kbd>SEQ REC</kbd> belong to the DAW. To use the sequencer from <kbd>SEQ</kbd>, give <kbd>SEQ</kbd> back to the keyboard in the script's settings (see <em>When the keyboard's own pages take over</em>). Projects are kept in memory only and are lost at restart. The sequencer has not been run on a unit yet.</p>
+<h2 id="tempo-and-clock">Tempo and clock</h2>
+<p>All timed features (arpeggiator, Note Repeat, sequencer, Harmony replay and bass pattern) run from one clock.</p>
+<ul><li><strong>The keyboard leads</strong> (<em>Globe → MIDI → Clock: Internal</em>): its own tempo. In a DAW session <kbd>Oct-</kbd> + K8 sets <strong>the DAW's</strong> tempo instead (see <em>Controls that work in every view</em>); set the keyboard's own tempo on the ARP or NOTE REPEAT page.</li><li><strong>The DAW leads</strong> (<em>Clock: USB</em> or <em>Auto</em>): send MIDI clock from the DAW to the keyboard's port (Live: <em>Sync</em> on for the keyboard's output port; FL Studio: <em>Send master sync</em> on the keyboard's output in <em>MIDI settings</em>), and the arpeggiator and the rest follow the DAW's tempo, start and stop. The status bar shows <code>E</code> and the tempo while it follows. Over Bluetooth use <em>Clock: BLE</em>; the tempo settles after about four beats.</li><li><strong>TAP</strong>, where a preset binds it, taps the DAW's tempo while the script is connected.</li></ul>
+<h2 id="other-settings-worth-knowing">Other settings worth knowing</h2>
+<div class="tbl"><table><thead><tr><th>Where</th><th>What</th></tr></thead><tbody><tr><td>Globe → Physical Controls → Pads</td><td>Pad Thresh, Pad Sens, Pad Wait (how the pads respond), Shift Pad, Perform Layer</td></tr><tr><td>Globe → Physical Controls</td><td>Knob Curve and Knob Speed (how a fast turn behaves), Wheels (calibration)</td></tr><tr><td>Globe → System</td><td>Pad LEDs, Accent, Pad Colours, Save Delay</td></tr><tr><td>Globe → DAW &amp; USB</td><td>USB Ports, USB Audio (the test voice as a sound card; leave it off unless you need it)</td></tr></tbody></table></div>
+<p>The <strong>preset editor</strong> (<code>oscuro-editor.html</code>) edits what every control sends when no script owns it. Close your DAW before connecting it.</p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../install/">Install</a><a href="../../">DAW build</a><a href="../../../specs/">Specs</a><a href="../../../changelog/">Changelog</a><a href="../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

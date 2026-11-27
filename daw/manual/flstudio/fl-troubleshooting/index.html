@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting · Oscuro DAW manual</title>
+<meta name="description" content="Most problems come down to which firmware is running, which ports the script uses, or a keyboard page holding the controls. Start at the top.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Troubleshooting · Oscuro DAW manual">
+<meta property="og:description" content="Most problems come down to which firmware is running, which ports the script uses, or a keyboard page holding the controls. Start at the top.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-troubleshooting/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-troubleshooting/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · Reference</p>
+  <h1><span class="ch-num">17</span> Troubleshooting</h1>
+  <p class="lead">Most problems come down to which firmware is running, which ports the script uses, or a keyboard page holding the controls. Start at the top.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../fl-device/">8. Device view</a></li>
+    <li><a href="../fl-pads/">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="../fl-mixer/">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="../fl-settings/">16. Script settings</a></li>
+    <li><a href="./" aria-current="page">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="the-screen-never-changes-to-the-device-view">The screen never changes to the Device view</h2>
+<ol><li><strong>Read FL's hint bar</strong> and <em>View → Script output</em>. <em>Oscuro firmware not found on this port</em>: the wrong port is chosen, or the keyboard runs other firmware. <em>This SMK-37 Pro (or Elite) runs M-Vave firmware</em>: install Oscuro, or use M-Vave's script. <em>Set the output port number</em>: see step 3.</li><li><strong>Is Oscuro running?</strong> Tap <kbd>Globe</kbd> → About: it should show <strong>DAW</strong>.</li><li><strong>Are both directions set up?</strong> <em>Options → MIDI settings</em>: the keyboard's port in <strong>Input</strong> with <em>SMK-37 Oscuro</em> and a Port number, and the same port in <strong>Output</strong> with the <strong>same</strong> Port number.</li><li><strong>Is the folder in the right place?</strong> The <code>.py</code> files must sit directly in <code>Settings/Hardware/SMK37_Oscuro/</code>. If SMK-37 Oscuro is missing from the Controller type list, the folder is in the wrong place or nested one level too deep.</li><li><strong>Is another app holding the port?</strong> Close the web installer, the preset editor and MIDI Suite.</li><li>Choose another controller type and SMK-37 Oscuro again, or replug the cable.</li></ol>
+<h2 id="the-screen-says-host-lost">The screen says Host lost</h2>
+<p>The keyboard got more data than its MIDI input could take, or the link was quiet too long. Lower <code>flush_budget</code> in <code>oscfl_settings.py</code> (Bluetooth especially) and reload the script.</p>
+<h2 id="knobs-pads-or-seq-do-the-wrong-thing">Knobs, pads or SEQ do the wrong thing</h2>
+<ul><li><strong>Two scripts on one port.</strong> M-Vave's script on the same port reacts too; give that port one controller type only.</li><li><strong>A keyboard page is open.</strong> Close Globe settings, a SCALE / ARP / CHORD list or the Harmony Helper.</li><li><strong>The pads play notes instead of steps.</strong> Press <kbd>Knob Bank</kbd> and <kbd>Fader Bank</kbd> together for bank B.</li><li><strong>The pads are in another mode.</strong> Hold the Shift pad to see which; <kbd>Oct-</kbd> + pad 9 goes back to Steps.</li><li><strong>Perform stays dark.</strong> Performance mode is off in the playlist.</li><li><strong><kbd>SEQ</kbd> opens the sequencer.</strong> <code>seq_views</code> is <code>False</code>.</li></ul>
+<h2 id="a-fader-does-nothing">A fader does nothing</h2>
+<p>Soft takeover: move it toward the arrow (F2^ up, F2v down), or set <code>soft_takeover</code> to <code>False</code>.</p>
+<h2 id="keys-play-twice-or-not-at-all">Keys play twice, or not at all</h2>
+<p>Pad bank A and the keys play the selected channel through FL's normal MIDI input. With <em>Split</em>, the Keys and Pads ports must be enabled as inputs. If the same notes also reach FL through another input, they play twice.</p>
+<h2 id="a-preset-loads-the-wrong-one">A preset loads the wrong one</h2>
+<p>FL does not say which preset is loaded, so the script counts from the last one it loaded (<em>Browser</em>). Load one from the keyboard once and it counts right from then on.</p>
+<h2 id="the-keyboard-restarted-or-the-cable-came-out">The keyboard restarted, or the cable came out</h2>
+<p>The script starts a new session by itself when the keyboard answers again. If the screen stays on the keyboard's own view, reload the script.</p>
+    <p class="pager"><a href="../fl-settings/">← Script settings</a><a class="next" href="../fl-quick-reference/">Quick-reference card →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

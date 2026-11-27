@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up Ableton Live · Oscuro DAW manual</title>
+<meta name="description" content="The SMK37_Oscuro script is a Live Remote Script in the folder ableton/SMK37_Oscuro of the DAW package. You copy it once into your User Library and choose it as a control surface. It needs Live 12 or newer.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Set up Ableton Live · Oscuro DAW manual">
+<meta property="og:description" content="The SMK37_Oscuro script is a Live Remote Script in the folder ableton/SMK37_Oscuro of the DAW package. You copy it once into your User Library and choose it as a control surface. It needs Live 12 or newer.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/live/setup/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/live/setup/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Live</a> · Getting started</p>
+  <h1><span class="ch-num">4</span> Set up Ableton Live</h1>
+  <p class="lead">The SMK37_Oscuro script is a Live Remote Script in the folder <code>ableton/SMK37_Oscuro</code> of the DAW package. You copy it once into your User Library and choose it as a control surface. It needs Live 12 or newer.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-live-manual.pdf" download>Download the Live PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Ableton Live</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="./" aria-current="page">4. Set up Ableton Live</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../device/">8. Device view</a></li>
+    <li><a href="../drums/">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="../device-pads/">10. Slices, Looper and rack variations</a></li>
+    <li><a href="../mixer/">11. Mixer view</a></li>
+    <li><a href="../overview/">12. Overview</a></li>
+    <li><a href="../clips/">13. Clips on the pads</a></li>
+    <li><a href="../browser/">14. Browser</a></li>
+    <li><a href="../harmony/">15. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">16. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">17. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../settings/">18. Script settings</a></li>
+    <li><a href="../troubleshooting/">19. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">20. Quick-reference card</a></li>
+    <li><a href="../glossary/">21. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <blockquote><p><strong>Needs Live 12 or newer.</strong> Older versions are not supported: Live's status bar says <em>SMK37 Oscuro needs Live 12 or newer</em> and the script does nothing.</p></blockquote>
+<h2 id="install-the-script">Install the script</h2>
+<ol><li>Quit Live.</li><li>Copy the folder <code>SMK37_Oscuro</code> (without its <code>tests</code> folder) into the <strong>Remote Scripts</strong> folder of your User Library:</li></ol>
+<div class="tbl"><table><thead><tr><th>System</th><th>Folder</th></tr></thead><tbody><tr><td>macOS</td><td><code>~/Music/Ableton/User Library/Remote Scripts/</code></td></tr><tr><td>Windows</td><td><code>%USERPROFILE%\Documents\Ableton\User Library\Remote Scripts\</code></td></tr></tbody></table></div>
+<p>Create <code>Remote Scripts</code> if it is missing. If your User Library is somewhere else, use the folder Live shows under <em>Settings → Library</em>. The <code>.py</code> files must sit directly in <code>Remote Scripts/SMK37_Oscuro/</code>.</p>
+<p>When you update Oscuro, replace the folder with the one from the new package. Keep your <code>user_settings.py</code> if you changed it (see <em>Script settings</em>).</p>
+<h2 id="choose-it-as-a-control-surface">Choose it as a control surface</h2>
+<ol><li>Start Live and open <em>Settings → Link, Tempo &amp; MIDI</em>.</li><li>In a free <strong>Control Surface</strong> row choose <strong>SMK37_Oscuro</strong>, and set its <strong>Input</strong> and <strong>Output</strong>: - <strong>USB Ports: One</strong> → the keyboard's only port, <em>SMK-37 Oscuro USB</em>. - <strong>USB Ports: Split</strong> → the keyboard's third port, the <strong>DAW</strong> port. - <strong>Bluetooth</strong> → <em>SMK-37 Oscuro BLE</em>.</li><li>In the MIDI port list below, set the keyboard's <strong>Keys</strong> and <strong>Pads</strong> ports (or its only port) to <strong>Track: On</strong>, so they play notes, and <strong>Remote: Off</strong>. Leave Sync off unless you want the keyboard to follow Live's clock (see <em>Scale, Chord, Arp, Note Repeat, sequencer, clock</em>).</li></ol>
+<p>When the script reaches the keyboard, the screen turns to the <strong>Device</strong> view. If the keyboard runs other firmware, Live's status bar says <em>Oscuro firmware not found</em> and the script waits.</p>
+<h2 id="keep-the-stock-firmware-script">Keep the stock-firmware script</h2>
+<p>A script made for M-Vave's stock firmware speaks a different language. This one has its own name, so both can be installed. Use SMK37_Oscuro while the keyboard runs Oscuro, and the stock-firmware script when it runs M-Vave's firmware. Only one of them should be a control surface on the keyboard's port.</p>
+<h2 id="the-manual-next-to-the-script">The manual next to the script</h2>
+<p>Live has no help page for Remote Scripts. The DAW package puts this manual, <code>oscuro-live-manual.pdf</code>, next to the <code>SMK37_Oscuro</code> folder: keep it there, or anywhere you can find it.</p>
+<h2 id="settings">Settings</h2>
+<p>Live has no preference panel for Remote Scripts. The script's settings are in <code>user_settings.py</code> in its folder; see <em>Script settings</em>.</p>
+    <p class="pager"><a href="../connect/">← Connect: USB and Bluetooth</a><a class="next" href="../screen/">Reading the screen →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

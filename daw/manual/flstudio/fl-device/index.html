@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Device view · Oscuro DAW manual</title>
+<meta name="description" content="Shape a sound without the mouse. The eight knobs show eight parameters of a plugin with their names and values; Left and Right page through the rest.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Device view · Oscuro DAW manual">
+<meta property="og:description" content="Shape a sound without the mouse. The eight knobs show eight parameters of a plugin with their names and values; Left and Right page through the rest.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-device/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-device/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · Views</p>
+  <h1><span class="ch-num">8</span> Device view</h1>
+  <p class="lead">Shape a sound without the mouse. The eight knobs show eight parameters of a plugin with their names and values; <kbd>Left</kbd> and <kbd>Right</kbd> page through the rest.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="./" aria-current="page">8. Device view</a></li>
+    <li><a href="../fl-pads/">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="../fl-mixer/">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="../fl-settings/">16. Script settings</a></li>
+    <li><a href="../fl-troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="which-plugin">Which plugin</h2>
+<p>The knobs follow what you work on in FL:</p>
+<ol><li>an <strong>effect window you opened</strong> in the mixer (the focused effect), else</li><li>the <strong>instrument of the selected channel</strong> in the channel rack.</li></ol>
+<p><strong><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></strong> steps through the selected channel's instrument and the effects in the slots of its mixer insert; the screen says <em>Plugin: &lt;name&gt;</em>. Selecting another channel, or focusing another window, follows FL again.</p>
+<p>The status bar shows the bank, for example <strong>2/5</strong>, plus <strong>Fx3</strong> when the plugin sits in mixer slot 3, and the pad mode on the right.</p>
+<h2 id="k1-k8-the-plugin">K1-K8: the plugin</h2>
+<div class="tbl"><table><thead><tr><th>Control</th><th>Does</th></tr></thead><tbody><tr><td>K1-K8</td><td>Eight named parameters of the plugin</td></tr><tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Previous / next eight</td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>Previous / next plugin</td></tr></tbody></table></div>
+<p>Only parameters with a name are shown: a VST's empty slots and MIDI CC entries are skipped. Value text comes from the plugin where it gives one (<em>4.82 kHz</em>); otherwise the screen shows a percentage. A channel with no plugin (an audio clip) shows <em>no plugin</em> and dim knobs.</p>
+<h2 id="k9-k16-the-channel-and-its-insert-knob-bank-b">K9-K16: the channel and its insert (<kbd>Knob Bank</kbd> B)</h2>
+<div class="tbl"><table><thead><tr><th>Knob</th><th>Does</th></tr></thead><tbody><tr><td>K9</td><td>Channel volume</td></tr><tr><td>K10</td><td>Channel pan</td></tr><tr><td>K11</td><td><strong>Insert</strong>: the mixer insert the channel plays into, one insert a detent (routing from the keyboard)</td></tr><tr><td>K12</td><td>That insert's volume</td></tr><tr><td>K13</td><td>That insert's pan</td></tr><tr><td>K14</td><td>That insert's stereo separation</td></tr><tr><td>K15</td><td>Master volume</td></tr><tr><td>K16</td><td>—</td></tr></tbody></table></div>
+<h2 id="what-fl-does-not-have">What FL does not have</h2>
+<p>FL does not mark modulated parameters, so the knobs show no modulation tick; and it has no "touch" for parameters, so whether FL records a knob turn as automation depends on FL's own recording settings.</p>
+    <p class="pager"><a href="../../who-wins/">← When the keyboard&#x27;s own pages take over</a><a class="next" href="../fl-pads/">Pad modes: steps, channels, patterns, performance, routing →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

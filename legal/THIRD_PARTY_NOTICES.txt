@@ -176,3 +176,15 @@ interrupt protection. Oscuro's existing MIDI parser and router handle messages.
 The MPL-covered source and modifications remain available under MPL-2.0;
 [the licence text](LICENSE-MPL-2.0.txt) is included here. No GPL-only Felucca
 application source was copied.
+
+## fm1-base / Melodee — USB MIDI host
+
+`firmware/ram-lvgl/usbhost.c`, `usbhost.h`, `usbhost_desc.h` and `tests/usbhost_test.c` are ported from
+[fm1-base](https://github.com/charlesvestal/fm1-base) (`bsp/chip/usb_host.c`, `usb_host_desc.h`, the host routines
+of `bsp/chip/fm1_usb.h`, `bsp/tests/usb_host_test.c`; commit `8820d6f`), itself Melodee's USB host relicensed
+MPL-2.0 with its authors' permission. Copyright 2026 Kerem Kilic (Ellic Studio) and Adrien Tibi (Recursive Field
+Instruments); the host routines of `fm1_usb.h` copyright 2026 Leo Kuroshita (@kurogedelic), Hügelton Instruments;
+under MPL-2.0. The files retain their SPDX and copyright notices. Oscuro polls the host from the main loop instead
+of a timer interrupt, debounces an unplug by time and samples, sends caller-supplied packets and reaches the
+registers as `usbdev.c` does. The MPL-covered source and modifications remain available under MPL-2.0;
+[the licence text](LICENSE-MPL-2.0.txt) is included here. No GPL-only Melodee source was copied.

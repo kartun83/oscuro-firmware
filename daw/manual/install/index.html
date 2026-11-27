@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install, update, go back · Oscuro DAW manual</title>
+<meta name="description" content="The web installer writes Oscuro to the keyboard over the USB cable and can put M-Vave&#x27;s own firmware back whenever you want. It runs in Chrome or Edge on your computer; nothing needs installing.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Install, update, go back · Oscuro DAW manual">
+<meta property="og:description" content="The web installer writes Oscuro to the keyboard over the USB cable and can put M-Vave&#x27;s own firmware back whenever you want. It runs in Chrome or Edge on your computer; nothing needs installing.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/install/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/install/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../static/fonts.css">
+<link rel="stylesheet" href="../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../">Viroid</a>
+    <a href="../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../changelog/">Changelog</a>
+    <a href="../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../">Overview</a><a href="../../../sound/">Sound</a><a href="../../../rack/">Rack</a><a href="../../../play/">Play</a><a href="../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../changelog/">Changelog</a><a href="../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../">DAW manual</a> · Getting started</p>
+  <h1>Install, update, go back</h1>
+  <p class="lead">The web installer writes Oscuro to the keyboard over the USB cable and can put M-Vave's own firmware back whenever you want. It runs in Chrome or Edge on your computer; nothing needs installing.</p>
+  <p class="more"><a class="btn ghost" href="../bitwig/oscuro-bitwig-manual.pdf" download>Download the Bitwig PDF</a> <span class="note">PDF, 0.5 MB</span> <a class="btn ghost" href="../live/oscuro-live-manual.pdf" download>Download the Live PDF</a> <span class="note">PDF, 0.5 MB</span> <a class="btn ghost" href="../flstudio/oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker">Two books</p><ul>
+    <li><a href="../bitwig/">Oscuro for Bitwig Studio</a></li>
+    <li><a href="../live/">Oscuro for Ableton Live</a></li>
+    <li><a href="../flstudio/">Oscuro for FL Studio</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p class="callout">This chapter is the same in both books: <a href="../bitwig/">Oscuro for Bitwig Studio</a> <a href="../live/">Oscuro for Ableton Live</a> <a href="../flstudio/">Oscuro for FL Studio</a></p>
+    <h2 id="what-you-need">What you need</h2>
+<ul><li>Chrome or Edge (they have Web MIDI), the USB cable and the Oscuro package (<code>oscuro-installer.html</code> and the <code>…-daw_bt-app.bin</code> or <code>…-daw-app.bin</code> file).</li><li>For the first install: M-Vave's firmware file for your keyboard, for example <code>SMK-37 Elite_016.fwsc</code> from M-Vave's download page. The package does not contain it.</li></ul>
+<h2 id="install-or-update">Install or update</h2>
+<ol><li>Close your DAW and any other MIDI app. The installer needs the keyboard's MIDI port to itself.</li><li>Connect the keyboard and open <code>oscuro-installer.html</code>.</li><li>Under <strong>Install or update Oscuro</strong>, choose the app file: <code>…-daw_bt-app.bin</code> for Bluetooth, <code>…-daw-app.bin</code> without.</li><li>First install only (the keyboard still runs M-Vave's firmware): also choose M-Vave's <code>.fwsc</code> file. The page combines the two on your computer.</li><li>Press <strong>Install Oscuro</strong> and keep the cable in until the page says <em>Finished</em>. The keyboard restarts by itself.</li></ol>
+<p>Check the version afterwards: tap <kbd>Globe</kbd>, turn K1 to <em>About</em> and press <kbd>Right</kbd>. The About screen shows the version and <strong>DAW</strong>, with <strong>TEST</strong> in a test build. The DAW script also receives the version when it connects.</p>
+<h2 id="images-larger-than-m-vave-s-app-slot">Images larger than M-Vave's app slot</h2>
+<p>The keyboard keeps its firmware in an area of fixed size, the <em>app slot</em>. The DAW BT image is about 81 KB <strong>larger than M-Vave's slot</strong>. The package's <code>README.md</code> names every app file that is too large (more than 621,320 bytes).</p>
+<ul><li>The web installer (0.83.2 and newer) takes such a file. Choose it together with your M-Vave <code>.fwsc</code> file under <strong>Install</strong>; the installer moves the keyboard's settings area behind the app to make room.</li><li>What this costs: the area where M-Vave's firmware kept its own settings is overwritten.</li><li>From a keyboard that still runs M-Vave's firmware, M-Vave's firmware does the writing, and it has <strong>not yet been tried</strong> with a grown image. If it refuses, nothing is changed.</li><li>Once the slot is grown it stays grown, and later updates install as usual.</li></ul>
+<h2 id="go-back-to-m-vave-s-firmware">Go back to M-Vave's firmware</h2>
+<p>Under <strong>Back to M-Vave's firmware</strong>, choose M-Vave's <code>.fwsc</code> file and press <strong>Install M-Vave firmware</strong>. This works from Oscuro and from any M-Vave version. If you made a patch-memory backup (<code>.ksua</code>) before you started using Oscuro, restore it first on the <strong>Patch memory</strong> tab; it brings M-Vave's user data back.</p>
+<p>After going back, use the <strong>stock-firmware script</strong> for your DAW again. The Oscuro script stays quiet on stock firmware (see <em>Troubleshooting</em>).</p>
+<blockquote><p><strong>Grown slot and going back.</strong> Going back to M-Vave's firmware from a keyboard whose slot was grown for an oversize image has not been tried on a unit yet. If anything goes wrong, the recovery route is described in <code>guides/FO1_flash_over.md</code> in the package.</p></blockquote>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../install/">Install</a><a href="../../">DAW build</a><a href="../../../specs/">Specs</a><a href="../../../changelog/">Changelog</a><a href="../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../static/site.js" defer></script>
+</body>
+</html>

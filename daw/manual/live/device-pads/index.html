@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slices, Looper and rack variations · Oscuro DAW manual</title>
+<meta name="description" content="Three Live devices get pad layouts of their own in the Device view. Select the device and pad bank B changes to match it; the screen tells you once which layout is up.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Slices, Looper and rack variations · Oscuro DAW manual">
+<meta property="og:description" content="Three Live devices get pad layouts of their own in the Device view. Select the device and pad bank B changes to match it; the screen tells you once which layout is up.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/live/device-pads/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/live/device-pads/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Live</a> · Views</p>
+  <h1><span class="ch-num">10</span> Slices, Looper and rack variations</h1>
+  <p class="lead">Three Live devices get pad layouts of their own in the Device view. Select the device and pad bank B changes to match it; the screen tells you once which layout is up.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-live-manual.pdf" download>Download the Live PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Ableton Live</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../setup/">4. Set up Ableton Live</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../device/">8. Device view</a></li>
+    <li><a href="../drums/">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="./" aria-current="page">10. Slices, Looper and rack variations</a></li>
+    <li><a href="../mixer/">11. Mixer view</a></li>
+    <li><a href="../overview/">12. Overview</a></li>
+    <li><a href="../clips/">13. Clips on the pads</a></li>
+    <li><a href="../browser/">14. Browser</a></li>
+    <li><a href="../harmony/">15. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">16. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">17. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../settings/">18. Script settings</a></li>
+    <li><a href="../troubleshooting/">19. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">20. Quick-reference card</a></li>
+    <li><a href="../glossary/">21. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <p>What the pads become is decided in this order: a Drum Rack, an open key lane, then these three, then device switches, then tracks.</p>
+<h2 id="simpler-in-slicing-mode">Simpler in Slicing mode</h2>
+<p>The pads become the <strong>slices</strong> of the sample: sixteen at a time, lit in the track's colour, the selected slice bright, dark past the last slice.</p>
+<ul><li><strong>Tap</strong> a pad to select that slice in Live. To hear it, play it on <strong>pad bank A</strong>: slice 1 is note 36 (C1), slice 2 note 37, and so on.</li><li><strong><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></strong> pages by sixteen slices. The status bar shows <em>Slices 1-16/n</em>.</li><li>The screen says <strong>Pads: &lt;device&gt; slices</strong> once.</li></ul>
+<h2 id="looper">Looper</h2>
+<p>The pads become the Looper's buttons. The pad of the Looper's current state is bright, the others dim.</p>
+<div class="tbl"><table><thead><tr><th>Pad</th><th>Does</th></tr></thead><tbody><tr><td>1</td><td>Record</td></tr><tr><td>2</td><td>Overdub</td></tr><tr><td>3</td><td>Play</td></tr><tr><td>4</td><td>Stop</td></tr><tr><td>5</td><td>Undo</td></tr><tr><td>6</td><td>Clear (<strong>hold half a second</strong>; the screen says <em>Looper cleared</em>)</td></tr><tr><td>7</td><td>Half speed</td></tr><tr><td>8</td><td>Double speed</td></tr><tr><td>9</td><td>Half length</td></tr><tr><td>10</td><td>Double length</td></tr></tbody></table></div>
+<p>The screen says <strong>Pads: &lt;device&gt; looper</strong> once.</p>
+<h2 id="racks-with-macro-variations">Racks with macro variations</h2>
+<p>An Instrument or Effect Rack with stored macro variations turns the pads into a variation recall board.</p>
+<ul><li><strong>Top row:</strong> eight variations of a window. Existing ones are dim, the selected one bright. <strong>Tap</strong> to select and recall it.</li><li><strong><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></strong> moves the window by eight.</li><li><strong>Bottom row:</strong> pad 9 <strong>Store</strong> (a new variation from the macros now), pad 10 <strong>Randomize</strong> the macros, pad 16 <strong>Delete</strong> the selected variation (red; <strong>hold half a second</strong>).</li><li>The screen says <strong>Pads: &lt;rack&gt; variations</strong> once.</li></ul>
+<p>A typical use: set the macros, Store; change them, Store again; then recall the variations from the pads while you play.</p>
+<h2 id="good-to-know">Good to know</h2>
+<ul><li>Holding the Shift pad still shows the choice of track actions, and the <kbd>Oct-</kbd> / Shift pad chords keep their meaning.</li><li>Plain <kbd>Left</kbd> / <kbd>Right</kbd> stay the device banks.</li><li>These layouts are tested on a computer only, not yet in Live with a keyboard.</li></ul>
+    <p class="pager"><a href="../drums/">← Drum pads, steps and key lanes</a><a class="next" href="../mixer/">Mixer view →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

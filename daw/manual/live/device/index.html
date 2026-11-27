@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Device view · Oscuro DAW manual</title>
+<meta name="description" content="Play a sound and shape it with the knobs. The knobs follow the device you select in Live, eight parameters at a time, and the screen names every knob and shows its value as Live writes it.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Device view · Oscuro DAW manual">
+<meta property="og:description" content="Play a sound and shape it with the knobs. The knobs follow the device you select in Live, eight parameters at a time, and the screen names every knob and shows its value as Live writes it.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/live/device/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/live/device/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Live</a> · Views</p>
+  <h1><span class="ch-num">8</span> Device view</h1>
+  <p class="lead">Play a sound and shape it with the knobs. The knobs follow the device you select in Live, eight parameters at a time, and the screen names every knob and shows its value as Live writes it.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-live-manual.pdf" download>Download the Live PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Ableton Live</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../setup/">4. Set up Ableton Live</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="./" aria-current="page">8. Device view</a></li>
+    <li><a href="../drums/">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="../device-pads/">10. Slices, Looper and rack variations</a></li>
+    <li><a href="../mixer/">11. Mixer view</a></li>
+    <li><a href="../overview/">12. Overview</a></li>
+    <li><a href="../clips/">13. Clips on the pads</a></li>
+    <li><a href="../browser/">14. Browser</a></li>
+    <li><a href="../harmony/">15. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">16. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">17. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../settings/">18. Script settings</a></li>
+    <li><a href="../troubleshooting/">19. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">20. Quick-reference card</a></li>
+    <li><a href="../glossary/">21. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="getting-there">Getting there</h2>
+<p>The Device view is where every session starts. From another view, tap <kbd>SEQ</kbd> until the left of the status bar shows the device's name.</p>
+<h2 id="what-the-screen-shows">What the screen shows</h2>
+<figure class="screen"><img src="../../img/screen-daw_v1_device.png" alt="The Device view (shown with the Bitwig accent; the Live script uses amber): the device name on the left, the bank in the middle, the selected track at the bottom."><figcaption>The Device view (shown with the Bitwig accent; the Live script uses amber): the device name on the left, the bank in the middle, the selected track at the bottom.</figcaption></figure>
+<ul><li><strong>Status bar:</strong> the device's name on the left; the bank's position and name in the middle ("2/5 Filter").</li><li><strong>Eight knob cells</strong> for K1-K8: name, value, arc. An empty cell has no parameter in this bank.</li><li><strong>The selected track</strong> along the bottom: its colour, its name, and <strong>M</strong>, <strong>S</strong>, <strong>R</strong> lit when on.</li></ul>
+<h2 id="the-controls">The controls</h2>
+<div class="tbl"><table><thead><tr><th>Control</th><th>In the Device view</th></tr></thead><tbody><tr><td>K1-K8</td><td>The selected device's <strong>bank</strong>: eight parameters</td></tr><tr><td>K9-K16 (Knob Bank B)</td><td>The selected <strong>track's</strong> Volume, Pan and Sends A-F</td></tr><tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Previous / next bank</td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>Previous / next device on the track</td></tr><tr><td><kbd>Oct-</kbd> or Shift pad held while turning</td><td>Fine steps</td></tr><tr><td>Pad bank B</td><td>Device switches, drum pads, steps, slices, Looper or variations when the device has them (below); otherwise tracks</td></tr><tr><td>hold <kbd>SEQ</kbd></td><td>Browser: presets of this device</td></tr><tr><td><kbd>Oct-</kbd> + hold <kbd>SEQ</kbd></td><td>Browser: Live's whole browser, inserting after this device</td></tr><tr><td>Shift pad + <kbd>Right</kbd></td><td>Steps for one key of the track (see <em>Drum pads, steps and key lanes</em>)</td></tr></tbody></table></div>
+<h2 id="banks-what-the-knobs-reach">Banks: what the knobs reach</h2>
+<p>Live has no remote pages like some DAWs; the script makes <strong>banks</strong> of eight parameters:</p>
+<ul><li>for Live's own devices, Live's <strong>best-of banks</strong> (the parameters Push shows);</li><li>for a <strong>Max for Live</strong> device, the device's own banks;</li><li>for an <strong>Instrument or Effect Rack</strong>, its <strong>macros</strong>;</li><li>for anything else, the parameters in order, eight at a time.</li></ul>
+<p>The status bar names the bank. A device without parameters shows <strong>no parameters</strong>; on a track without devices the status bar reads <strong>No device</strong> and <strong>hold SEQ: browse</strong>.</p>
+<h2 id="device-switches-on-the-pads">Device switches on the pads</h2>
+<p>When the selected device has on/off parameters in the current bank or the next, <strong>pad bank B toggles them</strong> instead of the tracks: top row = this bank, bottom row = the next. A switch is lit in the script's amber, bright when on; other pads stay dark. The status bar adds <strong>| pads</strong> and the screen says <strong>Pads: &lt;device&gt; switches</strong> once. Tapping a switch writes automation like a knob. The <kbd>Oct-</kbd> and Shift pad chords keep their meaning.</p>
+<p>Other devices give the pads other jobs: a Drum Rack (<em>Drum pads, steps and key lanes</em>), Simpler in Slicing mode, a Looper and racks with variations (<em>Slices, Looper and rack variations</em>).</p>
+<h2 id="how-fine-is-a-knob">How fine is a knob?</h2>
+<p>A knob click moves a parameter by 1/128 of its range, 1/1024 with <kbd>Oct-</kbd> or the Shift pad held. <code>fine: True</code> in <code>user_settings.py</code> makes the normal step 1/256.</p>
+<h2 id="good-to-know">Good to know</h2>
+<ul><li>Live has no modulation readout for scripts, so the knobs show no modulation tick.</li><li>The knobs follow Live's selection: click a device in Live and the screen follows it.</li></ul>
+    <p class="pager"><a href="../../who-wins/">← When the keyboard&#x27;s own pages take over</a><a class="next" href="../drums/">Drum pads, steps and key lanes →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

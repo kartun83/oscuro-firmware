@@ -1,6 +1,35 @@
 {
  "releases": [
   {
+   "version": "0.90",
+   "build": "0.90.10",
+   "show_build": false,
+   "variant": "daw-bluetooth",
+   "label": "DAW Controller with Bluetooth",
+   "app": {
+    "file": "releases/0.90/daw-bluetooth/oscuro-0.90.10-daw_bt-app.bin",
+    "size": 686744,
+    "sha256": "a2c18fc349355ebb0736eb154bd94d2dddd84582f42bd506a42c8eb0020c1c93"
+   },
+   "fwsc": {
+    "file": "releases/0.90/daw-bluetooth/oscuro-0.90.10-daw_bt-elite.fwsc",
+    "size": 1366804,
+    "sha256": "d04b2ec73517175717f5c930ace0afbd62e9051afce9dd66cbe579de761e08fb",
+    "build": "0.90.10"
+   },
+   "fwsc_pro": {
+    "file": "releases/0.90/daw-bluetooth/oscuro-0.90.10-daw_bt-pro.fwsc",
+    "size": 1366804,
+    "sha256": "cbc72b45e8e3ca3ee9142682b12f7261486a45b01682de4cd47fc133f79bdcf8",
+    "build": "0.90.10"
+   },
+   "bundle": {
+    "file": "oscuro-0.90-daw-bluetooth.zip",
+    "size": 2054252,
+    "sha256": "aa6f20e529a4ae4419668298687b51d8cbd44ba532896b79381a70d29f9c06b4"
+   }
+  },
+  {
    "version": "0.89",
    "build": "0.89.0",
    "show_build": false,
@@ -19,8 +48,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-viroid-ti-rack.zip",
-    "size": 2078055,
-    "sha256": "0c3ab26d1a8945f0d1905aeacc138b24a6057cc12ebc4beba5815457ac04a020"
+    "size": 2078985,
+    "sha256": "76b06da86d278717e667956adff32c8005e4728a7124d31953f4e317ce35c6ae"
    }
   },
   {
@@ -42,8 +71,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-retrowave.zip",
-    "size": 2000444,
-    "sha256": "ceca8415f2db09dbf6c84a18a0ed68ada3ecddc3a4dfc484bd8f78cc9a3bc53d"
+    "size": 2001374,
+    "sha256": "a89b821552a6b2031f049da45503026cd31d5bcfce9617dd1421593ad030215e"
    }
   },
   {
@@ -65,8 +94,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-daw.zip",
-    "size": 1953569,
-    "sha256": "36fa4ca20c8594840f53b865fdb5ae2b3b97d9877daf40fab853b6bb412431a7"
+    "size": 1954499,
+    "sha256": "068d9f10c6509f522c681cbb377a2c6b050cce88f7331eb105cb77c1d56a9c89"
    }
   },
   {
@@ -88,8 +117,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-daw-bluetooth.zip",
-    "size": 2036455,
-    "sha256": "7020e28e7049b155bde6a74baecde2e13191572442c84df3de545f2434bec088"
+    "size": 2037385,
+    "sha256": "cb057fddcac9d55d16870b31fc40a135bf7e2068a113f8570c517552486b1f70"
    }
   },
   {
@@ -111,8 +140,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-phosphor.zip",
-    "size": 2018169,
-    "sha256": "e1fbebd1b5cea85b5507a9ac69fa59fdb9a315fb0cf6b58b3d8b5a8cb630f188"
+    "size": 2019099,
+    "sha256": "90c1682e2b8840280697a86f9d0699d91c745f97b9d9cd86e2a872d8baca1115"
    }
   },
   {
@@ -134,8 +163,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-tympanika.zip",
-    "size": 1914915,
-    "sha256": "4a7274fbbab732dc50ecc84ff8789b4fd5d33304eac5cbbd3d77b7ca66a5cc69"
+    "size": 1915845,
+    "sha256": "ac3c1e555c1e1e286c91fadd3b4a479029050c9b4a29fb056bda4ba6d4cdedff"
    }
   },
   {
@@ -157,8 +186,8 @@
    },
    "bundle": {
     "file": "oscuro-0.89-viroid-ti-rack-fm1.zip",
-    "size": 2035309,
-    "sha256": "60aec930d1c8a46292aff365adf8a61d13db3d94e8ad24e31e2dbd8808fea9d9"
+    "size": 2036239,
+    "sha256": "99cf541bb26fee2a124969f84e489db23dc9d991f7827705c62c6667c5a7ebb7"
    }
   },
   {
@@ -180,8 +209,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack.zip",
-    "size": 2060116,
-    "sha256": "17ca18e296dd5b3b2db199292d0f90992e9883a2205846095284ad2f9aeef10b"
+    "size": 2061046,
+    "sha256": "8c33c3d8d6e5e37d50998a61255afc951f5159f3a7f52d3365248f6a9adbbd01"
    }
   },
   {
@@ -203,8 +232,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw.zip",
-    "size": 1947310,
-    "sha256": "7a02386694333e3669c0255cdafec87bb13654d63ea6ace585fe14d42a25a89e"
+    "size": 1948240,
+    "sha256": "2c4666fb262b4b0f55f5cc65414eeba761e8e7e8e66c9d1337ad63b3f83cf343"
    }
   },
   {
@@ -226,8 +255,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-daw-bluetooth.zip",
-    "size": 2030206,
-    "sha256": "379e6b9a76362b00a12b866a98f0e1387c468c89ad8a7fa023c10f3cc82de2e3"
+    "size": 2031136,
+    "sha256": "c05bfb0aaba9ae9fcc6eb187e9d6d24e972d5085340a8465099f375ce696d57f"
    }
   },
   {
@@ -249,8 +278,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-phosphor.zip",
-    "size": 2010358,
-    "sha256": "aec01e6d1cf6b051ca08caa306dee86a48002315d66364cf89d1601d2e8275bd"
+    "size": 2011288,
+    "sha256": "7eb509003ab31ffcb0fb8ec358a6c447ff59b6bc96f9fcd6d1d47b9f88253451"
    }
   },
   {
@@ -272,8 +301,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-tympanika.zip",
-    "size": 1909956,
-    "sha256": "b99afc723f23a202d228ed28005f96828a0a1d1311863b509f7776bb768abea0"
+    "size": 1910886,
+    "sha256": "65d045286ab4bf4f58ada501020a5f1b4e4edf3cd50c4a3a2edfef0ee74b9c7f"
    }
   },
   {
@@ -295,8 +324,8 @@
    },
    "bundle": {
     "file": "oscuro-0.88-viroid-ti-rack-fm1.zip",
-    "size": 2011852,
-    "sha256": "9b48a3d291b5e3cf895ba6c4e6d24c32b273cb782df02c32dfc87e51dc65fce8"
+    "size": 2012782,
+    "sha256": "0144078c95b4210f2aab896a104f20c6ae4a5008f34fefd5512ad12b882d84e2"
    }
   },
   {
@@ -318,8 +347,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack.zip",
-    "size": 2042210,
-    "sha256": "c4995939eedeb4e809c73e9ee3043c45d5e3cc2a95f427d83205c9f1124cafaf"
+    "size": 2043140,
+    "sha256": "dbbd2a0d55513bbd45b66a31bd8a29fb198e85fa960fd7cbfbe8e2330ae1730e"
    }
   },
   {
@@ -341,8 +370,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-retrowave.zip",
-    "size": 1979987,
-    "sha256": "6076eb640e591f52a27d75ea5ff0df51bab307a299d4565ed3dda1ba1785d8c5"
+    "size": 1980917,
+    "sha256": "8ff1fafff97fb5a35cb323e3ba354e292a670dd041fa755470fb9fd5908ee280"
    }
   },
   {
@@ -364,8 +393,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-daw.zip",
-    "size": 1933546,
-    "sha256": "771cd4e8c795a8893e1ac9623a7958caf6b182e654372501b4d3f72148873185"
+    "size": 1934476,
+    "sha256": "453e79ce6773489a59ae0348f934346e5d0ee8dc1043c95ad20201edd1a6421c"
    }
   },
   {
@@ -387,8 +416,8 @@
    },
    "bundle": {
     "file": "oscuro-0.87-viroid-ti-rack-fm1.zip",
-    "size": 2013607,
-    "sha256": "f2d68903c532130f64515c842488d8e3ded663d683872e22c48ee2a7cf6b47ff"
+    "size": 2014537,
+    "sha256": "3f5609b62472b90815868e5cece07685499a8bf8c5ee1ce1a1b71eea86b654a1"
    }
   },
   {
@@ -410,8 +439,8 @@
    },
    "bundle": {
     "file": "oscuro-0.84-viroid-ti-rack.zip",
-    "size": 1373788,
-    "sha256": "abd32a211e3b3d8c0c4ff491eb527f94669b1ecb3090273f4e981a71c6de8ba5"
+    "size": 1374718,
+    "sha256": "3ecef3f6aa9cd994a94a6d19a3a054dd21e660cf511ccf3446f07bd5aad6a8e0"
    }
   }
  ],
@@ -662,9 +691,73 @@
    "sha256": "7dd83a0b9c3abefa07fc756215d4bb33b786a7d53244331d2947d86be923e394"
   }
  ],
+ "scripts": [
+  {
+   "daw": "bitwig",
+   "label": "Bitwig Studio",
+   "build": "0.90.10",
+   "file": "scripts/oscuro-bitwig-script-0.90.10.zip",
+   "size": 474689,
+   "sha256": "24666e233f7d44b4ceb2435557f1c5bb74a51415294339e797f69f36c8a78d8a"
+  },
+  {
+   "daw": "ableton",
+   "label": "Ableton Live",
+   "build": "0.90.10",
+   "file": "scripts/oscuro-ableton-script-0.90.10.zip",
+   "size": 456423,
+   "sha256": "d7559cf89db8acf886d8ba84a15c156bf61906e30bc49ab61980c70405ed7530"
+  },
+  {
+   "daw": "flstudio",
+   "label": "FL Studio",
+   "build": "0.90.10",
+   "file": "scripts/oscuro-flstudio-script-0.90.10.zip",
+   "size": 364366,
+   "sha256": "37438af1de064aff83ef4cc61a54ce44060ec0f767cc8b45616ab4c96bcabcfe"
+  }
+ ],
  "banks_zip": {
   "file": "oscuro-showcase-banks.zip",
   "size": 52407,
   "sha256": "c4e66fb3d20532a98c937a92b7e81b31cb58d03e941ad6061ce3c70e7e3d3a46"
+ },
+ "stable": {
+  "daw-bluetooth-elite": {
+   "file": "latest/oscuro-daw-bluetooth-elite.fwsc",
+   "size": 1366804,
+   "sha256": "d04b2ec73517175717f5c930ace0afbd62e9051afce9dd66cbe579de761e08fb",
+   "build": "0.90.10"
+  },
+  "daw-bluetooth-pro": {
+   "file": "latest/oscuro-daw-bluetooth-pro.fwsc",
+   "size": 1366804,
+   "sha256": "cbc72b45e8e3ca3ee9142682b12f7261486a45b01682de4cd47fc133f79bdcf8",
+   "build": "0.90.10"
+  },
+  "daw-bluetooth-app": {
+   "file": "latest/oscuro-daw-bluetooth-app.bin",
+   "size": 686744,
+   "sha256": "a2c18fc349355ebb0736eb154bd94d2dddd84582f42bd506a42c8eb0020c1c93",
+   "build": "0.90.10"
+  },
+  "script-bitwig": {
+   "file": "latest/oscuro-bitwig-script.zip",
+   "size": 474689,
+   "sha256": "24666e233f7d44b4ceb2435557f1c5bb74a51415294339e797f69f36c8a78d8a",
+   "build": "0.90.10"
+  },
+  "script-ableton": {
+   "file": "latest/oscuro-ableton-script.zip",
+   "size": 456423,
+   "sha256": "d7559cf89db8acf886d8ba84a15c156bf61906e30bc49ab61980c70405ed7530",
+   "build": "0.90.10"
+  },
+  "script-flstudio": {
+   "file": "latest/oscuro-flstudio-script.zip",
+   "size": 364366,
+   "sha256": "37438af1de064aff83ef4cc61a54ce44060ec0f767cc8b45616ab4c96bcabcfe",
+   "build": "0.90.10"
+  }
  }
 }

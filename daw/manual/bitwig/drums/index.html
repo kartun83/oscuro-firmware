@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drum pads, steps and key lanes · Oscuro DAW manual</title>
+<meta name="description" content="Program a beat from the keyboard. With a Drum Machine on the track, pad bank B shows its drum pads: pick a sound, hold its pad, and the sixteen pads become sixteen steps of that sound in the clip. Play on pad bank A, program on pad bank B.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Drum pads, steps and key lanes · Oscuro DAW manual">
+<meta property="og:description" content="Program a beat from the keyboard. With a Drum Machine on the track, pad bank B shows its drum pads: pick a sound, hold its pad, and the sixteen pads become sixteen steps of that sound in the clip. Play on pad bank A, program on pad bank B.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/drums/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/drums/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Bitwig</a> · Views</p>
+  <h1><span class="ch-num">9</span> Drum pads, steps and key lanes</h1>
+  <p class="lead">Program a beat from the keyboard. With a Drum Machine on the track, pad bank B shows its drum pads: pick a sound, hold its pad, and the sixteen pads become sixteen steps of that sound in the clip. Play on pad bank A, program on pad bank B.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-bitwig-manual.pdf" download>Download the Bitwig PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Bitwig Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../setup/">4. Set up Bitwig Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../device/">8. Device view</a></li>
+    <li><a href="./" aria-current="page">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="../mixer/">10. Mixer view</a></li>
+    <li><a href="../overview/">11. Overview</a></li>
+    <li><a href="../browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">15. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../preferences/">16. Script preferences</a></li>
+    <li><a href="../troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="when-the-pads-become-drum-pads">When the pads become drum pads</h2>
+<p>This works in the <strong>Device view</strong>. Pad bank B turns into drum pads when:</p>
+<ol><li>the selected device is a <strong>Drum Machine</strong> (or another device with drum pads), or</li><li>the selected device has no on/off switches for the device pads (see <em>Device view</em>), and the track's first instrument is a Drum Machine.</li></ol>
+<p>So on a drum track, selecting the Drum Machine, or an effect without switches, brings up the drum pads; selecting a device with switches gives the device pads instead. The screen says <strong>Pads: &lt;device&gt; drum pads (hold one: steps)</strong> once. In the Mixer and Overview, pad bank B is always the track pads.</p>
+<p>The drum pads only select and program; they make no sound. Play the drums on <strong>pad bank A</strong> (or the keys) as usual.</p>
+<h2 id="the-drum-pads-page">The drum pads page</h2>
+<div class="tbl"><table><thead><tr><th>Pads</th><th>Do</th></tr></thead><tbody><tr><td>Top row, 1-8</td><td>Eight drum pads, starting at C1, lit in their colours; the selected one is bright. <strong>Tap</strong> selects the pad in Bitwig. <strong>Hold half a second</strong>: its steps</td></tr><tr><td>Bottom row, 9-16</td><td><strong>Mute</strong> of the same eight drum pads (yellow, bright = muted). <strong>Solo</strong> (blue) instead when the bottom-row action is <em>Solo</em></td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>The next / previous eight drum pads (C1-G1, G#1-D#2, …)</td></tr><tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Remote pages, as in the Device view</td></tr></tbody></table></div>
+<p>The status bar shows the Drum Machine's name and the window ("C1-G1"). The <kbd>Oct-</kbd> and Shift pad chords on the pads keep their meaning: for example <kbd>Oct-</kbd> + pad 10 makes the bottom row solo the drum pads.</p>
+<h2 id="the-steps-page">The steps page</h2>
+<p>Hold a drum pad for half a second and all sixteen pads become <strong>steps</strong>: sixteen sixteenth notes of that drum sound in the clip shown in Bitwig's editor.</p>
+<ul><li><strong>Lit in the pad's colour:</strong> a note on that step. <strong>Dim:</strong> empty. <strong>White:</strong> the step playing now.</li><li><strong>No clip yet?</strong> The first press makes a one-bar clip in the track's launcher slot and puts the note in it. If no clip appears within two seconds (no slot to make it in), the screen says <strong>No clip to write to: select a slot</strong>: select an empty launcher slot in Bitwig and press again.</li><li>The status bar shows the drum pad's name and <strong>Steps 1-16/16</strong> (which steps, of how many in the clip's loop).</li></ul>
+<div class="tbl"><table><thead><tr><th>Control</th><th>Does</th></tr></thead><tbody><tr><td>Press an empty step</td><td>Add a note (velocity 100, one sixteenth long)</td></tr><tr><td>Press a note and let go</td><td>Remove it</td></tr><tr><td>Hold a step and turn K1</td><td>Velocity</td></tr><tr><td>Hold a step and turn K2</td><td>Length, a sixteenth per click</td></tr><tr><td>Hold a step and turn K3</td><td>Chance: how often the note plays</td></tr><tr><td>Hold a step and turn K4</td><td>Repeats: ratchets within the note</td></tr><tr><td>Hold a step and turn K5</td><td>Occurrence: when the note plays (Always, First, Not first, Prev, Not prev, Prev channel, Not prev channel, Prev key, Not prev key, Fill, Not fill), one per click</td></tr><tr><td>Hold a step and turn K6</td><td>Recurrence: Off, or play only on the first of 2 to 8 cycles of the clip</td></tr><tr><td>Hold a step and turn K7</td><td>Timbre (for instruments that follow per-note timbre)</td></tr><tr><td>Hold a step and turn K8</td><td>Pressure (per-note pressure). <kbd>Oct-</kbd> + K8 still sets the tempo</td></tr><tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>The previous / next sixteen steps (in a longer clip)</td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>The previous / next drum sound, staying on the steps page</td></tr><tr><td>Shift pad + <kbd>Left</kbd></td><td>Back to the drum pads page</td></tr></tbody></table></div>
+<p>A note you held and edited with a knob stays when you let go. While a step is held, the eight knob cells show its Velocity, Length, Chance, Repeats, Occurrence, Recurrence, Timbre and Pressure; hold <kbd>Oct-</kbd> or the Shift pad for fine steps.</p>
+<h2 id="building-a-beat">Building a beat</h2>
+<ol><li>Put a Drum Machine on a track and select it. Switch to pad bank B (<kbd>Knob Bank</kbd> + <kbd>Fader Bank</kbd>).</li><li>Hold the kick's pad (C1, pad 1). Press steps 1, 5, 9 and 13.</li><li><kbd>Oct-</kbd> + <kbd>Right</kbd> twice to the snare (D1). Press 5 and 13.</li><li><kbd>Oct-</kbd> + <kbd>Right</kbd> four more times to the closed hi-hat (F#1). Press every other step; hold one and turn K1 down for a softer hit, K3 down so it only sometimes plays.</li><li><kbd>SEQ PLAY</kbd>: the white step runs over the pattern. Shift pad + <kbd>Left</kbd> to go back to the drum pads and mute sounds on the bottom row.</li></ol>
+<h2 id="good-to-know">Good to know</h2>
+<ul><li>On the drum pads page <kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd> moves the drum pad window, not the device chain. To change device, select it in Bitwig or leave the drum pads (tap <kbd>SEQ</kbd> around the views).</li><li>Without a Shift pad, the way back from the steps page is to leave the Device view and come back: tap <kbd>SEQ</kbd> three times. Setting a Shift pad (Globe → Physical Controls → Pads → Shift Pad) makes it one press.</li><li>The steps edit the launcher clip in the editor, not the arranger.</li><li>Drum pads, steps and key lanes are new and tested on a computer only: they have not yet been tried in Bitwig with a keyboard.</li></ul>
+<h2 id="steps-for-any-instrument-key-lanes">Steps for any instrument: key lanes</h2>
+<p>The steps page also works on a melodic track, one key at a time. In the <strong>Device view</strong>, on a track that holds notes, with the track pads showing (no switches, no Drum Machine):</p>
+<ol><li><strong>Shift pad + <kbd>Right</kbd></strong> opens the steps of one key, <strong>C3</strong> the first time. The screen says <strong>Steps: &lt;track&gt; key C3 (Oct- + Left/Right: key)</strong> once; the status bar shows the note name and <em>Steps 1-16/16</em>.</li><li>Edit the steps exactly as with drums: press to add, press and let go to remove, hold and turn K1-K8. Notes are lit in the track's colour.</li><li><strong><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></strong> moves to the key a semitone lower / higher. <kbd>Left</kbd> / <kbd>Right</kbd> page through a longer clip.</li><li><strong>Shift pad + <kbd>Left</kbd></strong> closes it. Changing track or leaving the Device view closes it too. The next time it opens on the key you used last.</li></ol>
+<p>Key lanes need a Shift pad (Globe → Physical Controls → Pads → Shift Pad). A selected Drum Machine keeps the drum pads instead.</p>
+    <p class="pager"><a href="../device/">← Device view</a><a class="next" href="../mixer/">Mixer view →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

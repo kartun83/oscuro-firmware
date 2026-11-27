@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harmony Helper · Oscuro DAW manual</title>
+<meta name="description" content="A chord partner on the pads. It names the chords you play, lights the pads with the chords that tend to come next, coloured by how well they fit, and shows which notes fit over the chord that is sounding. It makes MIDI notes only: record them in your DAW like any other notes.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Harmony Helper · Oscuro DAW manual">
+<meta property="og:description" content="A chord partner on the pads. It names the chords you play, lights the pads with the chords that tend to come next, coloured by how well they fit, and shows which notes fit over the chord that is sounding. It makes MIDI notes only: record them in your DAW like any other notes.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/harmony/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/harmony/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · The keyboard&#x27;s own features</p>
+  <h1><span class="ch-num">13</span> Harmony Helper</h1>
+  <p class="lead">A chord partner on the pads. It names the chords you play, lights the pads with the chords that tend to come next, coloured by how well they fit, and shows which notes fit over the chord that is sounding. It makes MIDI notes only: record them in your DAW like any other notes.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../fl-device/">8. Device view</a></li>
+    <li><a href="../fl-pads/">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="../fl-mixer/">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="./" aria-current="page">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="../fl-settings/">16. Script settings</a></li>
+    <li><a href="../fl-troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="on-off-and-what-it-takes-over">On, off, and what it takes over</h2>
+<ul><li><strong>Hold <kbd>PATCH</kbd></strong> (half a second) to switch it on or off. <kbd>PATCH</kbd> is lit while it is on.</li><li><strong>Tap <kbd>PATCH</kbd></strong> to open its Setup list.</li></ul>
+<p>While it is on, <strong>pads 1-16 of pad bank A</strong> belong to the helper and its screen replaces the DAW view. Pad bank B still controls the DAW's tracks, the faders still mix, and <kbd>Left</kbd> / <kbd>Right</kbd> walk the helper's pages instead of the device pages. Hold <kbd>PATCH</kbd> again to give everything back; every note it held is released.</p>
+<figure class="screen"><img src="../../img/image-daw-harmony-play.png" alt="The Play page after a chord: the chord just played (F, numeral IV), the two pad rows as tiles, and what fits."><figcaption>The Play page after a chord: the chord just played (F, numeral IV), the two pad rows as tiles, and what fits.</figcaption></figure>
+<h2 id="the-pads">The pads</h2>
+<div class="tbl"><table><thead><tr><th>Pads</th><th>What they play</th></tr></thead><tbody><tr><td>1</td><td>The same chord again</td></tr><tr><td>2-8</td><td>The seven best next chords after the one you played, best first. Before any chord: the home chord and good ways to start</td></tr><tr><td>9-12</td><td>The first four chords of your scale, I ii iii IV (C Dm Em F in C major). Hold <kbd>Oct-</kbd>: V vi vii° I</td></tr><tr><td>13</td><td>The <strong>anchor</strong> chord, a stable reference</td></tr><tr><td>14 <strong>PIN</strong></td><td>Make the last chord the anchor</td></tr><tr><td>15 <strong>DEL</strong></td><td>Remove the last stored chord</td></tr><tr><td>16 <strong>STORE</strong></td><td>Pin the chord and store it in the Memory</td></tr></tbody></table></div>
+<p><strong>Colours:</strong> <strong>green</strong> safe, <strong>orange</strong> explore, <strong>violet</strong> borrowed from outside the scale but it fits, <strong>dark red</strong> does not fit (scale row only), <strong>pale blue</strong> the same chord again, <strong>white</strong> the chord sounding now. Brighter = ranked higher. <strong>Globe → System → Pad Colours → Colour-blind</strong> switches to blue, yellow, magenta and dark.</p>
+<p>Hold a pad for a quarter of a second to see <strong>why</strong> it fits (with <em>Setup → Why Popup → Hold</em>). Chords you play on the keys are named too, including odd ones and slash chords.</p>
+<h2 id="the-six-pages">The six pages</h2>
+<p><kbd>Right</kbd> and <kbd>Left</kbd> walk <strong>Play → Notes → Memory → Tuning → Bass → Setup</strong> and wrap around. On the list pages K1 picks a row, K2 changes it, K3 pages. The pads play on every page.</p>
+<div class="tbl"><table><thead><tr><th>Page</th><th>What it is for</th></tr></thead><tbody><tr><td><strong>Play</strong> (home)</td><td>K1 Suggest (Safe, Tonal, Bold), K2 Genre (39 genres; a card shows its typical moves), K3 Mood, K4 Chord Size, K5 Strum and K6 Humanize (stored, not applied yet), K7 Velocity, K8 Octave</td></tr><tr><td><strong>Notes</strong></td><td>The twelve notes as piano keys coloured by their job over the current chord: <strong>H</strong> Home (green), <strong>C</strong> Colour (blue), <strong>L</strong> Lean, wants to resolve (orange), <strong>P</strong> Passing (grey), Out of scale (violet). Held keys get a white outline</td></tr><tr><td><strong>Memory</strong></td><td>Up to 8 stored chords, each ½, 1 or 2 bars (K2). <kbd>SEQ PLAY</kbd> here replays the progression in a loop</td></tr><tr><td><strong>Tuning</strong></td><td>Velocity, Level, Chord Size, <strong>Chord Shape</strong> (Close, Open, Rootless A / B, Quartal), Spread, Voice Lead, Octave</td></tr><tr><td><strong>Bass</strong></td><td>A bass line on its own MIDI channel: Off, Root, or Pattern (follows the clock), with a style, lowest note, approach notes and pedal</td></tr><tr><td><strong>Setup</strong></td><td>Suggest, Genre, Mood, Follow (keys, pads or both), Scale Detect (Off, Ask, Auto), Advance, Why Popup, Note Context</td></tr></tbody></table></div>
+<figure class="screen"><img src="../../img/image-daw-notes-replay.png" alt="Notes while a stored progression replays: Home green, Colour blue, Lean orange, Out violet; the next chord top right."><figcaption>Notes while a stored progression replays: Home green, Colour blue, Lean orange, Out violet; the next chord top right.</figcaption></figure>
+<h2 id="a-first-session-in-your-daw">A first session in your DAW</h2>
+<ol><li>Set the scale with <kbd>SCALE</kbd> (K1 base note, K2 scale). Hold <kbd>PATCH</kbd>.</li><li>In the DAW, give the pad channel an instrument track with a sound you like (with <em>USB Ports: Split</em>, put the <strong>Pads</strong> port on it).</li><li>Play pad 9 (the I chord). The green pads on the top row are safe next chords; play one. When you like a chord, press <strong>STORE</strong> (pad 16). Store four.</li><li><kbd>Right</kbd> to <strong>Memory</strong>, then <kbd>SEQ PLAY</kbd>: the four chords loop. Arm the track in the DAW and record them; to record in time with the DAW's transport, start recording there first.</li><li><kbd>Left</kbd> to <strong>Notes</strong> and play a melody on the keys over the loop: green notes on strong beats.</li><li>On <strong>Tuning</strong>, try <em>Chord Shape: Rootless A</em> with the <strong>Bass</strong> page on <em>Root</em>, and give the bass channel its own bass track.</li></ol>
+<h2 id="scales-shared-with-the-daw">Scales shared with the DAW</h2>
+<p>The helper and the keyboard's Scale mode use one scale.</p>
+<p>FL Studio gives scripts no project scale, so the script leaves the keyboard's scale as it is. With <em>Scale Detect: Ask</em> the helper may offer a better-fitting scale after a few chords: <kbd>Right</kbd> switches, <kbd>Left</kbd> keeps yours.</p>
+<h2 id="limits">Limits</h2>
+<ul><li>Not yet run on a keyboard: the helper, its replay and bass assist were tested on a computer only.</li><li>The Memory is lost at restart and cannot be sent to the sequencer yet.</li><li>Strum and Humanize are stored but do not change the notes yet. Rootless shapes need the bass assist on.</li></ul>
+    <p class="pager"><a href="../fl-browser/">← Browser</a><a class="next" href="../../keyboard-features/">Scale, Chord, Arp, Note Repeat, sequencer, clock →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

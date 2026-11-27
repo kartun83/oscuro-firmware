@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What the DAW builds do · Oscuro DAW manual</title>
+<meta name="description" content="The DAW builds turn the SMK-37 into a controller that knows your DAW. With the Oscuro script in Bitwig Studio, Ableton Live or FL Studio, the knobs follow the device you are working on, the faders mix, the pads select and mute tracks, and the screen shows names, values, levels and the browser.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="What the DAW builds do · Oscuro DAW manual">
+<meta property="og:description" content="The DAW builds turn the SMK-37 into a controller that knows your DAW. With the Oscuro script in Bitwig Studio, Ableton Live or FL Studio, the knobs follow the device you are working on, the faders mix, the pads select and mute tracks, and the screen shows names, values, levels and the browser.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/what-you-get/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/what-you-get/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Bitwig</a> · Getting started</p>
+  <h1><span class="ch-num">1</span> What the DAW builds do</h1>
+  <p class="lead">The DAW builds turn the SMK-37 into a controller that knows your DAW. With the Oscuro script in Bitwig Studio, Ableton Live or FL Studio, the knobs follow the device you are working on, the faders mix, the pads select and mute tracks, and the screen shows names, values, levels and the browser.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-bitwig-manual.pdf" download>Download the Bitwig PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Bitwig Studio</a></p><ul>
+    <li><a href="./" aria-current="page">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../setup/">4. Set up Bitwig Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../device/">8. Device view</a></li>
+    <li><a href="../drums/">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="../mixer/">10. Mixer view</a></li>
+    <li><a href="../overview/">11. Overview</a></li>
+    <li><a href="../browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">15. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../preferences/">16. Script preferences</a></li>
+    <li><a href="../troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="one-build-daw-bt">One build: DAW BT</h2>
+<div class="tbl"><table><thead><tr><th>Build</th><th>File</th><th>What it is</th></tr></thead><tbody><tr><td><strong>DAW BT</strong></td><td><code>oscuro-&lt;version&gt;-daw_bt-app.bin</code></td><td>The DAW build: USB MIDI and the DAW link, plus Bluetooth LE MIDI, so the keyboard can also work without a cable to the computer.</td></tr></tbody></table></div>
+<p>Earlier versions also came as a USB-only <strong>DAW</strong> build with the same features. It is no longer published: DAW BT does everything it did over USB, and Bluetooth stays off until you tap <kbd>BT</kbd>. Everything in this manual works in DAW BT, except where a page says it needs Bluetooth.</p>
+<p>The DAW builds run on the M-Vave <strong>SMK-37 Elite</strong> and its twins: the SMK-37 Pro, the MKE-P37 and the Starrykey 37 Play. Only the Elite and the Pro have been tried on a unit.</p>
+<h2 id="what-the-keyboard-does-in-a-daw-build">What the keyboard does in a DAW build</h2>
+<ul><li><strong>Keys, pads, wheels and pedal play MIDI</strong> into your DAW, as on any controller. The sound comes from the DAW. The build has no synth patches; a small built-in test voice plays from the keys and pads on the keyboard itself and cannot be switched off.</li><li><strong>With the Oscuro script</strong>, the knobs, faders, pad bank B, <kbd>Left</kbd> / <kbd>Right</kbd>, <kbd>SEQ</kbd>, <kbd>SEQ PLAY</kbd> and <kbd>SEQ REC</kbd> belong to the DAW. The screen draws four views of your project: <strong>Device</strong>, <strong>Mixer</strong>, <strong>Overview</strong> and <strong>Browser</strong>.</li><li><strong>The keyboard's own musical features stay</strong>: the Harmony Helper (a chord partner on the pads), Scale and Chord modes, the arpeggiator, Note Repeat and the step sequencer. Pad bank A stays notes, so you can play drums or chords while bank B controls tracks.</li><li><strong>Without a script</strong>, or with M-Vave's stock script, the keyboard is a plain MIDI controller with editable presets.</li></ul>
+<h2 id="how-the-pieces-fit">How the pieces fit</h2>
+<p>Your computer runs the DAW and the Oscuro script for it. The script and the keyboard talk over the <strong>Oscuro DAW protocol</strong>: the keyboard reports what you touch ("K3 turned two steps"), the script decides what that does in the DAW and sends back what the screen and lights should show. Notes travel as ordinary MIDI beside it.</p>
+<p>There are three scripts, one per DAW, and this manual comes in three books, one for each:</p>
+<div class="tbl"><table><thead><tr><th>DAW</th><th>Script</th><th>Book</th></tr></thead><tbody><tr><td>Bitwig Studio 6.1 or newer</td><td><strong>SMK-37 Oscuro</strong> (controller extension)</td><td><em>Oscuro for Bitwig Studio</em></td></tr><tr><td>Ableton Live 12 or newer</td><td><strong>SMK37_Oscuro</strong> (Remote Script)</td><td><em>Oscuro for Ableton Live</em></td></tr><tr><td>FL Studio 2026</td><td><strong>SMK-37 Oscuro</strong> (MIDI script)</td><td><em>Oscuro for FL Studio</em></td></tr></tbody></table></div>
+<p>The chapters about the keyboard itself are the same in every book; the setup, views, workflows and reference chapters are written for one DAW each.</p>
+<p>M-Vave's own Bitwig script for the stock firmware is a different script; both can be installed side by side (see <em>Set up Bitwig Studio</em>).</p>
+<blockquote><p><strong>Status.</strong> The DAW protocol and the three scripts are tested on a computer against a model of the DAW and the firmware's own decoder. The Ableton Live and FL Studio scripts have had only a <strong>short test with a keyboard</strong>; the Bitwig script has had the most use. Expect rough edges, and tell us what you find. Everything can be undone: the installer puts M-Vave's firmware back at any time.</p></blockquote>
+    <p class="pager"><a class="next" href="../../install/">Install, update, go back →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

@@ -340,3 +340,13 @@ footer { margin-top: 40px; border-top: 1px solid var(--line); padding: 40px 0 56
 .next-card .more { margin-top: 24px; }
 .next-shot { width: 100%; max-width: 360px; height: auto; aspect-ratio: 1; justify-self: center; padding: 12px; border-radius: 24px; background: linear-gradient(180deg, #17171b, #08080a); border: 1px solid var(--line); box-shadow: 0 40px 80px -30px #000, 0 0 100px -30px rgba(255, 106, 31, .25); }
 @media (max-width: 760px) { .next-card.has-shot { grid-template-columns: 1fr; } }
+
+/* the DAW manual (daw/manual/): chapter pages from docs/user/daw-manual/, the same source as the PDF */
+.manual .ch-num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: .25em; }
+.prose kbd { font: 600 .8em/1 var(--mono); color: var(--fg); background: var(--panel); border: 1px solid rgba(255, 255, 255, .22); border-bottom-width: 2px; border-radius: 5px; padding: .18em .45em; white-space: nowrap; }
+.prose figure.screen { display: grid; justify-items: start; gap: 10px; margin-top: 22px; }
+.prose figure.screen img { width: min(360px, 100%); height: auto; image-rendering: pixelated; border-radius: 14px; border: 1px solid var(--line); }
+.prose figcaption { font-size: .86rem; color: var(--faint); max-width: 60ch; }
+.prose ol.toc { list-style: decimal; }
+.prose .pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); }
+.prose .pager .next { margin-left: auto; text-align: right; }

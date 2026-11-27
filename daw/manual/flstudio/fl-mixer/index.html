@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixer view · Oscuro DAW manual</title>
+<meta name="description" content="Eight mixer inserts on one screen: colour, name, volume, a peak meter and the mute / solo / arm squares. Tap SEQ once from the Device view.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Mixer view · Oscuro DAW manual">
+<meta property="og:description" content="Eight mixer inserts on one screen: colour, name, volume, a peak meter and the mute / solo / arm squares. Tap SEQ once from the Device view.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-mixer/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/flstudio/fl-mixer/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">FL Studio</a> · Views</p>
+  <h1><span class="ch-num">10</span> Mixer view</h1>
+  <p class="lead">Eight mixer inserts on one screen: colour, name, volume, a peak meter and the mute / solo / arm squares. Tap <kbd>SEQ</kbd> once from the Device view.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-flstudio-manual.pdf" download>Download the FL Studio PDF</a> <span class="note">PDF, 0.4 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for FL Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../fl-setup/">4. Set up FL Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../fl-everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../fl-device/">8. Device view</a></li>
+    <li><a href="../fl-pads/">9. Pad modes: steps, channels, patterns, performance, routing</a></li>
+    <li><a href="./" aria-current="page">10. Mixer view</a></li>
+    <li><a href="../fl-overview/">11. Overview</a></li>
+    <li><a href="../fl-browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../fl-workflows/">15. Shape, mix, program, perform, navigate</a></li>
+    <li><a href="../fl-settings/">16. Script settings</a></li>
+    <li><a href="../fl-troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../fl-quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="what-the-screen-shows">What the screen shows</h2>
+<p>Eight strips of FL's mixer inserts, from insert 1. The selected insert has a white frame. Squares under each strip: mute yellow, solo blue, arm red. The meters move while FL plays. FL's mixer has no group tracks, so no group lines appear.</p>
+<h2 id="controls">Controls</h2>
+<div class="tbl"><table><thead><tr><th>Control</th><th>Does</th></tr></thead><tbody><tr><td>K1-K8</td><td>Pan of the 8 inserts</td></tr><tr><td>K9-K16 (<kbd>Knob Bank</kbd> B)</td><td>Stereo separation of the 8 inserts</td></tr><tr><td>Faders 1-4</td><td>Volumes of the 4 inserts in the fader window (marked F1-F4)</td></tr><tr><td><kbd>Right</kbd> / <kbd>Left</kbd></td><td>Move the fader window to strips 5-8 / 1-4; past the end, the next / previous 8 inserts</td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>Previous / next 8 inserts</td></tr></tbody></table></div>
+<h2 id="it-follows-fl">It follows FL</h2>
+<p>Select an insert in FL, with the mouse, a pad or anything else, and the screen moves to the bank of 8 holding it; the fader window becomes the half (strips 1-4 or 5-8) the insert sits in, and those faders need to be picked up again. Only a <strong>change of the selected insert</strong> moves anything: if you page with <kbd>Left</kbd> / <kbd>Right</kbd> or <kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd> the screen stays where you put it until you select another insert. The master and an insert beyond the last one do not move it.</p>
+<p>Opening FL's mixer window also opens this view, and clicking another FL window (channel rack, playlist, piano roll, plugin) goes back to the Device view (<code>follow_window</code>, <em>Script settings</em>). SEQ still cycles the views.</p>
+<h2 id="mute-solo-arm-and-routing-from-the-pads">Mute, solo, arm and routing from the pads</h2>
+<p>The pad modes <strong>Mute</strong>, <strong>Solo</strong>, <strong>Arm</strong> and <strong>Route</strong> (<em>Pad modes</em>) put the same eight inserts on pad bank B: the top row selects an insert, the bottom row mutes, solos or arms it, or, in Route, sends the selected insert to it.</p>
+    <p class="pager"><a href="../fl-pads/">← Pad modes: steps, channels, patterns, performance, routing</a><a class="next" href="../fl-overview/">Overview →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>

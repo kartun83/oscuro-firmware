@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixer view · Oscuro DAW manual</title>
+<meta name="description" content="Balance a song without reaching for the mouse. The four faders set four track volumes at a time, the knobs pan and send, and the pads mute, solo and arm, while the screen shows eight tracks with their levels.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060607">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23060607%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23ff6a1f%27/%3E%3C/svg%3E">
+<meta property="og:title" content="Mixer view · Oscuro DAW manual">
+<meta property="og:description" content="Balance a song without reaching for the mouse. The four faders set four track volumes at a time, the knobs pan and send, and the pads mute, solo and arm, while the screen shows eight tracks with their levels.">
+<link rel="canonical" href="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/mixer/">
+<meta property="og:url" content="https://kartun83.github.io/oscuro-firmware/daw/manual/bitwig/mixer/">
+<meta property="og:image" content="https://kartun83.github.io/oscuro-firmware/static/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="../../../../static/fonts/inter-tight-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../../static/fonts.css">
+<link rel="stylesheet" href="../../../../static/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../../../../">Oscuro<span>DAW</span></a>
+  <nav class="prod" aria-label="Products">
+    <a href="../../../../">Viroid</a>
+    <a href="../../../" aria-current="true">DAW</a>
+  </nav>
+  <nav class="desk" aria-label="Main">
+    <a href="../../../../changelog/">Changelog</a>
+    <a href="../../../../support/">Support</a>
+  </nav>
+  <a class="btn primary install" href="../../../../install/">Install</a>
+  
+  <details class="mob"><summary>Menu</summary>
+    <div class="mob-list"><p class="mob-h">Viroid</p><a href="../../../../">Overview</a><a href="../../../../sound/">Sound</a><a href="../../../../rack/">Rack</a><a href="../../../../play/">Play</a><a href="../../../../specs/">Specs</a>
+    <p class="mob-h">DAW</p><a href="../../../">DAW</a>
+    <p class="mob-h">More</p><a href="../../../../changelog/">Changelog</a><a href="../../../../support/">Support</a></div>
+  </details>
+</div></header>
+<main id="main">
+<article class="page guide manual">
+<header class="page-head"><div class="wrap">
+  <p class="kicker"><a href="../../">DAW manual</a> · <a href="../">Bitwig</a> · Views</p>
+  <h1><span class="ch-num">10</span> Mixer view</h1>
+  <p class="lead">Balance a song without reaching for the mouse. The four faders set four track volumes at a time, the knobs pan and send, and the pads mute, solo and arm, while the screen shows eight tracks with their levels.</p>
+  <p class="more"><a class="btn ghost" href="../oscuro-bitwig-manual.pdf" download>Download the Bitwig PDF</a> <span class="note">PDF, 0.5 MB</span> </p>
+</div></header>
+<section><div class="wrap guide-grid">
+  <nav class="guide-nav" aria-label="Manual chapters"><p class="kicker"><a href="../">Oscuro for Bitwig Studio</a></p><ul>
+    <li><a href="../what-you-get/">1. What the DAW builds do</a></li>
+    <li><a href="../../install/">2. Install, update, go back</a></li>
+    <li><a href="../connect/">3. Connect: USB and Bluetooth</a></li>
+    <li><a href="../setup/">4. Set up Bitwig Studio</a></li>
+    <li><a href="../screen/">5. Reading the screen</a></li>
+    <li><a href="../everywhere/">6. Controls that work in every view</a></li>
+    <li><a href="../../who-wins/">7. When the keyboard&#x27;s own pages take over</a></li>
+    <li><a href="../device/">8. Device view</a></li>
+    <li><a href="../drums/">9. Drum pads, steps and key lanes</a></li>
+    <li><a href="./" aria-current="page">10. Mixer view</a></li>
+    <li><a href="../overview/">11. Overview</a></li>
+    <li><a href="../browser/">12. Browser</a></li>
+    <li><a href="../harmony/">13. Harmony Helper</a></li>
+    <li><a href="../../keyboard-features/">14. Scale, Chord, Arp, Note Repeat, sequencer, clock</a></li>
+    <li><a href="../workflows/">15. Shape, mix, record, browse, navigate</a></li>
+    <li><a href="../preferences/">16. Script preferences</a></li>
+    <li><a href="../troubleshooting/">17. Troubleshooting</a></li>
+    <li><a href="../quick-reference/">18. Quick-reference card</a></li>
+    <li><a href="../glossary/">19. Glossary</a></li>
+  </ul></nav>
+  <div class="prose">
+    <h2 id="getting-there">Getting there</h2>
+<p>Tap <kbd>SEQ</kbd>. The views turn in a ring: <strong>Device → Mixer → Overview → Device</strong>. The SEQ button is lit in every view except Device, so you can tell at a glance that you are away from the sound controls. The status bar reads <strong>Tracks 1-8</strong> (the eight tracks the screen shows).</p>
+<blockquote><p><strong>SEQ does something else?</strong> In the script preferences, <em>SEQ button</em> is set to <em>Firmware sequencer</em>. Set it back to <em>Screen views</em> (see <em>Script preferences</em>).</p></blockquote>
+<h2 id="what-the-screen-shows">What the screen shows</h2>
+<figure class="screen"><img src="../../img/screen-daw_v1_mixer.png" alt="The Mixer view: eight strips, the four under the faders marked F1-F4, the selected track (Bass) framed. Lead is soloed, Pad muted, FX armed."><figcaption>The Mixer view: eight strips, the four under the faders marked F1-F4, the selected track (Bass) framed. Lead is soloed, Pad muted, FX armed.</figcaption></figure>
+<p>Each strip, top to bottom:</p>
+<ul><li><strong>Colour line and name:</strong> the track's colour in Bitwig and as many letters of its name as fit.</li><li><strong>Volume bar</strong> in the track's colour. A muted track's bar turns grey.</li><li><strong>Level meter</strong> beside it: green, red near clipping. It moves while Bitwig plays.</li><li><strong>Three small squares:</strong> mute (yellow), solo (the accent colour), arm (red). A square is lit while that switch is on.</li><li><strong>F1-F4</strong> under the four strips the faders move, underlined in the accent colour.</li></ul>
+<p>The selected track is framed in the accent colour. Its name and volume are written along the bottom ("Bass -4.8 dB").</p>
+<h2 id="the-controls">The controls</h2>
+<div class="tbl"><table><thead><tr><th>Control</th><th>In the Mixer view</th></tr></thead><tbody><tr><td>Faders 1-4</td><td>Volume of the strips marked F1-F4</td></tr><tr><td><kbd>Left</kbd> / <kbd>Right</kbd></td><td>Move the faders to the other four strips; past the edge, to the next or previous eight tracks</td></tr><tr><td><kbd>Oct-</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd></td><td>Jump eight tracks back or forward (the faders stay on the same strips)</td></tr><tr><td>K1-K8</td><td>Pan of strips 1-8</td></tr><tr><td>K9-K16 (Knob Bank B)</td><td>Send 1 of strips 1-8</td></tr><tr><td><kbd>Oct-</kbd> or Shift pad held while turning</td><td>Fine steps</td></tr><tr><td>Fader Bank B</td><td>The selected track's Volume, Pan, Send 1, Send 2 (in every view)</td></tr></tbody></table></div>
+<p>The screen does not draw pan or send values. Watch Bitwig's mixer while you set them.</p>
+<h2 id="soft-takeover-why-a-fader-sometimes-does-nothing">Soft takeover: why a fader sometimes does nothing</h2>
+<p>A fader never makes a volume jump. When its position doesn't match the track's volume, it waits until you move it past that volume, and then it takes over. While it waits, its label shows which way to go:</p>
+<ul><li><strong>F2^</strong>: move fader 2 up.</li><li><strong>F2v</strong>: move fader 2 down.</li></ul>
+<p>You will see this after <kbd>Left</kbd> / <kbd>Right</kbd> (the four faders now face new tracks), and after Bitwig moved a volume itself (automation, the mouse). In the other views a fader move shows a short message instead, such as "Bass: -4.8 dB (move up)".</p>
+<p>If you would rather have the volume jump to the fader at once, set <em>Fader pick-up</em> to <em>Jump</em> in the script preferences.</p>
+<h2 id="mute-solo-and-arm-from-the-pads">Mute, solo and arm from the pads</h2>
+<p>The pads of pad bank B control tracks in every view, so you can use them in the Mixer. Press <kbd>Knob Bank</kbd> and <kbd>Fader Bank</kbd> together to switch the pads to bank B. Bank A keeps playing notes.</p>
+<ul><li><strong>Top row (pads 1-8):</strong> select the track. Each pad is lit in its track's colour, and the selected one is brightest.</li><li><strong>Bottom row (pads 9-16):</strong> one action for the same eight tracks: <strong>Mute</strong> (yellow), <strong>Solo</strong> (blue), <strong>Arm</strong> (red), <strong>Stop</strong> (grey, pulses while a clip plays) or <strong>Launch</strong> (the clip's colour).</li></ul>
+<p>To choose the bottom row's action, hold <kbd>Oct-</kbd> or the Shift pad and tap one of pads 9-13 (Mute, Solo, Arm, Stop, Launch). While the <strong>Shift pad</strong> is held, the bottom row lights up as that choice; holding <kbd>Oct-</kbd> does not light it.</p>
+<h2 id="a-mixing-pass">A mixing pass</h2>
+<ol><li>Tap <kbd>SEQ</kbd> until the status bar reads <strong>Tracks 1-8</strong>.</li><li>Start playback with <kbd>SEQ PLAY</kbd> and pull faders 1-4 down to the lowest track label. Each fader picks up its track as it passes the volume (the ^ / v mark goes away).</li><li>Set the balance of tracks 1-4, press <kbd>Right</kbd>, and set tracks 5-8.</li><li>Turn K1-K8 to place the tracks in the stereo field. Switch <kbd>Knob Bank</kbd> to B and use K9-K16 to send tracks to your reverb on send 1.</li><li>Pick the bottom-row action <em>Solo</em> (hold <kbd>Oct-</kbd>, tap pad 10) and solo tracks to check them one at a time.</li><li>Select the track you are fine-tuning with its top-row pad and switch <kbd>Fader Bank</kbd> to B. Faders 1-4 now set its volume, pan, send 1 and send 2.</li></ol>
+<h2 id="good-to-know">Good to know</h2>
+<ul><li>The keyboard's own pages (Globe settings, SCALE, ARP, CHORD lists) take the knobs and <kbd>Left</kbd> / <kbd>Right</kbd> while they are open. The faders keep controlling the mixer.</li><li>The meters update about ten times a second, enough to see levels but not a precise peak meter.</li><li>The view needs the DAW or DAW BT build. Other Oscuro builds keep the knob cells on the screen while the script still drives the same controls.</li></ul>
+    <p class="pager"><a href="../drums/">← Drum pads, steps and key lanes</a><a class="next" href="../overview/">Overview →</a></p>
+  </div>
+</div></section>
+</article>
+
+</main>
+<footer><div class="wrap foot">
+  <span class="foot-brand">Oscuro 0.90</span>
+  <span class="foot-links"><a href="../../../../install/">Install</a><a href="../../../">DAW build</a><a href="../../../../specs/">Specs</a><a href="../../../../changelog/">Changelog</a><a href="../../../../legal/">License</a><a href="https://github.com/kartun83/oscuro-firmware/issues">Report a bug</a><a href="../../../../support/">Support</a></span>
+</div>
+<div class="wrap"><p class="fine">Oscuro is independent firmware for hardware its author owns. It is not affiliated with or endorsed by M-Vave, Access Music or any other maker whose products are named. Flashing firmware is at your own risk; a recovery path exists.</p></div>
+</footer>
+<script src="../../../../static/site.js" defer></script>
+</body>
+</html>
